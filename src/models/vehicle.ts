@@ -1,5 +1,3 @@
-import { VehicleImage } from '@/models/vehicleImage'
-
 export type Vehicle = {
   vehicleId: string,
   userId: string,
@@ -10,5 +8,4 @@ export type Vehicle = {
   color?: string,
   modificationCount?: number,
   modifiedAppearance?: boolean,
-  images: VehicleImage[],
 }

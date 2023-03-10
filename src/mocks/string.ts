@@ -1,5 +1,5 @@
 import { MockFunction } from '@/services/mocker'
-import { nouns } from '@/utilities/random'
+import { adjectives, nouns, pick } from '@/utilities/random'
 
 const characters = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z'] as const
 
@@ -8,7 +8,11 @@ export const randomChar: MockFunction<typeof characters[number], []> = function(
 }
 
 export const randomNoun: MockFunction<typeof nouns[number], []> = function() {
-  return nouns[Math.floor(Math.random() * nouns.length)]
+  return pick(nouns)
+}
+
+export const randomAdjective: MockFunction<typeof adjectives[number], []> = function() {
+  return pick(adjectives)
 }
 
 export const randomString: MockFunction<string, []> = function(chars?: number) {
