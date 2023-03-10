@@ -1,3 +1,7 @@
+export function last<T>(value: T[]): T | undefined {
+  return value.length ? value[value.length - 1] : undefined
+}
+
 export function intersects(first: unknown[], ...rest: unknown[][]): boolean {
   return first.some(firstValue => rest.every(restArray => restArray.includes(firstValue)))
 }

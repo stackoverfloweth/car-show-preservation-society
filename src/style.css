@@ -1,9 +1,17 @@
 :root {
-    --space-1: 0.5rem;
-    --space-2: 1rem;
-    --space-3: 2.5rem;
-    --space-4: 5rem;
-    --space-5: 10rem;
+    --space-1: 0.1rem;
+    --space-2: 0.25rem;
+    --space-3: 0.5rem;
+    --space-4: 1rem;
+    --space-5: 2.5rem;
+    --space-6: 5rem;
+    --space-7: 10rem;
+    --size-1: 2.5rem;
+    --size-2: 5rem;
+    --size-3: 15rem;
+    --size-4: 30rem;
+    --size-5: 60rem;
+    --size-6: 120rem;
     --screen-sm: 640px;
     --screen-md: 768px;
     --screen-lg: 1024px;
