@@ -1,6 +1,6 @@
 <template>
   <div class="clubs-list">
-    <p-table :data="clubs" :columns="columns" class="clubs-list__table" />
+    <p-table :data="clubs" :columns="columns" class="clubs-list__table" @row:click="handleRowClick" />
   </div>
 </template>
 
@@ -13,7 +13,15 @@
     clubs: Club[],
   }>()
 
+  const emit = defineEmits<{
+    (event: 'select:club', value: Club): void,
+  }>()
+
   const columns = computed<TableColumn[]>(() => [{ property: 'name', label: 'name' }])
+
+  function handleRowClick({ row }: { row: Club }): void {
+    emit('select:club', row)
+  }
   </script>
 
   <style>
