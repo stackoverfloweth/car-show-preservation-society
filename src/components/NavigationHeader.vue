@@ -38,7 +38,7 @@
     align-items: center;
     grid-template-columns: repeat(3, 1fr);
     background-color: var(--slate-800);
-    padding: var(--space-3);
+    padding: var(--space-4) var(--space-3);
 }
 
 .navigation-header__link {
