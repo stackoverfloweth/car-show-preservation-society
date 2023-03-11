@@ -1,34 +1,21 @@
-import { asArray } from '@prefecthq/prefect-design'
 import axios, { AxiosInstance, AxiosRequestConfig, AxiosRequestHeaders, AxiosResponse } from 'axios'
 import { MaybeArray } from '@/types'
 import { isDefined } from '@/utilities'
 
-export type PrefectConfig = {
+export type ApiConfig = {
   baseUrl: string,
   token?: string,
 }
 
-type ConfigFunction<R, T extends PrefectConfig = PrefectConfig> = (config: T) => R
-export type ApiBaseUrl<T extends PrefectConfig = PrefectConfig> = string | ConfigFunction<string, T>
-export type ApiHeaders<T extends PrefectConfig = PrefectConfig> = AxiosRequestHeaders | ConfigFunction<AxiosRequestHeaders, T>
+type ConfigFunction<R, T extends ApiConfig = ApiConfig> = (config: T) => R
+export type ApiBaseUrl<T extends ApiConfig = ApiConfig> = string | ConfigFunction<string, T>
+export type ApiHeaders<T extends ApiConfig = ApiConfig> = AxiosRequestHeaders | ConfigFunction<AxiosRequestHeaders, T>
 
 export const getPrefectBaseUrl: ApiBaseUrl = (config) => config.baseUrl
 
-export const getPrefectUIHeaders: ApiHeaders = { 'X-PREFECT-UI': true }
-
-export const getAuthorizationHeaders: ApiHeaders = (config) => {
-  const value: AxiosRequestHeaders = {}
-
-  if (config.token) {
-    value.Authorization = `bearer ${config.token}`
-  }
-
-  return value
-}
-
-export class Api<T extends PrefectConfig = PrefectConfig> {
+export class Api<T extends ApiConfig = ApiConfig> {
   protected readonly apiConfig: T
-  protected apiHeaders: MaybeArray<ApiHeaders> = [getPrefectUIHeaders, getAuthorizationHeaders]
+  protected apiHeaders: MaybeArray<ApiHeaders> = []
   protected apiBaseUrl: ApiBaseUrl = getPrefectBaseUrl
   protected routePrefix: string | undefined
 
@@ -44,19 +31,6 @@ export class Api<T extends PrefectConfig = PrefectConfig> {
     return this.apiBaseUrl(this.apiConfig)
   }
 
-  protected composeHeaders(): AxiosRequestHeaders {
-    const array = asArray(this.apiHeaders)
-
-    return array.reduce<AxiosRequestHeaders>((headers, header) => {
-      const value = typeof header === 'function' ? header(this.apiConfig) : header
-
-      return {
-        ...headers,
-        ...value,
-      }
-    }, {})
-  }
-
   protected combinePath(route: string | undefined): string {
     const repeatingSlashes = /(\/+)/g
 
@@ -69,7 +43,7 @@ export class Api<T extends PrefectConfig = PrefectConfig> {
   protected instance(): AxiosInstance {
     const config: AxiosRequestConfig = {
       baseURL: this.composeBaseUrl(),
-      headers: this.composeHeaders(),
+      headers: {},
     }
 
     return axios.create(config)

@@ -263,3 +263,16 @@
     --rose-800: #9f1239;
     --rose-900: #881337;
 }
+
+#app .p-card,
+#app .p-table tr {
+    border-color: var(--slate-700);
+}
+
+#app .p-table tbody {
+    border-color: var(--slate-700);
+}
+
+#app .p-table thead {
+    background-color: var(--slate-600);
+}
