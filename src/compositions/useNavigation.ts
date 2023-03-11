@@ -22,15 +22,33 @@ export function clearNavigation(): UseNavigation {
 }
 
 export function useNavigationLeft(newLeft: NavigationRecord): UseNavigation {
-  return useNavigation(newLeft)
+  left.value = newLeft
+
+  return {
+    left,
+    title,
+    right,
+  }
 }
 
 export function useNavigationRight(newRight: NavigationRecord): UseNavigation {
-  return useNavigation(undefined, undefined, newRight)
+  right.value = newRight
+
+  return {
+    left,
+    title,
+    right,
+  }
 }
 
-export function useNavigationTitle(name: string): UseNavigation {
-  return useNavigation(undefined, name)
+export function useNavigationTitle(newTitle: string): UseNavigation {
+  title.value = newTitle
+
+  return {
+    left,
+    title,
+    right,
+  }
 }
 
 export function useNavigation(newLeft?: NavigationRecord, newTitle?: string, newRight?: NavigationRecord): UseNavigation {
