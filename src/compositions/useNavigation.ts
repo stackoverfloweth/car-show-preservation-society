@@ -1,39 +1,46 @@
-import { computed, reactive, Ref, ref } from 'vue'
+import { ref, Ref } from 'vue'
 import { RouteLocationRaw } from 'vue-router'
-import { last } from '@/utilities'
 
-export type NavigationRecord = { name: string | undefined, route: RouteLocationRaw }
-const history = reactive<NavigationRecord[]>([])
-const right = ref<NavigationRecord>()
+export type NavigationRecord = {
+  name: string | undefined,
+  route: RouteLocationRaw,
+  showChevron?: boolean,
+}
 
 export type UseNavigation = {
-  push: (route: RouteLocationRaw, name?: string) => void,
-  pop: () => NavigationRecord | undefined,
-  next: (route: RouteLocationRaw, name?: string) => void,
   left: Ref<NavigationRecord | undefined>,
+  title: Ref<string | undefined>,
   right: Ref<NavigationRecord | undefined>,
 }
 
-export function useNavigation(): UseNavigation {
-  const push: UseNavigation['push'] = (route, name) => {
-    history.push({ name, route })
-  }
+const left = ref<NavigationRecord>()
+const title = ref<string>()
+const right = ref<NavigationRecord>()
 
-  const pop: UseNavigation['pop'] = () => {
-    return history.pop()
-  }
+export function clearNavigation(): UseNavigation {
+  return useNavigation(undefined, undefined, undefined)
+}
 
-  const next: UseNavigation['next'] = (route, name) => {
-    right.value = { name, route }
-  }
+export function useNavigationLeft(newLeft: NavigationRecord): UseNavigation {
+  return useNavigation(newLeft)
+}
 
-  const left = computed(() => last(history))
+export function useNavigationRight(newRight: NavigationRecord): UseNavigation {
+  return useNavigation(undefined, undefined, newRight)
+}
+
+export function useNavigationTitle(name: string): UseNavigation {
+  return useNavigation(undefined, name)
+}
+
+export function useNavigation(newLeft?: NavigationRecord, newTitle?: string, newRight?: NavigationRecord): UseNavigation {
+  left.value = newLeft
+  title.value = newTitle
+  right.value = newRight
 
   return {
     left,
+    title,
     right,
-    push,
-    pop,
-    next,
   }
 }
