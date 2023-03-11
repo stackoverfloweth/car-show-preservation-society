@@ -12,9 +12,14 @@ const routes: AppRouteRecord[] = [
     path: '/clubs',
     children: [
       {
-        name: 'clubs.overview',
+        name: 'clubs.list',
         path: '',
         component: () => import('@/pages/ClubsOverview.vue'),
+      },
+      {
+        name: 'clubs.view',
+        path: ':clubId',
+        component: () => import('@/pages/ClubOverview.vue'),
       },
       {
         name: 'clubs.create',

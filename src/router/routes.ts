@@ -2,8 +2,9 @@ import { RouteLocationRaw, RouteRecordName, RouteRecordRaw } from 'vue-router'
 
 export const routes = {
   home: () => ({ name: 'home' }) as const,
-  clubs: () => ({ name: 'clubs.overview' }) as const,
+  clubs: () => ({ name: 'clubs.list' }) as const,
   clubsCreate: () => ({ name: 'clubs.create' }) as const,
+  club: (clubId: string) => ({ name: 'clubs.view', params: { clubId } }) as const,
 }
 
 export type NamedRoute = ReturnType<typeof routes[keyof typeof routes]>['name']

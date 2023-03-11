@@ -9,6 +9,10 @@ export class ClubsApi extends Api {
     return await Promise.resolve(mocker.createMany('club', 5))
   }
 
+  public async getClub(clubId: string): Promise<Club> {
+    return await Promise.resolve(mocker.create('club', [{ clubId }]))
+  }
+
   public async createClub(request: ClubRequest): Promise<Club> {
     return await Promise.resolve(mocker.create('club', [request]))
   }
