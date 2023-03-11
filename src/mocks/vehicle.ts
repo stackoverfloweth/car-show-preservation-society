@@ -2,7 +2,7 @@ import { Vehicle } from '@/models/vehicle'
 import { MockFunction } from '@/services/mocker'
 import { pick } from '@/utilities'
 
-export const randomVehicle: MockFunction<Vehicle, []> = function() {
+export const randomVehicle: MockFunction<Vehicle, [Partial<Vehicle>?]> = function(overrides) {
   return {
     vehicleId: this.create('id'),
     userId: this.create('id'),
@@ -13,5 +13,6 @@ export const randomVehicle: MockFunction<Vehicle, []> = function() {
     color: pick(['red', 'green', 'blue', 'white', 'orange', 'black', 'fuchsia']),
     modificationCount: this.create('number', [0, 4]),
     modifiedAppearance: this.create('boolean'),
+    ...overrides,
   }
 }

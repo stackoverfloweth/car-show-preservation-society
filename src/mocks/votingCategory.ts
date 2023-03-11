@@ -1,7 +1,7 @@
 import { VotingCategory } from '@/models/votingCategory'
 import { MockFunction } from '@/services/mocker'
 
-export const randomVotingCategory: MockFunction<VotingCategory, []> = function() {
+export const randomVotingCategory: MockFunction<VotingCategory, [Partial<VotingCategory>?]> = function(overrides) {
   const driversOnly = this.create('boolean')
 
   return {
@@ -12,5 +12,6 @@ export const randomVotingCategory: MockFunction<VotingCategory, []> = function()
     maxCapacity: this.create('boolean') ? this.create('number') : undefined,
     driversOnly: driversOnly,
     membersOnly: !driversOnly,
+    ...overrides,
   }
 }

@@ -1,7 +1,7 @@
 import { Registration } from '@/models/registration'
 import { MockFunction } from '@/services/mocker'
 
-export const randomRegistration: MockFunction<Registration, []> = function() {
+export const randomRegistration: MockFunction<Registration, [Partial<Registration>?]> = function(overrides) {
   return {
     registrationId: this.create('id'),
     registrationCode: this.create('string'),
@@ -11,5 +11,6 @@ export const randomRegistration: MockFunction<Registration, []> = function() {
     vehicleId: this.create('id'),
     carId: this.create('number').toString(),
     stripePaymentId: undefined,
+    ...overrides,
   }
 }

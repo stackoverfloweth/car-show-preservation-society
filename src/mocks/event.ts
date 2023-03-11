@@ -1,7 +1,7 @@
 import { Event } from '@/models/event'
 import { MockFunction } from '@/services/mocker'
 
-export const randomEvent: MockFunction<Event, []> = function() {
+export const randomEvent: MockFunction<Event, [Partial<Event>?]> = function(overrides) {
   const start = this.create('date')
   const votingStart = this.create('date')
 
@@ -25,5 +25,6 @@ export const randomEvent: MockFunction<Event, []> = function() {
     canVoteForSelf: this.create('boolean'),
     driverSelfCategorization: this.create('boolean'),
     stripeCrossProductIds: [],
+    ...overrides,
   }
 }

@@ -19,12 +19,12 @@ export const randomProduct: MockFunction<Stripe.Product, [Partial<Stripe.Product
     'name': this.create('noun'),
     'package_dimensions': null,
     'shippable': this.create('boolean') ? this.create('boolean') : null,
-    'statement_descriptor': this.create('boolean')? this.create('string') : null,
-    'tax_code': this.create('boolean')? this.create('string') : null,
+    'statement_descriptor': this.create('boolean') ? this.create('string') : null,
+    'tax_code': this.create('boolean') ? this.create('string') : null,
     'type': this.create('stripe.product.type'),
-    'unit_label': this.create('boolean')? this.create('string') : null,
+    'unit_label': this.create('boolean') ? this.create('string') : null,
     'updated': this.create('date').getTime(),
-    'url': this.create('boolean')? this.create('url') : null,
+    'url': this.create('boolean') ? this.create('url') : null,
     ...overrides,
   }
 }

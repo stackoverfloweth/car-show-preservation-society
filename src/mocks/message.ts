@@ -1,7 +1,7 @@
 import { Message } from '@/models/message'
 import { MockFunction } from '@/services/mocker'
 
-export const randomMessage: MockFunction<Message, []> = function() {
+export const randomMessage: MockFunction<Message, [Partial<Message>?]> = function(overrides) {
   const isBetweenDrivers = this.create('boolean')
   const isToAllEvent = !isBetweenDrivers && this.create('boolean')
 
@@ -15,5 +15,6 @@ export const randomMessage: MockFunction<Message, []> = function() {
     subject: this.create('sentence'),
     body: this.create('paragraph'),
     fromUserId: this.create('id'),
+    ...overrides,
   }
 }
