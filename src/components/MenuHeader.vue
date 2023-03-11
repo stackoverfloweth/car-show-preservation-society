@@ -16,7 +16,9 @@
             <p-overflow-menu-item label="Profile" />
             <p-overflow-menu-item label="Garage" />
             <p-overflow-menu-item label="Messages" />
-            <p-overflow-menu-item label="Clubs" />
+            <router-link :to="routes.clubs()">
+              <p-overflow-menu-item label="Clubs" />
+            </router-link>
             <p-overflow-menu-item label="Events" />
           </p-overflow-menu>
         </template>
@@ -27,6 +29,7 @@
 
 <script lang="ts" setup>
   import { PositionMethod } from '@prefecthq/prefect-design'
+  import { routes } from '@/router/routes'
 
   const placement: PositionMethod = (target, content, container) => {
     const top = target.top + target.height + 4
