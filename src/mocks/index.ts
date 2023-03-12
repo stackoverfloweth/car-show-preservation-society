@@ -15,6 +15,7 @@ import { randomImage } from '@/mocks/image'
 import { randomLocation } from '@/mocks/location'
 import { randomMessage } from '@/mocks/message'
 import { randomNumber } from '@/mocks/number'
+import { randomPhone } from '@/mocks/phone'
 import { randomRegistration } from '@/mocks/registration'
 import { randomChar, randomNoun, randomString, randomSentence, randomParagraph, randomAdjective } from '@/mocks/string'
 import { mocks as stripeMocks } from '@/mocks/stripe'
@@ -47,6 +48,7 @@ export const mocks = {
   noun: randomNoun,
   number: randomNumber,
   paragraph: randomParagraph,
+  phone: randomPhone,
   registration: randomRegistration,
   sentence: randomSentence,
   string: randomString,

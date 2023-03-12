@@ -5,8 +5,8 @@ export const randomUser: MockFunction<User, [Partial<User>?]> = function(overrid
   return {
     userId: this.create('id'),
     emailAddress: this.create('email'),
-    phoneNumber: this.create('number').toString(),
-    firstName: this.create('noun'),
+    phoneNumber: this.create('phone'),
+    firstName: this.create('adjective'),
     lastName: this.create('noun'),
     location: this.create('location'),
     profileImage: this.create('image'),

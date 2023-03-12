@@ -5,9 +5,10 @@ export const randomClub: MockFunction<Club, [Partial<Club>?]> = function(overrid
   return {
     clubId: this.create('id'),
     name: this.create('noun'),
-    description: this.create('sentence'),
+    description: this.create('paragraph'),
     stripeCustomerId: undefined,
     clubLogo: this.create('image'),
+    contactUserId: this.create('id'),
     ...overrides,
   }
 }

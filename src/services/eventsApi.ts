@@ -12,4 +12,8 @@ export class EventsApi extends Api {
   public async getUpcomingEvents(): Promise<Event[]> {
     return await Promise.resolve(mocker.createMany('event', 5))
   }
+
+  public async getEventsByClubId(clubId: string): Promise<Event[]> {
+    return await Promise.resolve(mocker.createMany('event', 5, [{ clubId }]))
+  }
 }
