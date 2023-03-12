@@ -25,6 +25,14 @@
   </script>
 
   <style>
+  .clubs-list__table tr {
+    cursor: pointer;
+  }
+
+  .clubs-list__table tr:hover {
+    background-color: var(--slate-700);
+  }
+
   .clubs-list__table thead {
     display: none;
   }
