@@ -7,6 +7,7 @@
         <ContactUserInfo :user-id="club.contactUserId" />
       </div>
       <div class="club-overview__events">
+        <p-bread-crumbs :crumbs="[{ text: 'Upcoming Events' }]" />
         <EventsList :events="events" />
       </div>
     </template>
@@ -16,7 +17,7 @@
 <script lang="ts" setup>
   import { useRouteParam, useSubscription } from '@prefecthq/vue-compositions'
   import { computed, watchEffect } from 'vue'
-  import ContactUserInfo from '@/components/ContactUserInfo.vue'
+  import ContactUserInfo from '@/components/ContactCard.vue'
   import EventsList from '@/components/EventsList.vue'
   import SizedImage from '@/components/SizedImage.vue'
   import { useApi, useNavigationLeft, useNavigationTitle } from '@/compositions'
@@ -52,6 +53,16 @@
   flex-direction: column;
   gap: var(--space-4);
   max-width: 40%;
+}
+
+@media(max-width: 768px) {
+  .club-overview {
+    flex-direction: column;
+  }
+
+  .club-overview__details {
+    max-width: unset;
+  }
 }
 
 .club-overview__logo {

@@ -1,7 +1,5 @@
 <template>
-  <div class="events-list">
-    <p-table :data="events" :columns="columns" class="events-list__table" />
-  </div>
+  <p-table class="events-list" :data="events" :columns="columns" />
 </template>
 
 <script lang="ts" setup>
@@ -17,11 +15,19 @@
 </script>
 
 <style>
-.events-list__table thead {
+.events-list tr {
+  cursor: pointer;
+}
+
+.events-list tr:hover {
+  background-color: var(--slate-700);
+}
+
+.events-list thead {
   display: none;
 }
 
-.events-list__table tbody {
+.events-list tbody {
   border-top: 0;
 }
 </style>

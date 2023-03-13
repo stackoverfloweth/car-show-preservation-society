@@ -1,42 +1,43 @@
 <template>
   <div class="events-overview">
-    <template v-if="todaysEvents.length">
-      <div class="events-overview__todays-events">
-        <p-bread-crumbs :crumbs="[{ text: 'Happening Now' }]" />
-        <template v-for="event in todaysEvents" :key="event.eventId">
-          <EventCard :event="event" />
-        </template>
-      </div>
-    </template>
-
-    <div class="events-overview__upcoming-events">
-      <p-bread-crumbs :crumbs="[{ text: 'Upcoming Events' }]" />
-      <EventsList :events="upcomingEvents" />
-    </div>
+    <EventsList :events="events" @row:click="navigateToEvent" />
   </div>
 </template>
 
 <script lang="ts" setup>
   import { useSubscription } from '@prefecthq/vue-compositions'
   import { computed } from 'vue'
-  import EventCard from '@/components/EventCard.vue'
+  import { useRouter } from 'vue-router'
   import EventsList from '@/components/EventsList.vue'
-  import { useApi } from '@/compositions'
+  import { useApi, useNavigation } from '@/compositions'
+  import { Event } from '@/models'
+  import { routes } from '@/router/routes'
 
+  const router = useRouter()
   const api = useApi()
+  const userId = '123'
 
-  const todaysEventsSubscriptions = useSubscription(api.events.getTodaysEvents, [])
-  const todaysEvents = computed(() => todaysEventsSubscriptions.response ?? [])
+  const eventsSubscription = useSubscription(api.events.getEventsByUserId, [userId])
+  const events = computed(() => eventsSubscription.response ?? [])
 
-  const upcomingEventsSubscriptions = useSubscription(api.events.getUpcomingEvents, [])
-  const upcomingEvents = computed(() => upcomingEventsSubscriptions.response ?? [])
+  useNavigation(undefined, 'Events', { name: 'New', route: routes.eventsCreate() })
+
+  function navigateToEvent({ row: event }: { row: Event }): void {
+    router.push(routes.event(event.eventId))
+  }
 </script>
 
 <style>
 .events-overview {
   display: flex;
   flex-direction: column;
-  padding: var(--space-5) var(--space-4);
+  padding: var(--space-4);
   gap: var(--space-4);
+}
+
+.events-overview__heading {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
 }
 </style>

@@ -1,7 +1,5 @@
 <template>
-  <div class="clubs-list">
-    <p-table :data="clubs" :columns="columns" class="clubs-list__table" @row:click="handleRowClick" />
-  </div>
+  <p-table :data="clubs" :columns="columns" class="clubs-list" />
 </template>
 
   <script lang="ts" setup>
@@ -13,31 +11,23 @@
     clubs: Club[],
   }>()
 
-  const emit = defineEmits<{
-    (event: 'select:club', value: Club): void,
-  }>()
-
   const columns = computed<TableColumn[]>(() => [{ property: 'name', label: 'name' }])
-
-  function handleRowClick({ row }: { row: Club }): void {
-    emit('select:club', row)
-  }
   </script>
 
   <style>
-  .clubs-list__table tr {
+  .clubs-list tr {
     cursor: pointer;
   }
 
-  .clubs-list__table tr:hover {
+  .clubs-list tr:hover {
     background-color: var(--slate-700);
   }
 
-  .clubs-list__table thead {
+  .clubs-list thead {
     display: none;
   }
 
-  .clubs-list__table tbody {
+  .clubs-list tbody {
     border-top: 0;
   }
   </style>

@@ -6,7 +6,7 @@ const routes: AppRouteRecord[] = [
   {
     path: '/',
     name: 'home',
-    component: () => import('@/pages/EventsOverview.vue'),
+    component: () => import('@/pages/TodayView.vue'),
   },
   {
     path: '/clubs',
@@ -24,7 +24,27 @@ const routes: AppRouteRecord[] = [
       {
         name: 'clubs.create',
         path: 'new',
-        component: () => import('@/pages/ClubsCreate.vue'),
+        component: () => import('@/pages/ClubCreate.vue'),
+      },
+    ],
+  },
+  {
+    path: '/events',
+    children: [
+      {
+        name: 'events.list',
+        path: '',
+        component: () => import('@/pages/EventsOverview.vue'),
+      },
+      {
+        name: 'events.view',
+        path: ':eventId',
+        component: () => import('@/pages/EventOverview.vue'),
+      },
+      {
+        name: 'events.create',
+        path: 'new',
+        component: () => import('@/pages/EventCreate.vue'),
       },
     ],
   },

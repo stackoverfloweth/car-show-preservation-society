@@ -34,3 +34,10 @@ export function formatPhoneNumber(phoneNumber: string): string {
 
   return ''
 }
+
+export function capitalize<T extends string>(value: T): Capitalize<T> {
+  const firstLetterCapitalized = value.charAt(0).toUpperCase()
+  const rest = value.slice(1)
+
+  return `${firstLetterCapitalized}${rest}` as Capitalize<T>
+}

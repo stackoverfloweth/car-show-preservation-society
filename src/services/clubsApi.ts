@@ -9,7 +9,7 @@ export class ClubsApi extends Api {
     return await Promise.resolve(mocker.createMany('club', 5))
   }
 
-  public async getClub(clubId: string): Promise<Club> {
+  public async getClub(clubId: string): Promise<Club | undefined> {
     return await Promise.resolve(mocker.create('club', [{ clubId }]))
   }
 

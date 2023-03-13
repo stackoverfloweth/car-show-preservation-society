@@ -1,6 +1,6 @@
 <template>
-  <div class="clubs-create">
-    <p-bread-crumbs :crumbs="[{ text: 'Club Information' }]" />
+  <div class="event-create">
+    <p-bread-crumbs :crumbs="[{ text: 'Event Information' }]" />
     <p-form @submit="submit">
       <p-label label="Name" :message="nameError" :state="nameState">
         <template #default="{ id }">
@@ -18,7 +18,7 @@
           Cancel
         </p-button>
         <p-button :loading="pending" @click="submit">
-          Create Club
+          Create Event
         </p-button>
       </template>
     </p-form>
@@ -31,7 +31,7 @@
   import { reactive, ref } from 'vue'
   import { useRouter } from 'vue-router'
   import { useApi, useNavigation } from '@/compositions'
-  import { ClubRequest } from '@/models/api'
+  import { EventRequest } from '@/models/api'
   import { routes } from '@/router/routes'
   import { stringHasValue } from '@/services'
 
@@ -44,7 +44,7 @@
   const { error: nameError, state: nameState } = useValidation(name, 'Name', [stringHasValue])
   const { error: descriptionError, state: descriptionState } = useValidation(description, 'Description', [stringHasValue])
 
-  useNavigation({ name: 'Clubs', route: routes.clubs() }, 'Create Club')
+  useNavigation({ name: 'Events', route: routes.events() }, 'Create Event')
 
   function cancel(): void {
     router.back()
@@ -57,16 +57,16 @@
       return
     }
 
-    const values = reactive({ name, description }) as ClubRequest
-    await api.clubs.createClub(values)
+    const values = reactive({ name, description }) as EventRequest
+    await api.events.createEvent(values)
 
-    showToast('Club Created!', 'success')
-    router.push(routes.clubs())
+    showToast('Event Created!', 'success')
+    router.push(routes.events())
   }
 </script>
 
 <style>
-.clubs-create {
+.event-create {
   display: flex;
   flex-direction: column;
   padding: var(--space-4);

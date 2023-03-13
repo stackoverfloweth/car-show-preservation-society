@@ -17,7 +17,7 @@
             <p-overflow-menu-item label="Garage" />
             <p-overflow-menu-item label="Messages" />
             <p-overflow-menu-item label="Clubs" :to="routes.clubs()" />
-            <p-overflow-menu-item label="Events" />
+            <p-overflow-menu-item label="Events" :to="routes.events()" />
           </p-overflow-menu>
         </template>
       </p-pop-over>

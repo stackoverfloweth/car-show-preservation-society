@@ -1,1 +1,2 @@
-export * from './club';
+export * from './clubRequest'
+export * from './eventRequest'

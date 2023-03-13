@@ -1,6 +1,6 @@
 <template>
   <div class="clubs-overview">
-    <ClubsList :clubs="clubs" @select:club="navigateToClub" />
+    <ClubsList :clubs="clubs" @row:click="navigateToClub" />
   </div>
 </template>
 
@@ -21,7 +21,7 @@
 
   useNavigation(undefined, 'Clubs', { name: 'New', route: routes.clubsCreate() })
 
-  function navigateToClub(club: Club): void {
+  function navigateToClub({ row: club }: { row: Club }): void {
     router.push(routes.club(club.clubId))
   }
 </script>

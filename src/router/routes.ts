@@ -5,6 +5,9 @@ export const routes = {
   clubs: () => ({ name: 'clubs.list' }) as const,
   clubsCreate: () => ({ name: 'clubs.create' }) as const,
   club: (clubId: string) => ({ name: 'clubs.view', params: { clubId } }) as const,
+  events: () => ({ name: 'events.list' }) as const,
+  eventsCreate: () => ({ name: 'events.create' }) as const,
+  event: (eventId: string) => ({ name: 'events.view', params: { eventId } }) as const,
 }
 
 export type NamedRoute = ReturnType<typeof routes[keyof typeof routes]>['name']

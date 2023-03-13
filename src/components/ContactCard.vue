@@ -1,15 +1,16 @@
 <template>
-  <div class="contact-user-info">
+  <div class="contact-card">
     <template v-if="user">
-      <div class="contact-user-info__name">
+      <p-bread-crumbs :crumbs="[{ text: 'Contact' }]" />
+      <div class="contact-card__name">
         {{ user.firstName }}  {{ user.lastName }}
       </div>
-      <div class="contact-user-info__email">
+      <div class="contact-card__email">
         <p-link v-if="user.emailAddress" :href="`mailto:${user.emailAddress}`">
           {{ user.emailAddress }}
         </p-link>
       </div>
-      <div class="contact-user-info__phone">
+      <div class="contact-card__phone">
         <p-link v-if="user.phoneNumber" :href="`tel:${user.phoneNumber}`">
           {{ formatPhoneNumber(user.phoneNumber) }}
         </p-link>
@@ -35,7 +36,3 @@
   const userSubscription = useSubscriptionWithDependencies(api.users.getUser, userSubscriptionArgs)
   const user = computed(() => userSubscription.response)
 </script>
-
-<style>
-
-</style>
