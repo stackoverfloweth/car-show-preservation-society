@@ -1,5 +1,6 @@
 import { Event } from '@/models/event'
-import { MockFunction } from '@/services/mocker'
+import { MockFunction } from '@/services'
+import { capitalize, toOrdinal } from '@/utilities'
 
 export const randomEvent: MockFunction<Event, [Partial<Event>?]> = function(overrides) {
   const start = this.create('date')
@@ -7,11 +8,12 @@ export const randomEvent: MockFunction<Event, [Partial<Event>?]> = function(over
 
   return {
     eventId: this.create('id'),
-    contactUserId: this.create('boolean') ? this.create('id') : undefined,
-    name: `${this.create('adjective') } ${ this.create('noun')}`,
+    contactUserId: this.create('id'),
+    name: `${toOrdinal(this.create('number', [5, 100]))} Annual ${capitalize(this.create('adjective')) } ${ capitalize(this.create('noun'))}`,
     description: this.create('paragraph'),
     location: this.create('location'),
     clubId: this.create('id'),
+    eventLogo: this.create('image'),
     start,
     end: this.create('date', [start]),
     votingStart,
