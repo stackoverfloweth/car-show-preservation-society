@@ -14,7 +14,7 @@
 
       <div class="event-overview__content">
         <div class="event-overview__details">
-          <SizedImage v-if="event.eventLogo" :src="event.eventLogo" class="event-overview__logo" />
+          <SizedImage v-if="event.eventLogo" :image="event.eventLogo" class="event-overview__logo" />
 
           <span>{{ event.description }}</span>
 

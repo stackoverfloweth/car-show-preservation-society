@@ -1,7 +1,7 @@
 <template>
   <div class="club-card">
     <template v-if="club">
-      <SizedImage v-if="club?.clubLogo" class="club-card__logo" :src="club?.clubLogo" />
+      <SizedImage v-if="club?.clubLogo" class="club-card__logo" :image="club.clubLogo" />
       <div class="club-card__name">
         {{ club.name }}
       </div>

@@ -1,5 +1,5 @@
 <template>
-  <SizedImage v-if="image" class="event-advertisement" :src="image">
+  <SizedImage v-if="image" class="event-advertisement" :image="image">
     [Event Advertisement]
   </SizedImage>
 </template>

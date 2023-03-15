@@ -10,26 +10,30 @@
 
 <script lang="ts" setup>
   import { computed, useSlots } from 'vue'
+  import { Image } from '@/models'
 
   const props = defineProps<{
-    src: string,
+    image: Image,
   }>()
 
   const slots = useSlots()
 
+  const position = computed(() => props.image.position ?? 'center')
+  const backdrop = computed(() => props.image.backdrop ? 'var(--slate-100)' : 'unset')
+
   const styles = computed(() => ({
-    backgroundImage: `url(${props.src})`,
+    backgroundImage: `url(${props.image.src})`,
   }))
 </script>
 
 <style>
 .sized-image {
   position: relative;
-  background-color: var(--slate-100);
   border-radius: var(--rounded);
   background-size: contain;
   background-repeat: no-repeat;
-  background-position: center;
+  background-color: v-bind(backdrop);
+  background-position: v-bind(position);
 }
 
 .sized-image__content {

@@ -3,7 +3,7 @@
     <template v-for="event in events" :key="event.eventId">
       <p-button inset class="related-events__event" :to="routes.home()">
         <div class="related-events__event-content">
-          <SizedImage v-if="event.eventLogo" class="related-events__event-logo" :src="event.eventLogo" />
+          <SizedImage v-if="event.eventLogo" class="related-events__event-logo" :image="event.eventLogo" />
           <p class="related-events__event-name">
             {{ event.name }}
           </p>

@@ -1,7 +1,7 @@
 <template>
   <div class="event-card">
     <EventHeading :event-id="eventId" />
-    <SizedImage v-if="event?.eventLogo" :src="event.eventLogo" />
+    <SizedImage v-if="event?.eventLogo" :image="event.eventLogo" />
   </div>
 </template>
 

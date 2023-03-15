@@ -1,3 +1,4 @@
+import { Image } from '@/models/image'
 import { Location } from '@/models/location'
 
 export type Event = {
@@ -5,7 +6,7 @@ export type Event = {
   contactUserId?: string,
   name: string,
   description: string,
-  eventLogo?: string,
+  eventLogo?: Image,
   location: Location,
   clubId: string,
   start: Date,
