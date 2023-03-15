@@ -1,7 +1,7 @@
 <template>
   <div class="related-events">
     <template v-for="event in events" :key="event.eventId">
-      <p-button inset class="related-events__event" :to="routes.home()">
+      <p-button inset class="related-events__event" :to="routes.event(event.eventId)">
         <div class="related-events__event-content">
           <SizedImage v-if="event.eventLogo" class="related-events__event-logo" :image="event.eventLogo" />
           <p class="related-events__event-name">

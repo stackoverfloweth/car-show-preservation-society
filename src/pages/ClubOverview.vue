@@ -16,11 +16,11 @@
 
 <script lang="ts" setup>
   import { useRouteParam, useSubscription } from '@prefecthq/vue-compositions'
-  import { computed, watchEffect } from 'vue'
+  import { computed, watch } from 'vue'
   import ContactUserInfo from '@/components/ContactCard.vue'
   import EventsList from '@/components/EventsList.vue'
   import SizedImage from '@/components/SizedImage.vue'
-  import { useApi, useNavigationLeft, useNavigationTitle } from '@/compositions'
+  import { useApi, useNavigation } from '@/compositions'
   import { routes } from '@/router/routes'
 
   const clubId = useRouteParam('clubId')
@@ -32,11 +32,11 @@
   const eventsSubscription = useSubscription(api.events.getEventsByClubId, [clubId])
   const events = computed(() => eventsSubscription.response ?? [])
 
-  useNavigationLeft({ name: 'Clubs', route: routes.clubs() })
+  useNavigation({ name: 'Clubs', route: routes.clubs() })
 
-  watchEffect(() => {
-    if (club.value?.name) {
-      useNavigationTitle(club.value.name)
+  watch(club, club => {
+    if (club?.name) {
+      useNavigation({ name: 'Clubs', route: routes.clubs() }, club.name)
     }
   })
 </script>

@@ -57,7 +57,7 @@
   import EventVotingResults from '@/components/EventVotingResults.vue'
   import RelatedEvents from '@/components/RelatedEvents.vue'
   import SizedImage from '@/components/SizedImage.vue'
-  import { useApi, useNavigationLeft } from '@/compositions'
+  import { useApi, useNavigation } from '@/compositions'
   import { routes } from '@/router/routes'
 
   const eventId = useRouteParam('eventId')
@@ -72,7 +72,7 @@
 
   const eventIsUpcoming = computed(() => !event.value?.end || isFuture(event.value.end))
 
-  useNavigationLeft({ name: 'Events', route: routes.events() })
+  useNavigation({ name: 'Events', route: routes.events() })
 </script>
 
 <style>

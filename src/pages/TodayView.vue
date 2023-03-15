@@ -4,7 +4,7 @@
       <div class="events-overview__todays-events">
         <p-bread-crumbs :crumbs="[{ text: 'Happening Now' }]" />
         <template v-for="event in todaysEvents" :key="event.eventId">
-          <EventCard :event="event" />
+          <EventCard :event-id="event.eventId" />
         </template>
       </div>
     </template>
@@ -21,7 +21,7 @@
   import { computed } from 'vue'
   import EventCard from '@/components/EventCard.vue'
   import EventsList from '@/components/EventsList.vue'
-  import { useApi } from '@/compositions'
+  import { useApi, useNavigation } from '@/compositions'
 
   const api = useApi()
 
@@ -30,6 +30,8 @@
 
   const upcomingEventsSubscriptions = useSubscription(api.events.getUpcomingEvents, [])
   const upcomingEvents = computed(() => upcomingEventsSubscriptions.response ?? [])
+
+  useNavigation()
 </script>
 
 <style>
