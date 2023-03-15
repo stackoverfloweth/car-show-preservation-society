@@ -19,7 +19,7 @@
   const slots = useSlots()
 
   const position = computed(() => props.image.position ?? 'center')
-  const backdrop = computed(() => props.image.backdrop ? 'var(--slate-100)' : 'unset')
+  const backdrop = computed(() => props.image.backdrop ?? true ? 'var(--slate-100)' : 'unset')
 
   const styles = computed(() => ({
     backgroundImage: `url(${props.image.src})`,
