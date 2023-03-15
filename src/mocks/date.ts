@@ -1,3 +1,4 @@
+import { addDays } from 'date-fns'
 import { MockFunction } from '@/services/mocker'
 
 export const randomDate: MockFunction<Date, [Date?, Date?]> = function(start, end) {
@@ -6,7 +7,7 @@ export const randomDate: MockFunction<Date, [Date?, Date?]> = function(start, en
   }
 
   if (!end) {
-    end = new Date()
+    end = addDays(start, this.create('number', [1, 365]))
   }
 
   return new Date(start.getTime() + Math.random() * (end.getTime() - start.getTime()))

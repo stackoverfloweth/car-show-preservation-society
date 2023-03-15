@@ -31,10 +31,16 @@
   display: flex;
   align-items: center;
   gap: var(--space-3);
+  height: 42px;
 }
 
 .club-card__logo {
-  max-width: 40px;
   flex-grow: 1;
+  height: 100%;
+  max-width: 80px;
+}
+
+.club-card__name {
+  font-size: 1.25rem;
 }
 </style>

@@ -3,8 +3,8 @@ import { MockFunction } from '@/services'
 import { capitalize, toOrdinal } from '@/utilities'
 
 export const randomEvent: MockFunction<Event, [Partial<Event>?]> = function(overrides) {
-  const start = this.create('date')
-  const votingStart = this.create('date')
+  const start = this.create('date', [new Date()])
+  const votingStart = this.create('date', [start])
 
   return {
     eventId: this.create('id'),

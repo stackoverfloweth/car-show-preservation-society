@@ -55,6 +55,14 @@
   max-width: 40%;
 }
 
+.club-overview__logo {
+  height: 140px;
+}
+
+.club-overview__events {
+  flex-grow: 1;
+}
+
 @media(max-width: 768px) {
   .club-overview {
     flex-direction: column;
@@ -63,13 +71,5 @@
   .club-overview__details {
     max-width: unset;
   }
-}
-
-.club-overview__logo {
-  height: 140px;
-}
-
-.club-overview__events {
-  flex-grow: 1;
 }
 </style>
