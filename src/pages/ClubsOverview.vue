@@ -19,7 +19,10 @@
   const clubsSubscription = useSubscription(api.clubs.getClubs)
   const clubs = computed(() => clubsSubscription.response ?? [])
 
-  useNavigation(undefined, 'Clubs', { name: 'New', route: routes.clubsCreate() })
+  useNavigation({
+    center: { title: 'Clubs' },
+    right: { title: 'New', route: routes.clubsCreate() },
+  })
 
   function navigateToClub({ row: club }: { row: Club }): void {
     router.push(routes.club(club.clubId))

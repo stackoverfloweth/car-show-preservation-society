@@ -1,6 +1,6 @@
 <template>
   <MenuHeader />
-  <NavigationHeader />
+  <NavigationHeader v-bind="{ left, center, right }" />
   <router-view />
 </template>
 
@@ -9,11 +9,14 @@
   import { provide } from 'vue'
   import MenuHeader from '@/components/MenuHeader.vue'
   import NavigationHeader from '@/components/NavigationHeader.vue'
+  import { useNavigation } from '@/compositions'
   import { ApiConfig } from '@/services'
   import { apiKey, createApi } from '@/services/createApi'
 
   const { setTheme } = useColorTheme()
   setTheme('dark')
+
+  const { left, center, right } = useNavigation()
 
   const config: ApiConfig = {
     baseUrl: 'localhost:4200',

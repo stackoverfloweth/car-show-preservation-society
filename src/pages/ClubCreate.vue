@@ -44,7 +44,10 @@
   const { error: nameError, state: nameState } = useValidation(name, 'Name', [stringHasValue])
   const { error: descriptionError, state: descriptionState } = useValidation(description, 'Description', [stringHasValue])
 
-  useNavigation({ name: 'Clubs', route: routes.clubs() }, 'Create Club')
+  useNavigation({
+    left: { title: 'Clubs', route: routes.clubs() },
+    center: { title: 'Create Club' },
+  })
 
   function cancel(): void {
     router.back()

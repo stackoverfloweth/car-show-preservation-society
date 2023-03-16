@@ -19,6 +19,7 @@
   const slots = useSlots()
 
   const position = computed(() => props.image.position ?? 'center')
+  const size = computed(() => props.image.size ?? 'contain')
   const backdrop = computed(() => props.image.backdrop ?? true ? 'var(--slate-100)' : 'unset')
 
   const styles = computed(() => ({
@@ -30,7 +31,7 @@
 .sized-image {
   position: relative;
   border-radius: var(--rounded);
-  background-size: contain;
+  background-size: v-bind(size);
   background-repeat: no-repeat;
   background-color: v-bind(backdrop);
   background-position: v-bind(position);

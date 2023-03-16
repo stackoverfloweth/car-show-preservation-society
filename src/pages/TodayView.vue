@@ -21,7 +21,7 @@
   import { computed } from 'vue'
   import EventCard from '@/components/EventCard.vue'
   import EventsList from '@/components/EventsList.vue'
-  import { useApi, useNavigation } from '@/compositions'
+  import { useApi } from '@/compositions'
 
   const api = useApi()
 
@@ -30,8 +30,6 @@
 
   const upcomingEventsSubscriptions = useSubscription(api.events.getUpcomingEvents, [])
   const upcomingEvents = computed(() => upcomingEventsSubscriptions.response ?? [])
-
-  useNavigation()
 </script>
 
 <style>

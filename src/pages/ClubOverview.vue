@@ -32,13 +32,13 @@
   const eventsSubscription = useSubscription(api.events.getEventsByClubId, [clubId])
   const events = computed(() => eventsSubscription.response ?? [])
 
-  useNavigation({ name: 'Clubs', route: routes.clubs() })
+  // const {left, center, right} = useNavigation({ name: 'Clubs', route: routes.clubs() })
 
-  watch(club, club => {
-    if (club?.name) {
-      useNavigation({ name: 'Clubs', route: routes.clubs() }, club.name)
-    }
-  })
+  // watch(club, club => {
+  //   if (club?.name) {
+  //     useNavigation({ name: 'Clubs', route: routes.clubs() }, club.name)
+  //   }
+  // })
 </script>
 
 <style>

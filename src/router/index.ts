@@ -1,7 +1,8 @@
 import { createRouter, createWebHistory, RouteRecordRaw } from 'vue-router'
 import { AppRouteRecord } from '@/router/routes'
+import { RouteGuardExecutioner } from '@/services/routeGuardExecutioner'
 
-const routes: AppRouteRecord[] = [
+const routeRecords: AppRouteRecord[] = [
   {
     path: '/',
     name: 'home',
@@ -51,7 +52,19 @@ const routes: AppRouteRecord[] = [
 
 const router = createRouter({
   history: createWebHistory(),
-  routes: routes as RouteRecordRaw[],
+  routes: routeRecords as RouteRecordRaw[],
+})
+
+router.beforeEach(async (to, from) => {
+  return await RouteGuardExecutioner.before(to, from)
+})
+
+router.afterEach((to, from) => {
+  if (to.fullPath !== from.fullPath) {
+    document.title = 'Prefect Server'
+  }
+
+  return RouteGuardExecutioner.after(to, from)
 })
 
 export { router }

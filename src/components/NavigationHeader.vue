@@ -1,35 +1,35 @@
 <template>
-  <div v-if="left || right" class="navigation-header">
-    <div class="navigation-header__left">
-      <template v-if="left">
-        <p-link class="navigation-header__link" :to="left.route">
-          <template v-if="left.showChevron ?? true">
-            <p-icon icon="ChevronLeftIcon" />
-          </template>
-          {{ left.name }}
-        </p-link>
+  <div v-if="shouldShowHeader" class="navigation-header">
+    <NavigationHeaderItem v-bind="left" class="navigation-header__left">
+      <template v-if="left.showChevron ?? true">
+        <p-icon icon="ChevronLeftIcon" />
       </template>
-    </div>
-    <div class="navigation-header__title">
-      {{ title }}
-    </div>
-    <div class="navigation-header__right">
-      <template v-if="right">
-        <p-link class="navigation-header__link" :to="right.route">
-          {{ right.name }}
-          <template v-if="right.showChevron ?? false">
-            <p-icon icon="ChevronLeftIcon" />
-          </template>
-        </p-link>
+
+      {{ left.title }}
+    </NavigationHeaderItem>
+    <NavigationHeaderItem v-bind="center" class="navigation-header__title" />
+    <NavigationHeaderItem v-bind="right" class="navigation-header__right">
+      {{ right.title }}
+
+      <template v-if="right.showChevron ?? false">
+        <p-icon icon="ChevronRightIcon" />
       </template>
-    </div>
+    </NavigationHeaderItem>
   </div>
 </template>
 
 <script lang="ts" setup>
-  import { useNavigation } from '@/compositions'
+  import { computed } from 'vue'
+  import NavigationHeaderItem from '@/components/NavigationHeaderItem.vue'
+  import { NavigationRecord } from '@/compositions'
 
-  const { left, title, right } = useNavigation()
+  const props = defineProps<{
+    left: NavigationRecord,
+    center: NavigationRecord,
+    right: NavigationRecord,
+  }>()
+
+  const shouldShowHeader = computed(() => !!props.left.title || !!props.center.title || !!props.right.title)
 </script>
 
 <style>
@@ -39,12 +39,6 @@
     grid-template-columns: repeat(3, 1fr);
     background-color: var(--slate-800);
     padding: var(--space-4) var(--space-3);
-}
-
-.navigation-header__link {
-    display: flex;
-    align-items: center;
-    gap: var(--space-1);
 }
 
 .navigation-header__left {

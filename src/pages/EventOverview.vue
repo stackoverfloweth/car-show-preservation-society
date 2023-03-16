@@ -72,7 +72,9 @@
 
   const eventIsUpcoming = computed(() => !event.value?.end || isFuture(event.value.end))
 
-  useNavigation({ name: 'Events', route: routes.events() })
+  useNavigation({
+    left: { title: 'Events', route: routes.events() },
+  })
 </script>
 
 <style>
