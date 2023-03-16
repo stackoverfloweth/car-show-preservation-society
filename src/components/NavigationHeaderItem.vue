@@ -3,9 +3,8 @@
     <component
       :is="component"
       v-if="title"
-      class="navigation-header-item__link"
       :to="route"
-      :disabled="disabled"
+      v-bind="componentProps"
       @click="handleClick"
     >
       <template v-if="pending">
@@ -36,10 +35,23 @@
 
   const component = computed(() => {
     if (!!props.route || !!props.callback) {
-      return 'p-link'
+      return 'p-button'
     }
 
     return 'span'
+  })
+
+  const componentProps = computed(() => {
+    if (!!props.route || !!props.callback) {
+      return {
+        flat: true,
+        disabled: props.disabled,
+        class: 'navigation-header-item__action',
+        to: props.route,
+      }
+    }
+
+    return {}
   })
 
   function handleClick(): void {
@@ -50,9 +62,14 @@
 </script>
 
 <style>
-.navigation-header-item__link {
+.navigation-header-item__action {
     display: flex;
     align-items: center;
+    color: var(--blue-500);
     gap: var(--space-1);
+}
+
+.navigation-header-item__action:hover {
+  color: var(--blue-500);
 }
 </style>

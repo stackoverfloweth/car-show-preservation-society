@@ -6,7 +6,7 @@
       <RelatedEvents v-if="event" :event-id="event.eventId" @open="openRelatedEvent" />
     </div>
 
-    <p-modal v-model:show-modal="showModal">
+    <p-modal v-model:show-modal="showModal" auto-close>
       <EventOverview v-if="relatedEvent" :event="relatedEvent" />
     </p-modal>
   </div>
