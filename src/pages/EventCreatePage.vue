@@ -1,5 +1,5 @@
 <template>
-  <div class="event-create">
+  <div class="event-create-page">
     <p-bread-crumbs :crumbs="[{ text: 'Event Information' }]" />
     <p-form @submit="submit">
       <p-label label="Name" :message="nameError" :state="nameState">
@@ -59,7 +59,7 @@
 </script>
 
 <style>
-.event-create {
+.event-create-page {
   display: flex;
   flex-direction: column;
   padding: var(--space-4);

@@ -1,5 +1,5 @@
 <template>
-  <div class="club-create">
+  <div class="club-create-page">
     <p-bread-crumbs :crumbs="[{ text: 'Club Information' }]" />
     <p-form @submit="submit">
       <p-label label="Name" :message="nameError" :state="nameState">
@@ -69,7 +69,7 @@
 </script>
 
 <style>
-.club-create {
+.club-create-page {
   display: flex;
   flex-direction: column;
   padding: var(--space-4);

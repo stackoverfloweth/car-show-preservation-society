@@ -1,7 +1,7 @@
 <template>
   <div class="related-events">
     <template v-for="event in events" :key="event.eventId">
-      <p-button inset class="related-events__event" :to="routes.event(event.eventId)">
+      <p-button inset class="related-events__event" @click="emit('open', event)">
         <div class="related-events__event-content">
           <SizedImage v-if="event.eventLogo" class="related-events__event-logo" :image="event.eventLogo" />
           <p class="related-events__event-name">
@@ -31,11 +31,15 @@
   import { toRefs, computed } from 'vue'
   import SizedImage from '@/components/SizedImage.vue'
   import { useApi } from '@/compositions'
-  import { routes } from '@/router/routes'
+  import { Event } from '@/models'
   import { mocker } from '@/services'
 
   const props = defineProps<{
     eventId: string,
+  }>()
+
+  const emit = defineEmits<{
+    (event: 'open', value: Event): void,
   }>()
 
   const { eventId } = toRefs(props)

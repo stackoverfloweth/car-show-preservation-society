@@ -1,7 +1,7 @@
 <template>
-  <div class="events-overview">
+  <div class="today-view-page">
     <template v-if="todaysEvents.length">
-      <div class="events-overview__todays-events">
+      <div class="today-view-page__todays-events">
         <p-bread-crumbs :crumbs="[{ text: 'Happening Now' }]" />
         <template v-for="event in todaysEvents" :key="event.eventId">
           <EventCard :event-id="event.eventId" />
@@ -9,7 +9,7 @@
       </div>
     </template>
 
-    <div class="events-overview__upcoming-events">
+    <div class="today-view-page__upcoming-events">
       <p-bread-crumbs :crumbs="[{ text: 'Upcoming Events' }]" />
       <EventsList :events="upcomingEvents" />
     </div>
@@ -33,7 +33,7 @@
 </script>
 
 <style>
-.events-overview {
+.today-view-page {
   display: flex;
   flex-direction: column;
   padding: var(--space-5) var(--space-4);

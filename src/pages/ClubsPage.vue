@@ -1,5 +1,5 @@
 <template>
-  <div class="clubs-overview">
+  <div class="clubs-page">
     <ClubsList :clubs="clubs" @row:click="navigateToClub" />
   </div>
 </template>
@@ -30,14 +30,14 @@
 </script>
 
 <style>
-.clubs-overview {
+.clubs-page {
   display: flex;
   flex-direction: column;
   padding: var(--space-4);
   gap: var(--space-4);
 }
 
-.clubs-overview__heading {
+.clubs-page__heading {
   display: flex;
   justify-content: space-between;
   align-items: center;

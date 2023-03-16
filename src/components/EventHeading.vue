@@ -5,9 +5,8 @@
         {{ club?.name }}
       </p-link>
     </template>
-    <div class="event-heading__event-name">
-      {{ event?.name }}
-    </div>
+
+    <p-bread-crumbs v-if="event" :crumbs="[{ text: event.name }]" />
   </div>
 </template>
 

@@ -6,7 +6,7 @@ const routeRecords: AppRouteRecord[] = [
   {
     path: '/',
     name: 'home',
-    component: () => import('@/pages/TodayView.vue'),
+    component: () => import('@/pages/TodayViewPage.vue'),
   },
   {
     path: '/clubs',
@@ -14,17 +14,17 @@ const routeRecords: AppRouteRecord[] = [
       {
         name: 'clubs.list',
         path: '',
-        component: () => import('@/pages/ClubsOverview.vue'),
+        component: () => import('@/pages/ClubsPage.vue'),
       },
       {
         name: 'clubs.view',
         path: ':clubId',
-        component: () => import('@/pages/ClubOverview.vue'),
+        component: () => import('@/pages/ClubPage.vue'),
       },
       {
         name: 'clubs.create',
         path: 'new',
-        component: () => import('@/pages/ClubCreate.vue'),
+        component: () => import('@/pages/ClubCreatePage.vue'),
       },
     ],
   },
@@ -34,17 +34,17 @@ const routeRecords: AppRouteRecord[] = [
       {
         name: 'events.list',
         path: '',
-        component: () => import('@/pages/EventsOverview.vue'),
+        component: () => import('@/pages/EventsPage.vue'),
       },
       {
         name: 'events.view',
         path: ':eventId',
-        component: () => import('@/pages/EventOverview.vue'),
+        component: () => import('@/pages/EventPage.vue'),
       },
       {
         name: 'events.create',
         path: 'new',
-        component: () => import('@/pages/EventCreate.vue'),
+        component: () => import('@/pages/EventCreatePage.vue'),
       },
     ],
   },
