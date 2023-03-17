@@ -31,12 +31,18 @@
         <p-label label="Event Location" :message="locationError" :state="locationState" />
         <LocationInput v-model:location="location" :state="locationState" />
       </div>
+
+      <p-label label="Price" :message="priceError" :state="priceState">
+        <template #default="{ id }">
+          <PriceInput :id="id" v-model="price" :state="priceState" />
+        </template>
+      </p-label>
     </div>
 
     <div class="event-form-fields__middle">
       <p-label label="Description" :message="descriptionError" :state="descriptionState">
         <template #default="{ id }">
-          <p-textarea :id="id" v-model="description" rows="6" :state="descriptionState" />
+          <p-textarea :id="id" v-model="description" rows="5" :state="descriptionState" />
         </template>
       </p-label>
 
@@ -54,6 +60,7 @@
   import ClubSelect from '@/components/ClubSelect.vue'
   import ImageUpload from '@/components/ImageUpload.vue'
   import LocationInput from '@/components/LocationInput.vue'
+  import PriceInput from '@/components/PriceInput.vue'
   import { EventRequest } from '@/models/api'
   import { stringHasValue } from '@/services'
 
@@ -81,6 +88,7 @@
   const end = usePatchRef(values, 'end')
   const eventLogo = usePatchRef(values, 'eventLogo')
   const location = usePatchRef(values, 'location')
+  const price = usePatchRef(values, 'priceInPennies')
 
   const { error: clubError, state: clubState } = useValidation(clubId, 'Club', [stringHasValue])
   const { error: nameError, state: nameState } = useValidation(name, 'Name', [stringHasValue])
@@ -89,6 +97,7 @@
   const { error: endError, state: endState } = useValidation(end, 'End', [])
   const { error: eventLogoError, state: eventLogoState } = useValidation(eventLogo, 'EventLogo', [])
   const { error: locationError, state: locationState } = useValidation(location, 'Location', [])
+  const { error: priceError, state: priceState } = useValidation(price, 'Price', [])
 </script>
 
 <style>
