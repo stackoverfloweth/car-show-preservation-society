@@ -108,6 +108,7 @@
   'left middle middle'
   'left middle middle'
   'left bottom bottom';
+  grid-template-columns: repeat(3, 1fr);
   gap: var(--space-4);
 }
 
@@ -146,6 +147,7 @@
     'top'
     'middle'
     'bottom';
+    grid-template-columns: 1fr;
   }
 
   .event-form-fields__middle {

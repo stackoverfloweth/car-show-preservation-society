@@ -1,13 +1,10 @@
 <template>
-  <div class="event-create-page">
+  <p-form class="event-create-page" @submit="submit">
     <p-bread-crumbs :crumbs="[{ text: 'Event Information' }]" />
-
-    <p-form class="event-form" @submit="submit">
-      <EventForm
-        v-model:values="values"
-      />
-    </p-form>
-  </div>
+    <EventFormFields v-model:values="values" />
+    <p-bread-crumbs :crumbs="[{ text: 'Judging' }]" />
+    <EventJudgingFormFields v-model:values="values" />
+  </p-form>
 </template>
 
 <script lang="ts" setup>
@@ -15,7 +12,8 @@
   import { useValidationObserver } from '@prefecthq/vue-compositions'
   import { ref, watchEffect } from 'vue'
   import { useRouter } from 'vue-router'
-  import EventForm from '@/components/EventFormFields.vue'
+  import EventFormFields from '@/components/EventFormFields.vue'
+  import EventJudgingFormFields from '@/components/EventJudgingFormFields.vue'
   import { useApi, useNavigation } from '@/compositions'
   import { EventRequest } from '@/models/api'
   import { routes } from '@/router/routes'
@@ -53,6 +51,6 @@
   display: flex;
   flex-direction: column;
   padding: var(--space-4);
-  gap: var(--space-2);
+  gap: var(--space-4);
 }
 </style>
