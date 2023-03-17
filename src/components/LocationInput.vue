@@ -1,18 +1,31 @@
 <template>
-  <p-combobox v-model="search" v-model:search="search" class="location-input" :options="options">
-    <template #combobox-options-empty>
+  <template v-if="media.hover">
+    <p-combobox v-model="search" v-model:search="search" class="location-input" :options="options">
+      <template #combobox-options-empty>
+        <template v-if="search">
+          <p-loading-icon />
+        </template>
+        <template v-else>
+          Start typing address
+        </template>
+      </template>
+    </p-combobox>
+  </template>
+
+  <template v-else>
+    <p-button class="location-input__modal-button" inset>
       <template v-if="search">
-        <p-loading-icon />
+        {{ search }}
       </template>
       <template v-else>
-        Start typing address
+        <span>Set Location</span>
       </template>
-    </template>
-  </p-combobox>
+    </p-button>
+  </template>
 </template>
 
 <script lang="ts" setup>
-  import { SelectOption } from '@prefecthq/prefect-design'
+  import { SelectOption, media } from '@prefecthq/prefect-design'
   import { computed, ref } from 'vue'
   import { Location } from '@/models'
 
@@ -35,7 +48,6 @@
 
   const options = computed<SelectOption[]>(() => {
     if (!search.value) {
-      console.log('nope', search.value)
       return []
     }
 
@@ -44,3 +56,14 @@
 
   const search = ref<string>()
 </script>
+
+<style>
+.location-input__modal-button {
+  width: 100%;
+  color: var(--slate-400);
+}
+
+.location-input__modal-button .p-button__content {
+  justify-content: start;
+}
+</style>

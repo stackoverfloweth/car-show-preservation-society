@@ -27,12 +27,12 @@
         </template>
       </p-label>
 
-      <div class="event-form-fields__image-upload">
+      <div class="event-form-fields__location">
         <p-label label="Event Location" :message="locationError" :state="locationState" />
         <LocationInput v-model:location="location" :state="locationState" />
       </div>
 
-      <p-label label="Price" :message="priceError" :state="priceState">
+      <p-label label="Registration Price" :message="priceError" :state="priceState">
         <template #default="{ id }">
           <PriceInput :id="id" v-model="price" :state="priceState" />
         </template>
@@ -42,7 +42,7 @@
     <div class="event-form-fields__middle">
       <p-label label="Description" :message="descriptionError" :state="descriptionState">
         <template #default="{ id }">
-          <p-textarea :id="id" v-model="description" rows="5" :state="descriptionState" />
+          <p-textarea :id="id" v-model="description" rows="8" :state="descriptionState" />
         </template>
       </p-label>
 
@@ -122,6 +122,7 @@
   grid-area: left;
   display: flex;
   flex-direction: column;
+  justify-content: start;
   gap: var(--space-4);
 }
 
