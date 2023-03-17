@@ -1,9 +1,10 @@
-import { Location } from '@/models/Location'
+import { Location, Image } from '@/models'
 
 export type EventRequest = {
   contactUserId?: string,
   name: string,
   description: string,
+  eventLogo?: Image,
   location: Location,
   clubId: string,
   start: Date,
