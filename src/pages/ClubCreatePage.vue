@@ -4,8 +4,7 @@
 
     <p-form @submit="submit">
       <ClubFormFields
-        v-model:name="name"
-        v-model:description="description"
+        v-model:values="values"
       />
     </p-form>
   </div>
@@ -14,7 +13,7 @@
 <script lang="ts" setup>
   import { showToast } from '@prefecthq/prefect-design'
   import { useValidationObserver } from '@prefecthq/vue-compositions'
-  import { reactive, ref, watchEffect } from 'vue'
+  import { ref, watchEffect } from 'vue'
   import { useRouter } from 'vue-router'
   import ClubFormFields from '@/components/ClubFormFields.vue'
   import { useApi, useNavigation } from '@/compositions'
@@ -26,8 +25,7 @@
   const { validate, pending } = useValidationObserver()
   const { set } = useNavigation()
 
-  const name = ref<string>()
-  const description = ref<string>()
+  const values = ref<Partial<ClubRequest>>({})
 
   async function submit(): Promise<void> {
     const isValid = await validate()
@@ -36,8 +34,7 @@
       return
     }
 
-    const values = reactive({ name, description }) as ClubRequest
-    await api.clubs.createClub(values)
+    await api.clubs.createClub(values.value as ClubRequest)
 
     showToast('Club Created!', 'success')
     router.push(routes.clubs())

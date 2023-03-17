@@ -5,6 +5,7 @@
         <p-text-input :id="id" v-model="name" :state="nameState" />
       </template>
     </p-label>
+
     <p-label label="Description" :message="descriptionError" :state="descriptionState">
       <template #default="{ id }">
         <p-textarea :id="id" v-model="description" rows="6" :state="descriptionState" />
@@ -14,37 +15,30 @@
 </template>
 
 <script lang="ts" setup>
-  import { useValidation } from '@prefecthq/vue-compositions'
+  import { usePatchRef, useValidation } from '@prefecthq/vue-compositions'
   import { computed } from 'vue'
+  import { ClubRequest } from '@/models/api'
   import { stringHasValue } from '@/services'
 
   const props = defineProps<{
-    name: string | undefined,
-    description: string | undefined,
+    values: Partial<ClubRequest>,
   }>()
 
   const emit = defineEmits<{
-    (event: 'update:name' | 'update:description', value: string | undefined): void,
+    (event: 'update:values', value: Partial<ClubRequest>): void,
   }>()
 
-  const name = computed({
+  const values = computed({
     get() {
-      return props.name
+      return props.values
     },
     set(value) {
-      emit('update:name', value)
+      emit('update:values', value)
     },
   })
 
-
-  const description = computed({
-    get() {
-      return props.description
-    },
-    set(value) {
-      emit('update:description', value)
-    },
-  })
+  const name = usePatchRef(values, 'name')
+  const description = usePatchRef(values, 'description')
 
   const { error: nameError, state: nameState } = useValidation(name, 'Name', [stringHasValue])
   const { error: descriptionError, state: descriptionState } = useValidation(description, 'Description', [stringHasValue])

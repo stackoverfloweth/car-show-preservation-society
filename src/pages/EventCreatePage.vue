@@ -4,8 +4,7 @@
 
     <p-form class="event-form" @submit="submit">
       <EventForm
-        v-model:name="name"
-        v-model:description="description"
+        v-model:values="values"
       />
     </p-form>
   </div>
@@ -14,7 +13,7 @@
 <script lang="ts" setup>
   import { showToast } from '@prefecthq/prefect-design'
   import { useValidationObserver } from '@prefecthq/vue-compositions'
-  import { reactive, ref, watchEffect } from 'vue'
+  import { ref, watchEffect } from 'vue'
   import { useRouter } from 'vue-router'
   import EventForm from '@/components/EventFormFields.vue'
   import { useApi, useNavigation } from '@/compositions'
@@ -26,8 +25,7 @@
   const { validate, pending } = useValidationObserver()
   const { set } = useNavigation()
 
-  const name = ref<string | undefined>()
-  const description = ref<string | undefined>()
+  const values = ref<Partial<EventRequest>>({})
 
   async function submit(): Promise<void> {
     const isValid = await validate()
@@ -36,8 +34,7 @@
       return
     }
 
-    const values = reactive({ name, description }) as EventRequest
-    await api.events.createEvent(values)
+    await api.events.createEvent(values.value as EventRequest)
 
     showToast('Event Created!', 'success')
     router.push(routes.events())
