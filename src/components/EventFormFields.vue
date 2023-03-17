@@ -26,6 +26,11 @@
           <p-text-input :id="id" v-model="name" :state="nameState" />
         </template>
       </p-label>
+
+      <div class="event-form-fields__image-upload">
+        <p-label label="Event Location" :message="locationError" :state="locationState" />
+        <LocationInput v-model:location="location" :state="locationState" />
+      </div>
     </div>
 
     <div class="event-form-fields__middle">
@@ -48,6 +53,7 @@
   import { computed } from 'vue'
   import ClubSelect from '@/components/ClubSelect.vue'
   import ImageUpload from '@/components/ImageUpload.vue'
+  import LocationInput from '@/components/LocationInput.vue'
   import { EventRequest } from '@/models/api'
   import { stringHasValue } from '@/services'
 
@@ -74,6 +80,7 @@
   const start = usePatchRef(values, 'start')
   const end = usePatchRef(values, 'end')
   const eventLogo = usePatchRef(values, 'eventLogo')
+  const location = usePatchRef(values, 'location')
 
   const { error: clubError, state: clubState } = useValidation(clubId, 'Club', [stringHasValue])
   const { error: nameError, state: nameState } = useValidation(name, 'Name', [stringHasValue])
@@ -81,6 +88,7 @@
   const { error: startError, state: startState } = useValidation(start, 'Start', [])
   const { error: endError, state: endState } = useValidation(end, 'End', [])
   const { error: eventLogoError, state: eventLogoState } = useValidation(eventLogo, 'EventLogo', [])
+  const { error: locationError, state: locationState } = useValidation(location, 'Location', [])
 </script>
 
 <style>
