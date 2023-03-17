@@ -1,10 +1,10 @@
 <template>
   <div class="club-card">
     <template v-if="club">
-      <SizedImage v-if="club?.clubLogo" class="club-card__logo" :image="club.clubLogo" />
-      <div class="club-card__name">
-        {{ club.name }}
-      </div>
+      <SizedImage v-if="club.clubLogo" :image="club.clubLogo" class="club-card__logo" />
+      <p-bread-crumbs :crumbs="[{ text: club.name }]" />
+      <span>{{ club.description }}</span>
+      <ContactUserInfo :user-id="club.contactUserId" />
     </template>
   </div>
 </template>
@@ -12,6 +12,7 @@
 <script lang="ts" setup>
   import { useSubscription } from '@prefecthq/vue-compositions'
   import { computed, toRefs } from 'vue'
+  import ContactUserInfo from '@/components/ContactCard.vue'
   import SizedImage from '@/components/SizedImage.vue'
   import { useApi } from '@/compositions'
 
@@ -29,15 +30,12 @@
 <style>
 .club-card {
   display: flex;
-  align-items: center;
-  gap: var(--space-3);
-  height: 42px;
+  flex-direction: column;
+  gap: var(--space-4);
 }
 
 .club-card__logo {
-  flex-grow: 1;
-  height: 100%;
-  max-width: 80px;
+  height: 140px;
 }
 
 .club-card__name {

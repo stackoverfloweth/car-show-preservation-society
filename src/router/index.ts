@@ -26,6 +26,11 @@ const routeRecords: AppRouteRecord[] = [
         path: 'new',
         component: () => import('@/pages/ClubCreatePage.vue'),
       },
+      {
+        name: 'clubs.event',
+        path: ':clubId/events/:eventId',
+        component: () => import('@/pages/EventPage.vue'),
+      },
     ],
   },
   {

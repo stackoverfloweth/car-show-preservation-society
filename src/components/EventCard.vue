@@ -1,14 +1,13 @@
 <template>
   <div class="event-card">
-    <EventHeading :event-id="eventId" />
     <SizedImage v-if="event?.eventLogo" :image="event.eventLogo" />
+    {{ event?.name }}
   </div>
 </template>
 
 <script lang="ts" setup>
   import { useSubscription } from '@prefecthq/vue-compositions'
   import { computed, toRefs } from 'vue'
-  import EventHeading from '@/components/EventHeading.vue'
   import SizedImage from '@/components/SizedImage.vue'
   import { useApi } from '@/compositions'
 

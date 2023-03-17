@@ -1,54 +1,24 @@
 <template>
   <div class="event-overview">
-    <div class="event-overview__header">
-      <EventHeading class="event-overview__club-card" :event-id="event.eventId" />
+    <SizedImage v-if="event.eventLogo" :image="event.eventLogo" class="event-overview__logo" />
 
-      <div class="event-overview__header-actions">
-        <p-button inset icon="ShareIcon" />
-        <template v-if="eventIsUpcoming">
-          <p-button>Register</p-button>
-        </template>
-      </div>
-    </div>
+    <span>{{ event.description }}</span>
 
-    <div class="event-overview__content">
-      <div class="event-overview__details">
-        <SizedImage v-if="event.eventLogo" :image="event.eventLogo" class="event-overview__logo" />
+    <ContactUserInfo :user-id="event.contactUserId" />
 
-        <span>{{ event.description }}</span>
-
-        <ContactUserInfo :user-id="event.contactUserId" />
-
-        <div class="event-overview__event-advertisements">
-          <template v-for="index in 7" :key="index">
-            <EventAdvertisement class="event-overview__event-advertisement" :event-id="event.eventId" />
-          </template>
-        </div>
-      </div>
-
-      <div class="event-overview__voting-summary">
-        <template v-if="eventIsUpcoming">
-          <EventVotingCategories :event-id="event.eventId" />
-        </template>
-        <template v-else>
-          <EventVotingResults :event-id="event.eventId" />
-          <EventPhotoGallery :event-id="event.eventId" />
-        </template>
-      </div>
+    <div class="event-overview__event-advertisements">
+      <template v-for="index in 7" :key="index">
+        <EventAdvertisement class="event-overview__event-advertisement" :event-id="event.eventId" />
+      </template>
     </div>
   </div>
 </template>
 
 <script lang="ts" setup>
   import { useSubscriptionWithDependencies } from '@prefecthq/vue-compositions'
-  import { isFuture } from 'date-fns'
   import { computed, toRefs } from 'vue'
   import ContactUserInfo from '@/components/ContactCard.vue'
   import EventAdvertisement from '@/components/EventAdvertisement.vue'
-  import EventHeading from '@/components/EventHeading.vue'
-  import EventPhotoGallery from '@/components/EventPhotoGallery.vue'
-  import EventVotingCategories from '@/components/EventVotingCategories.vue'
-  import EventVotingResults from '@/components/EventVotingResults.vue'
   import SizedImage from '@/components/SizedImage.vue'
   import { useApi } from '@/compositions'
   import { Event } from '@/models'
@@ -63,44 +33,12 @@
   const clubSubscriptionArgs = computed<Parameters<typeof api.clubs.getClub> | null>(() => event.value.clubId ? [event.value.clubId] : null)
   const clubSubscription = useSubscriptionWithDependencies(api.clubs.getClub, clubSubscriptionArgs)
   const club = computed(() => clubSubscription.response)
-
-  const eventIsUpcoming = computed(() => isFuture(event.value.end))
 </script>
 
 <style>
 .event-overview {
   display: flex;
   flex-direction: column;
-  padding: var(--space-4);
-  gap: var(--space-4);
-}
-
-.event-overview__header {
-  display: flex;
-  align-items: end;
-  justify-content: space-between;
-  gap: var(--space-2);
-}
-
-.event-overview__club-card {
-  flex-grow: 1;
-}
-
-.event-overview__header-actions {
-  display: flex;
-  gap: var(--space-3);
-}
-
-.event-overview__content {
-  display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  gap: var(--space-4);
-}
-
-.event-overview__details {
-  display: flex;
-  flex-direction: column;
-  flex-grow: 0;
   gap: var(--space-4);
 }
 
@@ -119,11 +57,5 @@
 .event-overview__event-advertisement {
   width: 120px;
   height: 120px;
-}
-
-@media(max-width: 768px) {
-  .club-overview__details {
-    max-width: unset;
-  }
 }
 </style>

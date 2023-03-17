@@ -1,21 +1,17 @@
-import { RouteLocationRaw, RouteRecordName, RouteRecordRaw } from 'vue-router'
+import { RouteLocationRaw, RouteRecordRaw } from 'vue-router'
 
 export const routes = {
   home: () => ({ name: 'home' }) as const,
   clubs: () => ({ name: 'clubs.list' }) as const,
   clubsCreate: () => ({ name: 'clubs.create' }) as const,
   club: (clubId: string) => ({ name: 'clubs.view', params: { clubId } }) as const,
+  clubEvent: (clubId: string, eventId: string) => ({ name: 'clubs.event', params: { clubId, eventId } }) as const,
   events: () => ({ name: 'events.list' }) as const,
   eventsCreate: () => ({ name: 'events.create' }) as const,
   event: (eventId: string) => ({ name: 'events.view', params: { eventId } }) as const,
 }
 
 export type NamedRoute = ReturnType<typeof routes[keyof typeof routes]>['name']
-
-export function isNamedRoute(route?: RouteRecordName | null): route is NamedRoute {
-  return typeof route === 'string' && Object.keys(routes).includes(route)
-}
-
 export type AppRouteLocation = Omit<RouteLocationRaw, 'name'> & { name: NamedRoute }
 export type AppRouteRecordParent = { name?: NamedRoute, children: AppRouteRecord[] }
 export type AppRouteRecordChild = { name: NamedRoute }

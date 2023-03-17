@@ -53,7 +53,7 @@
   watchEffect(() => {
     set({
       left: { title: 'Cancel', showChevron: false, callback: router.back },
-      right: { title: 'Create', disabled: true, pending: pending.value, callback: submit },
+      right: { title: 'Create', pending: pending.value, callback: submit },
     })
   })
 </script>

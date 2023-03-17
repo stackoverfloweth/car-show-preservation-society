@@ -21,14 +21,10 @@
   const events = computed(() => eventsSubscription.response ?? [])
 
   function navigateToEvent({ row: event }: { row: Event }): void {
-    set({
-      left: { title: 'Events', route: routes.events() },
-    })
-
     router.push(routes.event(event.eventId))
   }
 
-  const { set } = useNavigation({
+  useNavigation({
     center: { title: 'Events' },
     right: { title: 'New', route: routes.eventsCreate() },
   })

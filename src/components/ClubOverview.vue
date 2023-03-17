@@ -1,11 +1,6 @@
 <template>
   <div class="club-overview">
-    <div class="club-overview__details">
-      <SizedImage v-if="club.clubLogo" :image="club.clubLogo" class="club-overview__logo" />
-      <p-bread-crumbs :crumbs="[{ text: club.name }]" />
-      <span>{{ club.description }}</span>
-      <ContactUserInfo :user-id="club.contactUserId" />
-    </div>
+    <ClubCard :club-id="club.clubId" class="club-overview__details" />
 
     <div class="club-overview__events">
       <p-bread-crumbs :crumbs="[{ text: 'Upcoming Events' }]" />
@@ -18,10 +13,9 @@
   import { useSubscription } from '@prefecthq/vue-compositions'
   import { computed, toRefs } from 'vue'
   import { useRouter } from 'vue-router'
-  import ContactUserInfo from '@/components/ContactCard.vue'
+  import ClubCard from '@/components/ClubCard.vue'
   import EventsList from '@/components/EventsList.vue'
-  import SizedImage from '@/components/SizedImage.vue'
-  import { useApi, useNavigation } from '@/compositions'
+  import { useApi } from '@/compositions'
   import { Club, Event } from '@/models'
   import { routes } from '@/router/routes'
 
@@ -37,16 +31,8 @@
   const events = computed(() => eventsSubscription.response ?? [])
 
   function navigateToEvent({ row: event }: { row: Event }): void {
-    set({
-      left: { title: club.value.name, route: routes.club(club.value.clubId) },
-    })
-
-    router.push(routes.event(event.eventId))
+    router.push(routes.clubEvent(club.value.clubId, event.eventId))
   }
-
-  const { set } = useNavigation({
-    left: { title: 'Clubs', route: routes.clubs() },
-  })
 </script>
 
 <style>
@@ -57,9 +43,6 @@
 }
 
 .club-overview__details {
-  display: flex;
-  flex-direction: column;
-  gap: var(--space-4);
   max-width: 40%;
 }
 
@@ -67,10 +50,6 @@
   display: flex;
   flex-direction: column;
   gap: var(--space-4);
-}
-
-.club-overview__logo {
-  height: 140px;
 }
 
 .club-overview__events {

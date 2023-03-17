@@ -54,4 +54,14 @@
 .menu-header__menu {
     border: 1px solid var(--blue-200);
 }
+
+@media(max-width: 768px) {
+  .menu-header__menu {
+    position: fixed;
+    top: 62px;
+    left: 0;
+    right: 0;
+    bottom: 0;
+  }
+}
 </style>

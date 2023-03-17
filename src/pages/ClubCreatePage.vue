@@ -12,15 +12,6 @@
           <p-textarea :id="id" v-model="description" rows="6" :state="descriptionState" />
         </template>
       </p-label>
-
-      <template #footer>
-        <p-button inset @click="cancel">
-          Cancel
-        </p-button>
-        <p-button :loading="pending" @click="submit">
-          Create Club
-        </p-button>
-      </template>
     </p-form>
   </div>
 </template>
@@ -28,7 +19,7 @@
 <script lang="ts" setup>
   import { showToast } from '@prefecthq/prefect-design'
   import { useValidation, useValidationObserver } from '@prefecthq/vue-compositions'
-  import { reactive, ref } from 'vue'
+  import { reactive, ref, watchEffect } from 'vue'
   import { useRouter } from 'vue-router'
   import { useApi, useNavigation } from '@/compositions'
   import { ClubRequest } from '@/models/api'
@@ -38,16 +29,12 @@
   const api = useApi()
   const router = useRouter()
   const { validate, pending } = useValidationObserver()
+  const { set } = useNavigation()
 
   const name = ref<string>()
   const description = ref<string>()
   const { error: nameError, state: nameState } = useValidation(name, 'Name', [stringHasValue])
   const { error: descriptionError, state: descriptionState } = useValidation(description, 'Description', [stringHasValue])
-
-  useNavigation({
-    left: { title: 'Clubs', route: routes.clubs() },
-    center: { title: 'Create Club' },
-  })
 
   function cancel(): void {
     router.back()
@@ -66,6 +53,13 @@
     showToast('Club Created!', 'success')
     router.push(routes.clubs())
   }
+
+  watchEffect(() => {
+    set({
+      left: { title: 'Cancel', showChevron: false, callback: router.back },
+      right: { title: 'Create', pending: pending.value, callback: submit },
+    })
+  })
 </script>
 
 <style>
