@@ -278,15 +278,17 @@
     background-color: var(--slate-600);
 }
 
-.p-modal__container {
-    padding: 0;
-    padding-top: var(--space-6);
-    align-items: stretch;
-}
+@media(max-width: 768px) {
+    .p-modal__container {
+        padding: 0;
+        padding-top: var(--space-6);
+        align-items: stretch;
+    }
 
-.p-modal__card {
-    max-width: 100%;
-    width: 100%;
+    .p-modal__card {
+        max-width: 100%;
+        width: 100%;
+    }
 }
 
 .p-modal__footer {
