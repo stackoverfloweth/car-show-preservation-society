@@ -109,14 +109,16 @@
   'left middle middle'
   'left bottom bottom';
   grid-template-columns: repeat(3, 1fr);
-  gap: var(--space-4);
+  column-gap: var(--space-5);
+  row-gap: var(--space-4);
 }
 
 .event-form-fields__top {
   grid-area: top;
   display: grid;
   grid-template-columns: repeat(2, 1fr);
-  gap: var(--space-4);
+  column-gap: var(--space-5);
+  row-gap: var(--space-4);
 }
 
 .event-form-fields__left {
@@ -124,14 +126,16 @@
   display: flex;
   flex-direction: column;
   justify-content: start;
-  gap: var(--space-4);
+  column-gap: var(--space-5);
+  row-gap: var(--space-4);
 }
 
 .event-form-fields__middle {
   grid-area: middle;
   display: grid;
   grid-template-columns: repeat(2, 1fr);
-  gap: var(--space-4);
+  column-gap: var(--space-5);
+  row-gap: var(--space-4);
 }
 
 .event-form-fields__image-upload {

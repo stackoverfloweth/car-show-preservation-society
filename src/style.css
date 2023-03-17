@@ -266,11 +266,9 @@
 }
 
 #app .p-card,
+#app .p-empty-state,
+#app .p-table tbody,
 #app .p-table tr {
-    border-color: var(--slate-700);
-}
-
-#app .p-table tbody {
     border-color: var(--slate-700);
 }
 

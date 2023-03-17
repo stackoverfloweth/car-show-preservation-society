@@ -29,8 +29,11 @@
 
         <p-label label="Self Voting">
           <template #default="{ id }">
-            <div class="event-judging-form-fields__tip">
-              Participants can <strong v-if="!canVoteForSelf">NOT</strong> for for their own entry.
+            <div v-if="canVoteForSelf" class="event-judging-form-fields__tip">
+              Participants can for for their own entry in judging categories that allow for driver voting.
+            </div>
+            <div v-else class="event-judging-form-fields__tip">
+              Participants can <strong>NOT</strong> for for their own entry.
             </div>
             <p-toggle :id="id" v-model="canVoteForSelf" />
           </template>
@@ -59,7 +62,7 @@
       </div>
 
       <div class="event-judging-form-fields__right">
-        <p-label label="Judging Categories" />
+        <JudgingCategoriesInput v-model:categories="judgingCategories" />
       </div>
     </template>
   </div>
@@ -67,7 +70,9 @@
 
 <script lang="ts" setup>
   import { usePatchRef, useValidation } from '@prefecthq/vue-compositions'
-  import { computed } from 'vue'
+  import { computed, ref } from 'vue'
+  import JudgingCategoriesInput from '@/components/JudgingCategoriesInput.vue'
+  import { VotingCategory } from '@/models'
   import { EventRequest } from '@/models/api'
 
   const props = defineProps<{
@@ -94,6 +99,8 @@
   const driverSelfCategorization = usePatchRef(values, 'driverSelfCategorization')
   const ballotCount = usePatchRef(values, 'ballotCount')
 
+  const judgingCategories = ref<VotingCategory[]>([])
+
   const { error: votingStartError, state: votingStartState } = useValidation(votingStart, 'VotingStart', [])
   const { error: votingEndError, state: votingEndState } = useValidation(votingEnd, 'VotingEnd', [])
   const { error: ballotCountError, state: ballotCountState } = useValidation(ballotCount, 'BallotCount', [])
@@ -106,7 +113,8 @@
   'top top top'
   'left right right';
   grid-template-columns: repeat(3, 1fr);
-  gap: var(--space-4);
+  column-gap: var(--space-5);
+  row-gap: var(--space-4);
 }
 
 .event-judging-form-fields__top {
@@ -118,7 +126,8 @@
   display: flex;
   flex-direction: column;
   justify-content: start;
-  gap: var(--space-4);
+  column-gap: var(--space-5);
+  row-gap: var(--space-4);
 }
 
 .event-judging-form-fields__right {
@@ -126,7 +135,8 @@
   display: flex;
   flex-direction: column;
   justify-content: start;
-  gap: var(--space-4);
+  column-gap: var(--space-5);
+  row-gap: var(--space-4);
 }
 
 .event-judging-form-fields__tip {
