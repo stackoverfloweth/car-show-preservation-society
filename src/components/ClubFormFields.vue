@@ -54,7 +54,6 @@
 .club-form-fields {
   display: flex;
   flex-direction: column;
-  padding: var(--space-4);
   gap: var(--space-4);
 }
 </style>

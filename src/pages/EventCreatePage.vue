@@ -50,3 +50,12 @@
     })
   })
 </script>
+
+<style>
+.event-create-page {
+  display: flex;
+  flex-direction: column;
+  padding: var(--space-4);
+  gap: var(--space-2);
+}
+</style>
