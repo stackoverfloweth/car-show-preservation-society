@@ -8,7 +8,11 @@
         </p-button>
         <p-icon-button-menu>
           <p-overflow-menu-item icon="LightBulbIcon" label="Suggest Categories" @click="suggestCategories" />
-          <p-overflow-menu-item icon="TrashIcon" label="Remove All" @click="removeAll" />
+          <MenuItemConfirm @confirm="removeAll">
+            <template #default="{ open }">
+              <p-overflow-menu-item icon="TrashIcon" label="Delete All" @click.stop="open" />
+            </template>
+          </MenuItemConfirm>
         </p-icon-button-menu>
       </div>
     </template>
@@ -35,6 +39,7 @@
   import { computed } from 'vue'
   import JudgingCategoriesEmptyState from '@/components/JudgingCategoriesEmptyState.vue'
   import JudgingCategoriesTable from '@/components/JudgingCategoriesTable.vue'
+  import MenuItemConfirm from '@/components/MenuItemConfirm.vue'
   import { VotingCategory } from '@/models'
   import { mocker } from '@/services'
 

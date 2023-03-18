@@ -1,7 +1,9 @@
 <template>
   <p-pop-over class="trash-confirm" auto-close>
     <template #target="{ open }">
-      <p-button size="sm" flat icon="TrashIcon" @click="open" />
+      <slot :open="open">
+        <p-button size="sm" flat icon="TrashIcon" @click="open" />
+      </slot>
     </template>
     <template #default="{ close }">
       <p-overflow-menu>
