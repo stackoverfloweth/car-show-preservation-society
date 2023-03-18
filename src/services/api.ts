@@ -11,12 +11,12 @@ type ConfigFunction<R, T extends ApiConfig = ApiConfig> = (config: T) => R
 export type ApiBaseUrl<T extends ApiConfig = ApiConfig> = string | ConfigFunction<string, T>
 export type ApiHeaders<T extends ApiConfig = ApiConfig> = AxiosRequestHeaders | ConfigFunction<AxiosRequestHeaders, T>
 
-export const getPrefectBaseUrl: ApiBaseUrl = (config) => config.baseUrl
+export const getBaseUrl: ApiBaseUrl = (config) => config.baseUrl
 
 export class Api<T extends ApiConfig = ApiConfig> {
   protected readonly apiConfig: T
   protected apiHeaders: MaybeArray<ApiHeaders> = []
-  protected apiBaseUrl: ApiBaseUrl = getPrefectBaseUrl
+  protected apiBaseUrl: ApiBaseUrl = getBaseUrl
   protected routePrefix: string | undefined
 
   public constructor(apiConfig: T) {
