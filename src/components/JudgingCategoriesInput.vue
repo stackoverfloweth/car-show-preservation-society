@@ -3,10 +3,11 @@
     <template #label>
       <div>Judging Categories</div>
       <div class="judging-categories-input__actions">
-        <p-button>
+        <p-button class="judging-categories-input__add-button">
           Add Category
         </p-button>
         <p-icon-button-menu>
+          <p-overflow-menu-item class="judging-categories-input__add-menu-icon" icon="PlusIcon" label="Add Category" />
           <p-overflow-menu-item icon="LightBulbIcon" label="Suggest Categories" @click="suggestCategories" />
           <MenuItemConfirm @confirm="removeAll">
             <template #default="{ open }">
@@ -84,5 +85,19 @@
 .judging-categories-input__actions {
   display: flex;
   gap: var(--space-3);
+}
+
+.judging-categories-input__add-menu-icon {
+  display: none;
+}
+
+@media(max-width: 768px){
+  .judging-categories-input__add-button {
+    display: none;
+  }
+
+  .judging-categories-input__add-menu-icon {
+    display: flex;
+  }
 }
 </style>
