@@ -39,8 +39,10 @@
   }
 
   watchEffect(() => {
+    const backEnabled = window.history.length > 1
+
     set({
-      left: { title: 'Cancel', showChevron: false, callback: router.back },
+      left: backEnabled ? { title: 'Cancel', showChevron: false, callback: router.back } : { title: 'Events', route: routes.events() },
       right: { title: 'Create', pending: pending.value, callback: submit },
     })
   })
