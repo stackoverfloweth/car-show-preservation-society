@@ -4,7 +4,7 @@
 
     <span>{{ event.description }}</span>
 
-    <ContactUserInfo :user-id="event.contactUserId" />
+    <ContactCard :user-id="event.contactUserId" />
 
     <div class="event-overview__event-advertisements">
       <template v-for="index in 7" :key="index">
@@ -17,7 +17,7 @@
 <script lang="ts" setup>
   import { useSubscriptionWithDependencies } from '@prefecthq/vue-compositions'
   import { computed, toRefs } from 'vue'
-  import ContactUserInfo from '@/components/ContactCard.vue'
+  import ContactCard from '@/components/ContactCard.vue'
   import EventAdvertisement from '@/components/EventAdvertisement.vue'
   import SizedImage from '@/components/SizedImage.vue'
   import { useApi } from '@/compositions'

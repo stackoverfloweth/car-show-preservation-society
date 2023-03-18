@@ -22,13 +22,17 @@
       <RelatedEvents v-if="event" :event-id="event.eventId" @open="openRelatedEvent" />
     </div>
 
-    <p-modal v-model:show-modal="showEventModal" auto-close>
-      <EventOverview v-if="relatedEvent" :event="relatedEvent" />
-    </p-modal>
+    <template v-if="relatedEvent">
+      <p-modal v-model:show-modal="showEventModal" :title="relatedEvent.name" auto-close>
+        <EventOverview :event="relatedEvent" />
+      </p-modal>
+    </template>
 
-    <p-modal v-model:show-modal="showClubModal" auto-close>
-      <ClubCard v-if="event?.clubId" :club-id="event.clubId" />
-    </p-modal>
+    <template v-if="club">
+      <p-modal v-model:show-modal="showClubModal" :title="club.name" auto-close>
+        <ClubOverview :club="club" />
+      </p-modal>
+    </template>
   </div>
 </template>
 
@@ -37,7 +41,7 @@
   import { isFuture } from 'date-fns'
   import { computed, ref, watch } from 'vue'
   import { useRoute } from 'vue-router'
-  import ClubCard from '@/components/ClubCard.vue'
+  import ClubOverview from '@/components/ClubOverview.vue'
   import EventHeader from '@/components/EventHeader.vue'
   import EventOverview from '@/components/EventOverview.vue'
   import EventPhotoGallery from '@/components/EventPhotoGallery.vue'
@@ -82,7 +86,6 @@
   const { showModal: showClubModal, open: openRelatedClub } = useShowModal()
 
   const navigationRecord = computed<Partial<NavigationRecord> | undefined>(() => {
-    console.log(route.name)
     if (route.name === 'events.view') {
       return { title: 'Events', route: routes.events() }
     }
@@ -95,7 +98,6 @@
   })
 
   watch(navigationRecord, left => {
-    console.log({ left })
     set({ left })
   }, { immediate: true })
 </script>
