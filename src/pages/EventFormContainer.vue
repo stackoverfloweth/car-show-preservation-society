@@ -11,6 +11,7 @@
   import { useRoute, useRouter } from 'vue-router'
   import EventFormFields from '@/components/EventFormFields.vue'
   import EventJudgingFormFields from '@/components/EventJudgingFormFields.vue'
+  import EventRegistrationFormFields from '@/components/EventRegistrationFormFields.vue'
   import { useApi, useNavigation } from '@/compositions'
   import { EventRequest } from '@/models/api'
   import { NamedRoute, routes } from '@/router/routes'
@@ -27,10 +28,12 @@
 
   const formComponent = computed(() => {
     switch (route.name as NamedRoute) {
-      case 'events.create.event':
+      case 'events.create.general':
         return EventFormFields
       case 'events.create.judging':
         return EventJudgingFormFields
+      case 'events.create.registration':
+        return EventRegistrationFormFields
       default:
         return null
     }
@@ -50,10 +53,8 @@
   }
 
   watchEffect(() => {
-    const backEnabled = window.history.length > 1
-
     set({
-      left: backEnabled ? { title: 'Cancel', showChevron: false, callback: router.back } : { title: 'Events', route: routes.events() },
+      left: { title: 'Cancel', showChevron: false, route: routes.events() },
       right: { title: 'Save', pending: pending.value, callback: submit },
     })
   })

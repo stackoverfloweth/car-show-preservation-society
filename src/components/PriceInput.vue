@@ -1,9 +1,9 @@
 <template>
   <p-number-input v-model="price" class="price-input" prepend="$">
-    <template #append>
-      <p-button class="price-input__append" size="sm" flat :class="classes" @click="price = 0">
+    <template v-if="isFree" #append>
+      <span class="price-input__append">
         Free
-      </p-button>
+      </span>
     </template>
   </p-number-input>
 </template>
@@ -28,26 +28,14 @@
     },
   })
 
-  const classes = computed(() => ({
-    'price-input__append--free': price.value === 0,
-  }))
+  const isFree = computed(() => (price.value ?? 0) === 0)
 </script>
 
 <style>
-.price-input {
-  overflow: hidden;
-}
-
 .price-input__append {
-  border-radius: 0;
-  align-self: stretch;
-}
-
-.price-input__append--free:hover {
-  background-color: var(--green-800) !important;
-}
-
-.price-input__append--free {
+  border-radius: var(--rounded);
+  padding: var(--space-2) var(--space-3);
+  margin-right: var(--space-2);
   background-color: var(--green-700);
 }
 </style>

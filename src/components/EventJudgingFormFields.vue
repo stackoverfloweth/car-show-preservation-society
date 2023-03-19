@@ -91,24 +91,19 @@
 
   const judgingCategories = ref<VotingCategory[]>([])
 
-  const { error: votingStartError, state: votingStartState } = useValidation(votingStart, 'VotingStart', [])
-  const { error: votingEndError, state: votingEndState } = useValidation(votingEnd, 'VotingEnd', [])
-  const { error: ballotCountError, state: ballotCountState } = useValidation(ballotCount, 'BallotCount', [])
+  const { error: votingStartError, state: votingStartState } = useValidation(votingStart, 'Voting Start', [])
+  const { error: votingEndError, state: votingEndState } = useValidation(votingEnd, 'Voting End', [])
+  const { error: ballotCountError, state: ballotCountState } = useValidation(ballotCount, 'Ballots per Registration', [])
 </script>
 
 <style>
 .event-judging-form-fields {
   display: grid;
   grid-template-areas:
-  'top top top'
   'left right right';
   grid-template-columns: repeat(3, 1fr);
   column-gap: var(--space-5);
   row-gap: var(--space-4);
-}
-
-.event-judging-form-fields__top {
-  grid-area: top;
 }
 
 .event-judging-form-fields__left {
@@ -138,7 +133,6 @@
 @media(max-width: 768px){
   .event-judging-form-fields {
     grid-template-areas:
-    'top'
     'left'
     'right';
     grid-template-columns: 1fr;

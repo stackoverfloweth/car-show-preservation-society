@@ -15,7 +15,7 @@ export type EventRequest = {
   maxCapacity?: number,
   priceInPennies?: number,
   preRegistration?: boolean,
-  preRegistrationPriceInPennies?: string,
+  preRegistrationPriceInPennies?: number,
   preRegistrationUnpaid?: boolean,
   ballotCount?: number,
   canVoteForSelf?: boolean,

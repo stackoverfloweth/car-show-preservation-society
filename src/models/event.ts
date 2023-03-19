@@ -22,4 +22,5 @@ export type Event = {
   canVoteForSelf?: boolean,
   driverSelfCategorization?: boolean,
   stripeCrossProductIds: string[],
+  isDraft?: boolean,
 }
