@@ -61,6 +61,7 @@
 .location-input__modal-button {
   width: 100%;
   color: var(--slate-400);
+  border: 1px solid var(--slate-500);
 }
 
 .location-input__modal-button .p-button__content {
