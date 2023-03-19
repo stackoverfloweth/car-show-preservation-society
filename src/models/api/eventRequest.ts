@@ -10,7 +10,6 @@ export type EventRequest = {
   clubId?: string,
   start?: Date,
   end?: Date,
-  hasVoting?: boolean,
   votingStart?: Date,
   votingEnd?: Date,
   maxCapacity?: number,
