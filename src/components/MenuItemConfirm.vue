@@ -12,16 +12,16 @@
 </template>
 
 <script lang="ts">
-  import { defineComponent, ref } from 'vue'
-
-  export default defineComponent({
+  export default {
     name: 'MenuItemConfirm',
     expose: [],
     inheritAttrs: false,
-  })
+  }
 </script>
 
 <script lang="ts" setup>
+  import { ref } from 'vue'
+
   const emit = defineEmits<{
     (event: 'confirm'): void,
   }>()

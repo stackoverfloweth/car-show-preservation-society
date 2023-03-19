@@ -1,14 +1,15 @@
 import { Location, Image } from '@/models'
 
 export type EventRequest = {
+  eventId?: string,
   contactUserId?: string,
-  name: string,
-  description: string,
+  name?: string,
+  description?: string,
   eventLogo?: Image,
-  location: Location,
-  clubId: string,
-  start: Date,
-  end: Date,
+  location?: Location,
+  clubId?: string,
+  start?: Date,
+  end?: Date,
   hasVoting?: boolean,
   votingStart?: Date,
   votingEnd?: Date,
@@ -20,5 +21,5 @@ export type EventRequest = {
   ballotCount?: number,
   canVoteForSelf?: boolean,
   driverSelfCategorization?: boolean,
-  stripeCrossProductIds: string[],
+  stripeCrossProductIds?: string[],
 }
