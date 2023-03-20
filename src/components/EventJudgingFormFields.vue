@@ -101,7 +101,7 @@
   display: grid;
   grid-template-areas:
   'left right right';
-  grid-template-columns: repeat(3, 1fr);
+  grid-template-columns: repeat(3, minmax(0, 1fr));
   column-gap: var(--space-5);
   row-gap: var(--space-4);
 }
@@ -135,7 +135,7 @@
     grid-template-areas:
     'left'
     'right';
-    grid-template-columns: 1fr;
+    grid-template-columns: minmax(0, 1fr);
   }
 }
 </style>
