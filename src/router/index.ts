@@ -49,23 +49,38 @@ const routeRecords: AppRouteRecord[] = [
       {
         name: 'events.create',
         path: 'new',
-        redirect: { name: 'events.create.general' },
         component: () => import('@/pages/EventCreatePage.vue'),
+      },
+      {
+        name: 'events.editor',
+        path: ':eventId/editor',
+        component: () => import('@/pages/EventEditorPage.vue'),
+        redirect: { name: 'events.editor.general' },
         children: [
           {
-            name: 'events.create.general',
+            name: 'events.editor.general',
             path: 'general',
             component: () => import('@/pages/EventFormContainer.vue'),
           },
           {
-            name: 'events.create.judging',
+            name: 'events.editor.judging',
             path: 'judging',
             component: () => import('@/pages/EventFormContainer.vue'),
           },
           {
-            name: 'events.create.registration',
+            name: 'events.editor.registration',
             path: 'registration',
             component: () => import('@/pages/EventFormContainer.vue'),
+          },
+          {
+            name: 'events.editor.sponsors',
+            path: 'sponsors',
+            component: () => import('@/pages/EventFormContainer.vue'),
+          },
+          {
+            name: 'events.editor.preview',
+            path: 'preview',
+            component: () => import('@/pages/EventPreview.vue'),
           },
         ],
       },

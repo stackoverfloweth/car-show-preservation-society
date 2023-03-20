@@ -8,9 +8,12 @@ export const routes = {
   clubEvent: (clubId: string, eventId: string) => ({ name: 'clubs.event', params: { clubId, eventId } }) as const,
   events: () => ({ name: 'events.list' }) as const,
   eventsCreate: () => ({ name: 'events.create' }) as const,
-  eventsCreateGeneral: () => ({ name: 'events.create.general' }) as const,
-  eventsCreateJudging: () => ({ name: 'events.create.judging' }) as const,
-  eventsCreateRegistration: () => ({ name: 'events.create.registration' }) as const,
+  eventsEditor: (eventId: string) => ({ name: 'events.editor', params: { eventId } }) as const,
+  eventsEditorGeneral: (eventId: string) => ({ name: 'events.editor.general', params: { eventId } }) as const,
+  eventsEditorJudging: (eventId: string) => ({ name: 'events.editor.judging', params: { eventId } }) as const,
+  eventsEditorRegistration: (eventId: string) => ({ name: 'events.editor.registration', params: { eventId } }) as const,
+  eventsEditorSponsors: (eventId: string) => ({ name: 'events.editor.sponsors', params: { eventId } }) as const,
+  eventsEditorPreview: (eventId: string) => ({ name: 'events.editor.preview', params: { eventId } }) as const,
   event: (eventId: string) => ({ name: 'events.view', params: { eventId } }) as const,
 }
 

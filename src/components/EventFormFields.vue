@@ -84,7 +84,7 @@
 
   const { error: clubError, state: clubState } = useValidation(clubId, 'Club', [stringHasValue])
   const { error: nameError, state: nameState } = useValidation(name, 'Name', [stringHasValue])
-  const { error: descriptionError, state: descriptionState } = useValidation(description, 'Description', [stringHasValue])
+  const { error: descriptionError, state: descriptionState } = useValidation(description, 'Description', [])
   const { error: startError, state: startState } = useValidation(start, 'Start', [])
   const { error: endError, state: endState } = useValidation(end, 'End', [])
   const { error: eventLogoError, state: eventLogoState } = useValidation(eventLogo, 'Event Logo', [])
@@ -142,7 +142,7 @@
     'top'
     'middle'
     'bottom';
-    grid-template-columns: minmax(1fr);
+    grid-template-columns: 1fr;
   }
 
   .event-form-fields__middle {
