@@ -3,6 +3,7 @@ export * from './clubsApi';
 export * from './createApi';
 export * from './eventsApi';
 export * from './mapboxApi';
+export * from './mapper';
 export * from './mocker';
 export * from './routeGuardExecutioner';
 export * from './userApi';

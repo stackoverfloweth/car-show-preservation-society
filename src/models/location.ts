@@ -1,4 +1,5 @@
 export type Location = {
-  place: string,
+  mapBoxId?: string,
+  place?: string,
   coordinates?: [latitude:number, longitude:number],
 }

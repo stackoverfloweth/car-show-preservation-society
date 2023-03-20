@@ -28,11 +28,7 @@
       </p-label>
 
       <div class="event-form-fields__location">
-        <p-label label="Event Location" :message="locationError" :state="locationState">
-          <template #description>
-            <p-link>Enter Manually</p-link>
-          </template>
-        </p-label>
+        <p-label label="Event Location" :message="locationError" :state="locationState" />
         <LocationInput v-model:location="location" :state="locationState" />
       </div>
     </div>
