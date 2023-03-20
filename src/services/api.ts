@@ -1,5 +1,4 @@
-import axios, { AxiosInstance, AxiosRequestConfig, AxiosRequestHeaders, AxiosResponse } from 'axios'
-import { MaybeArray } from '@/types'
+import axios, { AxiosHeaders, AxiosInstance, AxiosRequestConfig, AxiosResponse, RawAxiosRequestHeaders } from 'axios'
 import { isDefined } from '@/utilities'
 
 export type ApiConfig = {
@@ -9,13 +8,12 @@ export type ApiConfig = {
 
 type ConfigFunction<R, T extends ApiConfig = ApiConfig> = (config: T) => R
 export type ApiBaseUrl<T extends ApiConfig = ApiConfig> = string | ConfigFunction<string, T>
-export type ApiHeaders<T extends ApiConfig = ApiConfig> = AxiosRequestHeaders | ConfigFunction<AxiosRequestHeaders, T>
 
 export const getBaseUrl: ApiBaseUrl = (config) => config.baseUrl
 
 export class Api<T extends ApiConfig = ApiConfig> {
   protected readonly apiConfig: T
-  protected apiHeaders: MaybeArray<ApiHeaders> = []
+  protected apiHeaders: RawAxiosRequestHeaders | AxiosHeaders = {}
   protected apiBaseUrl: ApiBaseUrl = getBaseUrl
   protected routePrefix: string | undefined
 
@@ -41,9 +39,10 @@ export class Api<T extends ApiConfig = ApiConfig> {
   }
 
   protected instance(): AxiosInstance {
+    console.log({ headers: this.apiHeaders })
     const config: AxiosRequestConfig = {
       baseURL: this.composeBaseUrl(),
-      headers: {},
+      headers: this.apiHeaders,
     }
 
     return axios.create(config)

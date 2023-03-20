@@ -1,4 +1,4 @@
 export type Location = {
-  city: string,
-  state: string,
+  place: string,
+  coordinates?: [latitude:number, longitude:number],
 }
