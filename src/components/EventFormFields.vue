@@ -15,20 +15,24 @@
     </div>
 
     <div class="event-form-fields__left">
-      <p-label label="Club" :message="clubError" :state="clubState">
-        <template #default="{ id }">
-          <ClubSelect :id="id" v-model:clubId="clubId" :state="clubState" />
-        </template>
-      </p-label>
-
       <p-label label="Name" :message="nameError" :state="nameState">
         <template #default="{ id }">
           <p-text-input :id="id" v-model="name" :state="nameState" />
         </template>
       </p-label>
 
+      <p-label label="Club" :message="clubError" :state="clubState">
+        <template #default="{ id }">
+          <ClubSelect :id="id" v-model:clubId="clubId" :state="clubState" />
+        </template>
+      </p-label>
+
       <div class="event-form-fields__location">
-        <p-label label="Event Location" :message="locationError" :state="locationState" />
+        <p-label label="Event Location" :message="locationError" :state="locationState">
+          <template #description>
+            <p-link>Enter Manually</p-link>
+          </template>
+        </p-label>
         <LocationInput v-model:location="location" :state="locationState" />
       </div>
     </div>
@@ -99,7 +103,7 @@
   'left middle middle'
   'left middle middle'
   'left bottom bottom';
-  grid-template-columns: repeat(3, 1fr);
+  grid-template-columns: repeat(3, minmax(0, 1fr));
   column-gap: var(--space-5);
   row-gap: var(--space-4);
 }
@@ -107,7 +111,7 @@
 .event-form-fields__top {
   grid-area: top;
   display: grid;
-  grid-template-columns: repeat(2, 1fr);
+  grid-template-columns: repeat(2, minmax(0, 1fr));
   column-gap: var(--space-5);
   row-gap: var(--space-4);
 }
@@ -124,7 +128,7 @@
 .event-form-fields__middle {
   grid-area: middle;
   display: grid;
-  grid-template-columns: repeat(2, 1fr);
+  grid-template-columns: repeat(2, minmax(1fr));
   column-gap: var(--space-5);
   row-gap: var(--space-4);
 }
@@ -142,11 +146,11 @@
     'top'
     'middle'
     'bottom';
-    grid-template-columns: 1fr;
+    grid-template-columns: minmax(1fr);
   }
 
   .event-form-fields__middle {
-    grid-template-columns: 1fr;
+    grid-template-columns: minmax(1fr);
   }
 }
 </style>

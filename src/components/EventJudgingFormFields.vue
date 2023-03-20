@@ -2,52 +2,56 @@
   <div class="event-judging-form-fields">
     <div class="event-judging-form-fields__left">
       <p-label label="Voting Start" :message="votingStartError" :state="votingStartState">
+        <template #description>
+          Optional, if provided voting will automatically start at this time. Voting can always be manually started during the show.
+        </template>
         <template #default="{ id }">
-          <div class="event-judging-form-fields__tip">
-            Optional, if provided voting will automatically start at this time. Voting can always be manually started during the show.
-          </div>
           <p-date-input :id="id" v-model="votingStart" :state="votingStartState" show-time clearable />
         </template>
       </p-label>
 
       <p-label label="Voting End" :message="votingEndError" :state="votingEndState">
+        <template #description>
+          Optional, if provided voting will automatically end at this time. Voting can always be manually ended during the show.
+        </template>
         <template #default="{ id }">
-          <div class="event-judging-form-fields__tip">
-            Optional, if provided voting will automatically end at this time. Voting can always be manually ended during the show.
-          </div>
           <p-date-input :id="id" v-model="votingEnd" :state="votingEndState" />
         </template>
       </p-label>
 
       <p-label label="Self Voting">
-        <template #default="{ id }">
-          <div v-if="canVoteForSelf" class="event-judging-form-fields__tip">
+        <template #description>
+          <template v-if="canVoteForSelf">
             Participants can for for their own entry in judging categories that allow for driver voting.
-          </div>
-          <div v-else class="event-judging-form-fields__tip">
+          </template>
+          <template v-else>
             Participants can <strong>NOT</strong> for for their own entry.
-          </div>
+          </template>
+        </template>
+        <template #default="{ id }">
           <p-toggle :id="id" v-model="canVoteForSelf" />
         </template>
       </p-label>
 
       <p-label label="Self Categorization">
-        <template #default="{ id }">
-          <div v-if="driverSelfCategorization" class="event-judging-form-fields__tip">
+        <template #description>
+          <template v-if="driverSelfCategorization">
             Participants must assign their entry to the correct judging category.
-          </div>
-          <div v-else class="event-judging-form-fields__tip">
+          </template>
+          <template v-else>
             Event host will assign entries to their correct judging category.
-          </div>
+          </template>
+        </template>
+        <template #default="{ id }">
           <p-toggle :id="id" v-model="driverSelfCategorization" />
         </template>
       </p-label>
 
       <p-label label="Ballots per Registration" :message="ballotCountError" :state="ballotCountState">
+        <template #description>
+          Optional, number of ballots per registration.
+        </template>
         <template #default="{ id }">
-          <div class="event-judging-form-fields__tip">
-            Optional, number of ballots per registration.
-          </div>
           <p-number-input :id="id" v-model="ballotCount" :state="ballotCountState" />
         </template>
       </p-label>
@@ -122,12 +126,6 @@
   justify-content: start;
   column-gap: var(--space-5);
   row-gap: var(--space-4);
-}
-
-.event-judging-form-fields__tip {
-  color: var(--slate-400);
-  font-size: 14px;
-  margin-bottom: var(--space-2);
 }
 
 @media(max-width: 768px){

@@ -2,53 +2,57 @@
   <div class="event-registration-form-fields">
     <div class="event-registration-form-fields__left">
       <p-label label="Registration Price" :message="priceError" :state="priceState">
+        <template #description>
+          Optional, this is the full registration price participants will pay at the gate.
+        </template>
         <template #default="{ id }">
-          <div class="event-judging-form-fields__tip">
-            Optional, this is the full registration price participants will pay at the gate.
-          </div>
           <PriceInput :id="id" v-model="price" :state="priceState" />
         </template>
       </p-label>
 
       <p-label label="Pre-Registration">
-        <template #default="{ id }">
-          <div v-if="preRegistration" class="event-registration-form-fields__tip">
+        <template #description>
+          <template v-if="preRegistration">
             Participants can pre-register for this event as soon as this event as it's published.
-          </div>
-          <div v-else class="event-registration-form-fields__tip">
+          </template>
+          <template v-else>
             Participants can <strong>NOT</strong> pre-register for this event ahead of time. All participants will be registered at the gate.
-          </div>
+          </template>
+        </template>
+        <template #default="{ id }">
           <p-toggle :id="id" v-model="preRegistration" />
         </template>
       </p-label>
 
       <template v-if="preRegistration">
         <p-label label="Pre-Registration Price" :message="preRegistrationPriceError" :state="preRegistrationPriceState">
+          <template #description>
+            Optional, if provided this will be the price that participants pay to pre-register for the event online.
+          </template>
           <template #default="{ id }">
-            <div class="event-judging-form-fields__tip">
-              Optional, if provided this will be the price that participants pay to pre-register for the event online.
-            </div>
             <PriceInput :id="id" v-model="preRegistrationPrice" :state="preRegistrationPriceState" />
           </template>
         </p-label>
 
         <p-label label="Pay at the Gate / Pay Cash">
-          <template #default="{ id }">
-            <div v-if="preRegistrationUnpaid" class="event-registration-form-fields__tip">
+          <template #description>
+            <template v-if="preRegistrationUnpaid">
               Participants can pre-register for this event without making payment.
-            </div>
-            <div v-else class="event-registration-form-fields__tip">
+            </template>
+            <template v-else>
               Participants must complete payment online in order to pre-register for this event.
-            </div>
+            </template>
+          </template>
+          <template #default="{ id }">
             <p-toggle :id="id" v-model="preRegistrationUnpaid" />
           </template>
         </p-label>
 
         <p-label label="Maximum Slots" :message="maxCapacityError" :state="maxCapacityState">
+          <template #description>
+            Optional, maximum number of pre-registrations accepted for this event.
+          </template>
           <template #default="{ id }">
-            <div class="event-registration-form-fields__tip">
-              Optional, maximum number of pre-registrations accepted for this event.
-            </div>
             <p-number-input :id="id" v-model="maxCapacity" :state="maxCapacityState" />
           </template>
         </p-label>
@@ -117,12 +121,6 @@
   justify-content: start;
   column-gap: var(--space-5);
   row-gap: var(--space-4);
-}
-
-.event-registration-form-fields__tip {
-  color: var(--slate-400);
-  font-size: 14px;
-  margin-bottom: var(--space-2);
 }
 
 @media(max-width: 768px){
