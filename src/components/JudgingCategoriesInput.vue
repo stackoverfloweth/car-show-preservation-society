@@ -40,7 +40,7 @@
   <p-modal v-model:show-modal="showModal" title="Add Category" auto-close>
     <p-form @submit="addCategory">
       <JudgingCategoryFormFields v-model:values="newCategoryValues" />
-      <p-button type="submit">
+      <p-button type="submit" :loading="pending">
         Submit
       </p-button>
     </p-form>
@@ -77,7 +77,7 @@
 
   const api = useApi()
   const { showModal, open, close } = useShowModal()
-  const { validate } = useValidationObserver()
+  const { validate, pending } = useValidationObserver()
   const newCategoryValues = ref<VotingCategoryRequest>({})
 
   const categories = computed({
