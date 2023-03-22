@@ -6,7 +6,7 @@
           Optional, this is the full registration price participants will pay at the gate.
         </template>
         <template #default="{ id }">
-          <PriceInput :id="id" v-model="price" :state="priceState" />
+          <PriceInput :id="id" v-model="priceInPennies" :state="priceState" />
         </template>
       </p-label>
 
@@ -30,7 +30,7 @@
             Optional, if provided this will be the price that participants pay to pre-register for the event online.
           </template>
           <template #default="{ id }">
-            <PriceInput :id="id" v-model="preRegistrationPrice" :state="preRegistrationPriceState" />
+            <PriceInput :id="id" v-model="preRegistrationPriceInPennies" :state="preRegistrationPriceState" />
           </template>
         </p-label>
 
@@ -63,36 +63,36 @@
 
 <script lang="ts" setup>
   import { usePatchRef, useValidation } from '@prefecthq/vue-compositions'
-  import { computed } from 'vue'
+  import { computed, ref } from 'vue'
   import PriceInput from '@/components/PriceInput.vue'
-  import { EventRequest } from '@/models/api'
+  import { Event } from '@/models'
 
   const props = defineProps<{
-    values: Partial<EventRequest>,
+    event: Event,
   }>()
 
   const emit = defineEmits<{
-    (event: 'update:values', value: Partial<EventRequest>): void,
+    (event: 'update:event', value: Event): void,
   }>()
 
-  const values = computed({
+  const event = computed({
     get() {
-      return props.values
+      return props.event
     },
     set(value) {
-      emit('update:values', value)
+      emit('update:event', value)
     },
   })
 
-  const price = usePatchRef(values, 'priceInPennies')
-  const preRegistration = usePatchRef(values, 'preRegistration')
-  const preRegistrationUnpaid = usePatchRef(values, 'preRegistrationUnpaid')
-  const maxCapacity = usePatchRef(values, 'maxCapacity')
-  const preRegistrationPrice = usePatchRef(values, 'preRegistrationPriceInPennies')
+  const priceInPennies = ref<number>()
+  const preRegistration = usePatchRef(event, 'preRegistration')
+  const preRegistrationUnpaid = usePatchRef(event, 'preRegistrationUnpaid')
+  const maxCapacity = usePatchRef(event, 'maxCapacity')
+  const preRegistrationPriceInPennies = ref<number>()
 
-  const { error: priceError, state: priceState } = useValidation(price, 'Price', [])
+  const { error: priceError, state: priceState } = useValidation(priceInPennies, 'Price', [])
   const { error: maxCapacityError, state: maxCapacityState } = useValidation(maxCapacity, 'Maximum Slots', [])
-  const { error: preRegistrationPriceError, state: preRegistrationPriceState } = useValidation(preRegistrationPrice, 'Pre-Registration Price', [])
+  const { error: preRegistrationPriceError, state: preRegistrationPriceState } = useValidation(preRegistrationPriceInPennies, 'Pre-Registration Price', [])
 </script>
 
 <style>

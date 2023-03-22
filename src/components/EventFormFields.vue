@@ -31,6 +31,11 @@
         <p-label label="Event Location" :message="locationError" :state="locationState" />
         <LocationInput v-model:location="location" :state="locationState" />
       </div>
+
+      <div class="event-form-fields__image-upload">
+        <p-label label="Event Image" :message="eventLogoError" :state="eventLogoState" />
+        <ImageUpload v-model:image="eventLogo" :state="eventLogoState" />
+      </div>
     </div>
 
     <div class="event-form-fields__middle">
@@ -39,11 +44,6 @@
           <p-textarea :id="id" v-model="description" rows="8" :state="descriptionState" />
         </template>
       </p-label>
-
-      <div class="event-form-fields__image-upload">
-        <p-label label="Event Image" :message="eventLogoError" :state="eventLogoState" />
-        <ImageUpload v-model:image="eventLogo" :state="eventLogoState" />
-      </div>
     </div>
   </div>
 </template>
@@ -54,33 +54,33 @@
   import ClubSelect from '@/components/ClubSelect.vue'
   import ImageUpload from '@/components/ImageUpload.vue'
   import LocationInput from '@/components/LocationInput.vue'
-  import { EventRequest } from '@/models/api'
+  import { Event } from '@/models'
   import { stringHasValue } from '@/services'
 
   const props = defineProps<{
-    values: Partial<EventRequest>,
+    event: Event,
   }>()
 
   const emit = defineEmits<{
-    (event: 'update:values', value: Partial<EventRequest>): void,
+    (event: 'update:event', value: Event): void,
   }>()
 
-  const values = computed({
+  const event = computed({
     get() {
-      return props.values
+      return props.event
     },
     set(value) {
-      emit('update:values', value)
+      emit('update:event', value)
     },
   })
 
-  const clubId = usePatchRef(values, 'clubId')
-  const name = usePatchRef(values, 'name')
-  const description = usePatchRef(values, 'description')
-  const start = usePatchRef(values, 'start')
-  const end = usePatchRef(values, 'end')
-  const eventLogo = usePatchRef(values, 'eventLogo')
-  const location = usePatchRef(values, 'location')
+  const clubId = usePatchRef(event, 'clubId')
+  const name = usePatchRef(event, 'name')
+  const description = usePatchRef(event, 'description')
+  const start = usePatchRef(event, 'start')
+  const end = usePatchRef(event, 'end')
+  const eventLogo = usePatchRef(event, 'eventLogo')
+  const location = usePatchRef(event, 'location')
 
   const { error: clubError, state: clubState } = useValidation(clubId, 'Club', [stringHasValue])
   const { error: nameError, state: nameState } = useValidation(name, 'Name', [stringHasValue])

@@ -58,42 +58,40 @@
     </div>
 
     <div class="event-judging-form-fields__right">
-      <JudgingCategoriesInput v-model:categories="judgingCategories" />
+      <JudgingCategoriesInput v-model:categories="votingCategories" />
     </div>
   </div>
 </template>
 
 <script lang="ts" setup>
   import { usePatchRef, useValidation } from '@prefecthq/vue-compositions'
-  import { computed, ref } from 'vue'
+  import { computed } from 'vue'
   import JudgingCategoriesInput from '@/components/JudgingCategoriesInput.vue'
-  import { VotingCategory } from '@/models'
-  import { EventRequest } from '@/models/api'
+  import { Event } from '@/models'
 
   const props = defineProps<{
-    values: Partial<EventRequest>,
+    event: Event,
   }>()
 
   const emit = defineEmits<{
-    (event: 'update:values', value: Partial<EventRequest>): void,
+    (event: 'update:event', value: Event): void,
   }>()
 
-  const values = computed({
+  const event = computed({
     get() {
-      return props.values
+      return props.event
     },
     set(value) {
-      emit('update:values', value)
+      emit('update:event', value)
     },
   })
 
-  const votingStart = usePatchRef(values, 'votingStart')
-  const votingEnd = usePatchRef(values, 'votingEnd')
-  const canVoteForSelf = usePatchRef(values, 'canVoteForSelf')
-  const driverSelfCategorization = usePatchRef(values, 'driverSelfCategorization')
-  const ballotCount = usePatchRef(values, 'ballotCount')
-
-  const judgingCategories = ref<VotingCategory[]>([])
+  const votingStart = usePatchRef(event, 'votingStart')
+  const votingEnd = usePatchRef(event, 'votingEnd')
+  const canVoteForSelf = usePatchRef(event, 'canVoteForSelf')
+  const driverSelfCategorization = usePatchRef(event, 'driverSelfCategorization')
+  const ballotCount = usePatchRef(event, 'ballotCount')
+  const votingCategories = usePatchRef(event, 'votingCategories')
 
   const { error: votingStartError, state: votingStartState } = useValidation(votingStart, 'Voting Start', [])
   const { error: votingEndError, state: votingEndState } = useValidation(votingEnd, 'Voting End', [])
