@@ -58,7 +58,7 @@
     </div>
 
     <div class="event-judging-form-fields__right">
-      <JudgingCategoriesInput v-model:categories="votingCategories" />
+      <JudgingCategoriesInput :event-id="event.eventId" />
     </div>
   </div>
 </template>
@@ -91,7 +91,6 @@
   const canVoteForSelf = usePatchRef(event, 'canVoteForSelf')
   const driverSelfCategorization = usePatchRef(event, 'driverSelfCategorization')
   const ballotCount = usePatchRef(event, 'ballotCount')
-  const votingCategories = usePatchRef(event, 'votingCategories')
 
   const { error: votingStartError, state: votingStartState } = useValidation(votingStart, 'Voting Start', [])
   const { error: votingEndError, state: votingEndState } = useValidation(votingEnd, 'Voting End', [])

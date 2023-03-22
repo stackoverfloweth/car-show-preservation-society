@@ -5,11 +5,23 @@ import { Api, mocker } from '@/services'
 export class VotingCategoriesApi extends Api {
   protected override routePrefix = '/votingCategories'
 
-  public async getVotingCategories(): Promise<VotingCategory[]> {
-    return await Promise.resolve(mocker.createMany('votingCategory', 5))
+  public async getVotingCategories(eventId: string): Promise<VotingCategory[]> {
+    return await Promise.resolve(mocker.createMany('votingCategory', 5, [{ eventId }]))
+  }
+
+  public async suggestVotingCategories(eventId: string): Promise<VotingCategory[]> {
+    return await Promise.resolve(mocker.createMany('votingCategory', 5, [{ eventId }]))
   }
 
   public async createVotingCategory(request: VotingCategoryRequest): Promise<VotingCategory> {
     return await Promise.resolve(mocker.create('votingCategory', [request]))
+  }
+
+  public async deleteVotingCategory(votingCategoryId: string): Promise<void> {
+    await Promise.resolve(votingCategoryId)
+  }
+
+  public async deleteAllVotingCategories(eventId: string): Promise<void> {
+    await Promise.resolve(eventId)
   }
 }
