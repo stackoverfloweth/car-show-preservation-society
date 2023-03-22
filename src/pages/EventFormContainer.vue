@@ -1,6 +1,6 @@
 <template>
   <p-form class="event-form-container">
-    <component :is="formComponent" v-model:values="values" />
+    <component :is="formComponent" v-model:event="values" />
   </p-form>
 </template>
 

@@ -21,7 +21,7 @@
   const events = computed(() => eventsSubscription.response ?? [])
 
   function navigateToEvent({ row: event }: { row: Event }): void {
-    router.push(routes.event(event.eventId))
+    router.push(routes.eventsEditor(event.eventId))
   }
 
   useNavigation({
