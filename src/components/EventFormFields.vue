@@ -54,15 +54,15 @@
   import ClubSelect from '@/components/ClubSelect.vue'
   import ImageUpload from '@/components/ImageUpload.vue'
   import LocationInput from '@/components/LocationInput.vue'
-  import { Event } from '@/models'
+  import { EventRequest } from '@/models/api'
   import { stringHasValue } from '@/services'
 
   const props = defineProps<{
-    event: Event,
+    event: EventRequest,
   }>()
 
   const emit = defineEmits<{
-    (event: 'update:event', value: Event): void,
+    (event: 'update:event', value: EventRequest): void,
   }>()
 
   const event = computed({

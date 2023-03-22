@@ -33,4 +33,8 @@ export class EventsApi extends Api {
   public async createEvent(request: EventRequest): Promise<Event> {
     return await Promise.resolve(mocker.create('event', [request]))
   }
+
+  public async updateEvent(event: Event): Promise<Event> {
+    return await Promise.resolve(mocker.create('event', [event]))
+  }
 }

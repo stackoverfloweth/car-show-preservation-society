@@ -1,6 +1,6 @@
 <template>
   <p-form class="event-create-page" @submit="submit">
-    <EventFormFields v-model:values="values" />
+    <EventFormFields v-model:event="values" />
   </p-form>
 </template>
 
@@ -18,7 +18,7 @@
   const router = useRouter()
   const { validate, pending } = useValidationObserver()
   const { set } = useNavigation()
-  const values = ref<Partial<EventRequest>>({})
+  const values = ref<EventRequest>({})
 
   async function submit(): Promise<void> {
     const isValid = await validate()

@@ -15,7 +15,6 @@
   import EventSponsorsFormFields from '@/components/EventSponsorsFormFields.vue'
   import { useApi, useNavigation } from '@/compositions'
   import { Event } from '@/models'
-  import { EventRequest } from '@/models/api'
   import { NamedRoute, routes } from '@/router/routes'
 
   const eventId = useRouteParam('eventId')
@@ -50,11 +49,11 @@
   async function submit(): Promise<void> {
     const isValid = await validate()
 
-    if (!isValid) {
+    if (!isValid || !values.value) {
       return
     }
 
-    await api.events.createEvent(values.value as EventRequest)
+    await api.events.updateEvent(values.value)
 
     showToast('Event Created!', 'success')
     router.push(routes.events())
