@@ -19,8 +19,8 @@
     </template>
   </p-label>
 
-  <template v-if="categories.length">
-    <JudgingCategoriesTable :categories="categories" @delete:category="removeCategory" />
+  <template v-if="votingCategories.length">
+    <JudgingCategoriesTable :categories="votingCategories" @delete:category="removeCategory" />
   </template>
 
   <template v-else>
@@ -56,8 +56,8 @@
 </script>
 
 <script lang="ts" setup>
-  import { useValidationObserver } from '@prefecthq/vue-compositions'
-  import { computed, ref, watch } from 'vue'
+  import { useSubscription, useValidationObserver } from '@prefecthq/vue-compositions'
+  import { computed, ref, toRefs, watch } from 'vue'
   import JudgingCategoriesEmptyState from '@/components/JudgingCategoriesEmptyState.vue'
   import JudgingCategoriesTable from '@/components/JudgingCategoriesTable.vue'
   import JudgingCategoryFormFields from '@/components/JudgingCategoryFormFields.vue'
@@ -65,29 +65,19 @@
   import { useApi, useShowModal } from '@/compositions'
   import { VotingCategory } from '@/models'
   import { VotingCategoryRequest } from '@/models/api'
-  import { mocker } from '@/services'
 
   const props = defineProps<{
-    categories: VotingCategory[],
+    eventId: string,
   }>()
 
-  const emit = defineEmits<{
-    (event: 'update:categories', value: VotingCategory[]): void,
-  }>()
-
+  const { eventId } = toRefs(props)
   const api = useApi()
   const { showModal, open, close } = useShowModal()
   const { validate, pending } = useValidationObserver()
   const newCategoryValues = ref<VotingCategoryRequest>({})
 
-  const categories = computed({
-    get() {
-      return props.categories
-    },
-    set(value) {
-      emit('update:categories', value)
-    },
-  })
+  const votingCategoriesSubscription = useSubscription(api.votingCategories.getVotingCategories, [eventId])
+  const votingCategories = computed(() => votingCategoriesSubscription.response ?? [])
 
   async function addCategory(): Promise<void> {
     const isValid = await validate()
@@ -96,23 +86,26 @@
       return
     }
 
-    const votingCategory = await api.votingCategories.createVotingCategory(newCategoryValues.value)
+    await api.votingCategories.createVotingCategory(newCategoryValues.value)
 
-    categories.value = [...categories.value, votingCategory]
+    votingCategoriesSubscription.refresh()
 
     close()
   }
 
-  function suggestCategories(): void {
-    categories.value = [...categories.value, ...mocker.createMany('votingCategory', 10)]
+  async function suggestCategories(): Promise<void> {
+    await api.votingCategories.suggestVotingCategories(eventId.value)
+    votingCategoriesSubscription.refresh()
   }
 
-  function removeAll(): void {
-    categories.value = []
+  async function removeAll(): Promise<void> {
+    await api.votingCategories.deleteAllVotingCategories(eventId.value)
+    votingCategoriesSubscription.refresh()
   }
 
-  function removeCategory({ votingCategoryId }: VotingCategory): void {
-    categories.value = categories.value.filter(category => category.votingCategoryId === votingCategoryId)
+  async function removeCategory({ votingCategoryId }: VotingCategory): Promise<void> {
+    await api.votingCategories.deleteVotingCategory(votingCategoryId)
+    votingCategoriesSubscription.refresh()
   }
 
   watch(showModal, () => newCategoryValues.value = {})
