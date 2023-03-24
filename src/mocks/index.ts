@@ -1,15 +1,14 @@
+import { randomAdvertisement } from '@/mocks/advertisement'
 import { randomBallot } from '@/mocks/ballot'
 import { randomBallotVotingCategory } from '@/mocks/ballotVotingCategory'
 import { randomBoolean } from '@/mocks/boolean'
 import { randomClub } from '@/mocks/club'
 import { randomClubMembership } from '@/mocks/clubMembership'
-import { randomClubSponsor } from '@/mocks/clubSponsor'
 import { randomClubSubscription } from '@/mocks/clubSubscription'
 import { randomDate } from '@/mocks/date'
 import { randomEmail } from '@/mocks/email'
 import { randomEvent } from '@/mocks/event'
 import { randomEventImage } from '@/mocks/eventImage'
-import { randomEventSponsor } from '@/mocks/eventSponsor'
 import { randomId } from '@/mocks/id'
 import { randomImage } from '@/mocks/image'
 import { randomLocation } from '@/mocks/location'
@@ -28,19 +27,18 @@ import { randomVotingCategoryRegistration } from '@/mocks/votingCategoryRegistra
 
 export const mocks = {
   adjective: randomAdjective,
+  advertisement: randomAdvertisement,
   ballot: randomBallot,
   ballotVotingCategory: randomBallotVotingCategory,
   boolean: randomBoolean,
   char: randomChar,
   club: randomClub,
   clubMembership: randomClubMembership,
-  clubSponsor: randomClubSponsor,
   clubSubscription: randomClubSubscription,
   date: randomDate,
   email: randomEmail,
   event: randomEvent,
   eventImage: randomEventImage,
-  eventSponsor: randomEventSponsor,
   id: randomId,
   image: randomImage,
   location: randomLocation,

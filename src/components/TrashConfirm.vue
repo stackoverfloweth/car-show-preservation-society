@@ -1,9 +1,11 @@
 <template>
   <p-pop-over class="trash-confirm" auto-close>
     <template #target="{ open }">
-      <slot :open="open">
-        <p-button size="sm" flat icon="TrashIcon" @click="open" />
-      </slot>
+      <div class="trash-confirm__target">
+        <slot :open="open">
+          <p-button size="sm" danger rounded icon="TrashIcon" @click="open" />
+        </slot>
+      </div>
     </template>
     <template #default="{ close }">
       <p-overflow-menu>
@@ -23,6 +25,7 @@
   }>()
 
   function confirm(close: () => void): void {
+    console.log('here')
     emit('confirmed')
     close()
   }

@@ -1,3 +1,4 @@
+export * from './advertisementRequest'
 export * from './clubRequest'
 export * from './eventRequest'
 export * from './mapBoxFeatureResponse'

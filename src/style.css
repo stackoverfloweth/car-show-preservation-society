@@ -20,7 +20,13 @@
     --rounded: 0.5rem;
     --font-lg: 1.4rem;
     --font-sm: 0.85rem;
+
     --rounded: .5rem;
+
+    --z-root: 0;
+    --z-front: 1;
+    --z-modal: 50;
+    --z-popup: 100;
     
     --slate-50: #f8fafc;
     --slate-100: #f1f5f9;

@@ -1,6 +1,6 @@
 <template>
   <p-form class="event-form-container">
-    <component :is="formComponent" v-model:event="values" />
+    <component :is="component" v-model:event="values" />
   </p-form>
 </template>
 
@@ -12,7 +12,7 @@
   import EventFormFields from '@/components/EventFormFields.vue'
   import EventJudgingFormFields from '@/components/EventJudgingFormFields.vue'
   import EventRegistrationFormFields from '@/components/EventRegistrationFormFields.vue'
-  import EventSponsorsFormFields from '@/components/EventSponsorsFormFields.vue'
+  import AdvertisementsFormFields from '@/components/SponsorsFormFields.vue'
   import { useApi, useNavigation } from '@/compositions'
   import { Event } from '@/models'
   import { NamedRoute, routes } from '@/router/routes'
@@ -31,7 +31,7 @@
   const isSame = useIsSame(event, values)
   const confirmToastId = ref<number>()
 
-  const formComponent = computed(() => {
+  const component = computed(() => {
     switch (route.name as NamedRoute) {
       case 'events.editor.general':
         return EventFormFields
@@ -40,7 +40,7 @@
       case 'events.editor.registration':
         return EventRegistrationFormFields
       case 'events.editor.sponsors':
-        return EventSponsorsFormFields
+        return AdvertisementsFormFields
       default:
         return null
     }

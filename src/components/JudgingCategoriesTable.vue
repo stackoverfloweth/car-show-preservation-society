@@ -4,7 +4,7 @@
       <span />
     </template>
     <template #actions="{ row }">
-      <TrashConfirm @confirm="remove(row)" />
+      <TrashConfirm @confirmed="remove(row)" />
     </template>
   </p-table>
 </template>

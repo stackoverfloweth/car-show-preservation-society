@@ -7,19 +7,19 @@
     <ContactCard :user-id="event.contactUserId" />
 
     <div class="event-overview__event-advertisements">
-      <template v-for="index in 7" :key="index">
-        <EventAdvertisement class="event-overview__event-advertisement" :event-id="event.eventId" />
+      <template v-for="advertisement in advertisements" :key="advertisement.advertisementId">
+        <SponsorCard class="event-overview__event-advertisement" :advertisement="advertisement" />
       </template>
     </div>
   </div>
 </template>
 
 <script lang="ts" setup>
-  import { useSubscriptionWithDependencies } from '@prefecthq/vue-compositions'
+  import { useSubscription, useSubscriptionWithDependencies } from '@prefecthq/vue-compositions'
   import { computed, toRefs } from 'vue'
   import ContactCard from '@/components/ContactCard.vue'
-  import EventAdvertisement from '@/components/EventAdvertisement.vue'
   import SizedImage from '@/components/SizedImage.vue'
+  import SponsorCard from '@/components/SponsorCard.vue'
   import { useApi } from '@/compositions'
   import { Event } from '@/models'
 
@@ -33,6 +33,9 @@
   const clubSubscriptionArgs = computed<Parameters<typeof api.clubs.getClub> | null>(() => event.value.clubId ? [event.value.clubId] : null)
   const clubSubscription = useSubscriptionWithDependencies(api.clubs.getClub, clubSubscriptionArgs)
   const club = computed(() => clubSubscription.response)
+
+  const advertisementsSubscription = useSubscription(api.advertisements.getAdvertisementsForEvent, [event.value.eventId])
+  const advertisements = computed(() => advertisementsSubscription.response ?? [])
 </script>
 
 <style>

@@ -39,7 +39,6 @@ export class Api<T extends ApiConfig = ApiConfig> {
   }
 
   protected instance(): AxiosInstance {
-    console.log({ headers: this.apiHeaders })
     const config: AxiosRequestConfig = {
       baseURL: this.composeBaseUrl(),
       headers: this.apiHeaders,
