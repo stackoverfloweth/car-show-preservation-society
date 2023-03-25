@@ -4,7 +4,7 @@
       <div class="today-view-page__todays-events">
         <p-bread-crumbs :crumbs="[{ text: 'Happening Now' }]" />
         <template v-for="event in todaysEvents" :key="event.eventId">
-          <EventCard :event-id="event.eventId" />
+          <EventIdCard :event-id="event.eventId" />
         </template>
       </div>
     </template>
@@ -19,7 +19,7 @@
 <script lang="ts" setup>
   import { useSubscription } from '@prefecthq/vue-compositions'
   import { computed } from 'vue'
-  import EventCard from '@/components/EventCard.vue'
+  import EventIdCard from '@/components/EventIdCard.vue'
   import EventsList from '@/components/EventsList.vue'
   import { useApi } from '@/compositions'
 

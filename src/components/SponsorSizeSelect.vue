@@ -1,10 +1,10 @@
 <template>
-  <div class="advertisement-size-select">
+  <div class="sponsor-size-select">
     <template v-for="size in standardSizes" :key="getSizeKey(size)">
-      <div class="advertisement-size-select__option" :style="styles.option(size)">
-        <button type="button" class="advertisement-size-select__button" :class="classes.button(size)" :style="styles.button(size)" @click="setSize(size)">
+      <div class="sponsor-size-select__option" :style="styles.option(size)">
+        <button type="button" class="sponsor-size-select__button" :class="classes.button(size)" :style="styles.button(size)" @click="setSize(size)">
           <template v-if="advertisementWithoutSize && !advertisementEmpty">
-            <SponsorCard class="advertisement-size-select__sponsor-card" :advertisement="advertisementWithoutSize" />
+            <SponsorCard class="sponsor-size-select__sponsor-card" :advertisement="advertisementWithoutSize" />
           </template>
           <template v-else>
             {{ size.height }} x {{ size.width }}
@@ -58,8 +58,8 @@
 
   const classes = computed(() => ({
     button: (size: Size) => ({
-      'advertisement-size-select__button--active': getSizeKey(size) === modelValueKey.value,
-      'advertisement-size-select__button--show-inactive': getSizeKey(size) !== modelValueKey.value && !advertisementEmpty.value,
+      'sponsor-size-select__button--active': getSizeKey(size) === modelValueKey.value,
+      'sponsor-size-select__button--show-inactive': getSizeKey(size) !== modelValueKey.value && !advertisementEmpty.value,
     }),
   }))
 
@@ -91,7 +91,7 @@
 </script>
 
 <style>
-.advertisement-size-select {
+.sponsor-size-select {
   display: grid;
   grid-template-areas:
     'TwoByThree TwoByTwo'
@@ -102,14 +102,14 @@
   row-gap: var(--space-5);
 }
 
-.advertisement-size-select__option {
+.sponsor-size-select__option {
   display: flex;
   border: none;
   border-radius: var(--rounded);
   justify-content: center;
 }
 
-.advertisement-size-select__button {
+.sponsor-size-select__button {
   border-radius: var(--rounded);
   border: 1px solid var(--slate-500);
   outline-offset: var(--space-1);
@@ -118,15 +118,15 @@
   overflow: hidden;
 }
 
-.advertisement-size-select__button--active {
+.sponsor-size-select__button--active {
   outline: 2px solid var(--blue-600);
 }
 
-.advertisement-size-select__button--show-inactive {
+.sponsor-size-select__button--show-inactive {
   opacity: 0.5;
 }
 
-.advertisement-size-select__sponsor-card {
+.sponsor-size-select__sponsor-card {
   border-radius: 0;
 }
 </style>

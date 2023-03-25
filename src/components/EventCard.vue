@@ -1,23 +1,50 @@
 <template>
   <div class="event-card">
-    <SizedImage v-if="event?.eventLogo" :image="event.eventLogo" />
-    {{ event?.name }}
+    <template v-if="showTitle">
+      <p-bread-crumbs :crumbs="[{ text: event.name }]" />
+    </template>
+
+    <template v-if="event.eventLogo">
+      <SizedImage class="event-card__image" :image="event.eventLogo" />
+    </template>
+
+    <div class="event-card__description">
+      <p>{{ event.description }}</p>
+    </div>
+
+    <div class="event-card__details">
+      <p>{{ formatRelative(event.start, new Date()) }}</p>
+      <p>{{ mocker.create('number', [1, 100]) }} miles away</p>
+    </div>
   </div>
 </template>
 
 <script lang="ts" setup>
-  import { useSubscription } from '@prefecthq/vue-compositions'
-  import { computed, toRefs } from 'vue'
+  import { formatRelative } from 'date-fns'
   import SizedImage from '@/components/SizedImage.vue'
-  import { useApi } from '@/compositions'
+  import { Event } from '@/models'
+  import { mocker } from '@/services/mocker'
 
-  const props = defineProps<{
-    eventId: string,
+  defineProps<{
+    event: Event,
+    showTitle?: boolean,
   }>()
-
-  const { eventId } = toRefs(props)
-  const api = useApi()
-
-  const eventSubscription = useSubscription(api.events.getEvent, [eventId])
-  const event = computed(() => eventSubscription.response)
 </script>
+
+<style>
+.event-card {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-4);
+}
+
+.event-card__image {
+  height: 200px;
+}
+
+.event-card__details {
+  color: var(--slate-400);
+  font-size: .75rem;
+  line-height: 0.95rem;
+}
+</style>
