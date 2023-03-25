@@ -27,6 +27,7 @@ export const randomEvent: MockFunction<Event, [Partial<Event>?]> = function(over
     canVoteForSelf: this.create('boolean'),
     driverSelfCategorization: this.create('boolean'),
     stripeCrossProductIds: [],
+    isDraft: this.create('boolean'),
     ...overrides,
   }
 }

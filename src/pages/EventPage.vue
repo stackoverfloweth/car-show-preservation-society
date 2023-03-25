@@ -1,5 +1,5 @@
 <template>
-  <div class="event-page">
+  <div class="event-page" v-bind="$attrs">
     <template v-if="event">
       <EventHeader :event="event" class="event-overview__header" @club-click="openRelatedClub" />
 
