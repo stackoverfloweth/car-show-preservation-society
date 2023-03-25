@@ -27,6 +27,15 @@
         </template>
       </p-label>
 
+      <p-label label="Primary Contact" :message="contactUserIdError" :state="contactUserIdState">
+        <template v-if="!clubId" #description>
+          First select Club to fetch contacts list.
+        </template>
+        <template #default="{ id }">
+          <ContactSelect :id="id" v-model:userId="contactUserId" :disabled="!clubId" :club-id="clubId" :state="contactUserIdState" />
+        </template>
+      </p-label>
+
       <div class="event-form-fields__location">
         <p-label label="Event Location" :message="locationError" :state="locationState" />
         <LocationInput v-model:location="location" :state="locationState" />
@@ -52,6 +61,7 @@
   import { usePatchRef, useValidation } from '@prefecthq/vue-compositions'
   import { computed } from 'vue'
   import ClubSelect from '@/components/ClubSelect.vue'
+  import ContactSelect from '@/components/ContactSelect.vue'
   import ImageUpload from '@/components/ImageUpload.vue'
   import LocationInput from '@/components/LocationInput.vue'
   import { EventRequest } from '@/models/api'
@@ -75,6 +85,7 @@
   })
 
   const clubId = usePatchRef(event, 'clubId')
+  const contactUserId = usePatchRef(event, 'contactUserId')
   const name = usePatchRef(event, 'name')
   const description = usePatchRef(event, 'description')
   const start = usePatchRef(event, 'start')
@@ -83,6 +94,7 @@
   const location = usePatchRef(event, 'location')
 
   const { error: clubError, state: clubState } = useValidation(clubId, 'Club', [stringHasValue])
+  const { error: contactUserIdError, state: contactUserIdState } = useValidation(contactUserId, 'Primary Contact', [stringHasValue])
   const { error: nameError, state: nameState } = useValidation(name, 'Name', [stringHasValue])
   const { error: descriptionError, state: descriptionState } = useValidation(description, 'Description', [])
   const { error: startError, state: startState } = useValidation(start, 'Start', [])

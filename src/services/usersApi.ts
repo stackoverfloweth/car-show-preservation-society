@@ -8,4 +8,8 @@ export class UsersApi extends Api {
   public async getUser(userId: string): Promise<User> {
     return await Promise.resolve(mocker.create('user', [{ userId }]))
   }
+
+  public async getUsersFromClub(clubId: string): Promise<User[]> {
+    return await Promise.resolve(mocker.createMany('user', 5))
+  }
 }

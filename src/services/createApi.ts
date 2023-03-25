@@ -4,7 +4,7 @@ import { AdvertisementsApi } from '@/services/advertisementsApi'
 import { ApiConfig } from '@/services/api'
 import { ClubsApi } from '@/services/clubsApi'
 import { EventsApi } from '@/services/eventsApi'
-import { UsersApi } from '@/services/userApi'
+import { UsersApi } from '@/services/usersApi'
 import { VotingCategoriesApi } from '@/services/votingCategoryApi'
 
 // eslint-disable-next-line @typescript-eslint/explicit-function-return-type
