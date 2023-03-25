@@ -8,6 +8,12 @@
     </div>
 
     <div class="event-overview-header__header-actions">
+      <div class="event-overview-header__start">
+        <strong>
+          {{ startDate }}
+        </strong>
+        <p>{{ startTime }}</p>
+      </div>
       <p-button inset icon="ShareIcon" />
       <template v-if="eventIsUpcoming">
         <p-button>Register</p-button>
@@ -18,7 +24,7 @@
 
 <script lang="ts" setup>
   import { useSubscription } from '@prefecthq/vue-compositions'
-  import { isFuture } from 'date-fns'
+  import { format, isFuture } from 'date-fns'
   import { computed, toRefs } from 'vue'
   import { useApi } from '@/compositions'
   import { Event } from '@/models'
@@ -37,6 +43,9 @@
 
   const clubSubscription = useSubscription(api.clubs.getClub, [event.value.clubId])
   const club = computed(() => clubSubscription.response)
+
+  const startDate = computed(() => format(event.value.start, 'PPPP'))
+  const startTime = computed(() => format(event.value.start, 'pp'))
 </script>
 
 <style>
@@ -54,5 +63,13 @@
 .event-overview-header__header-actions {
   display: flex;
   gap: var(--space-3);
+  align-items: center;
+}
+
+.event-overview-header__start {
+  display: flex;
+  flex-direction: column;
+  align-items: end;
+  margin: 0 var(--space-4);
 }
 </style>
