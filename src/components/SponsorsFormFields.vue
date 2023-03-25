@@ -32,10 +32,14 @@
 
     <div class="sponsors-form-fields__top-right">
       <p-label label="Size" :state="sizeState" :message="sizeError">
-        <SponsorSizeSelect v-model="size" />
+        <SponsorSizeSelect v-model="size" :advertisement="newAdvertisementValues" />
       </p-label>
 
       <div class="sponsors-form-fields__actions">
+        <p-button inset @click="clearNewAdvertisementValues">
+          Reset
+        </p-button>
+
         <p-button type="submit" :loading="pending">
           Add Sponsor
         </p-button>
@@ -43,15 +47,6 @@
     </div>
 
     <div class="sponsors-form-fields__bottom">
-      <template v-if="!isPristine">
-        <div class="sponsors-form-fields__sponsor-card">
-          <div class="sponsors-form-fields__sponsor-card-actions">
-            <TrashConfirm @confirmed="clearNewAdvertisementValues" />
-          </div>
-          <SponsorCard class="sponsors-form-fields__sponsor-card-preview" :advertisement="newAdvertisementValues" />
-        </div>
-      </template>
-
       <template v-for="advertisement in advertisements" :key="advertisement.advertisementId">
         <div class="sponsors-form-fields__sponsor-card">
           <div class="sponsors-form-fields__sponsor-card-actions">
@@ -65,7 +60,8 @@
 </template>
 
 <script lang="ts" setup>
-  import { useIsSame, usePatchRef, useSubscription, useValidation, useValidationObserver } from '@prefecthq/vue-compositions'
+  import { showToast } from '@prefecthq/prefect-design'
+  import { usePatchRef, useSubscription, useValidation, useValidationObserver } from '@prefecthq/vue-compositions'
   import { computed, ref } from 'vue'
   import ImageUpload from '@/components/ImageUpload.vue'
   import SponsorCard from '@/components/SponsorCard.vue'
@@ -101,8 +97,6 @@
 
   const newAdvertisementValues = ref<AdvertisementRequest>({})
 
-  const isPristine = useIsSame(newAdvertisementValues, ref<AdvertisementRequest>({}))
-
   const image = usePatchRef(newAdvertisementValues, 'image')
   const title = usePatchRef(newAdvertisementValues, 'title')
   const description = usePatchRef(newAdvertisementValues, 'description')
@@ -123,6 +117,9 @@
     }
 
     await api.advertisements.createAdvertisement(newAdvertisementValues.value)
+
+    showToast('Sponsor Added!', 'success')
+    clearNewAdvertisementValues()
 
     advertisementsSubscription.refresh()
   }
@@ -198,6 +195,12 @@
   right: 10px;
   bottom: 10px;
   z-index: var(--z-front);
+}
+
+.sponsors-form-fields__actions {
+  display: flex;
+  justify-content: center;
+  gap: var(--space-3);
 }
 
 @media(max-width: 768px){

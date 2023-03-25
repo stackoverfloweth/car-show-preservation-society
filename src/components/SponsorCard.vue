@@ -26,7 +26,6 @@
 <script lang="ts" setup>
   import { computed } from 'vue'
   import SizedImage from '@/components/SizedImage.vue'
-  import { defaultSize } from '@/models/advertisement'
   import { AdvertisementRequest } from '@/models/api'
 
   const props = defineProps<{
@@ -35,8 +34,8 @@
   }>()
 
   const component = computed(() => props.advertisement.href && !props.disabled ? 'a' : 'div')
-  const height = computed(() => props.advertisement.size?.height ?? defaultSize.height)
-  const width = computed(() => props.advertisement.size?.width ?? defaultSize.width)
+  const height = computed(() => props.advertisement.size?.height ?? '100%')
+  const width = computed(() => props.advertisement.size?.width ?? '100%')
   const isClickable = computed(() => !!props.advertisement.href)
 
   const classes = computed(() => ({
@@ -50,7 +49,7 @@
   position: relative;
   display: block;
   color: var(--slate-900);
-  background-color: var(--slate-100);
+  background-color: white;
   border-radius: var(--rounded);
   height: v-bind(height);
   width: v-bind(width);
@@ -86,7 +85,7 @@
   justify-content: center;
   align-items: center;
   text-align: center;
-  padding: var(--space-5);
+  padding: var(--space-2) var(--space-3);
   background-color: rgba(255, 255, 255, 0.5);
 }
 
@@ -96,5 +95,9 @@
 
 .sponsor-card__title {
   font-weight: bold;
+}
+
+.sponsor-card__description {
+  white-space: pre-line;
 }
 </style>
