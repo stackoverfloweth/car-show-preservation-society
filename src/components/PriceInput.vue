@@ -1,6 +1,6 @@
 <template>
   <p-number-input v-model="price" class="price-input" prepend="$">
-    <template v-if="isFree" #append>
+    <template v-if="isFree && !hideFree" #append>
       <span class="price-input__append">
         Free
       </span>
@@ -13,6 +13,7 @@
 
   const props = defineProps<{
     modelValue: number | null | undefined,
+    hideFree?: boolean,
   }>()
 
   const emit = defineEmits<{

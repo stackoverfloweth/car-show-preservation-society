@@ -6,4 +6,5 @@ export type VotingCategory = {
   maxCapacity?: number,
   driversOnly?: boolean,
   membersOnly?: boolean,
+  stripePriceId?: string,
 }

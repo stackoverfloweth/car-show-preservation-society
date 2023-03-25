@@ -48,12 +48,12 @@
           </template>
         </p-label>
 
-        <p-label label="Maximum Slots" :message="maxCapacityError" :state="maxCapacityState">
+        <p-label label="Maximum Capacity" :message="maxCapacityError" :state="maxCapacityState">
           <template #description>
             Optional, maximum number of pre-registrations accepted for this event.
           </template>
           <template #default="{ id }">
-            <p-number-input :id="id" v-model="maxCapacity" :state="maxCapacityState" />
+            <p-number-input :id="id" v-model="maxCapacity" :min="0" :state="maxCapacityState" />
           </template>
         </p-label>
       </template>
@@ -91,7 +91,7 @@
   const preRegistrationPriceInPennies = ref<number>()
 
   const { error: priceError, state: priceState } = useValidation(priceInPennies, 'Price', [])
-  const { error: maxCapacityError, state: maxCapacityState } = useValidation(maxCapacity, 'Maximum Slots', [])
+  const { error: maxCapacityError, state: maxCapacityState } = useValidation(maxCapacity, 'Maximum Capacity', [])
   const { error: preRegistrationPriceError, state: preRegistrationPriceState } = useValidation(preRegistrationPriceInPennies, 'Pre-Registration Price', [])
 </script>
 
