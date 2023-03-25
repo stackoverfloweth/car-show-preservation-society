@@ -16,7 +16,7 @@
 
       <div class="event-overview__related-events">
         <p-bread-crumbs :crumbs="[{ text: 'Similar Events' }]" />
-        <RelatedEvents event-id="event.eventId" @open="openRelatedEvent" />
+        <RelatedEvents :event-id="event.eventId" @open="openRelatedEvent" />
       </div>
     </template>
   </div>
