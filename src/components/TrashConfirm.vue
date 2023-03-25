@@ -25,7 +25,6 @@
   }>()
 
   function confirm(close: () => void): void {
-    console.log('here')
     emit('confirmed')
     close()
   }

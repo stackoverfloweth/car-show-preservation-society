@@ -130,7 +130,11 @@
     open()
   }
 
-  watch(showModal, () => categoryFormValues.value = {})
+  watch(showModal, (value) => {
+    if (!value) {
+      categoryFormValues.value = {}
+    }
+  })
 </script>
 
 <style>
