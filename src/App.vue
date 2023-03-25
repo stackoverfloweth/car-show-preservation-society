@@ -1,7 +1,7 @@
 <template>
   <MenuHeader />
   <NavigationHeader v-bind="{ left, center, right }" />
-  <router-view />
+  <router-view :key="$route.fullPath" />
 </template>
 
 <script lang="ts" setup>

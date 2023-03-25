@@ -24,6 +24,9 @@
   <template v-if="relatedEvent">
     <p-modal v-model:show-modal="showEventModal" :title="relatedEvent.name" auto-close>
       <EventCard :event="relatedEvent" />
+      <p-button :to="routes.event(relatedEvent.eventId)">
+        Open Event
+      </p-button>
     </p-modal>
   </template>
 
