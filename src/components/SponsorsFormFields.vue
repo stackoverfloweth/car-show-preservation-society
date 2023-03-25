@@ -50,7 +50,7 @@
       <template v-for="advertisement in advertisements" :key="advertisement.advertisementId">
         <div class="sponsors-form-fields__sponsor-card">
           <div class="sponsors-form-fields__sponsor-card-actions">
-            <TrashConfirm @confirmed="removeAdvertisement(advertisement)" />
+            <TrashConfirm @confirmed="deleteAdvertisement(advertisement)" />
           </div>
           <SponsorCard :advertisement="advertisement" disabled />
         </div>
@@ -124,7 +124,7 @@
     advertisementsSubscription.refresh()
   }
 
-  async function removeAdvertisement(advertisement: Advertisement): Promise<void> {
+  async function deleteAdvertisement(advertisement: Advertisement): Promise<void> {
     await api.advertisements.deleteAdvertisement(advertisement.advertisementId)
 
     advertisementsSubscription.refresh()

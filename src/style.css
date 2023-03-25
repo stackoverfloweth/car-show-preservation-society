@@ -283,6 +283,7 @@
 }
 
 .p-card .p-button--inset,
+.p-table .p-button--inset,
 .p-empty-state .p-button--inset {
     background-color: var(--slate-600);
 }

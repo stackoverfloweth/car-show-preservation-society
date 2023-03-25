@@ -11,7 +11,7 @@ export const randomVotingCategory: MockFunction<VotingCategory, [Partial<VotingC
     description: this.create('sentence'),
     maxCapacity: this.create('boolean') ? this.create('number') : undefined,
     driversOnly: driversOnly,
-    membersOnly: !driversOnly,
+    membersOnly: !driversOnly && this.create('boolean'),
     ...overrides,
   }
 }

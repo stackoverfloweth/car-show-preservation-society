@@ -17,6 +17,10 @@ export class VotingCategoriesApi extends Api {
     return await Promise.resolve(mocker.create('votingCategory', [request]))
   }
 
+  public async updateVotingCategory(request: VotingCategory): Promise<VotingCategory> {
+    return await Promise.resolve(mocker.create('votingCategory', [request]))
+  }
+
   public async deleteVotingCategory(votingCategoryId: string): Promise<void> {
     await Promise.resolve(votingCategoryId)
   }

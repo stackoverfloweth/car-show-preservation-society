@@ -9,7 +9,7 @@
         <p-icon-button-menu>
           <p-overflow-menu-item class="judging-categories-input__add-menu-icon" icon="PlusIcon" label="Add Category" @click="open" />
           <p-overflow-menu-item icon="LightBulbIcon" label="Suggest Categories" @click="suggestCategories" />
-          <MenuItemConfirm @confirm="removeAll">
+          <MenuItemConfirm @confirm="deleteAll">
             <template #default="{ open: openConfirmation }">
               <p-overflow-menu-item icon="TrashIcon" label="Delete All" @click.stop="openConfirmation" />
             </template>
@@ -20,7 +20,7 @@
   </p-label>
 
   <template v-if="votingCategories.length">
-    <JudgingCategoriesTable :categories="votingCategories" @delete:category="removeCategory" />
+    <JudgingCategoriesTable :categories="votingCategories" @delete:category="deleteCategory" @edit:category="editCategory" />
   </template>
 
   <template v-else>
@@ -37,11 +37,11 @@
     </JudgingCategoriesEmptyState>
   </template>
 
-  <p-modal v-model:show-modal="showModal" title="Add Category" auto-close>
-    <p-form @submit="addCategory">
-      <JudgingCategoryFormFields v-model:values="newCategoryValues" />
+  <p-modal v-model:show-modal="showModal" :title="modalTitle" auto-close>
+    <p-form @submit="saveCategoryForm">
+      <JudgingCategoryFormFields v-model:values="categoryFormValues" />
       <p-button type="submit" :loading="pending">
-        Submit
+        {{ saveText }}
       </p-button>
     </p-form>
   </p-modal>
@@ -56,6 +56,7 @@
 </script>
 
 <script lang="ts" setup>
+  import { showToast } from '@prefecthq/prefect-design'
   import { useSubscription, useValidationObserver } from '@prefecthq/vue-compositions'
   import { computed, ref, toRefs, watch } from 'vue'
   import JudgingCategoriesEmptyState from '@/components/JudgingCategoriesEmptyState.vue'
@@ -74,19 +75,34 @@
   const api = useApi()
   const { showModal, open, close } = useShowModal()
   const { validate, pending } = useValidationObserver()
-  const newCategoryValues = ref<VotingCategoryRequest>({})
+  const categoryFormValues = ref<VotingCategoryRequest | VotingCategory>({})
 
   const votingCategoriesSubscription = useSubscription(api.votingCategories.getVotingCategories, [eventId])
   const votingCategories = computed(() => votingCategoriesSubscription.response ?? [])
 
-  async function addCategory(): Promise<void> {
+  function isVotingCategory(values: VotingCategoryRequest | VotingCategory): values is VotingCategory {
+    return 'id' in values && !!values.id
+  }
+
+  const modalTitle = computed(() => isVotingCategory(categoryFormValues.value) ? 'Update Category' : 'Add Category')
+  const saveText = computed(() => isVotingCategory(categoryFormValues.value) ? 'Save' : 'Add Category')
+
+  async function saveCategoryForm(): Promise<void> {
     const isValid = await validate()
 
     if (!isValid) {
       return
     }
 
-    await api.votingCategories.createVotingCategory(newCategoryValues.value)
+    if (isVotingCategory(categoryFormValues.value)) {
+      await api.votingCategories.updateVotingCategory(categoryFormValues.value)
+
+      showToast('Judging Category Updated!', 'success')
+    } else {
+      await api.votingCategories.createVotingCategory(categoryFormValues.value)
+
+      showToast('Judging Category Added!', 'success')
+    }
 
     votingCategoriesSubscription.refresh()
 
@@ -98,17 +114,23 @@
     votingCategoriesSubscription.refresh()
   }
 
-  async function removeAll(): Promise<void> {
+  async function deleteAll(): Promise<void> {
     await api.votingCategories.deleteAllVotingCategories(eventId.value)
     votingCategoriesSubscription.refresh()
   }
 
-  async function removeCategory({ votingCategoryId }: VotingCategory): Promise<void> {
+  async function deleteCategory({ votingCategoryId }: VotingCategory): Promise<void> {
     await api.votingCategories.deleteVotingCategory(votingCategoryId)
     votingCategoriesSubscription.refresh()
   }
 
-  watch(showModal, () => newCategoryValues.value = {})
+  function editCategory(votingCategory: VotingCategory): void {
+    categoryFormValues.value = { ...votingCategory }
+
+    open()
+  }
+
+  watch(showModal, () => categoryFormValues.value = {})
 </script>
 
 <style>
