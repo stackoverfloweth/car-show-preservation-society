@@ -8,9 +8,11 @@
         <p>{{ event.description }}</p>
       </div>
 
+      <LocationCard class="event-page__location" :location="event.location" />
+
       <ContactCard class="event-page__contact" :user-id="event.contactUserId" />
 
-      <EventSponsors :event="event" />
+      <EventSponsors class="event-page__sponsors" :event="event" />
 
       <EventVotingSummary class="event-page__voting-summary" :event="event" />
 
@@ -55,6 +57,7 @@
   import EventHeader from '@/components/EventHeader.vue'
   import EventSponsors from '@/components/EventSponsors.vue'
   import EventVotingSummary from '@/components/EventVotingSummary.vue'
+  import LocationCard from '@/components/LocationCard.vue'
   import RelatedEvents from '@/components/RelatedEvents.vue'
   import SizedImage from '@/components/SizedImage.vue'
   import { NavigationRecord, useApi, useNavigation, useShowModal } from '@/compositions'
@@ -115,12 +118,12 @@
   padding: var(--space-4);
   padding-top: 0;
   grid-template-areas:
-    'header header'
-    'overview voting-summary'
-    'contact voting-summary'
-    'sponsors voting-summary'
-    'related-events related-events';
-  grid-template-columns: repeat(2, minmax(0, 1fr));
+    'header header header header'
+    'overview overview voting-summary voting-summary'
+    'location contact voting-summary voting-summary'
+    'sponsors sponsors voting-summary voting-summary'
+    'related-events related-events related-events related-events';
+  grid-template-columns: repeat(4, minmax(0, 1fr));
   gap: var(--space-5);
 }
 
@@ -141,8 +144,16 @@
   gap: var(--space-4);
 }
 
+.event-page__location {
+  grid-area: location;
+}
+
 .event-page__contact {
   grid-area: contact;
+}
+
+.event-page__sponsors {
+  grid-area: sponsors;
 }
 
 .event-page__voting-summary {
@@ -165,6 +176,7 @@
     grid-template-areas:
       'header'
       'overview'
+      'location'
       'contact'
       'voting-summary'
       'sponsors'
