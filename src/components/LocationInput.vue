@@ -1,7 +1,7 @@
 <template>
   <template v-if="manualMode">
     <div class="location-input">
-      <p-textarea v-model="manualValue" />
+      <p-textarea v-model="place" @update:model-value="setLocationFromManual" />
       <p-link @click="manualMode = false">
         Search for Address
       </p-link>
@@ -9,7 +9,7 @@
   </template>
 
   <template v-else-if="media.hover">
-    <p-combobox v-model="mapBoxId" v-model:search="search" class="location-input" :options="options">
+    <p-combobox v-model:search="search" :model-value="place" class="location-input" :options="options" @update:model-value="setLocationFromAutofill">
       <template #combobox-options-empty>
         <template v-if="locationsSubscription.loading">
           <p-loading-icon />
@@ -48,9 +48,9 @@
 </template>
 
 <script lang="ts" setup>
-  import { SelectOption, media } from '@prefecthq/prefect-design'
+  import { SelectOption, media, SelectModelValue } from '@prefecthq/prefect-design'
   import { useDebouncedRef, useSubscriptionWithDependencies } from '@prefecthq/vue-compositions'
-  import { computed, ref, watch } from 'vue'
+  import { computed, ref } from 'vue'
   import { Location } from '@/models'
   import { mapBoxApi } from '@/services'
 
@@ -73,8 +73,8 @@
     },
   })
 
-  const mapBoxId = ref<string | undefined>(location.value?.mapBoxId)
-  const manualValue = ref<string | undefined>(location.value?.place)
+  const place = computed(() => location.value?.place ?? '')
+
   const search = ref<string>()
   const searchDebounced = useDebouncedRef(search, 1500)
 
@@ -83,28 +83,32 @@
   const locations = computed(() => locationsSubscription.response ?? [])
 
   const options = computed<SelectOption[]>(() => {
-    if (!search.value && location.value) {
+    if (!search.value) {
       return [
         {
-          label: location.value.place!,
-          value: location.value.mapBoxId!,
+          label: place.value,
+          value: place.value,
         },
       ]
     }
 
     return locations.value.map(location => ({
-      value: location.mapBoxId!,
+      value: location.place!,
       label: location.place!,
     }))
   })
 
-  watch(mapBoxId, mapBoxId => {
-    location.value = locations.value.find((location) => location.mapBoxId === mapBoxId) ?? null
-  })
+  function setLocationFromAutofill(value: SelectModelValue | SelectModelValue[]): void {
+    const matchingLocation = locations.value.find(location => location.place === value)
 
-  watch(manualValue, place => {
-    location.value = { place }
-  })
+    location.value = matchingLocation ?? null
+  }
+
+  function setLocationFromManual(value: string | null): void {
+    location.value = {
+      place: value ?? undefined,
+    }
+  }
 </script>
 
 <style>
