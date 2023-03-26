@@ -157,6 +157,10 @@
     grid-template-columns: 1fr;
   }
 
+  .event-form-fields__top {
+    grid-template-columns: 1fr;
+  }
+
   .event-form-fields__middle {
     grid-template-columns: minmax(1fr);
   }

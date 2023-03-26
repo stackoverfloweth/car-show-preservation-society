@@ -21,6 +21,24 @@
         <router-view />
       </suspense>
     </div>
+    <div class="event-editor-page__bottom-navigation">
+      <div class="event-editor-page__bottom-navigation-item">
+        <template v-if="previous">
+          <p-link :to="previous.to" class="event-editor-page__bottom-navigation-link">
+            <p-icon icon="ChevronLeftIcon" />
+            {{ previous.title }}
+          </p-link>
+        </template>
+      </div>
+      <div class="event-editor-page__bottom-navigation-item">
+        <template v-if="next">
+          <p-link :to="next.to" class="event-editor-page__bottom-navigation-link">
+            {{ next.title }}
+            <p-icon icon="ChevronRightIcon" />
+          </p-link>
+        </template>
+      </div>
+    </div>
   </div>
 </template>
 
@@ -44,14 +62,18 @@
     { title: 'Preview', to: routes.eventsEditorPreview(eventId.value) },
   ])
 
-  const crumbs = computed<Crumb[]>(() => {
-    const activeTitle = titles.value.find(({ to }) => to.name === route.name)
+  const activeTitle = computed(() => titles.value.find(({ to }) => to.name === route.name))
+  const activeTitleIndex = computed(() => titles.value.findIndex(({ to }) => to.name === route.name))
 
-    if (!activeTitle) {
+  const previous = computed(() => titles.value[activeTitleIndex.value - 1])
+  const next = computed(() => titles.value[activeTitleIndex.value + 1])
+
+  const crumbs = computed<Crumb[]>(() => {
+    if (!activeTitle.value) {
       return []
     }
 
-    return [{ text: activeTitle.title }]
+    return [{ text: activeTitle.value.title }]
   })
 
   function toggleMenu(): void {
@@ -72,7 +94,8 @@
   display: grid;
   grid-template-areas:
     'sidebar title'
-    'sidebar content';
+    'sidebar content'
+    'navigation navigation';
   grid-template-columns: min-content minmax(0, 1fr);
   padding: var(--space-4);
   gap: var(--space-4);
@@ -107,6 +130,18 @@
   color: var(--blue-400);
 }
 
+.event-editor-page__bottom-navigation {
+  grid-area: navigation;
+  display: none;
+  justify-content: space-between;
+}
+
+.event-editor-page__bottom-navigation-link {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+}
+
 @media(hover) {
   .event-editor-page__toggle-button {
     display: none;
@@ -118,8 +153,13 @@
     grid-template-areas:
       'title'
       'sidebar'
-      'content';
+      'content'
+      'navigation';
     grid-template-columns: minmax(0, 1fr);
+  }
+
+  .event-editor-page__bottom-navigation {
+    display:flex;
   }
 
   .event-editor-page__sidebar {
