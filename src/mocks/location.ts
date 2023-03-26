@@ -14,8 +14,8 @@ export const randomLocation: MockFunction<Location, [Partial<Location>?]> = func
 
   return {
     place: `${placeName}
-    ${houseNumber} ${direction}${streetName} ${streetType}
-    ${city}, ${state} ${zip}`,
+${houseNumber} ${direction}${streetName} ${streetType}
+${city}, ${state} ${zip}`,
     coordinates: [44.899726, -89.72133],
     ...overrides,
   }
