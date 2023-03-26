@@ -1,6 +1,6 @@
 <template>
-  <div class="event-photo-gallery">
-    event-photo-gallery
+  <div class="event-judging-results">
+    event-judging-results
   </div>
 </template>
 

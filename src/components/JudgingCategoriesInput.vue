@@ -5,8 +5,8 @@
       <div class="judging-categories-input__actions">
         <template v-if="selectedCategories.length">
           <TrashConfirm @confirmed="deleteSelected">
-            <template #default="{ open }">
-              <p-button danger @click="open">
+            <template #default="{ open: openConfirm }">
+              <p-button danger @click="openConfirm">
                 Delete Selected
               </p-button>
             </template>
