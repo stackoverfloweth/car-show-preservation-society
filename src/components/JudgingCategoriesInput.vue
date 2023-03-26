@@ -63,7 +63,7 @@
         <div class="judging-category-input__modal-actions">
           <TrashConfirm @confirmed="deleteSelectedCategory">
             <template #default="{ open: openConfirm }">
-              <p-button danger @click="openConfirm">
+              <p-button class="judging-category-input__modal-delete-button" danger @click="openConfirm">
                 Delete Category
               </p-button>
             </template>
@@ -160,6 +160,7 @@
   async function deleteSelectedCategory(): Promise<void> {
     if (isVotingCategory(categoryFormValues.value)) {
       await deleteCategory(categoryFormValues.value)
+      close()
     }
   }
 
@@ -216,6 +217,10 @@
   display: flex;
   flex-direction: column;
   gap: var(--space-3);
+}
+
+.judging-category-input__modal-delete-button {
+  width: 100%;
 }
 
 @media(max-width: 768px){
