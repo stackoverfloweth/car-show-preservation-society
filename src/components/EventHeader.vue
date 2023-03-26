@@ -14,17 +14,14 @@
         </strong>
         <p>{{ startTime }}</p>
       </div>
-      <p-button inset icon="ShareIcon" />
-      <template v-if="eventIsUpcoming">
-        <p-button>Register</p-button>
-      </template>
+      <slot name="actions" />
     </div>
   </div>
 </template>
 
 <script lang="ts" setup>
   import { useSubscription } from '@prefecthq/vue-compositions'
-  import { format, isFuture } from 'date-fns'
+  import { format } from 'date-fns'
   import { computed, toRefs } from 'vue'
   import { useApi } from '@/compositions'
   import { Event } from '@/models'
@@ -39,7 +36,6 @@
 
   const { event } = toRefs(props)
   const api = useApi()
-  const eventIsUpcoming = computed(() => isFuture(props.event.end))
 
   const clubSubscription = useSubscription(api.clubs.getClub, [event.value.clubId])
   const club = computed(() => clubSubscription.response)
@@ -70,6 +66,5 @@
   display: flex;
   flex-direction: column;
   align-items: end;
-  margin: 0 var(--space-4);
 }
 </style>

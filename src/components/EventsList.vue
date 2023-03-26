@@ -1,33 +1,50 @@
 <template>
-  <p-table class="events-list" :data="events" :columns="columns" />
+  <div class="events-list">
+    <template v-for="event in events" :key="event.eventId">
+      <router-link :to="routes.event(event.eventId)">
+        <p-list-item class="events-list__event">
+          <EventHeader class="events-list__event-header" :event="event" />
+          <p class="events-list__event-location">
+            {{ event.location?.place }}
+          </p>
+        </p-list-item>
+      </router-link>
+    </template>
+  </div>
 </template>
 
 <script lang="ts" setup>
-  import { TableColumn } from '@prefecthq/prefect-design'
-  import { computed } from 'vue'
+  import EventHeader from '@/components/EventHeader.vue'
   import { Event } from '@/models/event'
+  import { routes } from '@/router/routes'
 
   defineProps<{
     events: Event[],
   }>()
-
-  const columns = computed<TableColumn[]>(() => [{ property: 'name', label: 'name' }])
 </script>
 
 <style>
-.events-list tr {
-  cursor: pointer;
+.events-list {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-4);
 }
 
-.events-list tr:hover {
-  background-color: var(--slate-700);
+.events-list__event {
+  display: grid;
+  grid-template-areas:
+    'header'
+    'location';
+    row-gap: var(--space-4);
 }
 
-.events-list thead {
-  display: none;
+.events-list__event-header {
+  grid-area: header;
+  pointer-events: none;
 }
 
-.events-list tbody {
-  border-top: 0;
+.events-list__event-location {
+  grid-area: location;
+  white-space: pre-line;
 }
 </style>

@@ -1,6 +1,13 @@
 <template>
   <div class="event-viewer">
-    <EventHeader :event="event" class="event-overview__header" @club:click="openRelatedClub" />
+    <EventHeader :event="event" class="event-overview__header" @club:click="openRelatedClub">
+      <template #actions>
+        <p-button inset icon="ShareIcon" />
+        <template v-if="eventIsUpcoming">
+          <p-button>Register</p-button>
+        </template>
+      </template>
+    </EventHeader>
 
     <div class="event-viewer__overview">
       <SizedImage v-if="event.eventLogo" :image="event.eventLogo" class="event-viewer__logo" />
@@ -23,6 +30,8 @@
 </template>
 
 <script lang="ts" setup>
+  import { isFuture } from 'date-fns'
+  import { computed } from 'vue'
   import ContactCard from '@/components/ContactCard.vue'
   import EventHeader from '@/components/EventHeader.vue'
   import EventJudgingSummary from '@/components/EventJudgingSummary.vue'
@@ -32,7 +41,7 @@
   import SizedImage from '@/components/SizedImage.vue'
   import { Event } from '@/models'
 
-  defineProps<{
+  const props = defineProps<{
     event: Event,
   }>()
 
@@ -40,6 +49,8 @@
     (event: 'open:club', value: string): void,
     (event: 'open:event', value: Event): void,
   }>()
+
+  const eventIsUpcoming = computed(() => isFuture(props.event.end))
 
   function openRelatedEvent(event: Event): void {
     emit('open:event', event)
