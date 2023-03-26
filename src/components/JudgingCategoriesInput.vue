@@ -37,7 +37,6 @@
     <JudgingCategoriesInputTable
       v-model:selected="selectedCategories"
       :categories="votingCategories"
-      @delete:category="deleteCategory"
       @edit:category="editCategory"
     />
   </template>
@@ -61,7 +60,7 @@
       <JudgingCategoryFormFields v-model:values="categoryFormValues" />
       <template v-if="isVotingCategory(categoryFormValues)">
         <div class="judging-category-input__modal-actions">
-          <TrashConfirm @confirmed="deleteSelectedCategory">
+          <TrashConfirm @confirmed="deleteCategory">
             <template #default="{ open: openConfirm }">
               <p-button class="judging-category-input__modal-delete-button" danger @click="openConfirm">
                 Delete Category
@@ -157,16 +156,14 @@
     votingCategoriesSubscription.refresh()
   }
 
-  async function deleteSelectedCategory(): Promise<void> {
+  async function deleteCategory(): Promise<void> {
     if (isVotingCategory(categoryFormValues.value)) {
-      await deleteCategory(categoryFormValues.value)
+      await api.votingCategories.deleteVotingCategory(categoryFormValues.value.votingCategoryId)
+
+      votingCategoriesSubscription.refresh()
+
       close()
     }
-  }
-
-  async function deleteCategory({ votingCategoryId }: VotingCategory): Promise<void> {
-    await api.votingCategories.deleteVotingCategory(votingCategoryId)
-    votingCategoriesSubscription.refresh()
   }
 
   function editCategory(votingCategory: VotingCategory): void {
