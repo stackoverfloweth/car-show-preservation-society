@@ -1,7 +1,7 @@
 <template>
-  <div class="sponsors-form-fields">
-    <div class="sponsors-form-fields__top-left">
-      <p-form @submit="addEventAdvertisement">
+  <p-form @submit="addEventAdvertisement">
+    <div class="sponsors-form-fields">
+      <div class="sponsors-form-fields__left">
         <p-label label="Display Text" :state="titleState" :message="titleError">
           <template #default="{ id }">
             <p-text-input :id="id" v-model="title" />
@@ -14,7 +14,7 @@
           </template>
         </p-label>
 
-        <div class="event-form-fields__image-upload">
+        <div class="sponsors-form-fields__image-upload">
           <p-label label="Advertisement Logo" :message="imageError" :state="imageState" />
           <ImageUpload v-model:image="image" :state="imageState" />
         </div>
@@ -27,36 +27,36 @@
             <p-text-input :id="id" v-model="href" />
           </template>
         </p-label>
-      </p-form>
-    </div>
+      </div>
 
-    <div class="sponsors-form-fields__top-right">
-      <p-label label="Size" :state="sizeState" :message="sizeError">
-        <SponsorSizeSelect v-model="size" :advertisement="newAdvertisementValues" />
-      </p-label>
+      <div class="sponsors-form-fields__center">
+        <p-label label="Size" :state="sizeState" :message="sizeError">
+          <SponsorSizeSelect v-model="size" :advertisement="newAdvertisementValues" />
+        </p-label>
 
-      <div class="sponsors-form-fields__actions">
-        <p-button inset @click="clearNewAdvertisementValues">
-          Reset
-        </p-button>
+        <div class="sponsors-form-fields__actions">
+          <p-button inset @click="clearNewAdvertisementValues">
+            Reset
+          </p-button>
 
-        <p-button type="submit" :loading="pending">
-          Add Sponsor
-        </p-button>
+          <p-button type="submit" :loading="pending">
+            Add Sponsor
+          </p-button>
+        </div>
+      </div>
+
+      <div class="sponsors-form-fields__right">
+        <template v-for="advertisement in advertisements" :key="advertisement.advertisementId">
+          <div class="sponsors-form-fields__sponsor-card">
+            <div class="sponsors-form-fields__sponsor-card-actions">
+              <TrashConfirm @confirmed="deleteAdvertisement(advertisement)" />
+            </div>
+            <SponsorCard :advertisement="advertisement" disabled />
+          </div>
+        </template>
       </div>
     </div>
-
-    <div class="sponsors-form-fields__bottom">
-      <template v-for="advertisement in advertisements" :key="advertisement.advertisementId">
-        <div class="sponsors-form-fields__sponsor-card">
-          <div class="sponsors-form-fields__sponsor-card-actions">
-            <TrashConfirm @confirmed="deleteAdvertisement(advertisement)" />
-          </div>
-          <SponsorCard :advertisement="advertisement" disabled />
-        </div>
-      </template>
-    </div>
-  </div>
+  </p-form>
 </template>
 
 <script lang="ts" setup>
@@ -139,15 +139,14 @@
 .sponsors-form-fields {
   display: grid;
   grid-template-areas:
-  'top-left top-right top-right'
-  'bottom bottom bottom';
+  'left center right';
   grid-template-columns: repeat(3, minmax(0, 1fr));
   column-gap: var(--space-5);
   row-gap: var(--space-5);
 }
 
-.sponsors-form-fields__top-left{
-  grid-area: top-left;
+.sponsors-form-fields__left {
+  grid-area: left;
   display: flex;
   flex-direction: column;
   justify-content: start;
@@ -155,21 +154,22 @@
   row-gap: var(--space-4);
 }
 
-.sponsors-form-fields__top-right {
-  grid-area: top-right;
+.sponsors-form-fields__center {
+  grid-area: center;
   display: flex;
   flex-direction: column;
   justify-content: start;
   column-gap: var(--space-5);
-  row-gap: var(--space-4);
+  row-gap: var(--space-5);
 }
 
-.sponsors-form-fields__bottom {
-  grid-area: bottom;
+.sponsors-form-fields__right {
+  grid-area: right;
   display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
-  column-gap: var(--space-4);
+  flex-direction: column;
+  justify-content: start;
+  align-items: center;
+  column-gap: var(--space-5);
   row-gap: var(--space-4);
 }
 
@@ -203,12 +203,19 @@
   gap: var(--space-3);
 }
 
+.sponsors-form-fields__image-upload {
+  display: flex;
+  flex-direction: column;
+  flex-grow: 1;
+  max-height: 150px;
+}
+
 @media(max-width: 768px){
   .sponsors-form-fields {
     grid-template-areas:
-    'top-left'
-    'top-right'
-    'bottom';
+    'left'
+    'center'
+    'right';
     grid-template-columns: minmax(0, 1fr);
   }
 }
