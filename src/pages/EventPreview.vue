@@ -1,38 +1,31 @@
 <template>
   <div class="event-preview">
     <template v-if="event">
-      <div class="event-preview__publish">
-        <template v-if="event.isDraft">
-          <p>Event is still in draft status</p>
-          <p-button @click="toggleDraft">
-            Publish
-          </p-button>
-        </template>
-        <template v-else>
-          <p>Event is live</p>
-          <p-button danger @click="toggleDraft">
-            Revert to draft
-          </p-button>
-        </template>
-      </div>
-      <EventPage class="event-preview__event-page" />
+      <div class="event-preview__overlay" />
+      <EventViewer v-if="event" :event="event" class="event-preview__event-page" />
     </template>
   </div>
 </template>
 
 <script lang="ts" setup>
   import { useRouteParam, useSubscription } from '@prefecthq/vue-compositions'
-  import { computed } from 'vue'
-  import { useApi } from '@/compositions'
-  import EventPage from '@/pages/EventPage.vue'
+  import { computed, ref, watchEffect } from 'vue'
+  import EventViewer from '@/components/EventViewer.vue'
+  import { useApi, useNavigation } from '@/compositions'
+  import { routes } from '@/router/routes'
 
   const api = useApi()
+  const { set } = useNavigation()
   const eventId = useRouteParam('eventId')
 
   const eventSubscription = useSubscription(api.events.getEvent, [eventId])
   const event = computed(() => eventSubscription.response)
 
+  const pending = ref(false)
+
   async function toggleDraft(): Promise<void> {
+    pending.value = true
+
     if (!event.value) {
       return
     }
@@ -40,22 +33,31 @@
     const { isDraft } = event.value
     await api.events.updateEvent({ ...event.value, isDraft: !isDraft })
 
-    eventSubscription.refresh()
+    await eventSubscription.refresh()
+    pending.value = false
   }
+
+  watchEffect(() => {
+    set({
+      left: { title: 'Events', route: routes.events() },
+      right: { title: event.value?.isDraft ? 'Publish' : 'Revert to draft', pending: pending.value, callback: toggleDraft },
+    })
+  })
 </script>
 
 <style>
 .event-preview {
-  border: 3px solid var(--slate-800);
+  position: relative;
 }
 
-.event-preview__publish {
-  padding: var(--space-3);
-  border-bottom: 3px solid var(--slate-800);
-  background-color: var(--slate-800);
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
+.event-preview__overlay {
+  position: absolute;
+  left: 0;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.25);
+  z-index: var(--z-overlay);
 }
 
 .event-preview__event-page{

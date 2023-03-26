@@ -25,6 +25,7 @@
 
     --z-root: 0;
     --z-front: 1;
+    --z-overlay: 2;
     --z-modal: 50;
     --z-popup: 100;
     

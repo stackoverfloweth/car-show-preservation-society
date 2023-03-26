@@ -108,7 +108,7 @@
 
   watchEffect(() => {
     set({
-      left: { title: 'Cancel', showChevron: false, route: routes.events() },
+      left: { title: 'Events', route: routes.events() },
       right: { title: 'Save', pending: pending.value, callback: submit },
     })
   })

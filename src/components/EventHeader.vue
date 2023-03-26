@@ -1,7 +1,7 @@
 <template>
   <div class="event-overview-header">
     <div class="event-overview-header__heading">
-      <p-link class="event-overview-header__club-name" @click="emit('club-click', event!.clubId)">
+      <p-link class="event-overview-header__club-name" @click="emit('club:click', event!.clubId)">
         {{ club?.name }}
       </p-link>
       <p-bread-crumbs :crumbs="[{ text: event.name }]" />
@@ -34,7 +34,7 @@
   }>()
 
   const emit = defineEmits<{
-    (event: 'club-click', value: string): void,
+    (event: 'club:click', value: string): void,
   }>()
 
   const { event } = toRefs(props)

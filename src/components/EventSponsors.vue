@@ -1,6 +1,6 @@
 <template>
   <div class="event-sponsors">
-    <p-bread-crumbs :crumbs="[{ text: 'Sponsors' }]" />
+    <p-bread-crumbs :crumbs="[{ text: 'Event Sponsors' }]" />
     <div class="event-sponsors__content">
       <template v-for="advertisement in advertisements" :key="advertisement.advertisementId">
         <SponsorCard :advertisement="advertisement" />
