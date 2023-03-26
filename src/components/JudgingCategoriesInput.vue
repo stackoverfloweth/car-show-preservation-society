@@ -3,24 +3,43 @@
     <template #label>
       <div>Judging Categories</div>
       <div class="judging-categories-input__actions">
-        <p-button class="judging-categories-input__add-button" @click="open">
-          Add Category
-        </p-button>
-        <p-icon-button-menu>
-          <p-overflow-menu-item class="judging-categories-input__add-menu-icon" icon="PlusIcon" label="Add Category" @click="open" />
-          <p-overflow-menu-item icon="LightBulbIcon" label="Suggest Categories" @click="suggestCategories" />
-          <MenuItemConfirm @confirm="deleteAll">
-            <template #default="{ open: openConfirmation }">
-              <p-overflow-menu-item icon="TrashIcon" label="Delete All" @click.stop="openConfirmation" />
+        <template v-if="selectedCategories.length">
+          <TrashConfirm @confirmed="deleteSelected">
+            <template #default="{ open }">
+              <p-button danger @click="open">
+                Delete Selected
+              </p-button>
             </template>
-          </MenuItemConfirm>
-        </p-icon-button-menu>
+          </TrashConfirm>
+          <p-button inset @click="clearSelected">
+            Clear Selected
+          </p-button>
+        </template>
+        <template v-else>
+          <p-button class="judging-categories-input__add-button" @click="open">
+            Add Category
+          </p-button>
+          <p-icon-button-menu>
+            <p-overflow-menu-item class="judging-categories-input__add-menu-icon" icon="PlusIcon" label="Add Category" @click="open" />
+            <p-overflow-menu-item icon="LightBulbIcon" label="Suggest Categories" @click="suggestCategories" />
+            <MenuItemConfirm @confirm="deleteAll">
+              <template #default="{ open: openConfirmation }">
+                <p-overflow-menu-item icon="TrashIcon" label="Delete All" @click.stop="openConfirmation" />
+              </template>
+            </MenuItemConfirm>
+          </p-icon-button-menu>
+        </template>
       </div>
     </template>
   </p-label>
 
   <template v-if="votingCategories.length">
-    <JudgingCategoriesTable :categories="votingCategories" @delete:category="deleteCategory" @edit:category="editCategory" />
+    <JudgingCategoriesInputTable
+      v-model:selected="selectedCategories"
+      :categories="votingCategories"
+      @delete:category="deleteCategory"
+      @edit:category="editCategory"
+    />
   </template>
 
   <template v-else>
@@ -60,9 +79,10 @@
   import { useSubscription, useValidationObserver } from '@prefecthq/vue-compositions'
   import { computed, ref, toRefs, watch } from 'vue'
   import JudgingCategoriesEmptyState from '@/components/JudgingCategoriesEmptyState.vue'
-  import JudgingCategoriesTable from '@/components/JudgingCategoriesTable.vue'
+  import JudgingCategoriesInputTable from '@/components/JudgingCategoriesInputTable.vue'
   import JudgingCategoryFormFields from '@/components/JudgingCategoryFormFields.vue'
   import MenuItemConfirm from '@/components/MenuItemConfirm.vue'
+  import TrashConfirm from '@/components/TrashConfirm.vue'
   import { useApi, useShowModal } from '@/compositions'
   import { VotingCategory } from '@/models'
   import { VotingCategoryRequest } from '@/models/api'
@@ -75,6 +95,9 @@
   const api = useApi()
   const { showModal, open, close } = useShowModal()
   const { validate, pending } = useValidationObserver()
+
+
+  const selectedCategories = ref<string[]>([])
   const categoryFormValues = ref<VotingCategoryRequest | VotingCategory>({})
 
   const votingCategoriesSubscription = useSubscription(api.votingCategories.getVotingCategories, [eventId])
@@ -128,6 +151,20 @@
     categoryFormValues.value = { ...votingCategory }
 
     open()
+  }
+
+  async function deleteSelected(): Promise<void> {
+    const promises = selectedCategories.value.map(category => api.votingCategories.deleteVotingCategory(category))
+
+    await Promise.all(promises)
+
+    clearSelected()
+
+    votingCategoriesSubscription.refresh()
+  }
+
+  function clearSelected(): void {
+    selectedCategories.value = []
   }
 
   watch(showModal, (value) => {
