@@ -59,9 +59,25 @@
   <p-modal v-model:show-modal="showModal" :title="modalTitle" auto-close>
     <p-form @submit="saveCategoryForm">
       <JudgingCategoryFormFields v-model:values="categoryFormValues" />
-      <p-button type="submit" :loading="pending">
-        {{ saveText }}
-      </p-button>
+      <template v-if="isVotingCategory(categoryFormValues)">
+        <div class="judging-category-input__modal-actions">
+          <TrashConfirm @confirmed="deleteSelectedCategory">
+            <template #default="{ open: openConfirm }">
+              <p-button danger @click="openConfirm">
+                Delete Category
+              </p-button>
+            </template>
+          </TrashConfirm>
+          <p-button type="submit" inset :loading="pending">
+            Save
+          </p-button>
+        </div>
+      </template>
+      <template v-else>
+        <p-button type="submit" :loading="pending">
+          Add Category
+        </p-button>
+      </template>
     </p-form>
   </p-modal>
 </template>
@@ -104,11 +120,10 @@
   const votingCategories = computed(() => votingCategoriesSubscription.response ?? [])
 
   function isVotingCategory(values: VotingCategoryRequest | VotingCategory): values is VotingCategory {
-    return 'id' in values && !!values.id
+    return 'votingCategoryId' in values && !!values.votingCategoryId
   }
 
   const modalTitle = computed(() => isVotingCategory(categoryFormValues.value) ? 'Update Category' : 'Add Category')
-  const saveText = computed(() => isVotingCategory(categoryFormValues.value) ? 'Save' : 'Add Category')
 
   async function saveCategoryForm(): Promise<void> {
     const isValid = await validate()
@@ -140,6 +155,12 @@
   async function deleteAll(): Promise<void> {
     await api.votingCategories.deleteAllVotingCategories(eventId.value)
     votingCategoriesSubscription.refresh()
+  }
+
+  async function deleteSelectedCategory(): Promise<void> {
+    if (isVotingCategory(categoryFormValues.value)) {
+      await deleteCategory(categoryFormValues.value)
+    }
   }
 
   async function deleteCategory({ votingCategoryId }: VotingCategory): Promise<void> {
@@ -189,6 +210,12 @@
 
 .judging-categories-input__add-menu-icon {
   display: none;
+}
+
+.judging-category-input__modal-actions {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
 }
 
 @media(max-width: 768px){

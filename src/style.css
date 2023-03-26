@@ -289,12 +289,20 @@
     background-color: var(--slate-600);
 }
 
+.p-modal__card .p-button--flat {
+    background-color: var(--slate-900);
+}
+
 .p-modal__card {
     background-color: var(--slate-900);
 }
 
 .p-label__description {
   color: var(--slate-400);
+}
+
+.p-button--inset:hover {
+    background-color: var(--slate-700) !important;
 }
 
 @media(max-width: 768px) {
