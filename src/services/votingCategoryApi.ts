@@ -6,7 +6,7 @@ export class VotingCategoriesApi extends Api {
   protected override routePrefix = '/votingCategories'
 
   public async getVotingCategories(eventId: string): Promise<VotingCategory[]> {
-    return await Promise.resolve(mocker.createMany('votingCategory', 5, [{ eventId }]))
+    return await Promise.resolve(mocker.createMany('votingCategory', 50, [{ eventId }]))
   }
 
   public async suggestVotingCategories(eventId: string): Promise<VotingCategory[]> {
