@@ -2,7 +2,7 @@
   <div class="event-judging-summary">
     <template v-if="eventIsUpcoming">
       <p-bread-crumbs :crumbs="[{ text: 'Judging Categories' }]" />
-      <JudgingCategoriesTable :categories="votingCategories" />
+      <JudgingCategoriesTable class="event-judging-summary__judging-categories" :categories="votingCategories" />
     </template>
     <template v-else>
       <EventJudgingResults :event="event" />
@@ -32,7 +32,3 @@
   const votingCategoriesSubscription = useSubscription(api.votingCategories.getVotingCategories, [event.value.eventId])
   const votingCategories = computed(() => votingCategoriesSubscription.response ?? [])
 </script>
-
-<style>
-
-</style>

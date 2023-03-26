@@ -2,9 +2,19 @@
   <div class="event-viewer">
     <EventHeader :event="event" class="event-overview__header" @club:click="openRelatedClub">
       <template #actions>
-        <p-button inset icon="ShareIcon" />
-        <template v-if="eventIsUpcoming">
-          <p-button>Register</p-button>
+        <template v-if="media.hover">
+          <p-button inset icon="ShareIcon" />
+          <template v-if="eventIsUpcoming">
+            <p-button>Register</p-button>
+          </template>
+        </template>
+        <template v-else>
+          <p-icon-button-menu>
+            <p-overflow-menu-item label="Share" icon="ShareIcon" />
+            <template v-if="eventIsUpcoming">
+              <p-overflow-menu-item label="Register" />
+            </template>
+          </p-icon-button-menu>
         </template>
       </template>
     </EventHeader>
@@ -30,6 +40,7 @@
 </template>
 
 <script lang="ts" setup>
+  import { media } from '@prefecthq/prefect-design'
   import { isFuture } from 'date-fns'
   import { computed } from 'vue'
   import ContactCard from '@/components/ContactCard.vue'

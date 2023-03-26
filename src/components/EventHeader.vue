@@ -1,19 +1,20 @@
 <template>
-  <div class="event-overview-header">
-    <div class="event-overview-header__heading">
-      <p-link class="event-overview-header__club-name" @click="emit('club:click', event!.clubId)">
-        {{ club?.name }}
-      </p-link>
+  <div class="event-header">
+    <p-link class="event-header__club" @click="emit('club:click', event!.clubId)">
+      {{ club?.name }}
+    </p-link>
+
+    <div class="event-header__name">
       <p-bread-crumbs :crumbs="[{ text: event.name }]" />
     </div>
 
-    <div class="event-overview-header__header-actions">
-      <div class="event-overview-header__start">
-        <strong>
-          {{ startDate }}
-        </strong>
-        <p>{{ startTime }}</p>
-      </div>
+    <p class="event-header__date">
+      {{ startDate }}
+    </p>
+    <p class="event-header__time">
+      {{ startTime }}
+    </p>
+    <div class="event-header__actions">
       <slot name="actions" />
     </div>
   </div>
@@ -45,26 +46,74 @@
 </script>
 
 <style>
-.event-overview-header {
-  display: flex;
-  align-items: start;
-  justify-content: space-between;
-  gap: var(--space-2);
+.event-header {
+  display: grid;
+  grid-template-areas:
+    'club date actions'
+    'name date actions'
+    'name time actions';
+  grid-template-columns: minmax(0, 1fr) max-content max-content;
+  column-gap: var(--space-4);
 }
 
-.event-overview-header__event-name {
+.event-header__club {
+  grid-area: club;
+}
+
+.event-header__name {
+  grid-area: name;
   font-size: 1.25rem;
 }
 
-.event-overview-header__header-actions {
+.event-header__actions {
+  grid-area: actions;
   display: flex;
-  gap: var(--space-3);
+  gap: var(--space-4);
   align-items: center;
 }
 
-.event-overview-header__start {
+.event-header__date {
+  grid-area: date;
+  display: flex;
+  flex-direction: start;
+  align-items: end;
+  justify-content: center;
+  text-align: right;
+}
+
+.event-header__time {
+  grid-area: time;
   display: flex;
   flex-direction: column;
   align-items: end;
+  justify-content: center;
+  text-align: right;
+}
+
+.event-header__actions {
+  grid-area: actions;
+  display: flex;
+  gap: var(--space-3);
+}
+
+@media(max-width: 768px){
+  .event-header {
+    grid-template-areas:
+      'club actions'
+      'name actions'
+      'date time';
+    grid-template-columns: minmax(0, 1fr) max-content;
+  }
+
+  .event-header__date {
+    align-items: start;
+    justify-content: start;
+    text-align: left;
+  }
+
+  .event-header__actions {
+    justify-content: end;
+    align-items: start;
+  }
 }
 </style>
