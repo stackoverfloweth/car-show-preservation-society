@@ -108,7 +108,7 @@
 
   watchEffect(() => {
     set({
-      left: { title: 'Events', route: routes.events() },
+      left: { title: 'Event', route: routes.event(eventId.value) },
       right: { title: 'Save', pending: pending.value, callback: submit },
     })
   })

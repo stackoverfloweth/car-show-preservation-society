@@ -55,11 +55,11 @@
   const menuVisible = ref(media.hover)
 
   const titles = computed(() => [
-    { title: 'General', to: routes.eventsEditorGeneral(eventId.value) },
-    { title: 'Judging', to: routes.eventsEditorJudging(eventId.value) },
-    { title: 'Registration', to: routes.eventsEditorRegistration(eventId.value) },
-    { title: 'Sponsors', to: routes.eventsEditorSponsors(eventId.value) },
-    { title: 'Preview', to: routes.eventsEditorPreview(eventId.value) },
+    { title: 'General', to: routes.eventEditorGeneral(eventId.value) },
+    { title: 'Judging', to: routes.eventEditorJudging(eventId.value) },
+    { title: 'Registration', to: routes.eventEditorRegistration(eventId.value) },
+    { title: 'Sponsors', to: routes.eventEditorSponsors(eventId.value) },
+    { title: 'Preview', to: routes.eventEditorPreview(eventId.value) },
   ])
 
   const activeTitle = computed(() => titles.value.find(({ to }) => to.name === route.name))

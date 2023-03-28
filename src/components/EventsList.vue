@@ -1,7 +1,7 @@
 <template>
   <div class="events-list">
     <template v-for="event in events" :key="event.eventId">
-      <router-link :to="routes.eventsEditor(event.eventId)">
+      <router-link :to="routes.event(event.eventId)">
         <p-list-item class="events-list__event">
           <EventHeader class="events-list__event-header" :event="event" />
           <p class="events-list__event-location">

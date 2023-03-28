@@ -8,11 +8,16 @@
             <p-button>Register</p-button>
           </template>
         </template>
-        <template v-else>
+        <template v-if="!media.hover || canEditEvent">
           <p-icon-button-menu>
-            <p-overflow-menu-item label="Share" icon="ShareIcon" />
-            <template v-if="eventIsUpcoming">
-              <p-overflow-menu-item label="Register" />
+            <template v-if="!media.hover">
+              <p-overflow-menu-item label="Share" icon="ShareIcon" />
+              <template v-if="eventIsUpcoming">
+                <p-overflow-menu-item label="Register" icon="BookmarkIcon" />
+              </template>
+            </template>
+            <template v-if="canEditEvent">
+              <p-overflow-menu-item label="Edit" icon="PencilIcon" :to="routes.eventEditor(event.eventId)" />
             </template>
           </p-icon-button-menu>
         </template>
@@ -51,6 +56,7 @@
   import RelatedEvents from '@/components/RelatedEvents.vue'
   import SizedImage from '@/components/SizedImage.vue'
   import { Event } from '@/models'
+  import { routes } from '@/router/routes'
 
   const props = defineProps<{
     event: Event,
@@ -62,6 +68,7 @@
   }>()
 
   const eventIsUpcoming = computed(() => isFuture(props.event.end))
+  const canEditEvent = true
 
   function openRelatedEvent(event: Event): void {
     emit('open:event', event)
