@@ -1,19 +1,16 @@
 <template>
   <div class="clubs-page">
-    <ClubsList :clubs="clubs" @row:click="navigateToClub" />
+    <ClubsList :clubs="clubs" />
   </div>
 </template>
 
 <script lang="ts" setup>
   import { useSubscription } from '@prefecthq/vue-compositions'
   import { computed } from 'vue'
-  import { useRouter } from 'vue-router'
   import ClubsList from '@/components/ClubsList.vue'
   import { useApi, useNavigation } from '@/compositions'
-  import { Club } from '@/models'
   import { routes } from '@/router/routes'
 
-  const router = useRouter()
   const api = useApi()
 
   const clubsSubscription = useSubscription(api.clubs.getClubs)
@@ -23,10 +20,6 @@
     center: { title: 'Clubs' },
     right: { title: 'New', route: routes.clubsCreate() },
   })
-
-  function navigateToClub({ row: club }: { row: Club }): void {
-    router.push(routes.club(club.clubId))
-  }
 </script>
 
 <style>

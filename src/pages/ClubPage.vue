@@ -6,7 +6,7 @@
 
         <div class="club-overview__events">
           <p-bread-crumbs :crumbs="[{ text: 'Upcoming Events' }]" />
-          <EventsList :events="events" @row:click="navigateToEvent" />
+          <EventsList :events="events" />
         </div>
       </div>
     </template>
@@ -16,15 +16,13 @@
 <script lang="ts" setup>
   import { useRouteParam, useSubscription, useSubscriptionWithDependencies } from '@prefecthq/vue-compositions'
   import { computed } from 'vue'
-  import { useRoute, useRouter } from 'vue-router'
+  import { useRoute } from 'vue-router'
   import ClubOverview from '@/components/ClubOverview.vue'
   import EventsList from '@/components/EventsList.vue'
   import { useApi, useNavigation } from '@/compositions'
-  import { Event } from '@/models'
   import { routes } from '@/router/routes'
 
   const route = useRoute()
-  const router = useRouter()
   const clubId = useRouteParam('clubId')
   const api = useApi()
 
@@ -34,12 +32,6 @@
   const eventSubscriptionArgs = computed<Parameters<typeof api.events.getEventsByClubId> | null>(() => club.value ? [club.value.clubId] : null)
   const eventsSubscription = useSubscriptionWithDependencies(api.events.getEventsByClubId, eventSubscriptionArgs)
   const events = computed(() => eventsSubscription.response ?? [])
-
-  function navigateToEvent({ row: event }: { row: Event }): void {
-    if (club.value) {
-      router.push(routes.clubEvent(club.value.clubId, event.eventId))
-    }
-  }
 
   useNavigation({
     left: route.name === 'clubs.view' ? { title: 'Clubs', route: routes.clubs() } : undefined,
