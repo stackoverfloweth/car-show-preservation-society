@@ -29,6 +29,16 @@ export class Api<T extends ApiConfig = ApiConfig> {
     return this.apiBaseUrl(this.apiConfig)
   }
 
+  protected composeHeaders(): RawAxiosRequestHeaders | AxiosHeaders {
+    if (this.apiConfig.token) {
+      return {
+        Authorization: `bearer ${this.apiConfig.token}`,
+      }
+    }
+
+    return {}
+  }
+
   protected combinePath(route: string | undefined): string {
     const repeatingSlashes = /(\/+)/g
 
@@ -41,7 +51,7 @@ export class Api<T extends ApiConfig = ApiConfig> {
   protected instance(): AxiosInstance {
     const config: AxiosRequestConfig = {
       baseURL: this.composeBaseUrl(),
-      headers: this.apiHeaders,
+      headers: this.composeHeaders(),
     }
 
     return axios.create(config)

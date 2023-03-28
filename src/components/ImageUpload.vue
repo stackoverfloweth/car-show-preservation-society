@@ -1,7 +1,13 @@
 <template>
   <p-base-input class="image-upload">
     <template #control="{ attrs }">
-      <div class="image-upload__dropzone" v-bind="attrs" />
+      <input
+        type="file"
+        accept="image/*"
+        class="image-upload__dropzone"
+        v-bind="attrs"
+        @change="handleChange"
+      >
     </template>
   </p-base-input>
 </template>
@@ -9,6 +15,7 @@
 <script lang="ts" setup>
   import { computed } from 'vue'
   import { Image } from '@/models'
+  import { cloudFlareApi } from '@/services/cloudFlareApi'
 
   const props = defineProps<{
     image: Image | undefined,
@@ -26,6 +33,17 @@
       emit('update:image', value)
     },
   })
+
+  function handleChange(event: Event): void {
+    const target = event.target as HTMLInputElement
+    const [file] = target.files!
+
+    const data = new FormData()
+    data.append('name', 'my-picture')
+    data.append('file', file)
+
+    cloudFlareApi.uploadImage(data)
+  }
 </script>
 
 <style>
@@ -44,8 +62,12 @@
   height: 100%;
 }
 
-.image-upload__dropzone::after {
+.image-upload__dropzone::before {
   content: 'Drop File'
+}
+
+.image-upload__dropzone::file-selector-button {
+  display: none;
 }
 
 @media(max-width: 768px){
