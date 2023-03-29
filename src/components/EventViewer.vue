@@ -125,7 +125,7 @@
 
 .event-viewer__voting-summary {
   grid-area: voting-summary;
-  overflow: hidden;
+  position: relative;
 }
 
 .event-viewer__related-events {
