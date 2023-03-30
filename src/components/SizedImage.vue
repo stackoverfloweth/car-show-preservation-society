@@ -1,5 +1,7 @@
 <template>
-  <div class="sized-image" :style="styles" />
+  <div class="sized-image" :style="styles" :aria-label="image.caption">
+    <img :alt="image.caption" class="sized-image__img">
+  </div>
 </template>
 
 <script lang="ts" setup>
@@ -25,5 +27,14 @@
   background-size: v-bind(size);
   background-repeat: no-repeat;
   background-position: v-bind(position);
+}
+
+.sized-image__img {
+  position: absolute;
+  left: -10000px;
+  width: 1px;
+  height: 1px;
+  top: auto;
+  overflow: hidden;
 }
 </style>
