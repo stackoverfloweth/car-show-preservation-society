@@ -1,3 +1,4 @@
+import { Image } from '@/models/image'
 import { Location } from '@/models/location'
 
 export type User = {
@@ -7,6 +8,6 @@ export type User = {
   firstName?: string,
   lastName?: string,
   location?: Location,
-  profileImage?: string,
+  profileImage?: Image,
   stripeCustomerId?: string,
 }

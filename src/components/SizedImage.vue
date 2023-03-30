@@ -1,5 +1,5 @@
 <template>
-  <div class="sized-image" :style="styles" :aria-label="image.caption">
+  <div class="sized-image" :class="classes" :style="styles" :aria-label="image.caption">
     <img :alt="image.caption" class="sized-image__img">
   </div>
 </template>
@@ -10,6 +10,7 @@
 
   const props = defineProps<{
     image: Image,
+    rounded?: boolean,
   }>()
 
   const position = computed(() => props.image.position ?? 'center')
@@ -17,6 +18,10 @@
 
   const styles = computed(() => ({
     backgroundImage: `url(${props.image.src})`,
+  }))
+
+  const classes = computed(() => ({
+    'sized-image__rounded': props.rounded,
   }))
 </script>
 
@@ -27,6 +32,10 @@
   background-size: v-bind(size);
   background-repeat: no-repeat;
   background-position: v-bind(position);
+}
+
+.sized-image__rounded {
+  border-radius: 100%;
 }
 
 .sized-image__img {
