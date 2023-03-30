@@ -86,6 +86,31 @@ const routeRecords: AppRouteRecord[] = [
       },
     ],
   },
+  {
+    path: '/garage',
+    children: [
+      {
+        name: 'vehicles.list',
+        path: '',
+        component: () => import('@/pages/VehiclesPage.vue'),
+      },
+      {
+        name: 'vehicles.view',
+        path: ':vehicleId',
+        component: () => import('@/pages/VehiclePage.vue'),
+      },
+      {
+        name: 'vehicles.create',
+        path: 'new',
+        component: () => import('@/pages/VehicleCreatePage.vue'),
+      },
+      {
+        name: 'vehicles.editor',
+        path: ':vehicleId/editor',
+        component: () => import('@/pages/VehicleEditorPage.vue'),
+      },
+    ],
+  },
 ]
 
 const router = createRouter({

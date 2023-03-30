@@ -15,6 +15,10 @@ export const routes = {
   eventEditorSponsors: (eventId: string) => ({ name: 'events.editor.sponsors', params: { eventId } }) as const,
   eventEditorPreview: (eventId: string) => ({ name: 'events.editor.preview', params: { eventId } }) as const,
   event: (eventId: string) => ({ name: 'events.view', params: { eventId } }) as const,
+  vehicles: () => ({ name: 'vehicles.list' }) as const,
+  vehicleCreate: () => ({ name: 'vehicles.create' }) as const,
+  vehicle: (vehicleId: string) => ({ name: 'vehicles.view', params: { vehicleId } }) as const,
+  vehicleEditor: (vehicleId: string) => ({ name: 'vehicles.editor', params: { vehicleId } }) as const,
 }
 
 export type NamedRoute = ReturnType<typeof routes[keyof typeof routes]>['name']
