@@ -21,11 +21,11 @@
   import { stringHasValue } from '@/services'
 
   const props = defineProps<{
-    values: Partial<ClubRequest>,
+    values: ClubRequest,
   }>()
 
   const emit = defineEmits<{
-    (event: 'update:values', value: Partial<ClubRequest>): void,
+    (event: 'update:values', value: ClubRequest): void,
   }>()
 
   const values = computed({

@@ -18,21 +18,12 @@
 
   useNavigation({
     center: { title: 'Clubs' },
-    right: { title: 'New', route: routes.clubsCreate() },
+    right: { title: 'New', route: routes.clubCreate() },
   })
 </script>
 
 <style>
 .clubs-page {
-  display: flex;
-  flex-direction: column;
   padding: var(--space-4);
-  gap: var(--space-4);
-}
-
-.clubs-page__heading {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
 }
 </style>

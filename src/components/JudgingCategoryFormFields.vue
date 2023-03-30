@@ -59,11 +59,11 @@
   import { stringHasValue } from '@/services'
 
   const props = defineProps<{
-    values: Partial<VotingCategoryRequest>,
+    values: VotingCategoryRequest,
   }>()
 
   const emit = defineEmits<{
-    (event: 'update:values', value: Partial<VotingCategoryRequest>): void,
+    (event: 'update:values', value: VotingCategoryRequest): void,
   }>()
 
   const values = computed({

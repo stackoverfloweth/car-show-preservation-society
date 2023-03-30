@@ -14,7 +14,7 @@
         <template #default="{ close }">
           <p-overflow-menu class="menu-header__menu" @click="close">
             <p-overflow-menu-item label="Profile" />
-            <p-overflow-menu-item label="Garage" />
+            <p-overflow-menu-item label="Garage" :to="routes.vehicles()" />
             <p-overflow-menu-item label="Messages" />
             <p-overflow-menu-item label="Clubs" :to="routes.clubs()" />
             <p-overflow-menu-item label="Events" :to="routes.events()" />

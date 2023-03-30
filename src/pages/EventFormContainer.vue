@@ -55,8 +55,8 @@
 
     await api.events.updateEvent(values.value)
 
-    showToast('Event Created!', 'success')
-    router.push(routes.events())
+    showToast('Saved!', 'success')
+    router.push(routes.event(eventId.value))
   }
 
   const unsavedChangesCheck: NavigationGuard = () => {

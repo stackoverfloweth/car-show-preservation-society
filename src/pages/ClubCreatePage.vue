@@ -3,9 +3,7 @@
     <p-bread-crumbs :crumbs="[{ text: 'Club Information' }]" />
 
     <p-form @submit="submit">
-      <ClubFormFields
-        v-model:values="values"
-      />
+      <ClubFormFields v-model:values="values" />
     </p-form>
   </div>
 </template>
@@ -25,7 +23,7 @@
   const { validate, pending } = useValidationObserver()
   const { set } = useNavigation()
 
-  const values = ref<Partial<ClubRequest>>({})
+  const values = ref<ClubRequest>({})
 
   async function submit(): Promise<void> {
     const isValid = await validate()

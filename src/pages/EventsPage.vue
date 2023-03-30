@@ -19,21 +19,12 @@
 
   useNavigation({
     center: { title: 'Events' },
-    right: { title: 'New', route: routes.eventsCreate() },
+    right: { title: 'New', route: routes.eventCreate() },
   })
 </script>
 
 <style>
 .events-page {
-  display: flex;
-  flex-direction: column;
   padding: var(--space-4);
-  gap: var(--space-4);
-}
-
-.events-page__heading {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
 }
 </style>
