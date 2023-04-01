@@ -2,22 +2,30 @@
   <div class="event-viewer">
     <EventHeader :event="event" class="event-overview__header" @club:click="openRelatedClub">
       <template #actions>
-        <template v-if="media.hover">
-          <p-button inset icon="ShareIcon" />
+        <template v-if="canEditEvent">
+          <p-icon-button-menu>
+            <p-overflow-menu-item label="Share" icon="ShareIcon" />
+            <template v-if="eventIsUpcoming">
+              <p-overflow-menu-item label="Register" icon="BookmarkIcon" />
+            </template>
+            <p-overflow-menu-item label="Edit" icon="PencilIcon" :to="routes.eventEditor(event.eventId)" />
+          </p-icon-button-menu>
+        </template>
+
+        <template v-else-if="media.hover">
+          <template v-if="!canEditEvent">
+            <p-button inset icon="ShareIcon" />
+          </template>
           <template v-if="eventIsUpcoming">
             <p-button>Register</p-button>
           </template>
         </template>
-        <template v-if="!media.hover || canEditEvent">
+
+        <template v-else>
           <p-icon-button-menu>
-            <template v-if="!media.hover">
-              <p-overflow-menu-item label="Share" icon="ShareIcon" />
-              <template v-if="eventIsUpcoming">
-                <p-overflow-menu-item label="Register" icon="BookmarkIcon" />
-              </template>
-            </template>
-            <template v-if="canEditEvent">
-              <p-overflow-menu-item label="Edit" icon="PencilIcon" :to="routes.eventEditor(event.eventId)" />
+            <p-overflow-menu-item label="Share" icon="ShareIcon" />
+            <template v-if="eventIsUpcoming">
+              <p-overflow-menu-item label="Register" icon="BookmarkIcon" />
             </template>
           </p-icon-button-menu>
         </template>
@@ -68,7 +76,7 @@
   }>()
 
   const eventIsUpcoming = computed(() => isFuture(props.event.end))
-  const canEditEvent = true
+  const canEditEvent = false
 
   function openRelatedEvent(event: Event): void {
     emit('open:event', event)
