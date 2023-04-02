@@ -76,7 +76,7 @@
   }>()
 
   const eventIsUpcoming = computed(() => isFuture(props.event.end))
-  const canEditEvent = false
+  const canEditEvent = true
 
   function openRelatedEvent(event: Event): void {
     emit('open:event', event)
