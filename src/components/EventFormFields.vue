@@ -1,6 +1,6 @@
 <template>
   <div class="event-form-fields">
-    <div class="event-form-fields__top">
+    <div class="event-form-fields__right">
       <p-label label="Start" :message="startError" :state="startState">
         <template #default="{ id }">
           <p-date-input :id="id" v-model="start" :state="startState" show-time clearable />
@@ -10,6 +10,12 @@
       <p-label label="End" :message="endError" :state="endState">
         <template #default="{ id }">
           <p-date-input :id="id" v-model="end" :state="endState" show-time clearable />
+        </template>
+      </p-label>
+
+      <p-label label="Description" class="event-form-fields__description" :message="descriptionError" :state="descriptionState">
+        <template #default="{ id }">
+          <p-textarea :id="id" v-model="description" rows="8" :state="descriptionState" />
         </template>
       </p-label>
     </div>
@@ -45,14 +51,6 @@
         <p-label label="Event Image" :message="eventLogoError" :state="eventLogoState" />
         <ImageUpload v-model:image="eventLogo" :state="eventLogoState" />
       </div>
-    </div>
-
-    <div class="event-form-fields__middle">
-      <p-label label="Description" :message="descriptionError" :state="descriptionState">
-        <template #default="{ id }">
-          <p-textarea :id="id" v-model="description" rows="8" :state="descriptionState" />
-        </template>
-      </p-label>
     </div>
   </div>
 </template>
@@ -107,19 +105,17 @@
 .event-form-fields {
   display: grid;
   grid-template-areas:
-  'left top top'
-  'left middle middle'
-  'left middle middle'
-  'left bottom bottom';
+    'left right right';
   grid-template-columns: repeat(3, minmax(0, 1fr));
   column-gap: var(--space-5);
   row-gap: var(--space-4);
 }
 
-.event-form-fields__top {
-  grid-area: top;
+.event-form-fields__right {
+  grid-area: right;
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
+  grid-template-rows: min-content 1fr;
   column-gap: var(--space-5);
   row-gap: var(--space-4);
 }
@@ -133,36 +129,34 @@
   row-gap: var(--space-4);
 }
 
-.event-form-fields__middle {
-  grid-area: middle;
-  display: grid;
-  grid-template-columns: repeat(2, minmax(1fr));
-  column-gap: var(--space-5);
-  row-gap: var(--space-4);
-}
-
 .event-form-fields__image-upload {
   display: flex;
   flex-direction: column;
   flex-grow: 1;
 }
 
+.event-form-fields__description {
+  grid-column: 1 / -1;
+}
+
+.event-form-fields__description .p-label__body,
+.event-form-fields__description .p-textarea,
+.event-form-fields__description textarea {
+  height: 100%;
+  resize: none;
+}
+
 @media(max-width: 768px){
   .event-form-fields {
     grid-template-areas:
-    'left'
-    'top'
-    'middle'
-    'bottom';
+      'left'
+      'right';
     grid-template-columns: 1fr;
   }
 
-  .event-form-fields__top {
+  .event-form-fields__right {
     grid-template-columns: 1fr;
-  }
-
-  .event-form-fields__middle {
-    grid-template-columns: minmax(1fr);
+    grid-template-rows: min-content;
   }
 }
 </style>
