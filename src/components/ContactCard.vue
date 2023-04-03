@@ -1,7 +1,9 @@
 <template>
   <div class="contact-card">
-    <template v-if="user">
+    <template v-if="showLabel">
       <p-bread-crumbs :crumbs="[{ text: 'Contact' }]" />
+    </template>
+    <template v-if="user">
       <div class="contact-card__content">
         <SizedImage v-if="user.profileImage" class="contact-card__image" :image="user.profileImage" rounded />
 
@@ -34,6 +36,7 @@
 
   const props = defineProps<{
     userId: string | undefined,
+    showLabel?: boolean,
   }>()
 
   const { userId } = toRefs(props)

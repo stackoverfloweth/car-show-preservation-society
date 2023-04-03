@@ -4,7 +4,7 @@
 
     <span>{{ club.description }}</span>
 
-    <ContactCard :user-id="club.contactUserId" />
+    <ContactCard :user-id="club.contactUserId" show-label />
   </div>
 </template>
 
