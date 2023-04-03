@@ -4,22 +4,13 @@
     <div v-else class="vehicle-card__image">
       <p-icon icon="PhotographIcon" size="large" />
     </div>
-    <div class="vehicle-card__content">
-      <div class="vehicle-card__year">
-        {{ vehicle.year }}
-      </div>
-      <div class="vehicle-card__make">
-        {{ vehicle.make }}
-      </div>
-      <div class="vehicle-card__model">
-        {{ vehicle.model }}
-      </div>
-    </div>
+    <VehicleLabel :vehicle="vehicle" />
   </div>
 </template>
 
 <script lang="ts" setup>
   import SizedImage from '@/components/SizedImage.vue'
+  import VehicleLabel from '@/components/VehicleLabel.vue'
   import { Vehicle } from '@/models'
 
   defineProps<{
@@ -42,20 +33,5 @@
   justify-content: center;
   align-items: center;
   background-color: var(--slate-700);
-}
-
-.vehicle-card__content {
-  padding: var(--space-4);
-  display: flex;
-  flex-direction: column;
-  line-height: 1.25;
-}
-
-.vehicle-card__make {
-  font-size: 1.25rem;
-}
-
-.vehicle-card__year {
-  font-size: .75rem;
 }
 </style>
