@@ -13,7 +13,7 @@
       </template>
     </div>
 
-    <p-modal v-model:show-modal="showModal" class="vehicle-page__full-screen-modal">
+    <p-modal v-model:show-modal="showModal" class="vehicle-page__full-screen-modal" auto-close>
       <SizedImage :image="fullScreenImage" class="vehicle-page__full-screen-image" />
     </p-modal>
   </div>

@@ -46,7 +46,7 @@
     </p-button>
   </template>
 
-  <p-modal v-model:showModal="showModal" title="Set Location">
+  <p-modal v-model:showModal="showModal" title="Set Location" auto-close>
     <p-label label="Location">
       <template #default="{ id }">
         <p-textarea :id="id" v-model="place" class="location-input__manual-input" rows="4" @update:model-value="setLocationFromManual" />
