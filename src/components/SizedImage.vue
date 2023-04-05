@@ -1,6 +1,11 @@
 <template>
-  <div class="sized-image" :class="classes" :style="styles" :aria-label="image.caption">
-    <img :alt="image.caption" class="sized-image__img">
+  <div class="sized-image" :class="classes" :style="styles" :aria-label="image?.caption">
+    <template v-if="image">
+      <img :alt="image.caption" class="sized-image__img">
+    </template>
+    <template v-else>
+      <p-icon class="sized-image__icon" icon="PhotographIcon" size="large" />
+    </template>
   </div>
 </template>
 
@@ -9,19 +14,20 @@
   import { Image } from '@/models'
 
   const props = defineProps<{
-    image: Image,
+    image?: Image,
     rounded?: boolean,
   }>()
 
-  const position = computed(() => props.image.position ?? 'center')
-  const size = computed(() => props.image.size ?? 'contain')
+  const position = computed(() => props.image?.position ?? 'center')
+  const size = computed(() => props.image?.size ?? 'contain')
 
   const styles = computed(() => ({
-    backgroundImage: `url(${props.image.src})`,
+    backgroundImage: `url(${props.image?.src})`,
   }))
 
   const classes = computed(() => ({
-    'sized-image__rounded': props.rounded,
+    'sized-image--rounded': props.rounded,
+    'sized-image--empty': props.image === undefined,
   }))
 </script>
 
@@ -34,8 +40,12 @@
   background-position: v-bind(position);
 }
 
-.sized-image__rounded {
+.sized-image--rounded {
   border-radius: 100%;
+}
+
+.sized-image--empty {
+  background-color: var(--slate-700);
 }
 
 .sized-image__img {
@@ -45,5 +55,12 @@
   height: 1px;
   top: auto;
   overflow: hidden;
+}
+
+.sized-image__icon {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
 }
 </style>

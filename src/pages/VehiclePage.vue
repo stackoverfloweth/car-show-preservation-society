@@ -6,9 +6,7 @@
         <ContactCard :user-id="vehicle.userId" />
       </template>
     </div>
-    <template v-if="vehicle?.profileImage">
-      <SizedImage :image="vehicle.profileImage" class="vehicle-page__hero" />
-    </template>
+    <SizedImage :image="vehicle?.profileImage" class="vehicle-page__hero" />
   </div>
 </template>
 
