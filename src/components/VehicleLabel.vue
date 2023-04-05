@@ -22,7 +22,6 @@
 
 <style>
 .vehicle-label {
-  padding: var(--space-4);
   display: flex;
   flex-direction: column;
   line-height: 1.25;

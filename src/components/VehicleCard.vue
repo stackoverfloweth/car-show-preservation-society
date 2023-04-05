@@ -1,7 +1,7 @@
 <template>
   <div class="vehicle-card">
     <SizedImage class="vehicle-card__image" :image="vehicle.profileImage" />
-    <VehicleLabel :vehicle="vehicle" />
+    <VehicleLabel class="vehicle-card__label" :vehicle="vehicle" />
   </div>
 </template>
 
@@ -26,5 +26,9 @@
 .vehicle-card__image {
   height: 120px;
   border-radius: 0;
+}
+
+.vehicle-card__label {
+  padding: var(--space-4);
 }
 </style>

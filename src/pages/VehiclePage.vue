@@ -7,6 +7,11 @@
       </template>
     </div>
     <SizedImage :image="vehicle?.profileImage" class="vehicle-page__hero" />
+    <div class="vehicle-page__gallery">
+      <template v-for="image in images" :key="image.imageId">
+        <SizedImage :image="image" class="vehicle-page__gallery-image" />
+      </template>
+    </div>
   </div>
 </template>
 
@@ -27,6 +32,9 @@
   const vehicleSubscription = useSubscription(api.vehicles.getVehicle, [vehicleId])
   const vehicle = computed(() => vehicleSubscription.response)
 
+  const vehicleImagesSubscription = useSubscription(api.vehicles.getVehicleImages, [vehicleId])
+  const images = computed(() => vehicleImagesSubscription.response ?? [])
+
   useNavigation({
     left: route.name === 'vehicles.view' ? { title: 'Garage', route: routes.vehicles() } : undefined,
   })
@@ -35,6 +43,9 @@
 <style>
 .vehicle-page {
   padding: var(--space-4);
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-5);
 }
 
 .vehicle-page__header {
@@ -46,5 +57,16 @@
 .vehicle-page__hero {
   padding-top: 50%;
   margin: var(--space-3) var(--space-5);
+}
+
+.vehicle-page__gallery {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-4);
+}
+
+.vehicle-page__gallery-image {
+  height: 100px;
+  width: 100px;
 }
 </style>
