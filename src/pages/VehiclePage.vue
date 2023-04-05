@@ -9,25 +9,42 @@
     <SizedImage :image="vehicle?.profileImage" class="vehicle-page__hero" />
     <div class="vehicle-page__gallery">
       <template v-for="image in images" :key="image.imageId">
-        <SizedImage :image="image" class="vehicle-page__gallery-image" />
+        <SizedImage :image="image" class="vehicle-page__gallery-image" @click="fullScreenImage = image" />
       </template>
     </div>
+
+    <p-modal v-model:show-modal="showModal" class="vehicle-page__full-screen-modal">
+      <SizedImage :image="fullScreenImage" class="vehicle-page__full-screen-image" />
+    </p-modal>
   </div>
 </template>
 
 <script lang="ts" setup>
   import { useRouteParam, useSubscription } from '@prefecthq/vue-compositions'
-  import { computed } from 'vue'
+  import { computed, ref } from 'vue'
   import { useRoute } from 'vue-router'
   import ContactCard from '@/components/ContactCard.vue'
   import SizedImage from '@/components/SizedImage.vue'
   import VehicleLabel from '@/components/VehicleLabel.vue'
   import { useApi, useNavigation } from '@/compositions'
+  import { Image } from '@/models'
   import { routes } from '@/router/routes'
 
   const route = useRoute()
   const vehicleId = useRouteParam('vehicleId')
   const api = useApi()
+  const fullScreenImage = ref<Image>()
+
+  const showModal = computed({
+    get() {
+      return fullScreenImage.value !== undefined
+    },
+    set(value) {
+      if (!value) {
+        fullScreenImage.value = undefined
+      }
+    },
+  })
 
   const vehicleSubscription = useSubscription(api.vehicles.getVehicle, [vehicleId])
   const vehicle = computed(() => vehicleSubscription.response)
@@ -68,5 +85,19 @@
 .vehicle-page__gallery-image {
   height: 100px;
   width: 100px;
+}
+
+.vehicle-page__full-screen-modal .p-modal__card {
+  width: 100%;
+  max-width: unset;
+}
+
+.vehicle-page__full-screen-modal .p-modal__body {
+  padding: 0;
+}
+
+.vehicle-page__full-screen-image {
+  padding-top: 50%;
+  width: 100%;
 }
 </style>
