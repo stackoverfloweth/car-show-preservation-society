@@ -25,4 +25,10 @@
   padding: var(--space-4);
   gap: var(--space-5);
 }
+
+@media(max-width: 768px){
+  .vehicle-list {
+    grid-template-columns: 1fr;
+  }
+}
 </style>
