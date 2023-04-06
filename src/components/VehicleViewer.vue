@@ -1,12 +1,10 @@
 <template>
   <div class="vehicle-viewer">
     <div class="vehicle-viewer__header">
-      <template v-if="vehicle">
-        <VehicleLabel :vehicle="vehicle" />
-        <ContactCard :user-id="vehicle.userId" />
-      </template>
+      <VehicleLabel :vehicle="vehicle" />
+      <ContactCard :user-id="vehicle.userId" />
     </div>
-    <SizedImage :image="vehicle?.profileImage" class="vehicle-viewer__hero" />
+    <SizedImage :image="vehicle.profileImage" class="vehicle-viewer__hero" />
     <div class="vehicle-viewer__gallery">
       <template v-for="image in images" :key="image.imageId">
         <SizedImage :image="image" class="vehicle-viewer__gallery-image" @click="fullScreenImage = image" />
