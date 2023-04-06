@@ -4,7 +4,7 @@
       <SizedImage v-if="club.clubLogo" :image="club.clubLogo" class="club-card__logo" />
       <p-bread-crumbs :crumbs="[{ text: club.name }]" />
       <span>{{ club.description }}</span>
-      <ContactCard :user-id="club.contactUserId" show-label />
+      <ContactCard :user-id="club.contactUserId" show-label show-details />
     </template>
   </div>
 </template>

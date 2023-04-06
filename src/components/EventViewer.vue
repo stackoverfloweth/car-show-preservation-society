@@ -39,7 +39,7 @@
 
     <LocationCard class="event-viewer__location" :location="event.location" />
 
-    <ContactCard class="event-viewer__contact" :user-id="event.contactUserId" show-label />
+    <ContactCard class="event-viewer__contact" :user-id="event.contactUserId" show-label show-details />
 
     <EventSponsors class="event-viewer__sponsors" :event="event" />
 

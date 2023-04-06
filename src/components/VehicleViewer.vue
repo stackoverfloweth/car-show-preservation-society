@@ -2,7 +2,14 @@
   <div class="vehicle-viewer">
     <div class="vehicle-viewer__header">
       <VehicleLabel :vehicle="vehicle" />
-      <ContactCard :user-id="vehicle.userId" />
+      <template v-if="canEditVehicle">
+        <p-icon-button-menu>
+          <p-overflow-menu-item label="Share" icon="ShareIcon" />
+        </p-icon-button-menu>
+      </template>
+      <template v-else>
+        <ContactCard :user-id="vehicle.userId" />
+      </template>
     </div>
     <SizedImage :image="vehicle.profileImage" class="vehicle-viewer__hero" />
     <div class="vehicle-viewer__gallery">
@@ -32,6 +39,7 @@
 
   const api = useApi()
   const fullScreenImage = ref<Image>()
+  const canEditVehicle = false
 
   const showModal = computed({
     get() {
@@ -59,6 +67,7 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
+  gap: var(--space-4);
 }
 
 .vehicle-viewer__hero {
