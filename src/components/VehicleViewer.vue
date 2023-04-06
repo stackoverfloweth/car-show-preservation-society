@@ -5,6 +5,7 @@
       <template v-if="canEditVehicle">
         <p-icon-button-menu>
           <p-overflow-menu-item label="Share" icon="ShareIcon" />
+          <p-overflow-menu-item label="Edit" icon="PencilIcon" :to="routes.vehicleEditor(vehicle.vehicleId)" />
         </p-icon-button-menu>
       </template>
       <template v-else>
@@ -32,6 +33,7 @@
   import VehicleLabel from '@/components/VehicleLabel.vue'
   import { useApi } from '@/compositions'
   import { Image, Vehicle } from '@/models'
+  import { routes } from '@/router/routes'
 
   const props = defineProps<{
     vehicle: Vehicle,
@@ -39,7 +41,7 @@
 
   const api = useApi()
   const fullScreenImage = ref<Image>()
-  const canEditVehicle = false
+  const canEditVehicle = true
 
   const showModal = computed({
     get() {
@@ -99,5 +101,11 @@
 .vehicle-viewer__full-screen-image {
   padding-top: 50%;
   width: 100%;
+}
+
+@media(max-width: 768px){
+  .vehicle-viewer__gallery {
+    justify-content: center;
+  }
 }
 </style>

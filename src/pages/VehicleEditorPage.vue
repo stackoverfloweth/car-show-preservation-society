@@ -26,9 +26,13 @@
   const { set } = useNavigation()
 
   const vehicleSubscription = useSubscription(api.vehicles.getVehicle, [vehicleId])
-  const { response: vehicle } = await vehicleSubscription.promise()
+  vehicleSubscription.promise().then(({ response }) => {
+    if (response) {
+      values.value = response
+    }
+  })
 
-  const values = ref<Vehicle | undefined>(vehicle)
+  const values = ref<Vehicle | undefined>()
 
   async function submit(): Promise<void> {
     const isValid = await validate()
