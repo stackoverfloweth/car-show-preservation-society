@@ -7,7 +7,7 @@ export class VehiclesApi extends Api {
   protected override routePrefix = '/vehicles'
 
   public async getVehicles(): Promise<Vehicle[]> {
-    return await Promise.resolve(mocker.createMany('vehicle', 5))
+    return await Promise.resolve(mocker.createMany('vehicle', 1))
   }
 
   public async getVehicle(vehicleId: string): Promise<Vehicle | undefined> {
