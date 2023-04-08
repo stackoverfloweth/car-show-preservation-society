@@ -1,5 +1,5 @@
 <template>
-  <p-form @submit="addEventAdvertisement">
+  <p-form @submit="createEventAdvertisement">
     <div class="sponsors-form-fields">
       <div class="sponsors-form-fields__left">
         <p-label label="Display Text" :state="titleState" :message="titleError">
@@ -109,7 +109,7 @@
   const { error: hrefError, state: hrefState } = useValidation(href, 'Href', [])
   const { error: sizeError, state: sizeState } = useValidation(size, 'Size', [])
 
-  async function addEventAdvertisement(): Promise<void> {
+  async function createEventAdvertisement(): Promise<void> {
     const isValid = await validate()
 
     if (!isValid) {

@@ -1,6 +1,7 @@
 export * from './advertisementRequest'
 export * from './clubRequest'
 export * from './eventRequest'
+export * from './imageRequest'
 export * from './mapBoxFeatureResponse'
 export * from './mapBoxPlaceRequestOptions'
 export * from './mapBoxPlaceResponse'

@@ -12,7 +12,7 @@
   import EventFormFields from '@/components/EventFormFields.vue'
   import EventJudgingFormFields from '@/components/EventJudgingFormFields.vue'
   import EventRegistrationFormFields from '@/components/EventRegistrationFormFields.vue'
-  import AdvertisementsFormFields from '@/components/SponsorsFormFields.vue'
+  import SponsorsFormFields from '@/components/SponsorsFormFields.vue'
   import { useApi, useNavigation } from '@/compositions'
   import { Event } from '@/models'
   import { NamedRoute, routes } from '@/router/routes'
@@ -40,7 +40,7 @@
       case 'events.editor.registration':
         return EventRegistrationFormFields
       case 'events.editor.sponsors':
-        return AdvertisementsFormFields
+        return SponsorsFormFields
       default:
         return null
     }
