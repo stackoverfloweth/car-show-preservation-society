@@ -22,12 +22,13 @@ const cars = [
   'https://randompicturegenerator.com/img/car-generator/gab8e2921a9c9aa8125712c735d00e4171c2a69786cf902e19b99141f706b152f5b4d11cc31617ae73b7974848dd30901_640.jpg',
 ]
 
-export const randomImage: MockFunction<Image, []> = function() {
+export const randomImage: MockFunction<Image, [Partial<Image>?]> = function(overrides) {
   return {
     imageId: this.create('id'),
     // src: `https://placekitten.com/${this.create('number', [300, 600])}/${this.create('number', [300, 600])}`,
     src: pick(cars),
     size: 'cover',
     caption: `${this.create('adjective')} ${this.create('noun')}`,
+    ...overrides,
   }
 }
