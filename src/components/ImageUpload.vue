@@ -14,15 +14,15 @@
 
 <script lang="ts" setup>
   import { computed } from 'vue'
-  import { Image } from '@/models'
+  import { ImageRequest } from '@/models/api'
   import { cloudFlareApi } from '@/services/cloudFlareApi'
 
   const props = defineProps<{
-    image: Image | undefined,
+    image: ImageRequest | undefined,
   }>()
 
   const emit = defineEmits<{
-    (event: 'update:image', value: Image | undefined): void,
+    (event: 'update:image', value: ImageRequest | undefined): void,
   }>()
 
   const image = computed({
