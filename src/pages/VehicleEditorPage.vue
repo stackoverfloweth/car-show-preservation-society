@@ -4,6 +4,11 @@
       <p-bread-crumbs :crumbs="[{ text: 'General' }]" />
       <VehicleFormFields v-if="values" v-model:values="values" />
     </div>
+
+    <div class="vehicle-editor-page__gallery">
+      <p-bread-crumbs :crumbs="[{ text: 'Gallery' }]" />
+      <VehicleGalleryForm v-if="values" :vehicle-id="vehicleId" />
+    </div>
   </p-form>
 </template>
 
@@ -13,6 +18,7 @@
   import { ref, watchEffect } from 'vue'
   import { useRouter } from 'vue-router'
   import VehicleFormFields from '@/components/VehicleFormFields.vue'
+  import VehicleGalleryForm from '@/components/VehicleGalleryForm.vue'
   import { useApi, useNavigation } from '@/compositions'
   import { Vehicle } from '@/models'
   import { VehicleRequest } from '@/models/api'
