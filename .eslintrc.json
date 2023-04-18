@@ -5,14 +5,17 @@
     },
     "parserOptions": {
       "ecmaVersion": 2020,
-      "project": "./tsconfig.json"
+      "project": "./tsconfig.json",
+      "sourceType": "module",
+      "parser": "@typescript-eslint/parser"
     },
     "extends": [
       "@prefecthq"
     ],
     "globals": {
       "defineProps": "readonly",
-      "defineEmits": "readonly"
+      "defineEmits": "readonly",
+      "defineExpose": "readonly"
     },
     "settings": {
       "import/resolver": {

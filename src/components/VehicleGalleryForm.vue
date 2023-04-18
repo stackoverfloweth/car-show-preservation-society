@@ -35,10 +35,6 @@
     vehicleId: string,
   }>()
 
-  const emit = defineEmits<{
-    (vehicle: 'add' | 'remove', value: Image): void,
-  }>()
-
   const { vehicleId } = toRefs(props)
   const newImage = ref<ImageRequest>({})
   const api = useApi()
@@ -94,8 +90,8 @@
 
 .vehicle-gallery-form__right {
   grid-area: right;
-  display: flex;
-  flex-wrap: wrap;
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
   gap: var(--space-4);
 }
 
@@ -122,7 +118,17 @@
 }
 
 .vehicle-gallery-form__gallery-item-image {
-  height: 200px;
-  width: 200px;
+  padding-top: 50%;
+  width: 100%;
+}
+
+@media(max-width: 768px){
+  .vehicle-gallery-form {
+    display: grid;
+    grid-template-areas:
+      'left'
+      'right';
+    grid-template-columns: minmax(0, 1fr);
+  }
 }
 </style>
