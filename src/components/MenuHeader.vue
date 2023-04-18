@@ -15,9 +15,13 @@
           <p-overflow-menu class="menu-header__menu" @click="close">
             <p-overflow-menu-item label="Profile" />
             <p-overflow-menu-item label="Garage" :to="routes.vehicles()" />
-            <p-overflow-menu-item label="Messages" />
             <p-overflow-menu-item label="Clubs" :to="routes.clubs()" />
             <p-overflow-menu-item label="Events" :to="routes.events()" />
+            <p-overflow-menu-item label="Messages" disabled>
+              <template #after>
+                <p-tag class="menu-header__coming-soon-message" value="Coming Soon!" />
+              </template>
+            </p-overflow-menu-item>
           </p-overflow-menu>
         </template>
       </p-pop-over>
@@ -53,6 +57,11 @@
 
 .menu-header__menu {
     border: 1px solid var(--blue-200);
+}
+
+.menu-header__coming-soon-message {
+  color: white;
+  background-color: var(--green-600) !important;
 }
 
 @media(max-width: 768px) {
