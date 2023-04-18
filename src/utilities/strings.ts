@@ -24,7 +24,11 @@ export function toPluralString(word: string, count?: number): string {
   return pluralize(word)
 }
 
-export function formatPhoneNumber(phoneNumber: string): string {
+export function formatPhoneNumber(phoneNumber?: string): string {
+  if (!phoneNumber) {
+    return ''
+  }
+
   const cleaned = `${ phoneNumber }`.replace(/\D/g, '')
   const match = cleaned.match(/^(\d{3})(\d{3})(\d{4})$/)
 

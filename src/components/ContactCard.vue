@@ -18,15 +18,20 @@
         <template v-if="showDetails">
           <div class="contact-card__details">
             <div class="contact-card__name">
-              {{ user.firstName }}  {{ user.lastName }}
+              <template v-if="user.displayNameOverride">
+                {{ user.displayNameOverride }}
+              </template>
+              <template v-else>
+                {{ user.firstName }}  {{ user.lastName }}
+              </template>
             </div>
             <div class="contact-card__email">
-              <p-link v-if="user.emailAddress" :href="`mailto:${user.emailAddress}`">
+              <p-link v-if="user.emailAddress && !user.hideEmailAddress" :href="`mailto:${user.emailAddress}`">
                 {{ user.emailAddress }}
               </p-link>
             </div>
             <div class="contact-card__phone">
-              <p-link v-if="user.phoneNumber" :href="`tel:${user.phoneNumber}`">
+              <p-link v-if="!user.hidePhoneNumber" :href="`tel:${user.phoneNumber}`">
                 {{ formatPhoneNumber(user.phoneNumber) }}
               </p-link>
             </div>
@@ -37,12 +42,12 @@
     <p-modal v-model:show-modal="showModal" :title="displayName" auto-close>
       <div v-if="user" class="contact-card__details">
         <div class="contact-card__email">
-          <p-link v-if="user.emailAddress" :href="`mailto:${user.emailAddress}`">
+          <p-link v-if="!user.hideEmailAddress" :href="`mailto:${user.emailAddress}`">
             {{ user.emailAddress }}
           </p-link>
         </div>
         <div class="contact-card__phone">
-          <p-link v-if="user.phoneNumber" :href="`tel:${user.phoneNumber}`">
+          <p-link v-if="!user.hidePhoneNumber" :href="`tel:${user.phoneNumber}`">
             {{ formatPhoneNumber(user.phoneNumber) }}
           </p-link>
         </div>
@@ -81,7 +86,7 @@
   }))
 
   function handleImageClick(): void {
-    if (!props.showDetails) {
+    if (!props.showDetails && !user.value?.hideEmailAddress || !user.value?.hidePhoneNumber) {
       open()
     }
   }

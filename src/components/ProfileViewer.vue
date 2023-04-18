@@ -13,18 +13,21 @@
 
       <div class="profile-viewer__contact">
         <div class="profile-viewer__name">
-          {{ user.firstName }} {{ user.lastName }}
+          <template v-if="user.displayNameOverride">
+            {{ user.displayNameOverride }}
+          </template>
+          <template v-else>
+            {{ user.firstName }} {{ user.lastName }}
+          </template>
         </div>
 
-        <div class="profile-viewer__email-address">
+        <div v-if="canEditProfile || !user.hideEmailAddress" class="profile-viewer__email-address">
           {{ user.emailAddress }}
         </div>
-        <template v-if="user.phoneNumber">
-          <div class="profile-viewer__phone-number">
-            {{ formatPhoneNumber(user.phoneNumber) }}
-          </div>
-        </template>
-        <div class="profile-viewer__location">
+        <div v-if="canEditProfile || !user.hidePhoneNumber" class="profile-viewer__phone-number">
+          {{ formatPhoneNumber(user.phoneNumber) }}
+        </div>
+        <div v-if="canEditProfile || !user.hideLocation" class="profile-viewer__location">
           {{ user.location?.place }}
         </div>
       </div>
