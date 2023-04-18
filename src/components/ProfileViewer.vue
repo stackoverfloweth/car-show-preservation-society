@@ -54,7 +54,8 @@
 
 .profile-viewer__details {
   display: flex;
-  justify-content:center;
+  justify-content: center;
+  align-items: start;
   gap: var(--space-4);
 }
 
@@ -66,18 +67,24 @@
 .profile-viewer__image {
   flex-shrink: 0;
   flex-grow: 1;
+  width: 100%;
   padding-top: 33.33%;
-  max-width: 50%;
+  max-width: 40%;
 }
 
 .profile-viewer__contact {
   flex-grow: 0;
-  max-width: 50%;
   overflow-x: auto;
 }
 
 .profile-viewer__location {
   margin-top: var(--space-4);
   white-space: pre-line;
+}
+
+@media(max-width: 768px){
+  .profile-viewer__details {
+    flex-direction: column;
+  }
 }
 </style>
