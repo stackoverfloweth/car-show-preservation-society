@@ -13,15 +13,44 @@
         </template>
       </p-label>
 
+      <p-label label="Display Name">
+        <template #description>
+          By default, other users will see your full name associated with your profile. If you'd prefer to have that information kept secret, or you want to go by another name, provide a display name here.
+        </template>
+        <template #default="{ id }">
+          <p-text-input :id="id" v-model="displayNameOverride" :placeholder="`${firstName} ${lastName}`" />
+        </template>
+      </p-label>
+    </div>
+
+    <div class="profile-form-fields__column">
       <p-label label="Email Address" :message="emailAddressError" :state="emailAddressState">
         <template #default="{ id }">
           <p-text-input :id="id" v-model="emailAddress" :state="emailAddressState" />
         </template>
       </p-label>
 
+      <p-label label="Hide Email Address">
+        <template #description>
+          Opt out of having your email address be displayed on your public profile.
+        </template>
+        <template #default="{ id }">
+          <p-toggle :id="id" v-model="hideEmailAddress" />
+        </template>
+      </p-label>
+
       <p-label label="Phone Number" :message="phoneNumberError" :state="phoneNumberState">
         <template #default="{ id }">
           <p-text-input :id="id" v-model="phoneNumber" :state="phoneNumberState" />
+        </template>
+      </p-label>
+
+      <p-label label="Hide Phone Number">
+        <template #description>
+          Opt out of having your phone number be displayed on your public profile.
+        </template>
+        <template #default="{ id }">
+          <p-toggle :id="id" v-model="hideEmailAddress" />
         </template>
       </p-label>
     </div>
@@ -32,16 +61,18 @@
         <LocationInput v-model:location="location" :state="locationState" />
       </div>
 
+      <p-label label="Hide Location">
+        <template #description>
+          Opt out of having your location be displayed on your public profile.
+        </template>
+        <template #default="{ id }">
+          <p-toggle :id="id" v-model="hideEmailAddress" />
+        </template>
+      </p-label>
+
       <div class="profile-form-fields__image-upload">
         <p-label label="Add Photo" :message="profileImageError" :state="profileImageState" />
         <ImageUpload v-model:image="profileImage" :state="profileImageState" />
-      </div>
-    </div>
-
-    <div class="profile-form-fields__column">
-      <div class="profile-form-fields__image-container">
-        <p-label label="Current Photo" />
-        <SizedImage class="profile-form-fields__image" :image="profileImage" />
       </div>
     </div>
   </div>
@@ -52,7 +83,6 @@
   import { computed } from 'vue'
   import ImageUpload from '@/components/ImageUpload.vue'
   import LocationInput from '@/components/LocationInput.vue'
-  import SizedImage from '@/components/SizedImage.vue'
   import { User } from '@/models'
 
   const props = defineProps<{
@@ -78,6 +108,10 @@
   const phoneNumber = usePatchRef(user, 'phoneNumber')
   const location = usePatchRef(user, 'location')
   const profileImage = usePatchRef(user, 'profileImage')
+  const displayNameOverride = usePatchRef(user, 'displayNameOverride')
+  const hideEmailAddress = usePatchRef(user, 'hideEmailAddress')
+  const hidePhoneNumber = usePatchRef(user, 'hidePhoneNumber')
+  const hideLocation = usePatchRef(user, 'hidePhoneNumber')
 
   const { error: firstNameError, state: firstNameState } = useValidation(firstName, 'First Name', [])
   const { error: lastNameError, state: lastNameState } = useValidation(lastName, 'Last Name', [])
@@ -106,9 +140,5 @@
   flex-direction: column;
   flex-grow: 1;
   max-height: 150px;
-}
-
-.profile-form-fields__image {
-  padding-top: 82.68%;
 }
 </style>

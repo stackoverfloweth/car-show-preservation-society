@@ -10,4 +10,8 @@ export type User = {
   location?: Location,
   profileImage?: Image,
   stripeCustomerId?: string,
+  hideEmailAddress?: boolean,
+  hidePhoneNumber?: boolean,
+  hideLocation?: boolean,
+  displayNameOverride?: string,
 }
