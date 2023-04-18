@@ -27,8 +27,8 @@
 
 <style>
 .clubs-list {
-  display: flex;
-  flex-wrap: wrap;
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
   gap: var(--space-4);
 }
 
@@ -37,11 +37,10 @@
   flex-direction: column;
   gap: var(--space-4);
   align-items: center;
-  width: 300px;
 }
 
 .clubs-list__club-logo {
-  height: 140px;
+  padding-top: 50%;
   width: 100%;
 }
 
@@ -51,15 +50,7 @@
 
 @media(max-width: 768px){
   .clubs-list {
-    flex-direction: column;
-  }
-
-  .clubs-list__club {
-    width: 100%;
-  }
-
-  .clubs-list__club-logo {
-    height: 200px;
+    grid-template-columns: minmax(0, 1fr);
   }
 }
 </style>

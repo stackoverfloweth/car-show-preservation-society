@@ -39,7 +39,7 @@
 }
 
 .event-card__image {
-  height: 200px;
+  padding-top: 50%;
 }
 
 .event-card__details {

@@ -26,6 +26,6 @@
 }
 
 .club-overview__logo {
-  height: 140px;
+  padding-top: 50%;
 }
 </style>

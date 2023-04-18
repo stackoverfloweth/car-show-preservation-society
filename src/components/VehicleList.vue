@@ -21,7 +21,7 @@
 <style>
 .vehicle-list {
   display: grid;
-  grid-template-columns: repeat(4, minmax(0, 1fr));
+  grid-template-columns: repeat(3, minmax(0, 1fr));
   padding: var(--space-4);
   gap: var(--space-5);
 }

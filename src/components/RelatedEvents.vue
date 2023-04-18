@@ -71,8 +71,8 @@
 }
 
 .related-events__event-logo {
-  width: 200px;
-  height: 100px;
+  width: 100%;
+  padding-top: 50%;
 }
 
 .related-events__event-name {

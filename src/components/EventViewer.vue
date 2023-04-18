@@ -141,7 +141,7 @@
 }
 
 .event-viewer__logo {
-  height: 200px;
+  padding-top: 50%;
 }
 
 @media(max-width: 768px) {

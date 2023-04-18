@@ -24,7 +24,7 @@
 }
 
 .vehicle-card__image {
-  height: 120px;
+  padding-top: 50%;
   border-radius: 0;
 }
 

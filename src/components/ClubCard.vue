@@ -35,7 +35,7 @@
 }
 
 .club-card__logo {
-  height: 140px;
+  padding-top: 50%;
 }
 
 .club-card__name {
