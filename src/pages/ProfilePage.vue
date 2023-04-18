@@ -6,10 +6,11 @@
   import { useSubscription } from '@prefecthq/vue-compositions'
   import { computed } from 'vue'
   import ProfileViewer from '@/components/ProfileViewer.vue'
-  import { useApi } from '@/compositions'
+  import { useApi, useNavigation } from '@/compositions'
 
   const userId = 'ABC123' // todo: from auth
   const api = useApi()
+  useNavigation({})
 
   const userSubscription = useSubscription(api.users.getUser, [userId])
   const user = computed(() => userSubscription.response)

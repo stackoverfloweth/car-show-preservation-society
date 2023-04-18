@@ -121,7 +121,7 @@ const routeRecords: AppRouteRecord[] = [
       },
       {
         name: 'profile.editor',
-        path: '',
+        path: 'editor',
         component: () => import('@/pages/ProfileEditorPage.vue'),
       },
     ],

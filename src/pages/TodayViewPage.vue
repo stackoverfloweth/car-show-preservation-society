@@ -21,9 +21,10 @@
   import { computed } from 'vue'
   import EventIdCard from '@/components/EventIdCard.vue'
   import EventsList from '@/components/EventsList.vue'
-  import { useApi } from '@/compositions'
+  import { useApi, useNavigation } from '@/compositions'
 
   const api = useApi()
+  useNavigation({})
 
   const todaysEventsSubscriptions = useSubscription(api.events.getTodaysEvents, [])
   const todaysEvents = computed(() => todaysEventsSubscriptions.response ?? [])

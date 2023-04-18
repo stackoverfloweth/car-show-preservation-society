@@ -1,9 +1,9 @@
 <template>
   <div class="menu-header">
     <div class="menu-header__logo">
-      <a href="/">
+      <router-link :to="routes.home()">
         <img class="menu-header__logo-image" src="/vite.svg">
-      </a>
+      </router-link>
     </div>
     <div class="menu-header__links">
       <p-icon icon="BellIcon" />

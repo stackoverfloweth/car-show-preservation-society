@@ -28,6 +28,7 @@ export type UseNavigation = NavigationContext & {
 }
 
 export function useNavigation(context?: PartialNavigationContext): UseNavigation {
+
   let navigation = inject(useNavigationKey)
 
   if (navigation === undefined) {
