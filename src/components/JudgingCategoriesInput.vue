@@ -58,25 +58,25 @@
   <p-modal v-model:show-modal="showModal" :title="modalTitle" auto-close>
     <p-form @submit="saveCategoryForm">
       <JudgingCategoryFormFields v-model:values="categoryFormValues" />
+
       <template v-if="isVotingCategory(categoryFormValues)">
-        <div class="judging-category-input__modal-actions">
-          <TrashConfirm @confirmed="deleteCategory">
-            <template #default="{ open: openConfirm }">
-              <p-button class="judging-category-input__modal-delete-button" danger @click="openConfirm">
-                Delete Category
-              </p-button>
-            </template>
-          </TrashConfirm>
-          <p-button type="submit" inset :loading="pending">
-            Save
-          </p-button>
-        </div>
+        <TrashConfirm @confirmed="deleteCategory">
+          <template #default="{ open: openConfirm }">
+            <p-link class="judging-category-input__modal-delete-link" danger @click="openConfirm">
+              Delete Category
+            </p-link>
+          </template>
+        </TrashConfirm>
       </template>
-      <template v-else>
-        <p-button type="submit" :loading="pending">
-          Add Category
+
+      <div class="judging-category-input__modal-actions">
+        <p-button inset @click="close">
+          Cancel
         </p-button>
-      </template>
+        <p-button type="submit" :loading="pending">
+          Save
+        </p-button>
+      </div>
     </p-form>
   </p-modal>
 </template>
@@ -212,12 +212,12 @@
 
 .judging-category-input__modal-actions {
   display: flex;
-  flex-direction: column;
+  justify-content: space-between;
   gap: var(--space-3);
 }
 
-.judging-category-input__modal-delete-button {
-  width: 100%;
+.judging-category-input__modal-delete-link {
+  color: var(--red-600);
 }
 
 @media(max-width: 768px){
@@ -227,6 +227,10 @@
 
   .judging-categories-input__add-menu-icon {
     display: flex;
+  }
+
+  .judging-category-input__modal-actions {
+    flex-direction: column;
   }
 }
 </style>

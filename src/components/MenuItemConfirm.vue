@@ -1,7 +1,12 @@
 <template>
   <template v-if="showConfirm">
     <div class="menu-item-confirm__message">
-      Are you sure?
+      <template v-if="label">
+        {{ label }}
+      </template>
+      <template v-else>
+        Are you sure?
+      </template>
     </div>
     <p-overflow-menu-item class="menu-item-confirm__yes" label="Yes" @click="confirm" />
     <p-overflow-menu-item class="menu-item-confirm__no" label="No" @click.stop="close" />
@@ -21,6 +26,10 @@
 
 <script lang="ts" setup>
   import { ref } from 'vue'
+
+  defineProps<{
+    label?: string,
+  }>()
 
   const emit = defineEmits<{
     (event: 'confirm'): void,

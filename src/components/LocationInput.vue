@@ -47,23 +47,30 @@
   </template>
 
   <p-modal v-model:showModal="showModal" title="Set Location" auto-close>
-    <p-label label="Location">
-      <template #default="{ id }">
-        <p-textarea :id="id" v-model="place" class="location-input__manual-input" rows="4" @update:model-value="setLocationFromManual" />
-      </template>
-    </p-label>
+    <p-form @submit="submitFromMobile">
+      <p-label label="Location">
+        <template #default="{ id }">
+          <p-textarea :id="id" v-model="place" class="location-input__manual-input" rows="4" @update:model-value="setLocationFromManual" />
+        </template>
+      </p-label>
 
-    <div class="location-input__mobile-suggestions">
-      <template v-for="suggestion in locations" :key="suggestion.mapBoxId">
-        <p-button inset @click="location = suggestion">
-          {{ suggestion.place }}
+      <div class="location-input__mobile-suggestions">
+        <template v-for="suggestion in locations" :key="suggestion.mapBoxId">
+          <p-button inset @click="location = suggestion">
+            {{ suggestion.place }}
+          </p-button>
+        </template>
+      </div>
+
+      <div class="location-input__mobile-actions">
+        <p-button inset @click="close">
+          Cancel
         </p-button>
-      </template>
-    </div>
-
-    <p-button @click="close">
-      Set
-    </p-button>
+        <p-button type="submit">
+          Set
+        </p-button>
+      </div>
+    </p-form>
   </p-modal>
 </template>
 
@@ -132,6 +139,10 @@
     }
   }
 
+  function submitFromMobile(): void {
+    close()
+  }
+
   watch(() => media.hover, hover => {
     if (!hover) {
       watch(place, value => {
@@ -162,5 +173,17 @@
 
 .location-input__post-options {
   padding: var(--space-2) var(--space-3);
+}
+
+.location-input__mobile-actions {
+  display: flex;
+  justify-content: space-between;
+  gap: var(--space-3);
+}
+
+@media(max-width: 768px){
+  .location-input__mobile-actions {
+    flex-direction: column;
+  }
 }
 </style>

@@ -13,8 +13,8 @@
   import ProfileFormFields from '@/components/ProfileFormFields.vue'
   import { useApi, useNavigation } from '@/compositions'
   import { routes } from '@/router/routes'
+  import { userId } from '@/services/auth'
 
-  const userId = 'ABC123' // todo: from auth
   const api = useApi()
   const router = useRouter()
   const { validate, pending } = useValidationObserver()

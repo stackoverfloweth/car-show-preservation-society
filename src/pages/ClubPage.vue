@@ -1,15 +1,6 @@
 <template>
   <div class="club-page">
-    <template v-if="club">
-      <div class="club-page__overview">
-        <ClubOverview :club="club" />
-
-        <div class="club-overview__events">
-          <p-bread-crumbs :crumbs="[{ text: 'Upcoming Events' }]" />
-          <EventsList :events="events" />
-        </div>
-      </div>
-    </template>
+    <ClubViewer v-if="club" :club="club" :events="events" />
   </div>
 </template>
 
@@ -17,8 +8,7 @@
   import { useRouteParam, useSubscription, useSubscriptionWithDependencies } from '@prefecthq/vue-compositions'
   import { computed } from 'vue'
   import { useRoute } from 'vue-router'
-  import ClubOverview from '@/components/ClubOverview.vue'
-  import EventsList from '@/components/EventsList.vue'
+  import ClubViewer from '@/components/ClubViewer.vue'
   import { useApi, useNavigation } from '@/compositions'
   import { routes } from '@/router/routes'
 
@@ -40,21 +30,6 @@
 
 <style>
 .club-page {
-  display: flex;
-  flex-direction: column;
-  gap: var(--space-4);
   padding: var(--space-4);
-}
-
-.club-page__overview {
-  display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: var(--space-4);
-}
-
-@media(max-width: 768px) {
-  .club-page__overview {
-    grid-template-columns: minmax(0, 1fr);
-  }
 }
 </style>

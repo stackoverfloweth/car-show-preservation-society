@@ -16,4 +16,8 @@ export class ClubsApi extends Api {
   public async createClub(request: ClubRequest): Promise<Club> {
     return await Promise.resolve(mocker.create('club', [request]))
   }
+
+  public async joinClub(clubId: string, userId: string, message?: string): Promise<void> {
+    await Promise.resolve({ clubId, userId, message })
+  }
 }

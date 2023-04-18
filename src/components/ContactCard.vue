@@ -8,7 +8,7 @@
         <SizedImage
           v-if="user.profileImage"
           class="contact-card__image"
-          role="button"
+          :role="!showDetails ? 'button' : 'img'"
           :image="user.profileImage"
           rounded
           :class="classes.image"
@@ -86,7 +86,7 @@
   }))
 
   function handleImageClick(): void {
-    if (!props.showDetails && !user.value?.hideEmailAddress || !user.value?.hidePhoneNumber) {
+    if (!props.showDetails && (!user.value?.hideEmailAddress || !user.value.hidePhoneNumber)) {
       open()
     }
   }

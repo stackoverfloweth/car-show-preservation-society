@@ -7,8 +7,8 @@
   import { computed } from 'vue'
   import ProfileViewer from '@/components/ProfileViewer.vue'
   import { useApi, useNavigation } from '@/compositions'
+  import { userId } from '@/services/auth'
 
-  const userId = 'ABC123' // todo: from auth
   const api = useApi()
   useNavigation({})
 

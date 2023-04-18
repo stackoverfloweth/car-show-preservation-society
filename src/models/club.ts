@@ -7,4 +7,6 @@ export type Club = {
   contactUserId?: string,
   stripeCustomerId?: string,
   clubLogo?: Image,
+  joinableByAnyone?: boolean,
+  joinableByApplication?: boolean,
 }

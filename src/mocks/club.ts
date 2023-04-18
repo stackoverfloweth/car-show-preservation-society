@@ -10,6 +10,7 @@ export const randomClub: MockFunction<Club, [Partial<Club>?]> = function(overrid
     stripeCustomerId: undefined,
     clubLogo: this.create('image'),
     contactUserId: this.create('id'),
+    joinableByApplication: true,
     ...overrides,
   }
 }
