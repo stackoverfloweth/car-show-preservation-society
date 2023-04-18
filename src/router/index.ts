@@ -111,6 +111,21 @@ const routeRecords: AppRouteRecord[] = [
       },
     ],
   },
+  {
+    path: '/profile',
+    children: [
+      {
+        name: 'profile.view',
+        path: '',
+        component: () => import('@/pages/ProfilePage.vue'),
+      },
+      {
+        name: 'profile.editor',
+        path: '',
+        component: () => import('@/pages/ProfileEditorPage.vue'),
+      },
+    ],
+  },
 ]
 
 const router = createRouter({

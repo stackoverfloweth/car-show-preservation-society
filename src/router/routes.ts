@@ -19,6 +19,8 @@ export const routes = {
   vehicleCreate: () => ({ name: 'vehicles.create' }) as const,
   vehicle: (vehicleId: string) => ({ name: 'vehicles.view', params: { vehicleId } }) as const,
   vehicleEditor: (vehicleId: string) => ({ name: 'vehicles.editor', params: { vehicleId } }) as const,
+  profile: () => ({ name: 'profile.view' }) as const,
+  profileEditor: () => ({ name: 'profile.editor' }) as const,
 }
 
 export type NamedRoute = ReturnType<typeof routes[keyof typeof routes]>['name']
