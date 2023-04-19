@@ -34,6 +34,7 @@
         <p>
           {{ club.description }}
         </p>
+        <p-tag>{{ visibility }}</p-tag>
       </div>
     </div>
     <p-tabs :tabs="tabs">
@@ -70,6 +71,7 @@
   import { Club, Event } from '@/models'
   import { routes } from '@/router/routes'
   import { currentUser } from '@/services/auth'
+  import { capitalize } from '@/utilities'
 
   const props = defineProps<{
     club: Club,
@@ -90,6 +92,8 @@
   const members = computed(() => membersSubscription.response ?? [])
 
   const canEditClub = true
+
+  const visibility = computed(() => `${capitalize(props.club.visibility)} Club`)
 
   const tabs = computed<Tab[]>(() => {
     const value = [
@@ -156,6 +160,10 @@
 
 .club-viewer__details {
   flex-grow: 1;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+  align-items: start;
 }
 
 .club-viewer__members {

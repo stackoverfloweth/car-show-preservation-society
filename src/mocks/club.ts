@@ -3,7 +3,7 @@ import { MockFunction } from '@/services/mocker'
 import { capitalize } from '@/utilities'
 
 export const randomClub: MockFunction<Club, [Partial<Club>?]> = function(overrides) {
-  return {
+  return new Club({
     clubId: this.create('id'),
     name: `The ${capitalize(this.create('noun'))} Club`,
     description: this.create('paragraph'),
@@ -12,5 +12,5 @@ export const randomClub: MockFunction<Club, [Partial<Club>?]> = function(overrid
     contactUserId: this.create('id'),
     joinableByApplication: true,
     ...overrides,
-  }
+  })
 }
