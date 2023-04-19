@@ -41,7 +41,10 @@
         <EventsList :events="events" />
       </template>
       <template #members>
-        members
+        <div class="club-viewer__members">
+          <ClubMembersList :members="admins" is-administrator />
+          <ClubMembersList :members="members" />
+        </div>
       </template>
       <template #photos>
         <ClubPhotoGallery :club-id="club.clubId" />
@@ -58,6 +61,7 @@
   import { useSubscription } from '@prefecthq/vue-compositions'
   import { computed } from 'vue'
   import ClubApplicationForm from '@/components/ClubApplicationForm.vue'
+  import ClubMembersList from '@/components/ClubMembersList.vue'
   import ClubPhotoGallery from '@/components/ClubPhotoGallery.vue'
   import EventsList from '@/components/EventsList.vue'
   import MenuItemConfirm from '@/components/MenuItemConfirm.vue'
@@ -73,10 +77,17 @@
   }>()
 
   const api = useApi()
+  const clubId = computed(() => props.club.clubId)
   const { showModal, open: openClubApplication, close: closeClubApplication } = useShowModal()
 
   const userIsMemberSubscription = useSubscription(api.users.isMemberOfClub, [currentUser.userId, props.club.clubId])
   const currentUserIsMember = computed(() => userIsMemberSubscription.response ?? false)
+
+  const adminsSubscription = useSubscription(api.clubs.getClubAdmins, [clubId])
+  const admins = computed(() => adminsSubscription.response ?? [])
+
+  const membersSubscription = useSubscription(api.clubs.getClubMembers, [clubId])
+  const members = computed(() => membersSubscription.response ?? [])
 
   const canEditClub = true
 
@@ -145,6 +156,12 @@
 
 .club-viewer__details {
   flex-grow: 1;
+}
+
+.club-viewer__members {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-4);
 }
 
 @media(max-width: 768px) {

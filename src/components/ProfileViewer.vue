@@ -1,12 +1,12 @@
 <template>
   <div class="profile-viewer">
-    <div class="profile-viewer__header">
-      <template v-if="canEditProfile">
+    <template v-if="canEditProfile">
+      <div class="profile-viewer__header">
         <p-icon-button-menu>
           <p-overflow-menu-item label="Edit" icon="PencilIcon" :to="routes.profileEditor()" />
         </p-icon-button-menu>
-      </template>
-    </div>
+      </div>
+    </template>
 
     <div class="profile-viewer__details">
       <SizedImage v-if="user.profileImage" class="profile-viewer__image" :image="user.profileImage" />
@@ -45,7 +45,7 @@
     user: User,
   }>()
 
-  const canEditProfile = true
+  const canEditProfile = false
 </script>
 
 <style>

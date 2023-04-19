@@ -1,4 +1,4 @@
-import { Image } from '@/models'
+import { Image, User } from '@/models'
 import { ClubRequest } from '@/models/api'
 import { Club } from '@/models/club'
 import { Api, mocker } from '@/services'
@@ -28,5 +28,13 @@ export class ClubsApi extends Api {
 
   public async getClubImages(clubId: string): Promise<Image[]> {
     return await Promise.resolve(mocker.createMany('image', mocker.create('number', [0, 50])))
+  }
+
+  public async getClubAdmins(clubId: string): Promise<User[]> {
+    return await Promise.resolve(mocker.createMany('user', mocker.create('number', [1, 5])))
+  }
+
+  public async getClubMembers(clubId: string): Promise<User[]> {
+    return await Promise.resolve(mocker.createMany('user', mocker.create('number', [0, 15])))
   }
 }
