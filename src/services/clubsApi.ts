@@ -1,6 +1,6 @@
 import { Image, User } from '@/models'
 import { ClubRequest } from '@/models/api'
-import { Club } from '@/models/club'
+import { Club, IClub } from '@/models/club'
 import { Api, mocker } from '@/services'
 
 export class ClubsApi extends Api {
@@ -16,6 +16,10 @@ export class ClubsApi extends Api {
 
   public async createClub(request: ClubRequest): Promise<Club> {
     return await Promise.resolve(mocker.create('club', [request]))
+  }
+
+  public async updateClub(club: IClub): Promise<Club> {
+    return await Promise.resolve(mocker.create('club', [club]))
   }
 
   public async joinClub(clubId: string, userId: string, message?: string): Promise<void> {

@@ -19,7 +19,7 @@
               <p-overflow-menu-item label="Leave" icon="UserRemoveIcon" @click.stop="openConfirmation" />
             </template>
           </MenuItemConfirm>
-          <p-overflow-menu-item label="Edit" icon="PencilIcon" :to="routes.clubEditor(club.clubId)" />
+          <p-overflow-menu-item label="Edit" icon="PencilIcon" :to="routes.clubEditor(clubId)" />
         </p-icon-button-menu>
       </template>
     </div>
@@ -48,7 +48,7 @@
         </div>
       </template>
       <template #photos>
-        <ClubPhotoGallery :club-id="club.clubId" />
+        <ClubPhotoGallery :club-id="clubId" />
       </template>
     </p-tabs>
     <p-modal v-model:show-modal="showModal" :title="`Join ${club.name}`" auto-close>
@@ -82,7 +82,7 @@
   const clubId = computed(() => props.club.clubId)
   const { showModal, open: openClubApplication, close: closeClubApplication } = useShowModal()
 
-  const userIsMemberSubscription = useSubscription(api.users.isMemberOfClub, [currentUser.userId, props.club.clubId])
+  const userIsMemberSubscription = useSubscription(api.users.isMemberOfClub, [currentUser.userId, clubId])
   const currentUserIsMember = computed(() => userIsMemberSubscription.response ?? false)
 
   const adminsSubscription = useSubscription(api.clubs.getClubAdmins, [clubId])
@@ -110,7 +110,7 @@
       return
     }
 
-    await api.clubs.joinClub(props.club.clubId, currentUser.userId)
+    await api.clubs.joinClub(clubId.value, currentUser.userId)
 
     showToast('Joined!', 'success')
   }
@@ -120,7 +120,7 @@
       return
     }
 
-    await api.clubs.leaveClub(props.club.clubId, currentUser.userId)
+    await api.clubs.leaveClub(clubId.value, currentUser.userId)
 
     showToast('Left club', 'success')
   }

@@ -6,4 +6,6 @@ export type ClubRequest = {
   description?: string,
   stripeCustomerId?: string,
   clubLogo?: Image,
+  joinableByAnyone?: boolean,
+  joinableByApplication?: boolean,
 }
