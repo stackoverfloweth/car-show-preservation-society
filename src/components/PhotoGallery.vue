@@ -3,7 +3,7 @@
     <template v-for="image in images" :key="image.imageId">
       <SizedImage role="button" class="photo-gallery__image" :image="image" @click="fullScreenImage = image" />
     </template>
-    <p-modal v-model:show-modal="showModal" class="photo-gallery__full-screen-modal" auto-close>
+    <p-modal v-model:show-modal="showModal" :title="fullScreenImage?.caption" class="photo-gallery__full-screen-modal" auto-close>
       <SizedImage :image="fullScreenImage" class="photo-gallery__full-screen-image" />
     </p-modal>
   </div>
@@ -40,13 +40,17 @@
   padding-top: 50%;
 }
 
+.photo-gallery__full-screen-modal .p-modal__header {
+  border: 0;
+}
+
 .photo-gallery__full-screen-modal .p-modal__card {
   width: 100%;
   max-width: unset;
 }
 
 .photo-gallery__full-screen-modal .p-modal__body {
-  padding: 0;
+  padding: var(--space-2);
 }
 
 .photo-gallery__full-screen-image {
