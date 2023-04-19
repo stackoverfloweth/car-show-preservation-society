@@ -43,10 +43,6 @@
   display: flex;
   flex-direction: column;
   gap: var(--space-2);
-  overflow-y: auto;
-  position: absolute;
-  top: 30px;
-  bottom: 0;
 }
 
 .judging-categories-table__category {

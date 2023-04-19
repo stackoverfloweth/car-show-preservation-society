@@ -1,6 +1,6 @@
 <template>
   <div class="event-viewer">
-    <EventHeader :event="event" class="event-overview__header" @club:click="openRelatedClub">
+    <EventHeader :event="event" class="event-viewer__header" @club:click="openRelatedClub">
       <template #actions>
         <template v-if="canEditEvent">
           <p-icon-button-menu>
@@ -32,18 +32,22 @@
       </template>
     </EventHeader>
 
-    <div class="event-viewer__overview">
-      <SizedImage v-if="event.eventLogo" :image="event.eventLogo" class="event-viewer__logo" />
-      <p>{{ event.description }}</p>
+    <div class="event-viewer__columns">
+      <div class="event-viewer__column">
+        <SizedImage v-if="event.eventLogo" :image="event.eventLogo" class="event-viewer__logo" />
+        <p>{{ event.description }}</p>
+
+        <LocationCard class="event-viewer__location" :location="event.location" />
+
+        <ContactIdCard class="event-viewer__contact" :user-id="event.contactUserId" show-label show-details />
+
+        <EventSponsors class="event-viewer__sponsors" :event="event" />
+      </div>
+
+      <div class="event-viewer__column">
+        <EventJudgingSummary class="event-viewer__voting-summary" :event="event" />
+      </div>
     </div>
-
-    <LocationCard class="event-viewer__location" :location="event.location" />
-
-    <ContactIdCard class="event-viewer__contact" :user-id="event.contactUserId" show-label show-details />
-
-    <EventSponsors class="event-viewer__sponsors" :event="event" />
-
-    <EventJudgingSummary class="event-viewer__voting-summary" :event="event" />
 
     <div class="event-viewer__related-events">
       <p-bread-crumbs :crumbs="[{ text: 'Similar Events' }]" />
@@ -89,20 +93,14 @@
 
 <style>
 .event-viewer {
-  display: grid;
+  display: flex;
+  flex-direction: column;
   padding: var(--space-4);
   padding-top: 0;
-  grid-template-areas:
-    'header header header header'
-    'overview overview voting-summary voting-summary'
-    'location contact voting-summary voting-summary'
-    'sponsors sponsors voting-summary voting-summary'
-    'related-events related-events related-events related-events';
-  grid-template-columns: repeat(4, minmax(0, 1fr));
   gap: var(--space-5);
 }
 
-.event-overview__header {
+.event-viewer__header {
   grid-area: header;
   position: sticky;
   top: 0;
@@ -112,32 +110,25 @@
   background-color: var(--slate-900);
 }
 
-.event-viewer__overview {
-  grid-area: overview;
-  display: flex;
-  flex-direction: column;
+.event-viewer__columns {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
   gap: var(--space-4);
 }
 
-.event-viewer__location {
-  grid-area: location;
-}
-
-.event-viewer__contact {
-  grid-area: contact;
-}
-
-.event-viewer__sponsors {
-  grid-area: sponsors;
+.event-viewer__column {
+  position: relative;
+  flex-grow: 1;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-5)
 }
 
 .event-viewer__voting-summary {
-  grid-area: voting-summary;
-  position: relative;
-}
-
-.event-viewer__related-events {
-  grid-area: related-events;
+  position: absolute;
+  overflow-y: auto;
+  top: 0;
+  bottom: 0;
 }
 
 .event-viewer__logo {
@@ -145,19 +136,6 @@
 }
 
 @media(max-width: 768px) {
-  .event-viewer {
-    display: grid;
-    padding: var(--space-4);
-    padding-top: 0;
-    grid-template-areas:
-      'header'
-      'overview'
-      'location'
-      'contact'
-      'voting-summary'
-      'sponsors'
-      'related-events';
-    grid-template-columns: 100%;
-  }
+
 }
 </style>

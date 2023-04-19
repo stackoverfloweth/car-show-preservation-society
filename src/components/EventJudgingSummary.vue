@@ -1,7 +1,6 @@
 <template>
   <div class="event-judging-summary">
     <template v-if="eventIsUpcoming">
-      <p-bread-crumbs :crumbs="[{ text: 'Judging Categories' }]" />
       <JudgingCategoriesTable class="event-judging-summary__judging-categories" :categories="votingCategories" />
     </template>
     <template v-else>
