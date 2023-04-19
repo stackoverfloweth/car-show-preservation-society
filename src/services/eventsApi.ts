@@ -1,5 +1,6 @@
 import { EventRequest } from '@/models/api'
 import { Event } from '@/models/event'
+import { Image } from '@/models/image'
 import { Api } from '@/services/api'
 import { mocker } from '@/services/mocker'
 
@@ -36,5 +37,9 @@ export class EventsApi extends Api {
 
   public async updateEvent(event: Event): Promise<Event> {
     return await Promise.resolve(mocker.create('event', [event]))
+  }
+
+  public async getEventImages(eventId: string): Promise<Image[]> {
+    return await Promise.resolve(mocker.createMany('image', mocker.create('number', [0, 50])))
   }
 }

@@ -1,6 +1,6 @@
 <template>
-  <div class="event-photo-gallery">
-    <PhotoGallery :images="eventImages" />
+  <div class="club-photo-gallery">
+    <PhotoGallery :images="clubImages" />
   </div>
 </template>
 
@@ -11,12 +11,12 @@
   import { useApi } from '@/compositions'
 
   const props = defineProps<{
-    eventId: string,
+    clubId: string,
   }>()
 
   const api = useApi()
-  const { eventId } = toRefs(props)
+  const { clubId } = toRefs(props)
 
-  const eventImagesSubscription = useSubscription(api.events.getEventImages, [eventId])
-  const eventImages = computed(() => eventImagesSubscription.response ?? [])
+  const clubImagesSubscription = useSubscription(api.clubs.getClubImages, [clubId])
+  const clubImages = computed(() => clubImagesSubscription.response ?? [])
 </script>
