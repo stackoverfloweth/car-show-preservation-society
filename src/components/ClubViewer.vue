@@ -45,7 +45,7 @@
         <EventsList :events="events" />
       </template>
       <template #members>
-        <ClubMembersList :members="members" :admins="admins" :pending="pending" />
+        <ClubMembersList :club="club" :members="members" :admins="admins" :pending="pending" />
       </template>
       <template #photos>
         <ClubPhotoGallery :club-id="clubId" />

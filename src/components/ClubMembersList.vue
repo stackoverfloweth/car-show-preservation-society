@@ -1,23 +1,26 @@
 <template>
   <div class="club-members-list">
-    <template v-for="member in pending" :key="member.memberId">
-      <ClubMembersListItem :member="member" class="club-members-list__club-member" member-type="pending" />
+    <template v-for="emailAddress in pending" :key="emailAddress">
+      <ClubMembersListItemPending :club="club" :email-address="emailAddress" class="club-members-list__club-member" />
     </template>
     <template v-for="member in admins" :key="member.memberId">
-      <ClubMembersListItem :member="member" class="club-members-list__club-member" member-type="administrator" />
+      <ClubMembersListItemAdmin :club="club" :member="member" class="club-members-list__club-member" is-admin />
     </template>
     <template v-for="member in members" :key="member.memberId">
-      <ClubMembersListItem :member="member" class="club-members-list__club-member" member-type="member" />
+      <ClubMembersListItemMember :club="club" :member="member" class="club-members-list__club-member" member-type="member" />
     </template>
   </div>
 </template>
 
 <script lang="ts" setup>
-  import ClubMembersListItem from '@/components/ClubMembersListItem.vue'
-  import { User } from '@/models'
+  import ClubMembersListItemAdmin from '@/components/ClubMembersListItemAdmin.vue'
+  import ClubMembersListItemMember from '@/components/ClubMembersListItemMember.vue'
+  import ClubMembersListItemPending from '@/components/ClubMembersListItemPending.vue'
+  import { Club, User } from '@/models'
 
   defineProps<{
-    pending: User[],
+    club: Club,
+    pending: string[],
     admins: User[],
     members: User[],
   }>()

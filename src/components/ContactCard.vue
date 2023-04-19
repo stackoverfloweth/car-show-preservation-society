@@ -61,13 +61,12 @@
     user: User,
     showLabel?: boolean,
     showDetails?: boolean,
-    disabled?: boolean,
   }>()
 
   const { user } = toRefs(props)
   const { showModal, open } = useShowModal()
 
-  const canShowDetailsModal = computed(() => !props.disabled && !props.showDetails && (!user.value.hideEmailAddress || !user.value.hidePhoneNumber))
+  const canShowDetailsModal = computed(() => !props.showDetails && (!user.value.hideEmailAddress || !user.value.hidePhoneNumber))
 
   function handleImageClick(): void {
     if (canShowDetailsModal.value) {
