@@ -1,4 +1,4 @@
-import { Image, User } from '@/models'
+import { Image } from '@/models'
 import { ClubRequest, ClubsFilter, ClubsSort, ImageRequest } from '@/models/api'
 import { Club, IClub } from '@/models/club'
 import { Api, mocker } from '@/services'
@@ -8,6 +8,10 @@ export class ClubsApi extends Api {
 
   public async getClubs(filter?: ClubsFilter, sort?: ClubsSort): Promise<Club[]> {
     return await Promise.resolve(mocker.createMany('club', 5))
+  }
+
+  public async getUpcomingEventsCount(clubId: string): Promise<number> {
+    return await Promise.resolve(mocker.create('number', [0, 50]))
   }
 
   public async getClub(clubId: string): Promise<Club | undefined> {

@@ -6,23 +6,39 @@
     <div class="clubs-list-item__name">
       {{ club.name }}
     </div>
-    <div class="clubs-list-item__visibility">
-      <p-tag>{{ visibility }}</p-tag>
+    <div class="clubs-list-item__tags">
+      <template v-if="club.visibility === 'public'">
+        <p-tag><p-icon icon="GlobeAltIcon" />Public Club</p-tag>
+      </template>
+      <template v-else>
+        <p-tag><p-icon icon="LockClosedIcon" />Private Club</p-tag>
+      </template>
+      <p-tag><p-icon icon="UsersIcon" />{{ memberCount }}</p-tag>
+      <p-tag><p-icon icon="CalendarIcon" />{{ upcomingEventsCount }}</p-tag>
     </div>
   </p-card>
 </template>
 
 <script lang="ts" setup>
+  import { useSubscription } from '@prefecthq/vue-compositions'
   import { computed } from 'vue'
   import SizedImage from '@/components/SizedImage.vue'
+  import { useApi } from '@/compositions'
   import { Club } from '@/models/club'
-  import { capitalize } from '@/utilities'
 
   const props = defineProps<{
     club: Club,
   }>()
 
-  const visibility = computed(() => `${capitalize(props.club.visibility)} Club`)
+  const api = useApi()
+
+  const clubId = computed(() => props.club.clubId)
+
+  const memberCountSubscription = useSubscription(api.clubMembership.getActiveMemberCount, [clubId])
+  const memberCount = computed(() => memberCountSubscription.response ?? '--')
+
+  const upcomingEventsCountSubscription = useSubscription(api.clubs.getUpcomingEventsCount, [clubId])
+  const upcomingEventsCount = computed(() => upcomingEventsCountSubscription.response ?? '--')
 </script>
 
 <style>
@@ -41,5 +57,11 @@
 
 .clubs-list-item__name {
   text-align: center;
+}
+
+.clubs-list-item__tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-2);
 }
 </style>

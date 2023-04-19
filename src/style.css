@@ -306,6 +306,10 @@
     background-color: var(--slate-700) !important;
 }
 
+.p-tab {
+    gap: var(--space-3);
+}
+
 @media(max-width: 768px) {
     .p-modal__container {
         padding: 0;

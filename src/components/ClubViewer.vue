@@ -41,11 +41,20 @@
       </div>
     </div>
     <p-tabs v-model:selected="selectTab" :tabs="tabs">
-      <template #upcoming-events>
+      <template #events-heading>
+        Upcoming Events <p-tag>{{ upcomingEventsCount }}</p-tag>
+      </template>
+      <template #events>
         <EventsList :events="events" />
+      </template>
+      <template #members-heading>
+        Members <p-tag>{{ memberCount }}</p-tag>
       </template>
       <template #members>
         <ClubMembersList :club="club" :members="members" :admins="admins" :pending="pending" />
+      </template>
+      <template #photos-heading>
+        Photos
       </template>
       <template #photos>
         <ClubPhotoGallery :club-id="clubId" />
@@ -76,7 +85,7 @@
   import { Club, Event } from '@/models'
   import { routes } from '@/router/routes'
   import { currentUser } from '@/services/auth'
-  import { capitalize, unKebabCase } from '@/utilities'
+  import { capitalize } from '@/utilities'
 
   const props = defineProps<{
     club: Club,
@@ -90,13 +99,13 @@
   const router = useRouter()
 
   const tabs = [
-    'Upcoming Events',
-    'Members',
-    'Photos',
+    'events',
+    'members',
+    'photos',
   ]
   const selectTab = computed({
     get() {
-      return unKebabCase(route.hash.slice(1))
+      return route.hash.slice(1)
     },
     set(value) {
       router.push(`#${kebabCase(value)}`)
@@ -108,6 +117,12 @@
 
   const userIsMemberSubscription = useSubscription(api.users.isMemberOfClub, [currentUser.userId, clubId])
   const currentUserIsMember = computed(() => userIsMemberSubscription.response ?? false)
+
+  const memberCountSubscription = useSubscription(api.clubMembership.getActiveMemberCount, [clubId])
+  const memberCount = computed(() => memberCountSubscription.response ?? '--')
+
+  const upcomingEventsCountSubscription = useSubscription(api.clubs.getUpcomingEventsCount, [clubId])
+  const upcomingEventsCount = computed(() => upcomingEventsCountSubscription.response ?? '--')
 
   const adminsSubscription = useSubscription(api.clubMembership.getClubAdmins, [clubId])
   const admins = computed(() => adminsSubscription.response ?? [])
