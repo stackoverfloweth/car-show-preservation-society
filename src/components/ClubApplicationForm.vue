@@ -32,7 +32,7 @@
   import { computed, ref } from 'vue'
   import { useApi } from '@/compositions'
   import { Club } from '@/models'
-  import { userId } from '@/services/auth'
+  import { currentUser } from '@/services/auth'
 
   const props = defineProps<{
     club: Club,
@@ -48,7 +48,7 @@
   const agreed = ref(false)
   const clubApplicationMessage = ref<string>()
 
-  const userIsMemberSubscription = useSubscription(api.users.isMemberOfClub, [userId, props.club.clubId])
+  const userIsMemberSubscription = useSubscription(api.users.isMemberOfClub, [currentUser.userId, props.club.clubId])
   const currentUserIsMember = computed(() => userIsMemberSubscription.response ?? false)
 
   async function joinPrivateClub(): Promise<void> {
@@ -57,7 +57,7 @@
     }
 
     if (!currentUserIsMember.value) {
-      await api.clubs.joinClub(props.club.clubId, userId, clubApplicationMessage.value)
+      await api.clubs.joinClub(props.club.clubId, currentUser.userId, clubApplicationMessage.value)
 
       applied.value = true
 

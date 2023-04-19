@@ -13,14 +13,14 @@
   import ProfileFormFields from '@/components/ProfileFormFields.vue'
   import { useApi, useNavigation } from '@/compositions'
   import { routes } from '@/router/routes'
-  import { userId } from '@/services/auth'
+  import { currentUser } from '@/services/auth'
 
   const api = useApi()
   const router = useRouter()
   const { validate, pending } = useValidationObserver()
   const { set } = useNavigation()
 
-  const userSubscription = useSubscription(api.users.getUser, [userId])
+  const userSubscription = useSubscription(api.users.getUser, [currentUser.userId])
   userSubscription.promise().then(({ response }) => {
     if (response) {
       values.value = response

@@ -1,1 +1,5 @@
-export const userId = '123ABC'
+import { User } from '@/models'
+
+export const currentUser: User = {
+  userId: '123ABC',
+}

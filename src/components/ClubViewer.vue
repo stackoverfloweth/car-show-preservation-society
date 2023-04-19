@@ -65,7 +65,7 @@
   import { useApi, useShowModal } from '@/compositions'
   import { Club, Event } from '@/models'
   import { routes } from '@/router/routes'
-  import { userId } from '@/services/auth'
+  import { currentUser } from '@/services/auth'
 
   const props = defineProps<{
     club: Club,
@@ -75,7 +75,7 @@
   const api = useApi()
   const { showModal, open: openClubApplication, close: closeClubApplication } = useShowModal()
 
-  const userIsMemberSubscription = useSubscription(api.users.isMemberOfClub, [userId, props.club.clubId])
+  const userIsMemberSubscription = useSubscription(api.users.isMemberOfClub, [currentUser.userId, props.club.clubId])
   const currentUserIsMember = computed(() => userIsMemberSubscription.response ?? false)
 
   const canEditClub = true
@@ -95,7 +95,7 @@
       return
     }
 
-    await api.clubs.joinClub(props.club.clubId, userId)
+    await api.clubs.joinClub(props.club.clubId, currentUser.userId)
 
     showToast('Joined!', 'success')
   }
@@ -105,7 +105,7 @@
       return
     }
 
-    await api.clubs.leaveClub(props.club.clubId, userId)
+    await api.clubs.leaveClub(props.club.clubId, currentUser.userId)
 
     showToast('Left club', 'success')
   }
