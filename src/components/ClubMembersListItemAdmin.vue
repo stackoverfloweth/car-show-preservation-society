@@ -11,10 +11,10 @@
         <p-button icon="MailIcon" disabled />
       </p-tooltip>
       <p-icon-button-menu>
-        <p-overflow-menu-item label="Demote to Member" icon="ChevronDoubleDownIcon" />
+        <p-overflow-menu-item label="Demote to Member" icon="ChevronDoubleDownIcon" @click="setUserRoleMember" />
 
         <template v-if="member.userId !== club.contactUserId">
-          <p-overflow-menu-item label="Set as Primary Contact" icon="StarIcon" />
+          <p-overflow-menu-item label="Set as Primary Contact" icon="StarIcon" @click="setPrimaryMember" />
         </template>
 
         <MenuItemConfirm @confirm="deleteMember">
@@ -41,6 +41,14 @@
 
   const api = useApi()
   const canEditClub = useCanEditClub()
+
+  async function setUserRoleMember(): Promise<void> {
+    await api.clubMembership.setUserRoleMember(props.club.clubId, props.member.userId)
+  }
+
+  async function setPrimaryMember(): Promise<void> {
+    await api.clubMembership.setPrimaryMember(props.club.clubId, props.member.userId)
+  }
 
   async function deleteMember(): Promise<void> {
     await api.clubMembership.deleteClubMember(props.club.clubId, props.member)

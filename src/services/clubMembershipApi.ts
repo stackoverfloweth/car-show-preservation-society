@@ -4,8 +4,9 @@ import { Api, mocker } from '@/services'
 export class ClubMembershipApi extends Api {
   protected override routePrefix = '/club-membership'
 
-  public async joinClub(clubId: string, userId: string, message?: string): Promise<void> {
-    await Promise.resolve({ clubId, userId, message })
+  public async joinClub(clubId: string, userId: string): Promise<void> {
+    // shouldn't work for non-public or requires review
+    await Promise.resolve({ clubId, userId })
   }
 
   public async leaveClub(clubId: string, userId: string): Promise<void> {
@@ -25,7 +26,23 @@ export class ClubMembershipApi extends Api {
     return await Promise.resolve(mocker.createMany('email', mocker.create('number', [0, 2])))
   }
 
+  public async setUserRoleAdmin(clubId: string, userId: string): Promise<void> {
+    // shouldn't work for non-admin
+    await Promise.resolve({ clubId, userId })
+  }
+
+  public async setUserRoleMember(clubId: string, userId: string): Promise<void> {
+    // shouldn't work for non-admin
+    await Promise.resolve({ clubId, userId })
+  }
+
+  public async setPrimaryMember(clubId: string, userId: string): Promise<void> {
+    // shouldn't work for non-admin
+    await Promise.resolve({ clubId, userId })
+  }
+
   public async deleteClubMember(clubId: string, member: User): Promise<void> {
+    // shouldn't work for non-admin
     await Promise.resolve({ clubId, member })
   }
 }

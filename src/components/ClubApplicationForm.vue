@@ -61,7 +61,7 @@
     }
 
     if (!currentUserIsMember.value) {
-      await api.clubMembership.joinClub(props.club.clubId, currentUser.userId, clubApplicationMessage.value)
+      await api.clubInvitations.requestInvitation(props.club.clubId, currentUser.userId, clubApplicationMessage.value)
 
       applied.value = true
 
