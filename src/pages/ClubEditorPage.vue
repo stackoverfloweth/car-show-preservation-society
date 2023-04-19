@@ -1,10 +1,15 @@
 <template>
-  <div class="club-editor-page">
+  <p-form class="club-editor-page" @submit="submit">
     <div class="club-editor-page__general">
       <p-bread-crumbs :crumbs="[{ text: 'General' }]" />
       <ClubFormFields v-if="values" v-model:values="values" />
     </div>
-  </div>
+
+    <div class="club-editor-page__gallery">
+      <p-bread-crumbs :crumbs="[{ text: 'Gallery' }]" />
+      <ClubGalleryForm v-if="values" :club-id="clubId" />
+    </div>
+  </p-form>
 </template>
 
 <script lang="ts" setup>
@@ -13,6 +18,7 @@
   import { ref, watchEffect } from 'vue'
   import { useRouter } from 'vue-router'
   import ClubFormFields from '@/components/ClubFormFields.vue'
+  import ClubGalleryForm from '@/components/ClubGalleryForm.vue'
   import { useApi, useNavigation } from '@/compositions'
   import { IClub } from '@/models'
   import { routes } from '@/router/routes'
