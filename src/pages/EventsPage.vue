@@ -1,20 +1,26 @@
 <template>
   <div class="events-page">
+    <EventsFilterComponent v-model:filter="filter" v-model:sort="sort" />
     <EventsList :events="events" />
   </div>
 </template>
 
 <script lang="ts" setup>
   import { useSubscription } from '@prefecthq/vue-compositions'
-  import { computed } from 'vue'
+  import { computed, ref } from 'vue'
+  import EventsFilterComponent from '@/components/EventsFilter.vue'
   import EventsList from '@/components/EventsList.vue'
   import { useApi, useNavigation } from '@/compositions'
+  import { EventsFilter } from '@/models/api/eventsFilter'
+  import { EventsSort } from '@/models/api/eventsSort'
   import { routes } from '@/router/routes'
 
   const api = useApi()
-  const userId = '123'
 
-  const eventsSubscription = useSubscription(api.events.getEventsByUserId, [userId])
+  const filter = ref<EventsFilter>({})
+  const sort = ref<EventsSort>({})
+
+  const eventsSubscription = useSubscription(api.events.getEvents, [filter, sort])
   const events = computed(() => eventsSubscription.response ?? [])
 
   useNavigation({

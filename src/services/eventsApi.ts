@@ -1,4 +1,4 @@
-import { EventRequest } from '@/models/api'
+import { EventRequest, EventsFilter, EventsSort } from '@/models/api'
 import { Event } from '@/models/event'
 import { Image } from '@/models/image'
 import { Api } from '@/services/api'
@@ -9,6 +9,10 @@ export class EventsApi extends Api {
 
   public async getEvent(eventId: string): Promise<Event | undefined> {
     return await Promise.resolve(mocker.create('event', [{ eventId }]))
+  }
+
+  public async getEvents(filter?: EventsFilter, sort?: EventsSort): Promise<Event[]> {
+    return await Promise.resolve(mocker.createMany('event', 5))
   }
 
   public async getTodaysEvents(): Promise<Event[]> {
