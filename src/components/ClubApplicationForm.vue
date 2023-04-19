@@ -16,7 +16,7 @@
     </p-label>
 
     <div class="club-application-form__actions">
-      <p-button inset @click="emit('close')">
+      <p-button inset @click="close">
         Cancel
       </p-button>
       <p-button type="submit" :disabled="!agreed">
@@ -51,6 +51,10 @@
   const userIsMemberSubscription = useSubscription(api.users.isMemberOfClub, [currentUser.userId, props.club.clubId])
   const currentUserIsMember = computed(() => userIsMemberSubscription.response ?? false)
 
+  function close(): void {
+    emit('close')
+  }
+
   async function joinPrivateClub(): Promise<void> {
     if (!agreed.value) {
       return
@@ -62,7 +66,7 @@
       applied.value = true
 
       showToast('Application Sent!', 'success')
-      emit('close')
+      close()
     }
   }
 </script>
