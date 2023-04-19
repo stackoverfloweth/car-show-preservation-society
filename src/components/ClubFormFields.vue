@@ -11,26 +11,6 @@
         <p-label label="Club Logo" :message="clubLogoError" :state="clubLogoState" />
         <ImageUpload v-model:image="clubLogo" :state="clubLogoState" />
       </div>
-
-      <p-label label="Open to the Public">
-        <template #description>
-          You can always invite members to a club, even if it's private. By making this club public, you're allowing other users to join without being explicitly invited by a club admin.
-        </template>
-        <template #default="{ id }">
-          <p-toggle :id="id" v-model="openToPublic" />
-        </template>
-      </p-label>
-
-      <template v-if="openToPublic">
-        <p-label label="Requests Must Be Reviewed">
-          <template #description>
-            When another wants to join this club, will you want a club admin to have to explicitly approve the request?
-          </template>
-          <template #default="{ id }">
-            <p-toggle :id="id" v-model="joinableByApplication" />
-          </template>
-        </p-label>
-      </template>
     </div>
 
     <div class="club-form-fields__column">
@@ -39,6 +19,27 @@
           <p-textarea :id="id" v-model="description" rows="6" :state="descriptionState" />
         </template>
       </p-label>
+
+      <div class="club-form-fields__visibility">
+        <p-label label="Open to the Public">
+          <template #description>
+            You can always invite members to a club, even if it's private. By making this club public, you're allowing other users to join without being explicitly invited by a club admin.
+          </template>
+          <template #default="{ id }">
+            <p-toggle :id="id" v-model="openToPublic" />
+          </template>
+        </p-label>
+
+        <p-label label="Requests Must Be Reviewed">
+          <template #description>
+            When another wants to join this club, will you want a club admin to have to explicitly approve the request?
+            <p>(only applies if club is open to the public)</p>
+          </template>
+          <template #default="{ id }">
+            <p-toggle :id="id" v-model="joinableByApplication" />
+          </template>
+        </p-label>
+      </div>
     </div>
   </div>
 </template>
@@ -107,5 +108,10 @@
   flex-direction: column;
   flex-grow: 1;
   max-height: 150px;
+}
+
+.club-form-fields__visibility {
+  display: flex;
+  gap: var(--space-4);
 }
 </style>
