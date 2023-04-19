@@ -18,12 +18,7 @@
         <template v-if="showDetails">
           <div class="contact-card__details">
             <div class="contact-card__name">
-              <template v-if="user.displayNameOverride">
-                {{ user.displayNameOverride }}
-              </template>
-              <template v-else>
-                {{ user.firstName }}  {{ user.lastName }}
-              </template>
+              {{ user.displayName }}
             </div>
             <div class="contact-card__email">
               <p-link v-if="user.emailAddress && !user.hideEmailAddress" :href="`mailto:${user.emailAddress}`">
@@ -39,7 +34,7 @@
         </template>
       </div>
     </template>
-    <p-modal v-model:show-modal="showModal" :title="displayName" auto-close>
+    <p-modal v-model:show-modal="showModal" :title="user.displayName" auto-close>
       <div v-if="user" class="contact-card__details">
         <div class="contact-card__email">
           <p-link v-if="!user.hideEmailAddress" :href="`mailto:${user.emailAddress}`">
@@ -71,8 +66,6 @@
 
   const { user } = toRefs(props)
   const { showModal, open } = useShowModal()
-
-  const displayName = computed(() => user.value.displayNameOverride ? user.value.displayNameOverride : `${user.value.firstName} ${user.value.lastName}`)
 
   const classes = computed(() => ({
     image: {

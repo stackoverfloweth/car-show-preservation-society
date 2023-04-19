@@ -12,6 +12,7 @@
   import { useRouter } from 'vue-router'
   import ProfileFormFields from '@/components/ProfileFormFields.vue'
   import { useApi, useNavigation } from '@/compositions'
+  import { IUser } from '@/models'
   import { routes } from '@/router/routes'
   import { currentUser } from '@/services/auth'
 
@@ -27,12 +28,12 @@
     }
   })
 
-  const values = ref()
+  const values = ref<IUser>()
 
   async function submit(): Promise<void> {
     const isValid = await validate()
 
-    if (!isValid) {
+    if (!isValid || !values.value) {
       return
     }
 

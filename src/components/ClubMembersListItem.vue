@@ -3,12 +3,7 @@
     <ContactCard :user="member" class="club-members-list-item__image" />
     <div class="club-members-list-item__body">
       <div class="club-members-list-item__name">
-        <template v-if="member.displayNameOverride">
-          {{ member.displayNameOverride }}
-        </template>
-        <template v-else>
-          {{ member.firstName }} {{ member.lastName }}
-        </template>
+        {{ member.displayName }}
       </div>
       <div class="club-members-list-item__details">
         <p-tag class="club-members-list-item__member-type">

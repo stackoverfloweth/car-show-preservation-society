@@ -50,7 +50,7 @@
           Opt out of having your phone number be displayed on your public profile.
         </template>
         <template #default="{ id }">
-          <p-toggle :id="id" v-model="hideEmailAddress" />
+          <p-toggle :id="id" v-model="hidePhoneNumber" />
         </template>
       </p-label>
     </div>
@@ -66,7 +66,7 @@
           Opt out of having your location be displayed on your public profile.
         </template>
         <template #default="{ id }">
-          <p-toggle :id="id" v-model="hideEmailAddress" />
+          <p-toggle :id="id" v-model="hideLocation" />
         </template>
       </p-label>
 
@@ -83,19 +83,19 @@
   import { computed } from 'vue'
   import ImageUpload from '@/components/ImageUpload.vue'
   import LocationInput from '@/components/LocationInput.vue'
-  import { User } from '@/models'
+  import { IUser } from '@/models'
 
   const props = defineProps<{
-    values: User,
+    values: IUser,
   }>()
 
   const emit = defineEmits<{
-    (vehicle: 'update:values', value: User): void,
+    (vehicle: 'update:values', value: IUser): void,
   }>()
 
   const user = computed({
     get() {
-      return props.values
+      return { ...props.values }
     },
     set(value) {
       emit('update:values', value)

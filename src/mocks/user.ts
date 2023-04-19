@@ -3,7 +3,7 @@ import { MockFunction } from '@/services/mocker'
 import { capitalize } from '@/utilities'
 
 export const randomUser: MockFunction<User, [Partial<User>?]> = function(overrides) {
-  return {
+  return new User({
     userId: this.create('id'),
     emailAddress: this.create('email'),
     phoneNumber: this.create('phone'),
@@ -13,5 +13,5 @@ export const randomUser: MockFunction<User, [Partial<User>?]> = function(overrid
     profileImage: this.create('image'),
     stripeCustomerId: undefined,
     ...overrides,
-  }
+  })
 }

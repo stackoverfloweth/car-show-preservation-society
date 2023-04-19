@@ -50,6 +50,6 @@
 
   const options = computed<SelectOption[]>(() => users.value.map(user => ({
     value: user.userId,
-    label: user.displayNameOverride ?? `${user.firstName} ${user.lastName}`,
+    label: user.displayName,
   })))
 </script>
