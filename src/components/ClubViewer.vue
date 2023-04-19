@@ -25,7 +25,9 @@
     </div>
 
     <div class="club-viewer__body">
-      <SizedImage v-if="club.clubLogo" :image="club.clubLogo" class="club-overview__logo" />
+      <div v-if="club.clubLogo" class="club-viewer__logo-container">
+        <SizedImage :image="club.clubLogo" class="club-viewer__logo" />
+      </div>
 
       <div class="club-viewer__details">
         <div class="club-viewer__heading">
@@ -149,13 +151,15 @@
   gap: var(--space-4);
 }
 
-.club-overview__logo {
+.club-viewer__logo-container {
   flex-shrink: 0;
   flex-grow: 1;
   width: 100%;
-  padding-top: 33.33%;
-  max-width: 40%;
-  max-height: 250px;
+  max-width: 50%;
+}
+
+.club-viewer__logo {
+  padding-top: 50%;
 }
 
 .club-viewer__details {
@@ -175,6 +179,10 @@
 @media(max-width: 768px) {
   .club-viewer__body {
     flex-direction: column;
+  }
+
+  .club-viewer__logo-container {
+    max-width: unset;
   }
 }
 </style>
