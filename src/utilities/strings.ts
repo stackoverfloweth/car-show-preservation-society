@@ -45,3 +45,7 @@ export function capitalize<T extends string>(value: T): Capitalize<T> {
 
   return `${firstLetterCapitalized}${rest}` as Capitalize<T>
 }
+
+export function unKebabCase(value: string): string {
+  return value.split('-').map(word => capitalize(word)).join(' ')
+}

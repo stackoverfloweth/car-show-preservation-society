@@ -1,16 +1,15 @@
 <template>
   <p-list-item class="club-members-list-item">
-    <ContactCard :user="member" class="club-members-list-item__image" />
+    <ContactCard :user="member" class="club-members-list-item__image" disabled />
     <div class="club-members-list-item__body">
-      <div class="club-members-list-item__name">
-        {{ member.displayName }}
-      </div>
+      <router-link :to="routes.profile(member.userId)">
+        <div class="club-members-list-item__name">
+          {{ member.displayName }}
+        </div>
+      </router-link>
       <div class="club-members-list-item__details">
-        <p-tag class="club-members-list-item__member-type">
+        <p-tag class="club-members-list-item__member-type" :class="classes.memberType">
           {{ memberType }}
-        </p-tag>
-        <p-tag v-if="currentUser.userId === member.userId" class="club-members-list-item__is-current-user">
-          You
         </p-tag>
       </div>
     </div>
@@ -22,14 +21,16 @@
   import ContactCard from '@/components/ContactCard.vue'
   import { useCanEditClub } from '@/compositions'
   import { User } from '@/models'
-  import { currentUser } from '@/services/auth'
+  import { routes } from '@/router/routes'
 
   const props = defineProps<{
     member: User,
-    isAdministrator?: boolean,
+    memberType: string,
   }>()
 
-  const memberType = computed(() => props.isAdministrator ? 'Administrator' : 'Member')
+  const classes = computed(() => ({
+    memberType: `club-members-list-item__member-type--${props.memberType}`,
+  }))
 
   const canEditClub = useCanEditClub()
 </script>
@@ -57,7 +58,16 @@
   gap: var(--space-2);
 }
 
-.club-members-list-item__is-current-user {
-  background-color: var(--blue-700) !important;
+.club-members-list-item__member-type {
+  text-transform: capitalize;
+}
+
+.club-members-list-item__member-type--pending {
+  color: var(--slate-800);
+  background-color: var(--blue-300) !important;
+}
+
+.club-members-list-item__member-type--administrator {
+  background-color: var(--blue-900) !important;
 }
 </style>

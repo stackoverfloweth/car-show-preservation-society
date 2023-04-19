@@ -45,7 +45,7 @@
         <EventsList :events="events" />
       </template>
       <template #members>
-        <ClubMembersList :members="members" :admins="admins" />
+        <ClubMembersList :members="members" :admins="admins" :pending="pending" />
       </template>
       <template #photos>
         <ClubPhotoGallery :club-id="clubId" />
@@ -114,6 +114,9 @@
 
   const membersSubscription = useSubscription(api.clubs.getClubMembers, [clubId])
   const members = computed(() => membersSubscription.response ?? [])
+
+  const pendingSubscription = useSubscription(api.clubs.getClubPendingMembers, [clubId])
+  const pending = computed(() => pendingSubscription.response ?? [])
 
   const currentUserIsOnlyAdmin = computed(() => admins.value.every(admin => admin.userId === currentUser.userId))
   const visibility = computed(() => `${capitalize(props.club.visibility)} Club`)

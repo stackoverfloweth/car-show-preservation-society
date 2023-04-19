@@ -8,10 +8,9 @@
         <SizedImage
           v-if="user.profileImage"
           class="contact-card__image"
-          :role="!showDetails ? 'button' : 'img'"
+          :role="canShowDetailsModal ? 'button' : 'img'"
           :image="user.profileImage"
           rounded
-          :class="classes.image"
           @click="handleImageClick"
         />
 
@@ -62,19 +61,16 @@
     user: User,
     showLabel?: boolean,
     showDetails?: boolean,
+    disabled?: boolean,
   }>()
 
   const { user } = toRefs(props)
   const { showModal, open } = useShowModal()
 
-  const classes = computed(() => ({
-    image: {
-      'contact-card__image--clickable': !props.showDetails,
-    },
-  }))
+  const canShowDetailsModal = computed(() => !props.disabled && !props.showDetails && (!user.value.hideEmailAddress || !user.value.hidePhoneNumber))
 
   function handleImageClick(): void {
-    if (!props.showDetails && (!user.value.hideEmailAddress || !user.value.hidePhoneNumber)) {
+    if (canShowDetailsModal.value) {
       open()
     }
   }
@@ -91,9 +87,5 @@
   height: 75px;
   width: 75px;
   flex-shrink: 0;
-}
-
-.contact-card__image--clickable {
-  cursor: pointer;
 }
 </style>
