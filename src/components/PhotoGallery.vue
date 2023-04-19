@@ -31,9 +31,10 @@
 
 <style>
 .photo-gallery {
+  --gallery-columns: 5;
   display: grid;
   gap: var(--space-4);
-  grid-template-columns: repeat(4, minmax(0, 1fr));
+  grid-template-columns: repeat(var(--gallery-columns), minmax(0, 1fr));
 }
 
 .photo-gallery__image {
@@ -56,5 +57,23 @@
 .photo-gallery__full-screen-image {
   padding-top: 50%;
   width: 100%;
+}
+
+@media(max-width: 1280px){
+  .photo-gallery {
+    --gallery-columns: 4;
+  }
+}
+
+@media(max-width: 1024px){
+  .photo-gallery {
+    --gallery-columns: 3;
+  }
+}
+
+@media(max-width: 768px){
+  .photo-gallery {
+    --gallery-columns: 2;
+  }
 }
 </style>
