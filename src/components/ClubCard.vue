@@ -4,7 +4,7 @@
       <SizedImage v-if="club.clubLogo" :image="club.clubLogo" class="club-card__logo" />
       <p-bread-crumbs :crumbs="[{ text: club.name }]" />
       <p>{{ club.description }}</p>
-      <ContactCard :user-id="club.contactUserId" show-label show-details />
+      <ContactIdCard :user-id="club.contactUserId" show-label show-details />
     </template>
   </div>
 </template>
@@ -12,7 +12,7 @@
 <script lang="ts" setup>
   import { useSubscription } from '@prefecthq/vue-compositions'
   import { computed, toRefs } from 'vue'
-  import ContactCard from '@/components/ContactCard.vue'
+  import ContactIdCard from '@/components/ContactIdCard.vue'
   import SizedImage from '@/components/SizedImage.vue'
   import { useApi } from '@/compositions'
 

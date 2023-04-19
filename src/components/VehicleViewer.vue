@@ -9,7 +9,7 @@
         </p-icon-button-menu>
       </template>
       <template v-else>
-        <ContactCard :user-id="vehicle.userId" />
+        <ContactIdCard :user-id="vehicle.userId" />
       </template>
     </div>
     <SizedImage :image="vehicle.profileImage" class="vehicle-viewer__hero" />
@@ -18,7 +18,7 @@
 </template>
 
 <script lang="ts" setup>
-  import ContactCard from '@/components/ContactCard.vue'
+  import ContactIdCard from '@/components/ContactIdCard.vue'
   import SizedImage from '@/components/SizedImage.vue'
   import VehicleLabel from '@/components/VehicleLabel.vue'
   import VehiclePhotoGallery from '@/components/VehiclePhotoGallery.vue'

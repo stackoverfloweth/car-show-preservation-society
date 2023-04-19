@@ -57,27 +57,22 @@
 </template>
 
 <script lang="ts" setup>
-  import { useSubscriptionWithDependencies } from '@prefecthq/vue-compositions'
   import { computed, toRefs } from 'vue'
   import SizedImage from '@/components/SizedImage.vue'
-  import { useApi, useShowModal } from '@/compositions'
+  import { useShowModal } from '@/compositions'
+  import { User } from '@/models'
   import { formatPhoneNumber } from '@/utilities'
 
   const props = defineProps<{
-    userId: string | undefined,
+    user: User,
     showLabel?: boolean,
     showDetails?: boolean,
   }>()
 
-  const { userId } = toRefs(props)
-  const api = useApi()
+  const { user } = toRefs(props)
   const { showModal, open } = useShowModal()
 
-  const userSubscriptionArgs = computed<Parameters<typeof api.users.getUser> | null>(() => userId.value ? [userId.value] : null)
-  const userSubscription = useSubscriptionWithDependencies(api.users.getUser, userSubscriptionArgs)
-  const user = computed(() => userSubscription.response)
-
-  const displayName = computed(() => user.value ? `${user.value.firstName} ${user.value.lastName}` : '')
+  const displayName = computed(() => user.value.displayNameOverride ? user.value.displayNameOverride : `${user.value.firstName} ${user.value.lastName}`)
 
   const classes = computed(() => ({
     image: {
@@ -86,7 +81,7 @@
   }))
 
   function handleImageClick(): void {
-    if (!props.showDetails && (!user.value?.hideEmailAddress || !user.value.hidePhoneNumber)) {
+    if (!props.showDetails && (!user.value.hideEmailAddress || !user.value.hidePhoneNumber)) {
       open()
     }
   }

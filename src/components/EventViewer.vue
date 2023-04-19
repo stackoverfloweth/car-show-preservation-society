@@ -39,7 +39,7 @@
 
     <LocationCard class="event-viewer__location" :location="event.location" />
 
-    <ContactCard class="event-viewer__contact" :user-id="event.contactUserId" show-label show-details />
+    <ContactIdCard class="event-viewer__contact" :user-id="event.contactUserId" show-label show-details />
 
     <EventSponsors class="event-viewer__sponsors" :event="event" />
 
@@ -56,7 +56,7 @@
   import { media } from '@prefecthq/prefect-design'
   import { isFuture } from 'date-fns'
   import { computed } from 'vue'
-  import ContactCard from '@/components/ContactCard.vue'
+  import ContactIdCard from '@/components/ContactIdCard.vue'
   import EventHeader from '@/components/EventHeader.vue'
   import EventJudgingSummary from '@/components/EventJudgingSummary.vue'
   import EventSponsors from '@/components/EventSponsors.vue'

@@ -4,12 +4,12 @@
 
     <p>{{ club.description }}</p>
 
-    <ContactCard :user-id="club.contactUserId" show-label show-details />
+    <ContactIdCard :user-id="club.contactUserId" show-label show-details />
   </div>
 </template>
 
 <script lang="ts" setup>
-  import ContactCard from '@/components/ContactCard.vue'
+  import ContactIdCard from '@/components/ContactIdCard.vue'
   import SizedImage from '@/components/SizedImage.vue'
   import { Club } from '@/models'
 
