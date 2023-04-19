@@ -1,27 +1,52 @@
 <template>
   <div class="club-viewer">
     <div class="club-viewer__header">
-      <div class="club-viewer__heading">
-        {{ club.name }}
-      </div>
-      <p-icon-button-menu>
-        <p-overflow-menu-item label="Share" icon="ShareIcon" />
-        <template v-if="!currentUserIsMember">
-          <p-overflow-menu-item v-if="club.joinableByAnyone" label="Join" icon="UserAddIcon" @click="joinPublicClub" />
-          <p-overflow-menu-item v-else-if="club.joinableByApplication" label="Join" icon="UserAddIcon" @click="openClubApplication" />
-        </template>
-        <p-overflow-menu-item v-if="canEditClub" label="Edit" icon="PencilIcon" :to="routes.clubEditor(club.clubId)" />
-      </p-icon-button-menu>
+      <p-button inset icon="ShareIcon" />
+
+      <template v-if="!currentUserIsMember">
+        <p-button v-if="club.joinableByAnyone" @click="joinPublicClub">
+          Join
+        </p-button>
+        <p-button v-else-if="club.joinableByApplication" @click="openClubApplication">
+          Join
+        </p-button>
+      </template>
+
+      <template v-if="canEditClub">
+        <p-icon-button-menu>
+          <MenuItemConfirm @confirm="leaveClub">
+            <template #default="{ open: openConfirmation }">
+              <p-overflow-menu-item label="Leave" icon="UserRemoveIcon" @click.stop="openConfirmation" />
+            </template>
+          </MenuItemConfirm>
+          <p-overflow-menu-item label="Edit" icon="PencilIcon" :to="routes.clubEditor(club.clubId)" />
+        </p-icon-button-menu>
+      </template>
     </div>
 
     <div class="club-viewer__body">
-      <ClubOverview :club="club" />
+      <SizedImage v-if="club.clubLogo" :image="club.clubLogo" class="club-overview__logo" />
 
-      <div class="club-viewer__events">
-        <p-bread-crumbs :crumbs="[{ text: 'Upcoming Events' }]" />
-        <EventsList :events="events" />
+      <div class="club-viewer__details">
+        <div class="club-viewer__heading">
+          {{ club.name }}
+        </div>
+        <p>
+          {{ club.description }}
+        </p>
       </div>
     </div>
+    <p-tabs :tabs="tabs">
+      <template #upcoming-events>
+        <EventsList :events="events" />
+      </template>
+      <template #members>
+        members
+      </template>
+      <template #photos>
+        <ClubPhotoGallery :club-id="club.clubId" />
+      </template>
+    </p-tabs>
     <p-modal v-model:show-modal="showModal" :title="`Join ${club.name}`" auto-close>
       <ClubApplicationForm :club="club" @close="closeClubApplication" />
     </p-modal>
@@ -29,12 +54,14 @@
 </template>
 
 <script lang="ts" setup>
-  import { showToast } from '@prefecthq/prefect-design'
+  import { Tab, showToast } from '@prefecthq/prefect-design'
   import { useSubscription } from '@prefecthq/vue-compositions'
   import { computed } from 'vue'
   import ClubApplicationForm from '@/components/ClubApplicationForm.vue'
-  import ClubOverview from '@/components/ClubOverview.vue'
+  import ClubPhotoGallery from '@/components/ClubPhotoGallery.vue'
   import EventsList from '@/components/EventsList.vue'
+  import MenuItemConfirm from '@/components/MenuItemConfirm.vue'
+  import SizedImage from '@/components/SizedImage.vue'
   import { useApi, useShowModal } from '@/compositions'
   import { Club, Event } from '@/models'
   import { routes } from '@/router/routes'
@@ -51,14 +78,36 @@
   const userIsMemberSubscription = useSubscription(api.users.isMemberOfClub, [userId, props.club.clubId])
   const currentUserIsMember = computed(() => userIsMemberSubscription.response ?? false)
 
-  const canEditClub = false
+  const canEditClub = true
+
+  const tabs = computed<Tab[]>(() => {
+    const value = [
+      { label: 'Upcoming Events' },
+      { label: 'Members' },
+      { label: 'Photos' },
+    ]
+
+    return value
+  })
 
   async function joinPublicClub(): Promise<void> {
-    if (!currentUserIsMember.value) {
-      await api.clubs.joinClub(props.club.clubId, userId)
-
-      showToast('Joined!', 'success')
+    if (currentUserIsMember.value) {
+      return
     }
+
+    await api.clubs.joinClub(props.club.clubId, userId)
+
+    showToast('Joined!', 'success')
+  }
+
+  async function leaveClub(): Promise<void> {
+    if (!currentUserIsMember.value) {
+      return
+    }
+
+    await api.clubs.leaveClub(props.club.clubId, userId)
+
+    showToast('Left club', 'success')
   }
 </script>
 
@@ -71,9 +120,8 @@
 
 .club-viewer__header {
   display: flex;
-  justify-content: space-between;
-  align-items: center;
-  gap: var(--space-4);
+  justify-content: end;
+  gap: var(--space-3);
 }
 
 .club-viewer__heading {
@@ -82,14 +130,26 @@
 }
 
 .club-viewer__body {
-  display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
+  display: flex;
   gap: var(--space-4);
+}
+
+.club-overview__logo {
+  flex-shrink: 0;
+  flex-grow: 1;
+  width: 100%;
+  padding-top: 33.33%;
+  max-width: 40%;
+  max-height: 250px;
+}
+
+.club-viewer__details {
+  flex-grow: 1;
 }
 
 @media(max-width: 768px) {
   .club-viewer__body {
-    grid-template-columns: minmax(0, 1fr);
+    flex-direction: column;
   }
 }
 </style>

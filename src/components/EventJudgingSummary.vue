@@ -6,7 +6,7 @@
     </template>
     <template v-else>
       <EventJudgingResults :event="event" />
-      <EventPhotoGallery :event="event" />
+      <EventPhotoGallery :event-id="event.eventId" />
     </template>
   </div>
 </template>

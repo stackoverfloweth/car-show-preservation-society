@@ -2,7 +2,7 @@
   <div class="club-overview">
     <SizedImage v-if="club.clubLogo" :image="club.clubLogo" class="club-overview__logo" />
 
-    <span>{{ club.description }}</span>
+    <p>{{ club.description }}</p>
 
     <ContactCard :user-id="club.contactUserId" show-label show-details />
   </div>

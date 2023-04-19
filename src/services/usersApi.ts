@@ -1,4 +1,3 @@
-import { useSubscription } from '@prefecthq/vue-compositions'
 import { Club } from '@/models'
 import { User } from '@/models/user'
 import { Api } from '@/services/api'

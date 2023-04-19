@@ -3,7 +3,7 @@
     <template v-if="club">
       <SizedImage v-if="club.clubLogo" :image="club.clubLogo" class="club-card__logo" />
       <p-bread-crumbs :crumbs="[{ text: club.name }]" />
-      <span>{{ club.description }}</span>
+      <p>{{ club.description }}</p>
       <ContactCard :user-id="club.contactUserId" show-label show-details />
     </template>
   </div>
