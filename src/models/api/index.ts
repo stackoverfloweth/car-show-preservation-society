@@ -1,5 +1,7 @@
 export * from './advertisementRequest'
 export * from './clubRequest'
+export * from './clubsFilter'
+export * from './clubsSort'
 export * from './eventRequest'
 export * from './imageRequest'
 export * from './mapBoxFeatureResponse'

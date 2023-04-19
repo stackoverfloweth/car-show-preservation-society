@@ -1,12 +1,12 @@
 import { Image, User } from '@/models'
-import { ClubRequest, ImageRequest } from '@/models/api'
+import { ClubRequest, ClubsFilter, ClubsSort, ImageRequest } from '@/models/api'
 import { Club, IClub } from '@/models/club'
 import { Api, mocker } from '@/services'
 
 export class ClubsApi extends Api {
   protected override routePrefix = '/clubs'
 
-  public async getClubs(): Promise<Club[]> {
+  public async getClubs(filter?: ClubsFilter, sort?: ClubsSort): Promise<Club[]> {
     return await Promise.resolve(mocker.createMany('club', 5))
   }
 
