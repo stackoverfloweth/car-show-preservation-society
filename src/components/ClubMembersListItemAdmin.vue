@@ -43,7 +43,7 @@
   const canEditClub = useCanEditClub()
 
   async function deleteMember(): Promise<void> {
-    await api.clubs.deleteClubMember(props.club.clubId, props.member)
+    await api.clubMembership.deleteClubMember(props.club.clubId, props.member)
   }
 </script>
 

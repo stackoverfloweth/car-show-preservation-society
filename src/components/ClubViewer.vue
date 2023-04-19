@@ -109,13 +109,13 @@
   const userIsMemberSubscription = useSubscription(api.users.isMemberOfClub, [currentUser.userId, clubId])
   const currentUserIsMember = computed(() => userIsMemberSubscription.response ?? false)
 
-  const adminsSubscription = useSubscription(api.clubs.getClubAdmins, [clubId])
+  const adminsSubscription = useSubscription(api.clubMembership.getClubAdmins, [clubId])
   const admins = computed(() => adminsSubscription.response ?? [])
 
-  const membersSubscription = useSubscription(api.clubs.getClubMembers, [clubId])
+  const membersSubscription = useSubscription(api.clubMembership.getClubMembers, [clubId])
   const members = computed(() => membersSubscription.response ?? [])
 
-  const pendingSubscription = useSubscription(api.clubs.getClubPendingMembers, [clubId])
+  const pendingSubscription = useSubscription(api.clubMembership.getClubPendingMembers, [clubId])
   const pending = computed(() => pendingSubscription.response ?? [])
 
   const currentUserIsOnlyAdmin = computed(() => admins.value.every(admin => admin.userId === currentUser.userId))
@@ -126,7 +126,7 @@
       return
     }
 
-    await api.clubs.joinClub(clubId.value, currentUser.userId)
+    await api.clubMembership.joinClub(clubId.value, currentUser.userId)
 
     showToast('Joined!', 'success')
   }
@@ -136,7 +136,7 @@
       return
     }
 
-    await api.clubs.leaveClub(clubId.value, currentUser.userId)
+    await api.clubMembership.leaveClub(clubId.value, currentUser.userId)
 
     showToast('Left club', 'success')
   }

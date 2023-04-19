@@ -22,14 +22,6 @@ export class ClubsApi extends Api {
     return await Promise.resolve(mocker.create('club', [club]))
   }
 
-  public async joinClub(clubId: string, userId: string, message?: string): Promise<void> {
-    await Promise.resolve({ clubId, userId, message })
-  }
-
-  public async leaveClub(clubId: string, userId: string): Promise<void> {
-    await Promise.resolve({ clubId, userId })
-  }
-
   public async getClubImages(clubId: string): Promise<Image[]> {
     return await Promise.resolve(mocker.createMany('image', mocker.create('number', [0, 50])))
   }
@@ -40,34 +32,5 @@ export class ClubsApi extends Api {
 
   public async createClubImage(request: ImageRequest): Promise<Image> {
     return await Promise.resolve(mocker.create('image', [request]))
-  }
-
-  public async getClubAdmins(clubId: string): Promise<User[]> {
-    return await Promise.resolve(mocker.createMany('user', mocker.create('number', [1, 5])))
-  }
-
-  public async getClubMembers(clubId: string): Promise<User[]> {
-    return await Promise.resolve(mocker.createMany('user', mocker.create('number', [0, 15])))
-  }
-
-  public async getClubPendingMembers(clubId: string): Promise<string[]> {
-    // if user isn't admin, this should return []
-    return await Promise.resolve(mocker.createMany('email', mocker.create('number', [0, 2])))
-  }
-
-  public async inviteClubMember(clubId: string, emailAddress: string): Promise<void> {
-    await Promise.resolve({ clubId, emailAddress })
-  }
-
-  public async resendInvitation(clubId: string, emailAddress: string): Promise<void> {
-    await Promise.resolve({ clubId, emailAddress })
-  }
-
-  public async deleteInvitation(clubId: string, emailAddress: string): Promise<void> {
-    await Promise.resolve({ clubId, emailAddress })
-  }
-
-  public async deleteClubMember(clubId: string, member: User): Promise<void> {
-    await Promise.resolve({ clubId, member })
   }
 }

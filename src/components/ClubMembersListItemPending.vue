@@ -33,11 +33,11 @@
   const canEditClub = useCanEditClub()
 
   async function resendInvitation(): Promise<void> {
-    await api.clubs.resendInvitation(props.club.clubId, props.emailAddress)
+    await api.clubInvitations.resendInvitation(props.club.clubId, props.emailAddress)
   }
 
   async function deleteMember(): Promise<void> {
-    await api.clubs.deleteInvitation(props.club.clubId, props.emailAddress)
+    await api.clubInvitations.deleteInvitation(props.club.clubId, props.emailAddress)
   }
 </script>
 

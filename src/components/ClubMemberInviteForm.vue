@@ -48,7 +48,7 @@
       return
     }
 
-    await api.clubs.inviteClubMember(clubId.value, emailAddress.value)
+    await api.clubInvitations.inviteClubMember(clubId.value, emailAddress.value)
 
     showToast('Invitation Sent!', 'success')
     close()

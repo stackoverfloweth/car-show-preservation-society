@@ -32,7 +32,6 @@
   import MenuItemConfirm from '@/components/MenuItemConfirm.vue'
   import { useApi, useCanEditClub } from '@/compositions'
   import { Club, User } from '@/models'
-  import { routes } from '@/router/routes'
   import { currentUser } from '@/services/auth'
 
   const props = defineProps<{
@@ -43,7 +42,11 @@
   const api = useApi()
   const canEditClub = useCanEditClub()
 
+  async function setPrimaryMember(): Promise<void> {
+    await api.clubMembership.deleteClubMember(props.club.clubId, props.member)
+  }
+
   async function deleteMember(): Promise<void> {
-    await api.clubs.deleteClubMember(props.club.clubId, props.member)
+    await api.clubMembership.deleteClubMember(props.club.clubId, props.member)
   }
 </script>
