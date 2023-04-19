@@ -7,18 +7,19 @@
         <p-button v-if="club.joinableByAnyone" @click="joinPublicClub">
           Join
         </p-button>
-        <p-button v-else-if="club.joinableByApplication" @click="openClubApplication">
+        <p-button v-else-if="club.joinableByApplication" @click="openApplicationModal">
           Join
         </p-button>
       </template>
 
       <template v-if="canEditClub">
         <p-icon-button-menu>
-          <MenuItemConfirm @confirm="leaveClub">
+          <MenuItemConfirm v-if="!currentUserIsOnlyAdmin" @confirm="leaveClub">
             <template #default="{ open: openConfirmation }">
               <p-overflow-menu-item label="Leave" icon="UserRemoveIcon" @click.stop="openConfirmation" />
             </template>
           </MenuItemConfirm>
+          <p-overflow-menu-item label="Invite Member" icon="UserAddIcon" @click="openInviteMemberModal" />
           <p-overflow-menu-item label="Edit" icon="PencilIcon" :to="routes.clubEditor(clubId)" />
         </p-icon-button-menu>
       </template>
@@ -33,13 +34,13 @@
         <div class="club-viewer__heading">
           {{ club.name }}
         </div>
+        <p-tag>{{ visibility }}</p-tag>
         <p>
           {{ club.description }}
         </p>
-        <p-tag>{{ visibility }}</p-tag>
       </div>
     </div>
-    <p-tabs :tabs="tabs">
+    <p-tabs v-model:selected="selectTab" :tabs="tabs">
       <template #upcoming-events>
         <EventsList :events="events" />
       </template>
@@ -50,17 +51,22 @@
         <ClubPhotoGallery :club-id="clubId" />
       </template>
     </p-tabs>
-    <p-modal v-model:show-modal="showModal" :title="`Join ${club.name}`" auto-close>
-      <ClubApplicationForm :club="club" @close="closeClubApplication" />
+    <p-modal v-model:show-modal="showApplicationModal" :title="`Join ${club.name}`" auto-close>
+      <ClubApplicationForm :club="club" @close="closeApplicationModal" />
+    </p-modal>
+    <p-modal v-model:show-modal="showInviteMemberModal" title="Invite Member" auto-close>
+      <ClubMemberInviteForm :club-id="clubId" @close="closeInviteMemberModal" />
     </p-modal>
   </div>
 </template>
 
 <script lang="ts" setup>
-  import { Tab, showToast } from '@prefecthq/prefect-design'
+  import { kebabCase, showToast } from '@prefecthq/prefect-design'
   import { useSubscription } from '@prefecthq/vue-compositions'
   import { computed } from 'vue'
+  import { useRoute, useRouter } from 'vue-router'
   import ClubApplicationForm from '@/components/ClubApplicationForm.vue'
+  import ClubMemberInviteForm from '@/components/ClubMemberInviteForm.vue'
   import ClubMembersList from '@/components/ClubMembersList.vue'
   import ClubPhotoGallery from '@/components/ClubPhotoGallery.vue'
   import EventsList from '@/components/EventsList.vue'
@@ -70,7 +76,7 @@
   import { Club, Event } from '@/models'
   import { routes } from '@/router/routes'
   import { currentUser } from '@/services/auth'
-  import { capitalize } from '@/utilities'
+  import { capitalize, unKebabCase } from '@/utilities'
 
   const props = defineProps<{
     club: Club,
@@ -80,7 +86,25 @@
   const api = useApi()
   const clubId = computed(() => props.club.clubId)
   const canEditClub = useCanEditClub()
-  const { showModal, open: openClubApplication, close: closeClubApplication } = useShowModal()
+  const route = useRoute()
+  const router = useRouter()
+
+  const tabs = [
+    'Upcoming Events',
+    'Members',
+    'Photos',
+  ]
+  const selectTab = computed({
+    get() {
+      return unKebabCase(route.hash.slice(1))
+    },
+    set(value) {
+      router.push(`#${kebabCase(value)}`)
+    },
+  })
+
+  const { showModal: showApplicationModal, open: openApplicationModal, close: closeApplicationModal } = useShowModal()
+  const { showModal: showInviteMemberModal, open: openInviteMemberModal, close: closeInviteMemberModal } = useShowModal()
 
   const userIsMemberSubscription = useSubscription(api.users.isMemberOfClub, [currentUser.userId, clubId])
   const currentUserIsMember = computed(() => userIsMemberSubscription.response ?? false)
@@ -91,17 +115,8 @@
   const membersSubscription = useSubscription(api.clubs.getClubMembers, [clubId])
   const members = computed(() => membersSubscription.response ?? [])
 
+  const currentUserIsOnlyAdmin = computed(() => admins.value.every(admin => admin.userId === currentUser.userId))
   const visibility = computed(() => `${capitalize(props.club.visibility)} Club`)
-
-  const tabs = computed<Tab[]>(() => {
-    const value = [
-      { label: 'Upcoming Events' },
-      { label: 'Members' },
-      { label: 'Photos' },
-    ]
-
-    return value
-  })
 
   async function joinPublicClub(): Promise<void> {
     if (currentUserIsMember.value) {
