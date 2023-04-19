@@ -1,3 +1,6 @@
 export * from './useApi'
+export * from './useCanEditClub'
+export * from './useCanEditEvent'
+export * from './useCanEditVehicle'
 export * from './useNavigation'
 export * from './useShowModal'

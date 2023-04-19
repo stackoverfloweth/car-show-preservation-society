@@ -44,10 +44,7 @@
         <EventsList :events="events" />
       </template>
       <template #members>
-        <div class="club-viewer__members">
-          <ClubMembersList :members="admins" is-administrator />
-          <ClubMembersList :members="members" />
-        </div>
+        <ClubMembersList :members="members" :admins="admins" />
       </template>
       <template #photos>
         <ClubPhotoGallery :club-id="clubId" />
@@ -69,7 +66,7 @@
   import EventsList from '@/components/EventsList.vue'
   import MenuItemConfirm from '@/components/MenuItemConfirm.vue'
   import SizedImage from '@/components/SizedImage.vue'
-  import { useApi, useShowModal } from '@/compositions'
+  import { useApi, useCanEditClub, useShowModal } from '@/compositions'
   import { Club, Event } from '@/models'
   import { routes } from '@/router/routes'
   import { currentUser } from '@/services/auth'
@@ -82,6 +79,7 @@
 
   const api = useApi()
   const clubId = computed(() => props.club.clubId)
+  const canEditClub = useCanEditClub()
   const { showModal, open: openClubApplication, close: closeClubApplication } = useShowModal()
 
   const userIsMemberSubscription = useSubscription(api.users.isMemberOfClub, [currentUser.userId, clubId])
@@ -92,8 +90,6 @@
 
   const membersSubscription = useSubscription(api.clubs.getClubMembers, [clubId])
   const members = computed(() => membersSubscription.response ?? [])
-
-  const canEditClub = true
 
   const visibility = computed(() => `${capitalize(props.club.visibility)} Club`)
 
@@ -168,12 +164,6 @@
   flex-direction: column;
   gap: var(--space-2);
   align-items: start;
-}
-
-.club-viewer__members {
-  display: flex;
-  flex-direction: column;
-  gap: var(--space-4);
 }
 
 @media(max-width: 768px) {

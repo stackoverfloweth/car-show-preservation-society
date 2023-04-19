@@ -22,6 +22,7 @@
   import SizedImage from '@/components/SizedImage.vue'
   import VehicleLabel from '@/components/VehicleLabel.vue'
   import VehiclePhotoGallery from '@/components/VehiclePhotoGallery.vue'
+  import { useCanEditVehicle } from '@/compositions'
   import { Vehicle } from '@/models'
   import { routes } from '@/router/routes'
 
@@ -29,7 +30,7 @@
     vehicle: Vehicle,
   }>()
 
-  const canEditVehicle = true
+  const canEditVehicle = useCanEditVehicle()
 </script>
 
 <style>

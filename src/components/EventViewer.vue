@@ -67,6 +67,7 @@
   import LocationCard from '@/components/LocationCard.vue'
   import RelatedEvents from '@/components/RelatedEvents.vue'
   import SizedImage from '@/components/SizedImage.vue'
+  import { useCanEditEvent } from '@/compositions'
   import { Event } from '@/models'
   import { routes } from '@/router/routes'
 
@@ -79,8 +80,8 @@
     (event: 'open:event', value: Event): void,
   }>()
 
+  const canEditEvent = useCanEditEvent()
   const eventIsUpcoming = computed(() => isFuture(props.event.end))
-  const canEditEvent = true
 
   function openRelatedEvent(event: Event): void {
     emit('open:event', event)

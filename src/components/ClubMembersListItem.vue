@@ -9,6 +9,9 @@
         <p-tag class="club-members-list-item__member-type">
           {{ memberType }}
         </p-tag>
+        <p-tag v-if="currentUser.userId === member.userId" class="club-members-list-item__is-current-user">
+          You
+        </p-tag>
       </div>
     </div>
   </p-list-item>
@@ -17,7 +20,9 @@
 <script lang="ts" setup>
   import { computed } from 'vue'
   import ContactCard from '@/components/ContactCard.vue'
+  import { useCanEditClub } from '@/compositions'
   import { User } from '@/models'
+  import { currentUser } from '@/services/auth'
 
   const props = defineProps<{
     member: User,
@@ -25,6 +30,8 @@
   }>()
 
   const memberType = computed(() => props.isAdministrator ? 'Administrator' : 'Member')
+
+  const canEditClub = useCanEditClub()
 </script>
 
 <style>
@@ -43,5 +50,14 @@
 .club-members-list-item__name {
   grid-area: name;
   font-weight: bold;
+}
+
+.club-members-list-item__details {
+  display: flex;
+  gap: var(--space-2);
+}
+
+.club-members-list-item__is-current-user {
+  background-color: var(--blue-700) !important;
 }
 </style>

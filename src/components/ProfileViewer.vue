@@ -36,16 +36,18 @@
 </template>
 
 <script lang="ts" setup>
+  import { computed } from 'vue'
   import SizedImage from '@/components/SizedImage.vue'
   import { User } from '@/models'
   import { routes } from '@/router/routes'
+  import { currentUser } from '@/services/auth'
   import { formatPhoneNumber } from '@/utilities'
 
-  defineProps<{
+  const props = defineProps<{
     user: User,
   }>()
 
-  const canEditProfile = false
+  const canEditProfile = computed(() => props.user.userId === currentUser.userId)
 </script>
 
 <style>
