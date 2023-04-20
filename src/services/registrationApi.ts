@@ -1,7 +1,10 @@
+import { ref } from 'vue'
 import { RegistrationRequest } from '@/models/api'
 import { Registration } from '@/models/registration'
 import { Api } from '@/services/api'
 import { mocker } from '@/services/mocker'
+
+export const isRegistered = ref(false)
 
 export class RegistrationsApi extends Api {
   protected override routePrefix = '/registration'
@@ -11,8 +14,11 @@ export class RegistrationsApi extends Api {
   }
 
   public async findRegistration(eventId: string, userId: string): Promise<Registration | undefined> {
-    return undefined
-    // return await Promise.resolve(mocker.create('registration', [{ eventId, userId }]))
+    if (!isRegistered.value) {
+      return undefined
+    }
+
+    return await Promise.resolve(mocker.create('registration', [{ eventId, userId }]))
   }
 
   public async createRegistration(request: RegistrationRequest): Promise<Registration> {
