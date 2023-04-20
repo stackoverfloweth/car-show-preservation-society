@@ -25,13 +25,19 @@
   display: flex;
   flex-direction: column;
   line-height: 1.25;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 .vehicle-label__make {
   font-size: 1.25rem;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 .vehicle-label__year {
   font-size: .75rem;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 </style>

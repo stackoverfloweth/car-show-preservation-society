@@ -58,6 +58,7 @@
 
 .event-header__club {
   grid-area: club;
+  width: fit-content;
 }
 
 .event-header__name {
