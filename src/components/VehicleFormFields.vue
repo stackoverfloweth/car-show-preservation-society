@@ -112,7 +112,6 @@
       return !modifiedAppearance.value
     },
     set(value) {
-      console.log({ value })
       modifiedAppearance.value = !value
     },
   })

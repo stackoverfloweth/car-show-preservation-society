@@ -1,3 +1,5 @@
+import { VotingCategory } from '@/models/votingCategory'
+
 export type Registration = {
   registrationId: string,
   registrationCode: string,
@@ -7,4 +9,5 @@ export type Registration = {
   vehicleId?: string,
   carId?: string,
   stripePaymentId?: string,
+  votingCategories: VotingCategory[],
 }

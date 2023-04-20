@@ -3,4 +3,5 @@ export type RegistrationRequest = {
   eventId: string,
   vehicleId?: string,
   stripePaymentId?: string,
+  votingCategoryIds?: string[],
 }

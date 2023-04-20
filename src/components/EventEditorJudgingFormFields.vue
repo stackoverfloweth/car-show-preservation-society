@@ -47,6 +47,21 @@
         </template>
       </p-label>
 
+      <p-label label="Max Judging Categories">
+        <template #description>
+          <template v-if="maxSelfCategorization">
+            How many categories are participants allowed to enter? Default value is 1 category.
+            <p>(only applies if self categorization is enabled)</p>
+          </template>
+          <template v-else>
+            Event host will assign entries to their correct judging category.
+          </template>
+        </template>
+        <template #default="{ id }">
+          <p-number-input :id="id" v-model="maxSelfCategorization" :disabled="!driverSelfCategorization" placeholder="1" />
+        </template>
+      </p-label>
+
       <p-label label="Ballots per Registration" :message="ballotCountError" :state="ballotCountState">
         <template #description>
           Optional, number of ballots per registration.
@@ -90,6 +105,7 @@
   const votingEnd = usePatchRef(event, 'votingEnd')
   const canVoteForSelf = usePatchRef(event, 'canVoteForSelf')
   const driverSelfCategorization = usePatchRef(event, 'driverSelfCategorization')
+  const maxSelfCategorization = usePatchRef(event, 'maxSelfCategorization')
   const ballotCount = usePatchRef(event, 'ballotCount')
 
   const { error: votingStartError, state: votingStartState } = useValidation(votingStart, 'Voting Start', [])

@@ -1,3 +1,4 @@
+import { isFuture } from 'date-fns'
 import { Image } from '@/models/image'
 import { Location } from '@/models/location'
 
@@ -14,6 +15,7 @@ export interface IEvent {
   votingStart?: Date,
   votingEnd?: Date,
   maxCapacity?: number,
+  currentCapacity?: number,
   stripePriceId?: string,
   preRegistration?: boolean,
   preRegistrationStripePriceId?: string,
@@ -21,6 +23,7 @@ export interface IEvent {
   ballotCount?: number,
   canVoteForSelf?: boolean,
   driverSelfCategorization?: boolean,
+  maxSelfCategorization?: number,
   stripeCrossProductIds: string[],
   isDraft?: boolean,
 }
@@ -37,7 +40,8 @@ export class Event implements IEvent {
   public end: Date
   public votingStart?: Date
   public votingEnd?: Date
-  public maxCapacity?: number
+  public maxCapacity: number
+  public currentCapacity: number
   public stripePriceId?: string
   public preRegistration?: boolean
   public preRegistrationStripePriceId?: string
@@ -45,6 +49,7 @@ export class Event implements IEvent {
   public ballotCount?: number
   public canVoteForSelf?: boolean
   public driverSelfCategorization?: boolean
+  public maxSelfCategorization: number
   public stripeCrossProductIds: string[]
   public isDraft?: boolean
 
@@ -60,7 +65,7 @@ export class Event implements IEvent {
     this.end = event.end
     this.votingStart = event.votingStart
     this.votingEnd = event.votingEnd
-    this.maxCapacity = event.maxCapacity
+    this.maxCapacity = event.maxCapacity ?? Infinity
     this.stripePriceId = event.stripePriceId
     this.preRegistration = event.preRegistration
     this.preRegistrationStripePriceId = event.preRegistrationStripePriceId
@@ -68,7 +73,25 @@ export class Event implements IEvent {
     this.ballotCount = event.ballotCount
     this.canVoteForSelf = event.canVoteForSelf
     this.driverSelfCategorization = event.driverSelfCategorization
+    this.maxSelfCategorization = event.maxSelfCategorization ?? 1
     this.stripeCrossProductIds = event.stripeCrossProductIds
     this.isDraft = event.isDraft
+    this.currentCapacity = event.currentCapacity ?? 0
+  }
+
+  public get isUpcoming(): boolean {
+    return isFuture(this.end)
+  }
+
+  public get openSlots(): number {
+    return this.maxCapacity - this.currentCapacity
+  }
+
+  public get hasCapacity(): boolean {
+    return this.openSlots > 0
+  }
+
+  public get preregistrationOpen(): boolean {
+    return !!this.preRegistration && this.isUpcoming && this.hasCapacity
   }
 }

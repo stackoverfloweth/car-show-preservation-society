@@ -1,7 +1,7 @@
 <template>
   <div class="event-judging-summary">
-    <template v-if="eventIsUpcoming">
-      <JudgingCategoriesTable class="event-judging-summary__judging-categories" :categories="votingCategories" />
+    <template v-if="event.isUpcoming">
+      <JudgingCategoriesTable :categories="votingCategories" />
     </template>
     <template v-else>
       <EventJudgingResults :event="event" />
@@ -12,7 +12,6 @@
 
 <script lang="ts" setup>
   import { useSubscription } from '@prefecthq/vue-compositions'
-  import { isFuture } from 'date-fns'
   import { computed, toRefs } from 'vue'
   import EventJudgingResults from '@/components/EventJudgingResults.vue'
   import EventPhotoGallery from '@/components/EventPhotoGallery.vue'
@@ -26,7 +25,6 @@
 
   const { event } = toRefs(props)
   const api = useApi()
-  const eventIsUpcoming = computed(() => isFuture(event.value.end))
 
   const votingCategoriesSubscription = useSubscription(api.votingCategories.getVotingCategories, [event.value.eventId])
   const votingCategories = computed(() => votingCategoriesSubscription.response ?? [])

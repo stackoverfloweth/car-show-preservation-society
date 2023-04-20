@@ -72,7 +72,6 @@
 <script lang="ts" setup>
   import { media } from '@prefecthq/prefect-design'
   import { useSubscription } from '@prefecthq/vue-compositions'
-  import { isFuture } from 'date-fns'
   import { computed } from 'vue'
   import ContactIdCard from '@/components/ContactIdCard.vue'
   import EventHeader from '@/components/EventHeader.vue'
@@ -99,10 +98,11 @@
   const api = useApi()
 
   const eventId = computed(() => props.event.eventId)
-  const eventIsUpcoming = computed(() => isFuture(props.event.end))
   const registrationSubscription = useSubscription(api.registration.findRegistration, [eventId, currentUser.userId])
   const alreadyRegistered = computed(() => !!registrationSubscription.response)
-  const canRegister = computed(() => eventIsUpcoming.value && !alreadyRegistered.value && props.event.preRegistration)
+
+  // also needs to check max-capacity
+  const canRegister = computed(() => props.event.preregistrationOpen && !alreadyRegistered.value)
 
   function openRelatedEvent(event: Event): void {
     emit('open:event', event)
