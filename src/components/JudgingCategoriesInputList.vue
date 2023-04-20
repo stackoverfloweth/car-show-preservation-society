@@ -1,42 +1,20 @@
 <template>
   <div class="judging-categories-input-list">
     <template v-for="category in categories" :key="category.votingCategoryId">
-      <p-list-item-input
-        v-model:selected="selected"
-        :value="category.votingCategoryId"
-      >
-        <div class="judging-categories-input-list__category" @click="editCategory(category)">
-          <div class="judging-categories-input-list__name">
-            {{ category.name }}
-          </div>
-          <div class="judging-categories-input-list__description">
-            {{ category.description }}
-          </div>
-          <div class="judging-categories-input-list__info-badges">
-            <template v-if="mocker.create('boolean')">
-              <p-icon-text class="judging-categories-input-list__info-badge" icon="CurrencyDollarIcon">
-                {{ category.stripePriceId ?? '+2.00' }}
-              </p-icon-text>
-            </template>
-            <p-icon-text class="judging-categories-input-list__info-badge" icon="ClipboardCheckIcon">
-              {{ category.driversOnly ? 'drivers only' : 'everyone' }}
-            </p-icon-text>
-            <template v-if="category.maxCapacity">
-              <p-icon-text class="judging-categories-input-list__info-badge" icon="UserGroupIcon">
-                max: {{ category.maxCapacity }}
-              </p-icon-text>
-            </template>
-          </div>
-        </div>
-      </p-list-item-input>
+      <JudgingCategoriesInputListItem
+        :category="category"
+        :selected="getIsSelected(category)"
+        @edit:category="editCategory"
+        @update:selected="toggleSelected(category)"
+      />
     </template>
   </div>
 </template>
 
 <script lang="ts" setup>
   import { computed } from 'vue'
+  import JudgingCategoriesInputListItem from '@/components/JudgingCategoriesInputListItem.vue'
   import { VotingCategory } from '@/models'
-  import { mocker } from '@/services'
 
   const props = defineProps<{
     categories: VotingCategory[],
@@ -56,6 +34,20 @@
       emit('update:selected', value)
     },
   })
+
+  function getIsSelected(category: VotingCategory): boolean {
+    return selected.value.some(categoryId => category.votingCategoryId === categoryId)
+  }
+
+  function toggleSelected(category: VotingCategory): void {
+    const isSelected = getIsSelected(category)
+
+    if (isSelected) {
+      selected.value = [...selected.value.filter(categoryId => categoryId !== category.votingCategoryId)]
+    } else {
+      selected.value = [...selected.value, category.votingCategoryId]
+    }
+  }
 
   function editCategory(votingCategory: VotingCategory): void {
     emit('edit:category', votingCategory)

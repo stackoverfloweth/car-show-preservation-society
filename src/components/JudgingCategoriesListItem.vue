@@ -42,7 +42,7 @@
 
   const selected = computed({
     get() {
-      return props.selected ?? false
+      return props.selected
     },
     set(value) {
       emit('update:selected', value)
