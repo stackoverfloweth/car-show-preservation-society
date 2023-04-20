@@ -106,6 +106,10 @@
 }
 
 @media(max-width: 768px){
+  .clubs-filter {
+    align-items: start;
+  }
+
   .clubs-filter__filter,
   .clubs-filter__sort {
     width: 100%;

@@ -10,6 +10,7 @@
 
   const props = defineProps<{
     clubId: string | null | undefined,
+    nullOptionLabel?: string,
   }>()
 
   const emit = defineEmits<{
@@ -29,8 +30,16 @@
 
   const clubSubscription = useSubscription(api.clubs.getClubs)
   const clubs = computed(() => clubSubscription.response ?? [])
-  const options = computed<SelectOption[]>(() => clubs.value.map(club => ({
-    value: club.clubId,
-    label: club.name,
-  })))
+  const options = computed(() => {
+    const value: SelectOption[] = clubs.value.map(club => ({
+      value: club.clubId,
+      label: club.name,
+    }))
+
+    if (props.nullOptionLabel) {
+      value.unshift({ label: props.nullOptionLabel, value: null })
+    }
+
+    return value
+  })
 </script>

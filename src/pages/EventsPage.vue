@@ -18,7 +18,10 @@
   const api = useApi()
 
   const filter = ref<EventsFilter>({})
-  const sort = ref<EventsSort>({})
+  const sort = ref<EventsSort>({
+    sort: 'date',
+    order: 'desc',
+  })
 
   const eventsSubscription = useSubscription(api.events.getEvents, [filter, sort])
   const events = computed(() => eventsSubscription.response ?? [])
@@ -31,6 +34,9 @@
 
 <style>
 .events-page {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-4);
   padding: var(--space-4);
 }
 </style>
