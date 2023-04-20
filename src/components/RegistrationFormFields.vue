@@ -1,6 +1,6 @@
 <template>
   <div class="registration-form-fields">
-    <div class="registration-form-fields__column">
+    <div class="registration-form-fields__fields">
       <template v-if="event.driverSelfCategorization">
         <p-label label="Judging Category" :state="selectedVotingCategoriesState" :message="selectedVotingCategoriesError" role="button" @click="openJudgingCategoryModal">
           <template v-if="votingCategoriesCurrentlySelected.length">
@@ -25,6 +25,27 @@
         <VehicleSelect v-model:selected="selectedVehicle" />
       </p-label>
     </div>
+
+    <p-card class="registration-form-fields__checkout">
+      <p>Cost</p>
+      <ul>
+        <li>+ Registration Fee</li>
+        <li>+ Optional Fee for Judging categories</li>
+        <li>+ Cross Sells</li>
+        <li>+ Discount Code</li>
+      </ul>
+      <p>$50.00</p>
+
+      <div class="registration-form-fields__checkout-actions">
+        <template v-if="event.preRegistrationUnpaid">
+          <p-button inset>
+            Register Without Paying
+          </p-button>
+        </template>
+        <p-button>Complete Payment</p-button>
+      </div>
+    </p-card>
+
     <p-modal v-model:showModal="showJudgingCategoryModal" title="Select Judging Category" auto-close>
       <JudgingCategoriesList :selected="selectedVotingCategories" class="registration-form-fields__judging-categories" :categories="votingCategories" @update:selected="setSelectedToMaxSelfCategorizationCount" />
       <div class="registration-form-fields__judging-category-actions">
@@ -56,8 +77,6 @@
   const emit = defineEmits<{
     (event: 'update:values', value: RegistrationRequest): void,
   }>()
-
-  // consider preRegistrationUnpaid
 
   const api = useApi()
   const eventId = computed(() => props.event.eventId)
@@ -104,10 +123,22 @@
   row-gap: var(--space-4);
 }
 
-.registration-form-fields__column {
+.registration-form-fields__fields {
   display: flex;
   flex-direction: column;
   gap: var(--space-4);
+}
+
+.registration-form-fields__checkout {
+  justify-content: space-between;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-4);
+}
+
+.registration-form-fields__checkout-actions {
+  display: flex;
+  gap: var(--space-3);
 }
 
 .registration-form-fields__judging-categories {

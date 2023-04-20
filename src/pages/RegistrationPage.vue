@@ -7,7 +7,7 @@
     </template>
 
     <template v-else-if="event">
-      <p-form @submit="submitNewRegistration">
+      <p-form class="registration-page__form" @submit="submitNewRegistration">
         <RegistrationFormFields v-model:values="newRegistration" :event="event" />
       </p-form>
     </template>
@@ -37,7 +37,7 @@
   const api = useApi()
   const eventId = useRouteParam('eventId')
   const { set } = useNavigation()
-  const { validate, pending } = useValidationObserver()
+  const { validate } = useValidationObserver()
   const { showModal: showClubModal, open: openRelatedClub } = useShowModal()
 
   const eventSubscription = useSubscription(api.events.getEvent, [eventId])
@@ -74,30 +74,16 @@
     registrationSubscription.refresh()
   }
 
-  async function updateRegistration(): Promise<void> {
-    const isValid = await validate()
-
-    if (!isValid || !existingRegistration.value) {
-      return
-    }
-
-    await api.registration.updateRegistration(existingRegistration.value)
-
-    showToast('Registered!', 'success')
-  }
-
   watchEffect(() => {
     const left = { title: 'Event', route: routes.event(eventId.value) }
-    const right = existingRegistration.value
-      ? { title: 'Save', pending: pending.value, callback: updateRegistration }
-      : { title: 'Register', pending: pending.value, callback: submitNewRegistration }
 
-    set({ left, right })
+    set({ left })
   })
 </script>
 
 <style>
 .registration-page {
+  flex-grow: 1;
   display: flex;
   flex-direction: column;
   gap: var(--space-4);

@@ -27,6 +27,13 @@
 
 <style>
   html, body {
+    height: 100%;
     background-color: var(--slate-900);
+  }
+
+  #app {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
   }
 </style>
