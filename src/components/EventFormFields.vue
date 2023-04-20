@@ -35,7 +35,7 @@
 
       <p-label label="Primary Contact" :message="contactUserIdError" :state="contactUserIdState">
         <template v-if="!clubId" #description>
-          First select Club to fetch contacts list.
+          (First select Club)
         </template>
         <template #default="{ id }">
           <ContactSelect :id="id" v-model:userId="contactUserId" :disabled="!clubId" :club-id="clubId" :state="contactUserIdState" />

@@ -1,5 +1,5 @@
-import { User } from '@/models'
+import { IUser } from '@/models'
 
-export const currentUser: User = {
+export const currentUser: IUser = {
   userId: '123ABC',
 }

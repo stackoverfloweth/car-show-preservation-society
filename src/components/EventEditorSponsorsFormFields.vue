@@ -68,20 +68,20 @@
   import SponsorSizeSelect from '@/components/SponsorSizeSelect.vue'
   import TrashConfirm from '@/components/TrashConfirm.vue'
   import { useApi } from '@/compositions'
-  import { Advertisement, Event } from '@/models'
+  import { Advertisement, IEvent } from '@/models'
   import { AdvertisementRequest } from '@/models/api'
 
   const props = defineProps<{
-    event: Event,
+    event: IEvent,
   }>()
 
   const emit = defineEmits<{
-    (event: 'update:event', value: Event): void,
+    (event: 'update:event', value: IEvent): void,
   }>()
 
   const event = computed({
     get() {
-      return props.event
+      return { ...props.event }
     },
     set(value) {
       emit('update:event', value)

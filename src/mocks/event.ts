@@ -6,7 +6,7 @@ export const randomEvent: MockFunction<Event, [Partial<Event>?]> = function(over
   const start = this.create('date', [new Date()])
   const votingStart = this.create('date', [start])
 
-  return {
+  return new Event({
     eventId: this.create('id'),
     contactUserId: this.create('id'),
     name: `${toOrdinal(this.create('number', [5, 100]))} Annual ${capitalize(this.create('adjective')) } ${ capitalize(this.create('noun'))}`,
@@ -29,5 +29,5 @@ export const randomEvent: MockFunction<Event, [Partial<Event>?]> = function(over
     stripeCrossProductIds: [],
     isDraft: this.create('boolean'),
     ...overrides,
-  }
+  })
 }

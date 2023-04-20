@@ -67,19 +67,19 @@
   import { usePatchRef, useValidation } from '@prefecthq/vue-compositions'
   import { computed } from 'vue'
   import JudgingCategoriesInput from '@/components/JudgingCategoriesInput.vue'
-  import { Event } from '@/models'
+  import { IEvent } from '@/models'
 
   const props = defineProps<{
-    event: Event,
+    event: IEvent,
   }>()
 
   const emit = defineEmits<{
-    (event: 'update:event', value: Event): void,
+    (event: 'update:event', value: IEvent): void,
   }>()
 
   const event = computed({
     get() {
-      return props.event
+      return { ...props.event }
     },
     set(value) {
       emit('update:event', value)

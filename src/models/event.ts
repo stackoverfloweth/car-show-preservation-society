@@ -1,7 +1,7 @@
 import { Image } from '@/models/image'
 import { Location } from '@/models/location'
 
-export type Event = {
+export interface IEvent {
   eventId: string,
   contactUserId?: string,
   name: string,
@@ -23,4 +23,52 @@ export type Event = {
   driverSelfCategorization?: boolean,
   stripeCrossProductIds: string[],
   isDraft?: boolean,
+}
+
+export class Event implements IEvent {
+  public readonly eventId: string
+  public contactUserId?: string
+  public name: string
+  public description: string
+  public eventLogo?: Image
+  public location: Location
+  public clubId: string
+  public start: Date
+  public end: Date
+  public votingStart?: Date
+  public votingEnd?: Date
+  public maxCapacity?: number
+  public stripePriceId?: string
+  public preRegistration?: boolean
+  public preRegistrationStripePriceId?: string
+  public preRegistrationUnpaid?: boolean
+  public ballotCount?: number
+  public canVoteForSelf?: boolean
+  public driverSelfCategorization?: boolean
+  public stripeCrossProductIds: string[]
+  public isDraft?: boolean
+
+  public constructor(event: IEvent) {
+    this.eventId = event.eventId
+    this.contactUserId = event.contactUserId
+    this.name = event.name
+    this.description = event.description
+    this.eventLogo = event.eventLogo
+    this.location = event.location
+    this.clubId = event.clubId
+    this.start = event.start
+    this.end = event.end
+    this.votingStart = event.votingStart
+    this.votingEnd = event.votingEnd
+    this.maxCapacity = event.maxCapacity
+    this.stripePriceId = event.stripePriceId
+    this.preRegistration = event.preRegistration
+    this.preRegistrationStripePriceId = event.preRegistrationStripePriceId
+    this.preRegistrationUnpaid = event.preRegistrationUnpaid
+    this.ballotCount = event.ballotCount
+    this.canVoteForSelf = event.canVoteForSelf
+    this.driverSelfCategorization = event.driverSelfCategorization
+    this.stripeCrossProductIds = event.stripeCrossProductIds
+    this.isDraft = event.isDraft
+  }
 }

@@ -8,7 +8,6 @@ import { randomClubSubscription } from '@/mocks/clubSubscription'
 import { randomDate } from '@/mocks/date'
 import { randomEmail } from '@/mocks/email'
 import { randomEvent } from '@/mocks/event'
-import { randomEventImage } from '@/mocks/eventImage'
 import { randomId } from '@/mocks/id'
 import { randomImage } from '@/mocks/image'
 import { randomLocation } from '@/mocks/location'
@@ -38,7 +37,6 @@ export const mocks = {
   date: randomDate,
   email: randomEmail,
   event: randomEvent,
-  eventImage: randomEventImage,
   id: randomId,
   image: randomImage,
   location: randomLocation,
