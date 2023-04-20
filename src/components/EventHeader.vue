@@ -12,6 +12,16 @@
       {{ startDate }}
     </p>
     <p class="event-header__time">
+      <template v-if="isHappening">
+        <p-tag class="event-header__today-tag">
+          Now
+        </p-tag>
+      </template>
+      <template v-else-if="isToday">
+        <p-tag class="event-header__today-tag">
+          Today
+        </p-tag>
+      </template>
       {{ startTime }}
     </p>
     <div class="event-header__actions">
@@ -22,7 +32,7 @@
 
 <script lang="ts" setup>
   import { useSubscription } from '@prefecthq/vue-compositions'
-  import { format } from 'date-fns'
+  import { format, isSameDay, isWithinInterval } from 'date-fns'
   import { computed, toRefs } from 'vue'
   import { useApi } from '@/compositions'
   import { Event } from '@/models'
@@ -40,6 +50,9 @@
 
   const clubSubscription = useSubscription(api.clubs.getClub, [event.value.clubId])
   const club = computed(() => clubSubscription.response)
+
+  const isToday = computed(() => isSameDay(event.value.start, new Date()))
+  const isHappening = computed(() => isWithinInterval(new Date, { start: event.value.start, end: event.value.end }))
 
   const startDate = computed(() => format(event.value.start, 'PPPP'))
   const startTime = computed(() => format(event.value.start, 'pp'))
@@ -85,10 +98,14 @@
 .event-header__time {
   grid-area: time;
   display: flex;
-  flex-direction: column;
-  align-items: end;
-  justify-content: center;
+  gap: var(--space-2);
+  justify-content: end;
   text-align: right;
+}
+
+.event-header__today-tag {
+  display: inline-block;
+  background-color: var(--blue-600) !important;
 }
 
 .event-header__actions {
