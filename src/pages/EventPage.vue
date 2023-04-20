@@ -31,7 +31,7 @@
 </script>
 
 <script lang="ts" setup>
-  import { useRouteParam, useSubscription } from '@prefecthq/vue-compositions'
+  import { useRouteParam, useSubscription, useSubscriptionWithDependencies } from '@prefecthq/vue-compositions'
   import { computed, ref, watch } from 'vue'
   import { useRoute } from 'vue-router'
   import ClubOverview from '@/components/ClubOverview.vue'
@@ -42,7 +42,6 @@
   import { routes } from '@/router/routes'
 
   const route = useRoute()
-  const clubId = useRouteParam('clubId')
   const eventId = useRouteParam('eventId')
   const api = useApi()
   const { set } = useNavigation()
@@ -50,7 +49,8 @@
   const eventSubscription = useSubscription(api.events.getEvent, [eventId])
   const event = computed(() => eventSubscription.response)
 
-  const clubSubscription = useSubscription(api.clubs.getClub, [clubId])
+  const clubSubscriptionDependencies = computed<Parameters<typeof api.clubs.getClub> | null>(() => event.value ? [event.value.clubId] : null)
+  const clubSubscription = useSubscriptionWithDependencies(api.clubs.getClub, clubSubscriptionDependencies)
   const club = computed(() => clubSubscription.response)
 
   const showEventModal = computed({

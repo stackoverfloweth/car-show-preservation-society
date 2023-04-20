@@ -6,7 +6,6 @@ export const routes = {
   clubCreate: () => ({ name: 'clubs.create' }) as const,
   club: (clubId: string) => ({ name: 'clubs.view', params: { clubId } }) as const,
   clubEditor: (clubId: string) => ({ name: 'clubs.editor', params: { clubId } }) as const,
-  clubEvent: (clubId: string, eventId: string) => ({ name: 'clubs.event', params: { clubId, eventId } }) as const,
   events: () => ({ name: 'events.list' }) as const,
   eventCreate: () => ({ name: 'events.create' }) as const,
   eventEditor: (eventId: string) => ({ name: 'events.editor', params: { eventId } }) as const,
