@@ -1,4 +1,6 @@
+import { SortOrder } from '@/types'
+
 export type ClubsSort = {
-  sort?: 'name' | 'created',
-  order?: 'asc' | 'desc',
+  sort?: 'name' | 'created' | 'upcoming-events' | 'members',
+  order?: SortOrder,
 }

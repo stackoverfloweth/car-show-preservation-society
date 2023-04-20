@@ -18,7 +18,10 @@
   const api = useApi()
 
   const filter = ref<ClubsFilter>({})
-  const sort = ref<ClubsSort>({})
+  const sort = ref<ClubsSort>({
+    sort: 'created',
+    order: 'desc',
+  })
 
   const clubsSubscription = useSubscription(api.clubs.getClubs, [filter, sort])
   const clubs = computed(() => clubsSubscription.response ?? [])
@@ -31,6 +34,9 @@
 
 <style>
 .clubs-page {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-4);
   padding: var(--space-4);
 }
 </style>
