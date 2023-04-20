@@ -5,7 +5,7 @@
         <template v-if="canEditEvent">
           <p-icon-button-menu>
             <p-overflow-menu-item label="Share" icon="ShareIcon" />
-            <template v-if="eventIsUpcoming">
+            <template v-if="canRegister">
               <p-overflow-menu-item label="Register" icon="BookmarkIcon" :to="routes.eventRegistration(event.eventId)" />
             </template>
             <p-overflow-menu-item label="Edit" icon="PencilIcon" :to="routes.eventEditor(event.eventId)" />
@@ -16,7 +16,7 @@
           <template v-if="!canEditEvent">
             <p-button inset icon="ShareIcon" />
           </template>
-          <template v-if="eventIsUpcoming">
+          <template v-if="canRegister">
             <p-button :to="routes.eventRegistration(event.eventId)">
               Register
             </p-button>
@@ -26,8 +26,8 @@
         <template v-else>
           <p-icon-button-menu>
             <p-overflow-menu-item label="Share" icon="ShareIcon" />
-            <template v-if="eventIsUpcoming">
-              <p-overflow-menu-item label="Register" icon="BookmarkIcon" />
+            <template v-if="canRegister">
+              <p-overflow-menu-item label="Register" icon="BookmarkIcon" :to="routes.eventRegistration(event.eventId)" />
             </template>
           </p-icon-button-menu>
         </template>
@@ -60,6 +60,7 @@
 
 <script lang="ts" setup>
   import { media } from '@prefecthq/prefect-design'
+  import { useSubscription } from '@prefecthq/vue-compositions'
   import { isFuture } from 'date-fns'
   import { computed } from 'vue'
   import ContactIdCard from '@/components/ContactIdCard.vue'
@@ -69,9 +70,10 @@
   import LocationCard from '@/components/LocationCard.vue'
   import RelatedEvents from '@/components/RelatedEvents.vue'
   import SizedImage from '@/components/SizedImage.vue'
-  import { useCanEditEvent } from '@/compositions'
+  import { useApi, useCanEditEvent } from '@/compositions'
   import { Event } from '@/models'
   import { routes } from '@/router/routes'
+  import { currentUser } from '@/services/auth'
 
   const props = defineProps<{
     event: Event,
@@ -83,7 +85,13 @@
   }>()
 
   const canEditEvent = useCanEditEvent()
+  const api = useApi()
+
+  const eventId = computed(() => props.event.eventId)
   const eventIsUpcoming = computed(() => isFuture(props.event.end))
+  const registrationSubscription = useSubscription(api.registration.findRegistration, [eventId, currentUser.userId])
+  const alreadyRegistered = computed(() => !!registrationSubscription.response)
+  const canRegister = computed(() => eventIsUpcoming.value && !alreadyRegistered.value && props.event.preRegistration)
 
   function openRelatedEvent(event: Event): void {
     emit('open:event', event)
