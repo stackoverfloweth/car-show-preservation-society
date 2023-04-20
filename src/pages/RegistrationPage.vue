@@ -3,7 +3,7 @@
     <EventHeader v-if="event" :event="event" @club:click="openRelatedClub" />
 
     <template v-if="existingRegistration">
-      show existing registration
+      <img class="registration-page__qr-code" src="/qr-example.png">
     </template>
 
     <template v-else-if="event">
@@ -23,7 +23,7 @@
 <script lang="ts" setup>
   import { showToast } from '@prefecthq/prefect-design'
   import { useRouteParam, useSubscription, useSubscriptionWithDependencies, useValidationObserver } from '@prefecthq/vue-compositions'
-  import { computed, ref, watch, watchEffect } from 'vue'
+  import { computed, ref, watchEffect } from 'vue'
   import ClubOverview from '@/components/ClubOverview.vue'
   import EventHeader from '@/components/EventHeader.vue'
   import RegistrationFormFields from '@/components/RegistrationFormFields.vue'
@@ -47,14 +47,12 @@
   const clubSubscription = useSubscriptionWithDependencies(api.clubs.getClub, clubSubscriptionDependencies)
   const club = computed(() => clubSubscription.response)
 
+  const existingRegistration = ref<Registration>()
   const registrationSubscription = useSubscription(api.registration.findRegistration, [eventId, currentUser.userId])
-  watch(() => registrationSubscription.response, value => {
-    if (value) {
-      existingRegistration.value = value
-    }
+  watchEffect(() => {
+    existingRegistration.value = registrationSubscription.response
   })
 
-  const existingRegistration = ref<Registration>()
   const newRegistration = ref<RegistrationRequest>({ eventId: eventId.value, userId: currentUser.userId, votingCategoryIds: [] })
 
   async function submitNewRegistration(): Promise<void> {
@@ -86,7 +84,12 @@
   flex-grow: 1;
   display: flex;
   flex-direction: column;
+  align-items: center;
   gap: var(--space-4);
   padding: var(--space-4);
+}
+
+.registration-page__qr-code {
+  width: 80%;
 }
 </style>

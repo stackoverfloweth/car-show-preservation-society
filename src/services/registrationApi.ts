@@ -4,7 +4,7 @@ import { Registration } from '@/models/registration'
 import { Api } from '@/services/api'
 import { mocker } from '@/services/mocker'
 
-export const isRegistered = ref(false)
+export const isRegistered = ref(true)
 
 export class RegistrationsApi extends Api {
   protected override routePrefix = '/registration'

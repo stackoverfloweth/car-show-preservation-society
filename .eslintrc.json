@@ -23,5 +23,8 @@
           "project": "./tsconfig.json"
         }
       }
+    },
+    "rules": {
+      "vue/custom-event-name-casing": "off"
     }
   }
