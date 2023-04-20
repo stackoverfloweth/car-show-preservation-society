@@ -61,7 +61,7 @@
 
       <div class="event-viewer__column">
         <template v-if="alreadyRegistered">
-          Your registration Info
+          <EventBallots :event="event" />
         </template>
         <template v-else>
           <EventJudgingSummary class="event-viewer__voting-summary" :event="event" />
@@ -83,6 +83,7 @@
   import { useSubscription } from '@prefecthq/vue-compositions'
   import { computed } from 'vue'
   import ContactIdCard from '@/components/ContactIdCard.vue'
+  import EventBallots from '@/components/EventBallots.vue'
   import EventHeader from '@/components/EventHeader.vue'
   import EventJudgingSummary from '@/components/EventJudgingSummary.vue'
   import EventSponsors from '@/components/EventSponsors.vue'

@@ -2,6 +2,7 @@ import { RouteLocationRaw, RouteRecordRaw } from 'vue-router'
 
 export const routes = {
   home: () => ({ name: 'home' }) as const,
+  ballot: (ballotId: string) => ({ name: 'ballot.view', params: { ballotId } }) as const,
   clubs: () => ({ name: 'clubs.list' }) as const,
   clubCreate: () => ({ name: 'clubs.create' }) as const,
   club: (clubId: string) => ({ name: 'clubs.view', params: { clubId } }) as const,
