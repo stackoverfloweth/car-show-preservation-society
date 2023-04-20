@@ -1,6 +1,6 @@
 <template>
   <div class="vehicle-form-fields">
-    <div class="vehicle-form-fields__left">
+    <div class="vehicle-form-fields__column">
       <p-label label="Year" :message="yearError" :state="yearState">
         <template #default="{ id }">
           <p-text-input :id="id" v-model="year" :state="yearState" />
@@ -29,7 +29,7 @@
       </p-label>
     </div>
 
-    <div class="vehicle-form-fields__right">
+    <div class="vehicle-form-fields__column">
       <p-label label="Description" class="vehicle-form-fields__description" :message="descriptionError" :state="descriptionState">
         <template #default="{ id }">
           <p-textarea :id="id" v-model="description" :state="descriptionState" rows="5" />
@@ -128,22 +128,12 @@
 <style>
 .vehicle-form-fields {
   display: grid;
-  grid-template-areas:
-    'left right right';
-  grid-template-columns: repeat(3, minmax(0, 1fr));
+  grid-template-columns: 33% minmax(0, 1fr);
   column-gap: var(--space-5);
   row-gap: var(--space-4);
 }
 
-.vehicle-form-fields__left {
-  grid-area: left;
-  display: flex;
-  flex-direction: column;
-  gap: var(--space-4);
-}
-
-.vehicle-form-fields__right {
-  grid-area: right;
+.vehicle-form-fields__column {
   display: flex;
   flex-direction: column;
   gap: var(--space-4);
@@ -166,9 +156,6 @@
 
 @media(max-width: 768px){
   .vehicle-form-fields {
-    grid-template-areas:
-      'left'
-      'right';
     grid-template-columns: 1fr;
   }
 

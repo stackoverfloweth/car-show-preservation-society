@@ -1,8 +1,8 @@
 <template>
-  <div class="vehicle-card">
+  <p-card class="vehicle-card">
     <SizedImage class="vehicle-card__image" :image="vehicle.profileImage" />
     <VehicleLabel class="vehicle-card__label" :vehicle="vehicle" />
-  </div>
+  </p-card>
 </template>
 
 <script lang="ts" setup>
@@ -17,10 +17,8 @@
 
 <style>
 .vehicle-card {
-  border: 1px solid var(--slate-500);
-  border-radius: var(--rounded);
   overflow: hidden;
-  background-color: var(--slate-800);
+  padding: 0;
 }
 
 .vehicle-card__image {
