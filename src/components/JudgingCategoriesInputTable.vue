@@ -69,7 +69,7 @@
   gap: var(--space-2);
 }
 
-.judging-categories-input-table .list-item-input__content {
+.judging-categories-input-table .p-list-item-input__content {
   padding: 0;
 }
 

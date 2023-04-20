@@ -1,6 +1,6 @@
 <template>
-  <div class="event-judging-form-fields">
-    <div class="event-judging-form-fields__left">
+  <div class="event-editor-judging-form-fields">
+    <div class="event-editor-judging-form-fields__left">
       <p-label label="Voting Start" :message="votingStartError" :state="votingStartState">
         <template #description>
           Optional, if provided voting will automatically start at this time. Voting can always be manually started during the show.
@@ -57,7 +57,7 @@
       </p-label>
     </div>
 
-    <div class="event-judging-form-fields__right">
+    <div class="event-editor-judging-form-fields__right">
       <JudgingCategoriesInput :event-id="event.eventId" />
     </div>
   </div>
@@ -98,7 +98,7 @@
 </script>
 
 <style>
-.event-judging-form-fields {
+.event-editor-judging-form-fields {
   display: grid;
   grid-template-areas:
   'left right right';
@@ -107,7 +107,7 @@
   row-gap: var(--space-4);
 }
 
-.event-judging-form-fields__left {
+.event-editor-judging-form-fields__left {
   grid-area: left;
   display: flex;
   flex-direction: column;
@@ -116,7 +116,7 @@
   row-gap: var(--space-4);
 }
 
-.event-judging-form-fields__right {
+.event-editor-judging-form-fields__right {
   grid-area: right;
   display: flex;
   flex-direction: column;
@@ -126,7 +126,7 @@
 }
 
 @media(max-width: 768px){
-  .event-judging-form-fields {
+  .event-editor-judging-form-fields {
     grid-template-areas:
     'left'
     'right';

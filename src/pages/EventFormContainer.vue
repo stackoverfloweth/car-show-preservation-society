@@ -9,10 +9,10 @@
   import { useIsSame, useRouteParam, useSubscription, useValidationObserver } from '@prefecthq/vue-compositions'
   import { computed, ref, watchEffect, h } from 'vue'
   import { NavigationGuard, onBeforeRouteLeave, useRoute, useRouter } from 'vue-router'
+  import EventEditorJudgingFormFields from '@/components/EventEditorJudgingFormFields.vue'
+  import EventEditorRegistrationFormFields from '@/components/EventEditorRegistrationFormFields.vue'
+  import EventEditorSponsorsFormFields from '@/components/EventEditorSponsorsFormFields.vue'
   import EventFormFields from '@/components/EventFormFields.vue'
-  import EventJudgingFormFields from '@/components/EventJudgingFormFields.vue'
-  import EventRegistrationFormFields from '@/components/EventRegistrationFormFields.vue'
-  import SponsorsFormFields from '@/components/SponsorsFormFields.vue'
   import { useApi, useNavigation } from '@/compositions'
   import { Event } from '@/models'
   import { NamedRoute, routes } from '@/router/routes'
@@ -36,11 +36,11 @@
       case 'events.editor.general':
         return EventFormFields
       case 'events.editor.judging':
-        return EventJudgingFormFields
+        return EventEditorJudgingFormFields
       case 'events.editor.registration':
-        return EventRegistrationFormFields
+        return EventEditorRegistrationFormFields
       case 'events.editor.sponsors':
-        return SponsorsFormFields
+        return EventEditorSponsorsFormFields
       default:
         return null
     }

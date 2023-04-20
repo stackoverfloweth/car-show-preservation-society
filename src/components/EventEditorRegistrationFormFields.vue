@@ -1,6 +1,6 @@
 <template>
-  <div class="event-registration-form-fields">
-    <div class="event-registration-form-fields__left">
+  <div class="event-editor-registration-form-fields">
+    <div class="event-editor-registration-form-fields__left">
       <p-label label="Registration Price" :message="priceError" :state="priceState">
         <template #description>
           Optional, this is the full registration price participants will pay at the gate.
@@ -96,7 +96,7 @@
 </script>
 
 <style>
-.event-registration-form-fields {
+.event-editor-registration-form-fields {
   display: grid;
   grid-template-areas:
   'left right right';
@@ -105,7 +105,7 @@
   row-gap: var(--space-4);
 }
 
-.event-registration-form-fields__left {
+.event-editor-registration-form-fields__left {
   grid-area: left;
   display: flex;
   flex-direction: column;
@@ -114,7 +114,7 @@
   row-gap: var(--space-4);
 }
 
-.event-registration-form-fields__right {
+.event-editor-registration-form-fields__right {
   grid-area: right;
   display: flex;
   flex-direction: column;
@@ -124,7 +124,7 @@
 }
 
 @media(max-width: 768px){
-  .event-registration-form-fields {
+  .event-editor-registration-form-fields {
     grid-template-areas:
     'left'
     'right';

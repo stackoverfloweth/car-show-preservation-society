@@ -1,7 +1,7 @@
 <template>
   <p-form @submit="createEventAdvertisement">
-    <div class="sponsors-form-fields">
-      <div class="sponsors-form-fields__left">
+    <div class="event-editor-sponsors-form-fields">
+      <div class="event-editor-sponsors-form-fields__left">
         <p-label label="Display Text" :state="titleState" :message="titleError">
           <template #default="{ id }">
             <p-text-input :id="id" v-model="title" />
@@ -14,7 +14,7 @@
           </template>
         </p-label>
 
-        <div class="sponsors-form-fields__image-upload">
+        <div class="event-editor-sponsors-form-fields__image-upload">
           <p-label label="Advertisement Logo" :message="imageError" :state="imageState" />
           <ImageUpload v-model:image="image" :state="imageState" />
         </div>
@@ -29,12 +29,12 @@
         </p-label>
       </div>
 
-      <div class="sponsors-form-fields__center">
+      <div class="event-editor-sponsors-form-fields__center">
         <p-label label="Size" :state="sizeState" :message="sizeError">
           <SponsorSizeSelect v-model="size" :advertisement="newAdvertisementValues" />
         </p-label>
 
-        <div class="sponsors-form-fields__actions">
+        <div class="event-editor-sponsors-form-fields__actions">
           <p-button inset @click="clearNewAdvertisementValues">
             Reset
           </p-button>
@@ -45,10 +45,10 @@
         </div>
       </div>
 
-      <div class="sponsors-form-fields__right">
+      <div class="event-editor-sponsors-form-fields__right">
         <template v-for="advertisement in advertisements" :key="advertisement.advertisementId">
-          <div class="sponsors-form-fields__sponsor-card">
-            <div class="sponsors-form-fields__sponsor-card-actions">
+          <div class="event-editor-sponsors-form-fields__sponsor-card">
+            <div class="event-editor-sponsors-form-fields__sponsor-card-actions">
               <TrashConfirm @confirmed="deleteAdvertisement(advertisement)" />
             </div>
             <SponsorCard :advertisement="advertisement" disabled />
@@ -136,7 +136,7 @@
 </script>
 
 <style>
-.sponsors-form-fields {
+.event-editor-sponsors-form-fields {
   display: grid;
   grid-template-areas:
   'left center right';
@@ -145,7 +145,7 @@
   row-gap: var(--space-5);
 }
 
-.sponsors-form-fields__left {
+.event-editor-sponsors-form-fields__left {
   grid-area: left;
   display: flex;
   flex-direction: column;
@@ -154,7 +154,7 @@
   row-gap: var(--space-4);
 }
 
-.sponsors-form-fields__center {
+.event-editor-sponsors-form-fields__center {
   grid-area: center;
   display: flex;
   flex-direction: column;
@@ -163,7 +163,7 @@
   row-gap: var(--space-5);
 }
 
-.sponsors-form-fields__right {
+.event-editor-sponsors-form-fields__right {
   grid-area: right;
   display: flex;
   flex-direction: column;
@@ -173,11 +173,11 @@
   row-gap: var(--space-4);
 }
 
-.sponsors-form-fields__sponsor-card {
+.event-editor-sponsors-form-fields__sponsor-card {
   position: relative;
 }
 
-.sponsors-form-fields__sponsor-card-preview::after {
+.event-editor-sponsors-form-fields__sponsor-card-preview::after {
   content: "preview";
   border-radius: var(--rounded);
   margin: var(--space-3);
@@ -186,7 +186,7 @@
   color: var(--blue-800);
 }
 
-.sponsors-form-fields__sponsor-card-actions {
+.event-editor-sponsors-form-fields__sponsor-card-actions {
   position: absolute;
   display: flex;
   align-items: start;
@@ -197,13 +197,13 @@
   z-index: var(--z-front);
 }
 
-.sponsors-form-fields__actions {
+.event-editor-sponsors-form-fields__actions {
   display: flex;
   justify-content: center;
   gap: var(--space-3);
 }
 
-.sponsors-form-fields__image-upload {
+.event-editor-sponsors-form-fields__image-upload {
   display: flex;
   flex-direction: column;
   flex-grow: 1;
@@ -211,7 +211,7 @@
 }
 
 @media(max-width: 768px){
-  .sponsors-form-fields {
+  .event-editor-sponsors-form-fields {
     grid-template-areas:
     'left'
     'center'
