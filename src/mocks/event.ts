@@ -29,6 +29,7 @@ export const randomEvent: MockFunction<Event, [Partial<Event>?]> = function(over
     stripeCrossProductIds: [],
     isDraft: this.create('boolean'),
     currentCapacity: this.create('number', [0, 100]),
+    maxSelfCategorization: 1,
     ...overrides,
   })
 }
