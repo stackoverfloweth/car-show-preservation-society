@@ -38,7 +38,7 @@
   import { computed, ref } from 'vue'
   import JudgingCategoriesList from '@/components/JudgingCategoriesList.vue'
   import { useApi, useShowModal } from '@/compositions'
-  import { Event } from '@/models'
+  import { Event, VotingCategory } from '@/models'
   import { RegistrationRequest } from '@/models/api'
 
   const props = defineProps<{
@@ -68,14 +68,14 @@
   const vehicleId = usePatchRef(values, 'vehicleId')
   const votingCategoryIds = usePatchRef(values, 'votingCategoryIds')
 
-  const selectedVotingCategories = ref<string[]>([])
+  const selectedVotingCategories = ref<VotingCategory[]>([])
 
   function confirmSelectedCategories(): void {
-    votingCategoryIds.value = selectedVotingCategories.value
+    votingCategoryIds.value = selectedVotingCategories.value.map(({ votingCategoryId }) => votingCategoryId)
     closeJudgingCategoryModal()
   }
 
-  function setSelectedToMaxSelfCategorizationCount(value: string[]): void {
+  function setSelectedToMaxSelfCategorizationCount(value: VotingCategory[]): void {
     selectedVotingCategories.value = value.slice(props.event.maxSelfCategorization * -1)
   }
 

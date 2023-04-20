@@ -18,12 +18,12 @@
 
   const props = defineProps<{
     categories: VotingCategory[],
-    selected: string[],
+    selected: VotingCategory[],
   }>()
 
   const emit = defineEmits<{
     (event: 'edit:category', value: VotingCategory): void,
-    (event: 'update:selected', value: string[]): void,
+    (event: 'update:selected', value: VotingCategory[]): void,
   }>()
 
   const selected = computed({
@@ -36,16 +36,16 @@
   })
 
   function getIsSelected(category: VotingCategory): boolean {
-    return selected.value.some(categoryId => category.votingCategoryId === categoryId)
+    return selected.value.some(({ votingCategoryId }) => category.votingCategoryId === votingCategoryId)
   }
 
   function toggleSelected(category: VotingCategory): void {
     const isSelected = getIsSelected(category)
 
     if (isSelected) {
-      selected.value = [...selected.value.filter(categoryId => categoryId !== category.votingCategoryId)]
+      selected.value = [...selected.value.filter(({ votingCategoryId }) => category.votingCategoryId !== votingCategoryId)]
     } else {
-      selected.value = [...selected.value, category.votingCategoryId]
+      selected.value = [...selected.value, category]
     }
   }
 

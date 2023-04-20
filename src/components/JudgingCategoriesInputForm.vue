@@ -112,7 +112,7 @@
   const { validate, pending } = useValidationObserver()
 
 
-  const selectedCategories = ref<string[]>([])
+  const selectedCategories = ref<VotingCategory[]>([])
   const categoryFormValues = ref<VotingCategoryRequest | VotingCategory>({})
 
   const votingCategoriesSubscription = useSubscription(api.votingCategories.getVotingCategories, [eventId])
@@ -173,7 +173,7 @@
   }
 
   async function deleteSelected(): Promise<void> {
-    const promises = selectedCategories.value.map(category => api.votingCategories.deleteVotingCategory(category))
+    const promises = selectedCategories.value.map(category => api.votingCategories.deleteVotingCategory(category.votingCategoryId))
 
     await Promise.all(promises)
 
