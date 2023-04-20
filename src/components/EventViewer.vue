@@ -8,6 +8,9 @@
             <template v-if="canRegister">
               <p-overflow-menu-item label="Register" icon="BookmarkIcon" :to="routes.eventRegistration(event.eventId)" />
             </template>
+            <template v-else-if="alreadyRegistered">
+              <p-overflow-menu-item label="View Registration" icon="BookmarkIcon" :to="routes.eventRegistration(event.eventId)" />
+            </template>
             <p-overflow-menu-item label="Edit" icon="PencilIcon" :to="routes.eventEditor(event.eventId)" />
           </p-icon-button-menu>
         </template>
@@ -21,6 +24,11 @@
               Register
             </p-button>
           </template>
+          <template v-else-if="alreadyRegistered">
+            <p-button :to="routes.eventRegistration(event.eventId)">
+              View Registration
+            </p-button>
+          </template>
         </template>
 
         <template v-else>
@@ -28,6 +36,9 @@
             <p-overflow-menu-item label="Share" icon="ShareIcon" />
             <template v-if="canRegister">
               <p-overflow-menu-item label="Register" icon="BookmarkIcon" :to="routes.eventRegistration(event.eventId)" />
+            </template>
+            <template v-else-if="alreadyRegistered">
+              <p-overflow-menu-item label="View Registration" icon="BookmarkIcon" :to="routes.eventRegistration(event.eventId)" />
             </template>
           </p-icon-button-menu>
         </template>
