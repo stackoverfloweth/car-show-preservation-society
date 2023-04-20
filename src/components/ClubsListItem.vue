@@ -13,8 +13,8 @@
       <template v-else>
         <p-tag><p-icon icon="LockClosedIcon" />Private Club</p-tag>
       </template>
-      <p-tag><p-icon icon="UsersIcon" />{{ memberCount }}</p-tag>
-      <p-tag><p-icon icon="CalendarIcon" />{{ upcomingEventsCount }}</p-tag>
+      <p-tag><p-icon icon="UsersIcon" />{{ memberCount.toLocaleString() }}</p-tag>
+      <p-tag><p-icon icon="CalendarIcon" />{{ upcomingEventsCount.toLocaleString() }}</p-tag>
     </div>
   </p-card>
 </template>
@@ -35,10 +35,10 @@
   const clubId = computed(() => props.club.clubId)
 
   const memberCountSubscription = useSubscription(api.clubMembership.getActiveMemberCount, [clubId])
-  const memberCount = computed(() => memberCountSubscription.response ?? '--')
+  const memberCount = computed(() => memberCountSubscription.response ?? 0)
 
   const upcomingEventsCountSubscription = useSubscription(api.clubs.getUpcomingEventsCount, [clubId])
-  const upcomingEventsCount = computed(() => upcomingEventsCountSubscription.response ?? '--')
+  const upcomingEventsCount = computed(() => upcomingEventsCountSubscription.response ?? 0)
 </script>
 
 <style>

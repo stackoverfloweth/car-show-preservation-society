@@ -42,13 +42,13 @@
     </div>
     <p-tabs v-model:selected="selectTab" :tabs="tabs">
       <template #events-heading>
-        Upcoming Events <p-tag>{{ upcomingEventsCount }}</p-tag>
+        Upcoming Events <p-tag>{{ upcomingEventsCount.toLocaleString() }}</p-tag>
       </template>
       <template #events>
         <EventsList :events="events" />
       </template>
       <template #members-heading>
-        Members <p-tag>{{ memberCount }}</p-tag>
+        Members <p-tag>{{ memberCount.toLocaleString() }}</p-tag>
       </template>
       <template #members>
         <ClubMembersList :club="club" :members="members" :admins="admins" :pending="pending" />
@@ -119,10 +119,10 @@
   const currentUserIsMember = computed(() => userIsMemberSubscription.response ?? false)
 
   const memberCountSubscription = useSubscription(api.clubMembership.getActiveMemberCount, [clubId])
-  const memberCount = computed(() => memberCountSubscription.response ?? '--')
+  const memberCount = computed(() => memberCountSubscription.response ?? 0)
 
   const upcomingEventsCountSubscription = useSubscription(api.clubs.getUpcomingEventsCount, [clubId])
-  const upcomingEventsCount = computed(() => upcomingEventsCountSubscription.response ?? '--')
+  const upcomingEventsCount = computed(() => upcomingEventsCountSubscription.response ?? 0)
 
   const adminsSubscription = useSubscription(api.clubMembership.getClubAdmins, [clubId])
   const admins = computed(() => adminsSubscription.response ?? [])
