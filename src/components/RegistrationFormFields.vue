@@ -4,7 +4,7 @@
       <template v-if="event.driverSelfCategorization">
         <p-label label="Judging Category" :state="selectedVotingCategoriesState" :message="selectedVotingCategoriesError" role="button" @click="openJudgingCategoryModal">
           <template v-if="votingCategoriesCurrentlySelected.length">
-            <JudgingCategoriesTable :categories="votingCategoriesCurrentlySelected" />
+            <JudgingCategoriesList :categories="votingCategoriesCurrentlySelected" />
           </template>
           <template v-else>
             <p-button @click="openJudgingCategoryModal">
@@ -20,7 +20,7 @@
       </template>
     </div>
     <p-modal v-model:showModal="showJudgingCategoryModal" title="Select Judging Category" auto-close>
-      <JudgingCategoriesTable :selected="selectedVotingCategories" class="registration-form-fields__judging-categories" :categories="votingCategories" @update:selected="setSelectedToMaxSelfCategorizationCount" />
+      <JudgingCategoriesList :selected="selectedVotingCategories" class="registration-form-fields__judging-categories" :categories="votingCategories" @update:selected="setSelectedToMaxSelfCategorizationCount" />
       <div class="registration-form-fields__judging-category-actions">
         <p-button inset @click="closeJudgingCategoryModal">
           Cancel
@@ -36,7 +36,7 @@
 <script lang="ts" setup>
   import { usePatchRef, useSubscription, useValidation } from '@prefecthq/vue-compositions'
   import { computed, ref } from 'vue'
-  import JudgingCategoriesTable from '@/components/JudgingCategoriesTable.vue'
+  import JudgingCategoriesList from '@/components/JudgingCategoriesList.vue'
   import { useApi, useShowModal } from '@/compositions'
   import { Event } from '@/models'
   import { RegistrationRequest } from '@/models/api'

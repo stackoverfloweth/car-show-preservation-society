@@ -1,14 +1,14 @@
 <template>
-  <div class="judging-categories-table">
+  <div class="judging-categories-list">
     <template v-for="category in categories" :key="category.votingCategoryId">
-      <JudgingCategoriesTableRow :category="category" :role="selectable ? 'button' : 'listitem'" :selected="getIsSelected(category)" @update:selected="toggleSelected(category)" />
+      <JudgingCategoriesListItem :category="category" :role="selectable ? 'button' : 'listitem'" :selected="getIsSelected(category)" @update:selected="toggleSelected(category)" />
     </template>
   </div>
 </template>
 
 <script lang="ts" setup>
   import { computed } from 'vue'
-  import JudgingCategoriesTableRow from '@/components/JudgingCategoriesTableRow.vue'
+  import JudgingCategoriesListItem from '@/components/JudgingCategoriesListItem.vue'
   import { VotingCategory } from '@/models'
 
   const props = defineProps<{
@@ -47,7 +47,7 @@
 </script>
 
 <style>
-.judging-categories-table {
+.judging-categories-list {
   display: flex;
   flex-direction: column;
   gap: var(--space-2);

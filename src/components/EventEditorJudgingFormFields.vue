@@ -73,7 +73,7 @@
     </div>
 
     <div class="event-editor-judging-form-fields__right">
-      <JudgingCategoriesInput :event-id="event.eventId" />
+      <JudgingCategoriesInputForm :event-id="event.eventId" />
     </div>
   </div>
 </template>
@@ -81,7 +81,7 @@
 <script lang="ts" setup>
   import { usePatchRef, useValidation } from '@prefecthq/vue-compositions'
   import { computed } from 'vue'
-  import JudgingCategoriesInput from '@/components/JudgingCategoriesInput.vue'
+  import JudgingCategoriesInputForm from '@/components/JudgingCategoriesInputForm.vue'
   import { IEvent } from '@/models'
 
   const props = defineProps<{

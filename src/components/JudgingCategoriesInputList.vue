@@ -1,28 +1,28 @@
 <template>
-  <div class="judging-categories-input-table">
+  <div class="judging-categories-input-list">
     <template v-for="category in categories" :key="category.votingCategoryId">
       <p-list-item-input
         v-model:selected="selected"
         :value="category.votingCategoryId"
       >
-        <div class="judging-categories-input-table__category" @click="editCategory(category)">
-          <div class="judging-categories-input-table__name">
+        <div class="judging-categories-input-list__category" @click="editCategory(category)">
+          <div class="judging-categories-input-list__name">
             {{ category.name }}
           </div>
-          <div class="judging-categories-input-table__description">
+          <div class="judging-categories-input-list__description">
             {{ category.description }}
           </div>
-          <div class="judging-categories-input-table__info-badges">
+          <div class="judging-categories-input-list__info-badges">
             <template v-if="mocker.create('boolean')">
-              <p-icon-text class="judging-categories-input-table__info-badge" icon="CurrencyDollarIcon">
+              <p-icon-text class="judging-categories-input-list__info-badge" icon="CurrencyDollarIcon">
                 {{ category.stripePriceId ?? '+2.00' }}
               </p-icon-text>
             </template>
-            <p-icon-text class="judging-categories-input-table__info-badge" icon="ClipboardCheckIcon">
+            <p-icon-text class="judging-categories-input-list__info-badge" icon="ClipboardCheckIcon">
               {{ category.driversOnly ? 'drivers only' : 'everyone' }}
             </p-icon-text>
             <template v-if="category.maxCapacity">
-              <p-icon-text class="judging-categories-input-table__info-badge" icon="UserGroupIcon">
+              <p-icon-text class="judging-categories-input-list__info-badge" icon="UserGroupIcon">
                 max: {{ category.maxCapacity }}
               </p-icon-text>
             </template>
@@ -63,22 +63,22 @@
 </script>
 
 <style>
-.judging-categories-input-table {
+.judging-categories-input-list {
   display: flex;
   flex-direction: column;
   gap: var(--space-2);
 }
 
-.judging-categories-input-table .p-list-item-input__content {
+.judging-categories-input-list .p-list-item-input__content {
   padding: 0;
 }
 
-.judging-categories-input-table__category:hover {
+.judging-categories-input-list__category:hover {
   cursor: pointer;
   background-color: var(--slate-700);
 }
 
-.judging-categories-input-table__category {
+.judging-categories-input-list__category {
   display: grid;
   grid-template-areas:
     'name info-badges'
@@ -87,25 +87,25 @@
   padding: var(--space-4);
 }
 
-.judging-categories-input-table__name {
+.judging-categories-input-list__name {
   grid-area: name;
 }
 
-.judging-categories-input-table__description {
+.judging-categories-input-list__description {
   grid-area: description;
   color: var(--slate-400);
   font-size: .75rem;
   line-height: 0.95rem;
 }
 
-.judging-categories-input-table__info-badges {
+.judging-categories-input-list__info-badges {
   display: flex;
   align-items: center;
   grid-area: info-badges;
   gap: var(--space-2);
 }
 
-.judging-categories-input-table__info-badge {
+.judging-categories-input-list__info-badge {
   white-space: nowrap;
   border-radius: var(--rounded);
   padding: var(--space-2) var(--space-3);

@@ -1,26 +1,26 @@
 <template>
   <p-list-item
-    class="judging-categories-table-row"
+    class="judging-categories-list-item"
     :class="classes"
     @click="selected = !selected"
   >
-    <div class="judging-categories-table-row__name">
+    <div class="judging-categories-list-item__name">
       <p>{{ category.name }}</p>
     </div>
-    <p class="judging-categories-table-row__description">
+    <p class="judging-categories-list-item__description">
       {{ category.description }}
     </p>
-    <div class="judging-categories-table-row__info-badges">
+    <div class="judging-categories-list-item__info-badges">
       <template v-if="category.stripePriceId">
-        <p-icon-text class="judging-categories-table-row__info-badge judging-categories-table-row__info-badge--green" icon="CurrencyDollarIcon">
+        <p-icon-text class="judging-categories-list-item__info-badge judging-categories-list-item__info-badge--green" icon="CurrencyDollarIcon">
           +40
         </p-icon-text>
       </template>
       <template v-if="!category.hasCapacity">
-        <p-icon-text class="judging-categories-table-row__info-badge judging-categories-table-row__info-badge--red" icon="BanIcon" text="Full" />
+        <p-icon-text class="judging-categories-list-item__info-badge judging-categories-list-item__info-badge--red" icon="BanIcon" text="Full" />
       </template>
       <template v-else-if="category.openSlots < 5">
-        <p-icon-text class="judging-categories-table-row__info-badge judging-categories-table-row__info-badge--yellow" icon="ExclamationIcon" :text="`Only ${category.openSlots} ${toPluralString('spot', category.openSlots)} open`" />
+        <p-icon-text class="judging-categories-list-item__info-badge judging-categories-list-item__info-badge--yellow" icon="ExclamationIcon" :text="`Only ${category.openSlots} ${toPluralString('spot', category.openSlots)} open`" />
       </template>
     </div>
   </p-list-item>
@@ -50,12 +50,12 @@
   })
 
   const classes = computed(() => ({
-    'judging-categories-table-row--selected': selected.value,
+    'judging-categories-list-item--selected': selected.value,
   }))
 </script>
 
 <style>
-.judging-categories-table-row {
+.judging-categories-list-item {
   display: grid;
   grid-template-areas:
     'name info-badges'
@@ -65,11 +65,11 @@
   row-gap: var(--space-2);
 }
 
-.judging-categories-table-row--selected {
+.judging-categories-list-item--selected {
   background-color: var(--slate-600);
 }
 
-.judging-categories-table-row__name {
+.judging-categories-list-item__name {
   grid-area: name;
   font-weight: bold;
   display: flex;
@@ -77,35 +77,35 @@
   gap: var(--space-4);
 }
 
-.judging-categories-table-row__description {
+.judging-categories-list-item__description {
   grid-area: description;
   color: var(--slate-400);
   font-size: .75rem;
   line-height: 0.95rem;
 }
 
-.judging-categories-table-row__info-badges {
+.judging-categories-list-item__info-badges {
   display: flex;
   align-items: center;
   grid-area: info-badges;
   gap: var(--space-2);
 }
 
-.judging-categories-table-row__info-badge {
+.judging-categories-list-item__info-badge {
   white-space: nowrap;
   border-radius: var(--rounded);
   padding: var(--space-2) var(--space-3);
 }
 
-.judging-categories-table-row__info-badge--red {
+.judging-categories-list-item__info-badge--red {
   background-color: var(--red-800);
 }
 
-.judging-categories-table-row__info-badge--yellow {
+.judging-categories-list-item__info-badge--yellow {
   background-color: var(--yellow-800);
 }
 
-.judging-categories-table-row__info-badge--green {
+.judging-categories-list-item__info-badge--green {
   background-color: var(--green-800);
 }
 </style>

@@ -1,8 +1,8 @@
 <template>
-  <p-label class="judging-categories-input">
+  <p-label class="judging-categories-input-form">
     <template #label>
       <div>Judging Categories</div>
-      <div class="judging-categories-input__actions">
+      <div class="judging-categories-input-form__actions">
         <template v-if="selectedCategories.length">
           <TrashConfirm @confirmed="deleteSelected">
             <template #default="{ open: openConfirm }">
@@ -16,11 +16,11 @@
           </p-button>
         </template>
         <template v-else>
-          <p-button class="judging-categories-input__add-button" @click="open">
+          <p-button class="judging-categories-input-form__add-button" @click="open">
             Add Category
           </p-button>
           <p-icon-button-menu>
-            <p-overflow-menu-item class="judging-categories-input__add-menu-icon" icon="PlusIcon" label="Add Category" @click="open" />
+            <p-overflow-menu-item class="judging-categories-input-form__add-menu-icon" icon="PlusIcon" label="Add Category" @click="open" />
             <p-overflow-menu-item icon="LightBulbIcon" label="Suggest Categories" @click="suggestCategories" />
             <MenuItemConfirm @confirm="deleteAll">
               <template #default="{ open: openConfirmation }">
@@ -34,7 +34,7 @@
   </p-label>
 
   <template v-if="votingCategories.length">
-    <JudgingCategoriesInputTable
+    <JudgingCategoriesInputList
       v-model:selected="selectedCategories"
       :categories="votingCategories"
       @edit:category="editCategory"
@@ -94,7 +94,7 @@
   import { useSubscription, useValidationObserver } from '@prefecthq/vue-compositions'
   import { computed, ref, toRefs, watch } from 'vue'
   import JudgingCategoriesEmptyState from '@/components/JudgingCategoriesEmptyState.vue'
-  import JudgingCategoriesInputTable from '@/components/JudgingCategoriesInputTable.vue'
+  import JudgingCategoriesInputList from '@/components/JudgingCategoriesInputList.vue'
   import JudgingCategoryFormFields from '@/components/JudgingCategoryFormFields.vue'
   import MenuItemConfirm from '@/components/MenuItemConfirm.vue'
   import TrashConfirm from '@/components/TrashConfirm.vue'
@@ -194,19 +194,19 @@
 </script>
 
 <style>
-.judging-categories-input .p-label__label {
+.judging-categories-input-form .p-label__label {
   display: flex;
   width: 100%;
   justify-content: space-between;
   align-items: start;
 }
 
-.judging-categories-input__actions {
+.judging-categories-input-form__actions {
   display: flex;
   gap: var(--space-3);
 }
 
-.judging-categories-input__add-menu-icon {
+.judging-categories-input-form__add-menu-icon {
   display: none;
 }
 
@@ -221,11 +221,11 @@
 }
 
 @media(max-width: 768px){
-  .judging-categories-input__add-button {
+  .judging-categories-input-form__add-button {
     display: none;
   }
 
-  .judging-categories-input__add-menu-icon {
+  .judging-categories-input-form__add-menu-icon {
     display: flex;
   }
 

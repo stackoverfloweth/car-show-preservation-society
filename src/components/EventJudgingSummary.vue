@@ -1,7 +1,7 @@
 <template>
   <div class="event-judging-summary">
     <template v-if="event.isUpcoming">
-      <JudgingCategoriesTable :categories="votingCategories" />
+      <JudgingCategoriesList :categories="votingCategories" />
     </template>
     <template v-else>
       <EventJudgingResults :event="event" />
@@ -15,7 +15,7 @@
   import { computed, toRefs } from 'vue'
   import EventJudgingResults from '@/components/EventJudgingResults.vue'
   import EventPhotoGallery from '@/components/EventPhotoGallery.vue'
-  import JudgingCategoriesTable from '@/components/JudgingCategoriesTable.vue'
+  import JudgingCategoriesList from '@/components/JudgingCategoriesList.vue'
   import { useApi } from '@/compositions'
   import { Event } from '@/models'
 

@@ -4,7 +4,7 @@
       No judging categories exist for this event yet.
     </template>
     <template #actions>
-      <slot name="actions"/>
+      <slot name="actions" />
     </template>
   </p-empty-state>
 </template>
