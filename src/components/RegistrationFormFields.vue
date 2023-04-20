@@ -2,9 +2,9 @@
   <div class="registration-form-fields">
     <div class="registration-form-fields__fields">
       <template v-if="event.driverSelfCategorization">
-        <p-label label="Judging Category" :state="selectedVotingCategoriesState" :message="selectedVotingCategoriesError" role="button" @click="openJudgingCategoryModal">
+        <p-label label="Judging Category" :state="selectedVotingCategoriesState" :message="selectedVotingCategoriesError">
           <template v-if="votingCategoriesCurrentlySelected.length">
-            <JudgingCategoriesList :categories="votingCategoriesCurrentlySelected" />
+            <JudgingCategoriesList :categories="votingCategoriesCurrentlySelected" role="button" @click="openJudgingCategoryModal" />
           </template>
           <template v-else>
             <p-link @click="openJudgingCategoryModal">

@@ -25,9 +25,9 @@
             </p-button>
           </template>
           <template v-else-if="alreadyRegistered">
-            <p-button :to="routes.eventRegistration(event.eventId)">
-              View Registration
-            </p-button>
+            <router-link :to="routes.eventRegistration(event.eventId)">
+              <p-button icon="QrcodeIcon" />
+            </router-link>
           </template>
         </template>
 
@@ -54,18 +54,27 @@
 
         <ContactIdCard class="event-viewer__contact" :user-id="event.contactUserId" show-label show-details />
 
-        <EventSponsors class="event-viewer__sponsors" :event="event" />
+        <template v-if="!event.isHappening">
+          <EventSponsors class="event-viewer__sponsors" :event="event" />
+        </template>
       </div>
 
       <div class="event-viewer__column">
-        <EventJudgingSummary class="event-viewer__voting-summary" :event="event" />
+        <template v-if="alreadyRegistered">
+          Your registration Info
+        </template>
+        <template v-else>
+          <EventJudgingSummary class="event-viewer__voting-summary" :event="event" />
+        </template>
       </div>
     </div>
 
-    <div class="event-viewer__related-events">
-      <p-bread-crumbs :crumbs="[{ text: 'Similar Events' }]" />
-      <RelatedEvents :event-id="event.eventId" @open="openRelatedEvent" />
-    </div>
+    <template v-if="!event.isHappening">
+      <div class="event-viewer__related-events">
+        <p-bread-crumbs :crumbs="[{ text: 'Similar Events' }]" />
+        <RelatedEvents :event-id="event.eventId" @open="openRelatedEvent" />
+      </div>
+    </template>
   </div>
 </template>
 
@@ -158,6 +167,8 @@
 }
 
 @media(max-width: 768px) {
-
+  .event-viewer__columns {
+    grid-template-columns: minmax(0, 1fr);
+  }
 }
 </style>

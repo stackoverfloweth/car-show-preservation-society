@@ -1,4 +1,4 @@
-import { isFuture } from 'date-fns'
+import { isFuture, isSameDay, isWithinInterval } from 'date-fns'
 import { Image } from '@/models/image'
 import { Location } from '@/models/location'
 
@@ -81,6 +81,14 @@ export class Event implements IEvent {
 
   public get isUpcoming(): boolean {
     return isFuture(this.end)
+  }
+
+  public get isToday(): boolean {
+    return isSameDay(this.start, new Date())
+  }
+
+  public get isHappening(): boolean {
+    return isWithinInterval(new Date, { start: this.start, end: this.end }) || true
   }
 
   public get openSlots(): number {
