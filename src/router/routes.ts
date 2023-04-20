@@ -15,6 +15,7 @@ export const routes = {
   eventEditorRegistration: (eventId: string) => ({ name: 'events.editor.registration', params: { eventId } }) as const,
   eventEditorSponsors: (eventId: string) => ({ name: 'events.editor.sponsors', params: { eventId } }) as const,
   eventEditorPreview: (eventId: string) => ({ name: 'events.editor.preview', params: { eventId } }) as const,
+  eventRegistration: (eventId: string) => ({ name: 'events.register', params: { eventId } }) as const,
   event: (eventId: string) => ({ name: 'events.view', params: { eventId } }) as const,
   vehicles: () => ({ name: 'vehicles.list' }) as const,
   vehicleCreate: () => ({ name: 'vehicles.create' }) as const,

@@ -6,7 +6,7 @@
           <p-icon-button-menu>
             <p-overflow-menu-item label="Share" icon="ShareIcon" />
             <template v-if="eventIsUpcoming">
-              <p-overflow-menu-item label="Register" icon="BookmarkIcon" />
+              <p-overflow-menu-item label="Register" icon="BookmarkIcon" :to="routes.eventRegistration(event.eventId)" />
             </template>
             <p-overflow-menu-item label="Edit" icon="PencilIcon" :to="routes.eventEditor(event.eventId)" />
           </p-icon-button-menu>
@@ -17,7 +17,9 @@
             <p-button inset icon="ShareIcon" />
           </template>
           <template v-if="eventIsUpcoming">
-            <p-button>Register</p-button>
+            <p-button :to="routes.eventRegistration(event.eventId)">
+              Register
+            </p-button>
           </template>
         </template>
 
