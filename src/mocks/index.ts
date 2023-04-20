@@ -22,7 +22,6 @@ import { randomUser } from '@/mocks/user'
 import { randomUserSearchSubscription } from '@/mocks/userSearchSubscription'
 import { randomVehicle } from '@/mocks/vehicle'
 import { randomVotingCategory } from '@/mocks/votingCategory'
-import { randomVotingCategoryRegistration } from '@/mocks/votingCategoryRegistration'
 
 export const mocks = {
   adjective: randomAdjective,
@@ -53,6 +52,5 @@ export const mocks = {
   userSearchSubscription: randomUserSearchSubscription,
   vehicle: randomVehicle,
   votingCategory: randomVotingCategory,
-  votingCategoryRegistration: randomVotingCategoryRegistration,
   ...stripeMocks,
 }
