@@ -1,6 +1,6 @@
 <template>
   <div class="vehicle-create-page">
-    <p-bread-crumbs :crumbs="[{ text: 'Vehicle Information' }]" />
+    <PageHeader heading="Vehicle Information" />
 
     <p-form @submit="submit">
       <VehicleFormFields v-model:values="values" />
@@ -13,6 +13,7 @@
   import { useValidationObserver } from '@prefecthq/vue-compositions'
   import { ref, watchEffect } from 'vue'
   import { useRouter } from 'vue-router'
+  import PageHeader from '@/components/PageHeader.vue'
   import VehicleFormFields from '@/components/VehicleFormFields.vue'
   import { useApi, useNavigation } from '@/compositions'
   import { VehicleRequest } from '@/models/api'

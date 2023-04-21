@@ -1,7 +1,7 @@
 <template>
   <div class="event-card">
     <template v-if="showTitle">
-      <p-bread-crumbs :crumbs="[{ text: event.name }]" />
+      <PageHeader :heading="event.name" />
     </template>
 
     <template v-if="event.eventLogo">
@@ -21,6 +21,7 @@
 
 <script lang="ts" setup>
   import { formatRelative } from 'date-fns'
+  import PageHeader from '@/components/PageHeader.vue'
   import SizedImage from '@/components/SizedImage.vue'
   import { Event } from '@/models'
   import { mocker } from '@/services/mocker'

@@ -2,7 +2,7 @@
   <div class="today-view-page">
     <template v-if="todaysEvents.length">
       <div class="today-view-page__todays-events">
-        <p-bread-crumbs :crumbs="[{ text: 'Happening Now' }]" />
+        <PageHeader heading="Happening Now" />
         <template v-for="event in todaysEvents" :key="event.eventId">
           <EventIdCard :event-id="event.eventId" />
         </template>
@@ -10,7 +10,7 @@
     </template>
 
     <div class="today-view-page__upcoming-events">
-      <p-bread-crumbs :crumbs="[{ text: 'Upcoming Events' }]" />
+      <PageHeader heading="Upcoming Events" />
       <EventsList :events="upcomingEvents" />
     </div>
   </div>
@@ -21,6 +21,7 @@
   import { computed } from 'vue'
   import EventIdCard from '@/components/EventIdCard.vue'
   import EventsList from '@/components/EventsList.vue'
+  import PageHeader from '@/components/PageHeader.vue'
   import { useApi, useNavigation } from '@/compositions'
 
   const api = useApi()

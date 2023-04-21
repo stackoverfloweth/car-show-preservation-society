@@ -1,12 +1,12 @@
 <template>
   <p-form class="vehicle-editor-page" @submit="submit">
     <div class="vehicle-editor-page__general">
-      <p-bread-crumbs :crumbs="[{ text: 'General' }]" />
+      <PageHeader heading="General" />
       <VehicleFormFields v-if="values" v-model:values="values" />
     </div>
 
     <div class="vehicle-editor-page__gallery">
-      <p-bread-crumbs :crumbs="[{ text: 'Gallery' }]" />
+      <PageHeader heading="Gallery" />
       <VehicleGalleryForm v-if="values" :vehicle-id="vehicleId" />
     </div>
   </p-form>
@@ -17,6 +17,7 @@
   import { useRouteParam, useSubscription, useValidationObserver } from '@prefecthq/vue-compositions'
   import { ref, watchEffect } from 'vue'
   import { useRouter } from 'vue-router'
+  import PageHeader from '@/components/PageHeader.vue'
   import VehicleFormFields from '@/components/VehicleFormFields.vue'
   import VehicleGalleryForm from '@/components/VehicleGalleryForm.vue'
   import { useApi, useNavigation } from '@/compositions'

@@ -1,6 +1,6 @@
 <template>
   <div class="location-card">
-    <p-bread-crumbs :crumbs="[{ text: 'Location' }]" />
+    <PageHeader heading="Location" />
     <p-pop-over v-if="location.place" :placement="placement" auto-close>
       <template #target="{ open }">
         <p-link @click="open">
@@ -24,6 +24,7 @@
 
 <script lang="ts" setup>
   import { PositionMethod } from '@prefecthq/prefect-design'
+  import PageHeader from '@/components/PageHeader.vue'
   import { Location } from '@/models'
 
   defineProps<{

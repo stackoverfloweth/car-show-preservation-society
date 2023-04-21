@@ -1,6 +1,6 @@
 <template>
   <div class="club-create-page">
-    <p-bread-crumbs :crumbs="[{ text: 'Club Information' }]" />
+    <PageHeader heading="Club Information" />
 
     <p-form @submit="submit">
       <ClubFormFields v-model:values="values" />
@@ -14,6 +14,7 @@
   import { ref, watchEffect } from 'vue'
   import { useRouter } from 'vue-router'
   import ClubFormFields from '@/components/ClubFormFields.vue'
+  import PageHeader from '@/components/PageHeader.vue'
   import { useApi, useNavigation } from '@/compositions'
   import { ClubRequest } from '@/models/api'
   import { routes } from '@/router/routes'

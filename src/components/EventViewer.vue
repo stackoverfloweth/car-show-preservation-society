@@ -71,7 +71,7 @@
 
     <template v-if="!event.isHappening">
       <div class="event-viewer__related-events">
-        <p-bread-crumbs :crumbs="[{ text: 'Similar Events' }]" />
+        <PageHeader heading="Similar Events" />
         <RelatedEvents :event-id="event.eventId" @open="openRelatedEvent" />
       </div>
     </template>
@@ -88,6 +88,7 @@
   import EventJudgingSummary from '@/components/EventJudgingSummary.vue'
   import EventSponsors from '@/components/EventSponsors.vue'
   import LocationCard from '@/components/LocationCard.vue'
+  import PageHeader from '@/components/PageHeader.vue'
   import RelatedEvents from '@/components/RelatedEvents.vue'
   import SizedImage from '@/components/SizedImage.vue'
   import { useApi, useCanEditEvent } from '@/compositions'

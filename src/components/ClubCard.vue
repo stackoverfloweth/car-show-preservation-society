@@ -2,7 +2,7 @@
   <div class="club-card">
     <template v-if="club">
       <SizedImage v-if="club.clubLogo" :image="club.clubLogo" class="club-card__logo" />
-      <p-bread-crumbs :crumbs="[{ text: club.name }]" />
+      <PageHeader :heading="club.name" />
       <p>{{ club.description }}</p>
       <ContactIdCard :user-id="club.contactUserId" show-label show-details />
     </template>
@@ -13,6 +13,7 @@
   import { useSubscription } from '@prefecthq/vue-compositions'
   import { computed, toRefs } from 'vue'
   import ContactIdCard from '@/components/ContactIdCard.vue'
+  import PageHeader from '@/components/PageHeader.vue'
   import SizedImage from '@/components/SizedImage.vue'
   import { useApi } from '@/compositions'
 

@@ -1,12 +1,12 @@
 <template>
   <p-form class="club-editor-page" @submit="submit">
     <div class="club-editor-page__general">
-      <p-bread-crumbs :crumbs="[{ text: 'General' }]" />
+      <PageHeader heading="General" />
       <ClubFormFields v-if="values" v-model:values="values" />
     </div>
 
     <div class="club-editor-page__gallery">
-      <p-bread-crumbs :crumbs="[{ text: 'Gallery' }]" />
+      <PageHeader heading="Gallery" />
       <ClubGalleryForm v-if="values" :club-id="clubId" />
     </div>
   </p-form>
@@ -19,6 +19,7 @@
   import { useRouter } from 'vue-router'
   import ClubFormFields from '@/components/ClubFormFields.vue'
   import ClubGalleryForm from '@/components/ClubGalleryForm.vue'
+  import PageHeader from '@/components/PageHeader.vue'
   import { useApi, useNavigation } from '@/compositions'
   import { IClub } from '@/models'
   import { routes } from '@/router/routes'

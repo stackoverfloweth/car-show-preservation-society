@@ -4,7 +4,7 @@
       <p-link @click="emit('club:click', event!.clubId)">
         {{ club?.name }}
       </p-link>
-      <p-bread-crumbs :crumbs="[{ text: event.name }]" />
+      <page-header :heading="event.name" />
       <p>{{ startDate }}</p>
       <p>{{ startTime }}</p>
       <template v-if="event.isHappening">
@@ -29,6 +29,7 @@
   import { useSubscription } from '@prefecthq/vue-compositions'
   import { format } from 'date-fns'
   import { computed, toRefs } from 'vue'
+  import PageHeader from '@/components/PageHeader.vue'
   import { useApi } from '@/compositions'
   import { Event } from '@/models'
 

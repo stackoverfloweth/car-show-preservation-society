@@ -14,7 +14,7 @@
     </div>
     <div class="event-editor-page__title" @click.stop="toggleMenu">
       <p-icon class="event-editor-page__toggle-button" icon="MenuIcon" />
-      <p-bread-crumbs :crumbs="crumbs" />
+      <PageHeader :heading="activeTitle?.title" />
     </div>
     <div class="event-editor-page__content" @click="hideMenu">
       <suspense>
@@ -47,6 +47,7 @@
   import { useRouteParam } from '@prefecthq/vue-compositions'
   import { computed, ref } from 'vue'
   import { useRoute } from 'vue-router'
+  import PageHeader from '@/components/PageHeader.vue'
   import { routes } from '@/router/routes'
 
   const route = useRoute()
@@ -67,14 +68,6 @@
 
   const previous = computed(() => titles.value[activeTitleIndex.value - 1])
   const next = computed(() => titles.value[activeTitleIndex.value + 1])
-
-  const crumbs = computed<Crumb[]>(() => {
-    if (!activeTitle.value) {
-      return []
-    }
-
-    return [{ text: activeTitle.value.title }]
-  })
 
   function toggleMenu(): void {
     if (!media.hover) {

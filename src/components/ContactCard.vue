@@ -1,7 +1,7 @@
 <template>
   <div class="contact-card">
     <template v-if="showLabel">
-      <p-bread-crumbs :crumbs="[{ text: 'Contact' }]" />
+      <PageHeader heading="Contact" />
     </template>
     <template v-if="user">
       <div class="contact-card__content">
@@ -52,6 +52,7 @@
 
 <script lang="ts" setup>
   import { computed, toRefs } from 'vue'
+  import PageHeader from '@/components/PageHeader.vue'
   import SizedImage from '@/components/SizedImage.vue'
   import { useShowModal } from '@/compositions'
   import { User } from '@/models'

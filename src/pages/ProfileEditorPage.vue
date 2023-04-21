@@ -1,6 +1,6 @@
 <template>
   <p-form class="profile-editor-page" @submit="submit">
-    <p-bread-crumbs :crumbs="[{ text: 'General' }]" />
+    <PageHeader heading="General" />
     <ProfileFormFields v-if="values" v-model:values="values" />
   </p-form>
 </template>
@@ -10,6 +10,7 @@
   import { useSubscription, useValidationObserver } from '@prefecthq/vue-compositions'
   import { ref, watchEffect } from 'vue'
   import { useRouter } from 'vue-router'
+  import PageHeader from '@/components/PageHeader.vue'
   import ProfileFormFields from '@/components/ProfileFormFields.vue'
   import { useApi, useNavigation } from '@/compositions'
   import { IUser } from '@/models'

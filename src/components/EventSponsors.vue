@@ -1,6 +1,6 @@
 <template>
   <div class="event-sponsors">
-    <p-bread-crumbs :crumbs="[{ text: 'Event Sponsors' }]" />
+    <PageHeader heading="Event Sponsors" />
     <div class="event-sponsors__content">
       <template v-for="advertisement in advertisements" :key="advertisement.advertisementId">
         <SponsorCard :advertisement="advertisement" />
@@ -12,6 +12,7 @@
 <script lang="ts" setup>
   import { useSubscription } from '@prefecthq/vue-compositions'
   import { computed, toRefs } from 'vue'
+  import PageHeader from '@/components/PageHeader.vue'
   import SponsorCard from '@/components/SponsorCard.vue'
   import { useApi } from '@/compositions'
   import { Event } from '@/models'
