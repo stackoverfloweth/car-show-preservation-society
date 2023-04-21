@@ -19,6 +19,20 @@
         </template>
       </p-label>
 
+      <p-label label="Must Be Present to Win">
+        <template #description>
+          <template v-if="mustBePresentToWin">
+            Participants are required to be present at award ceremony to be considered for judging.
+          </template>
+          <template v-else>
+            Participants are <strong>NOT</strong> required to be preset to be considered for judging.
+          </template>
+        </template>
+        <template #default="{ id }">
+          <p-toggle :id="id" v-model="mustBePresentToWin" />
+        </template>
+      </p-label>
+
       <p-label label="Self Voting">
         <template #description>
           <template v-if="canVoteForSelf">
@@ -103,6 +117,7 @@
 
   const votingStart = usePatchRef(event, 'votingStart')
   const votingEnd = usePatchRef(event, 'votingEnd')
+  const mustBePresentToWin = usePatchRef(event, 'mustBePresentToWin')
   const canVoteForSelf = usePatchRef(event, 'canVoteForSelf')
   const driverSelfCategorization = usePatchRef(event, 'driverSelfCategorization')
   const maxSelfCategorization = usePatchRef(event, 'maxSelfCategorization')

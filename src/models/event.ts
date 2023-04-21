@@ -1,4 +1,4 @@
-import { isFuture, isSameDay, isWithinInterval } from 'date-fns'
+import { isFuture, isPast as dateInPast, isSameDay, isWithinInterval } from 'date-fns'
 import { Image } from '@/models/image'
 import { Location } from '@/models/location'
 
@@ -14,6 +14,7 @@ export interface IEvent {
   end: Date,
   votingStart?: Date,
   votingEnd?: Date,
+  mustBePresentToWin?: boolean,
   maxCapacity?: number,
   currentCapacity?: number,
   stripePriceId?: string,
@@ -80,11 +81,15 @@ export class Event implements IEvent {
   }
 
   public get isUpcoming(): boolean {
-    return isFuture(this.end)
+    return isFuture(this.start)
+  }
+
+  public get isPast(): boolean {
+    return dateInPast(this.end)
   }
 
   public get isToday(): boolean {
-    return isSameDay(this.start, new Date())
+    return isSameDay(this.start, new Date()) || true
   }
 
   public get isHappening(): boolean {
@@ -111,5 +116,9 @@ export class Event implements IEvent {
 
   public get preregistrationOpen(): boolean {
     return !!this.preRegistration && this.isUpcoming && this.hasCapacity
+  }
+
+  public get registrationOpen(): boolean {
+    return isFuture(this.votingStart ?? this.start) && this.hasCapacity || true
   }
 }

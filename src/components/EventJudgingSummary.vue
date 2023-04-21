@@ -3,7 +3,7 @@
     <template v-if="event.isUpcoming">
       <JudgingCategoriesList :categories="votingCategories" />
     </template>
-    <template v-else>
+    <template v-else-if="event.isPast">
       <EventJudgingResults :event="event" />
       <EventPhotoGallery :event-id="event.eventId" />
     </template>

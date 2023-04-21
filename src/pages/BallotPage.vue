@@ -41,7 +41,7 @@
         </template>
       </p-empty-state>
     </template>
-    <template v-else-if="event">
+    <template v-else-if="event?.isPast">
       <p-empty-state class="ballot-page__voting-closed">
         <template #heading>
           Voting Has Concluded
