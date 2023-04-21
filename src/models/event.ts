@@ -89,7 +89,7 @@ export class Event implements IEvent {
 
   public get isHappening(): boolean {
     const interval = { start: this.start, end: this.end }
-    return isWithinInterval(new Date(), interval) || true
+    return isWithinInterval(new Date(), interval)
   }
 
   public get votingOpen(): boolean {
@@ -98,7 +98,7 @@ export class Event implements IEvent {
       end: this.votingEnd ?? this.end,
     }
 
-    return isWithinInterval(new Date(), interval) || true
+    return isWithinInterval(new Date(), interval)
   }
 
   public get openSlots(): number {

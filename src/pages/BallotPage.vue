@@ -8,8 +8,12 @@
       </div>
       <img class="ballot-page__seal" :src="seal">
       <div class="ballot-page__actions">
-        <p-button inset icon="ShareIcon" />
-        <p-button inset icon="QrcodeIcon" />
+        <template v-if="event?.isUpcoming">
+          <p-button inset icon="ShareIcon" />
+        </template>
+        <template v-if="event?.votingOpen && ballot">
+          <p-button inset icon="QrcodeIcon" />
+        </template>
       </div>
     </div>
 
@@ -26,10 +30,28 @@
         </template>
       </div>
     </template>
+    <template v-else-if="event?.isUpcoming">
+      <p-empty-state class="ballot-page__voting-closed">
+        <template #heading>
+          Voting Not Open
+        </template>
+        <template #description>
+          Voting for this event is scheduled to start at {{ format(event.votingStart ?? event.start, 'pp') }}
+        </template>
+      </p-empty-state>
+    </template>
     <template v-else-if="event">
-      <div class="ballot-page__voting-closed">
-        voting closed
-      </div>
+      <p-empty-state class="ballot-page__voting-closed">
+        <template #heading>
+          Voting Has Concluded
+        </template>
+        <template #description>
+          <p>Voting for this event ended at {{ format(event.votingEnd ?? event.end, 'pp') }}</p>
+          <p-link :to="routes.event(eventId)">
+            View Results
+          </p-link>
+        </template>
+      </p-empty-state>
     </template>
   </div>
 </template>
@@ -37,6 +59,7 @@
 <script lang="ts" setup>
   import { showToast } from '@prefecthq/prefect-design'
   import { useRouteParam, useSubscription, useSubscriptionWithDependencies, useValidationObserver } from '@prefecthq/vue-compositions'
+  import { format } from 'date-fns'
   import { computed, ref, watch, watchEffect } from 'vue'
   import BallotVotingCategoryComponent from '@/components/BallotVotingCategory.vue'
   import PageHeader from '@/components/PageHeader.vue'
@@ -116,7 +139,9 @@
   watchEffect(() => {
     const left = { title: 'Event', route: routes.event(eventId.value) }
     const center = { title: 'Official Ballot' }
-    const right = { title: 'Save', pending: pending.value, callback: submit }
+    const right = event.value?.votingOpen && ballot.value
+      ? { title: 'Save', pending: pending.value, callback: submit }
+      : undefined
 
     set({ left, center, right })
   })
