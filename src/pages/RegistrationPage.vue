@@ -36,7 +36,10 @@
 
   const api = useApi()
   const eventId = useRouteParam('eventId')
-  const { set } = useNavigation()
+  useNavigation({
+    left: { title: 'Event', route: routes.event(eventId.value) },
+    center: { title: 'Event Registration' },
+  })
   const { validate } = useValidationObserver()
   const { showModal: showClubModal, open: openRelatedClub } = useShowModal()
 
@@ -71,12 +74,6 @@
 
     registrationSubscription.refresh()
   }
-
-  watchEffect(() => {
-    const left = { title: 'Event', route: routes.event(eventId.value) }
-
-    set({ left })
-  })
 </script>
 
 <style>
