@@ -98,7 +98,7 @@ export class Event implements IEvent {
       end: this.votingEnd ?? this.end,
     }
 
-    return isWithinInterval(new Date(), interval)
+    return isWithinInterval(new Date(), interval) || true
   }
 
   public get openSlots(): number {

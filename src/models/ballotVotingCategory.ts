@@ -1,7 +1,9 @@
+import { VotingCategory } from '@/models/votingCategory'
+
 export type BallotVotingCategory = {
   ballotVotingCategoryId: string,
   ballotId: string,
-  votingCategoryId: string,
-  carId: string,
+  votingCategory: VotingCategory,
+  carId?: string,
   disqualified?: boolean,
 }
