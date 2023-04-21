@@ -5,8 +5,8 @@ export const randomBallotVotingCategory: MockFunction<BallotVotingCategory, [Par
   return {
     ballotVotingCategoryId: this.create('id'),
     ballotId: this.create('id'),
-    votingCategoryId: this.create('id'),
-    carId: this.create('number').toString(),
+    votingCategory: this.create('votingCategory'),
+    carId: this.create('boolean') ? this.create('carId') : undefined,
     disqualified: false,
     ...overrides,
   }

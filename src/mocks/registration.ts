@@ -11,7 +11,7 @@ export const randomRegistration: MockFunction<Registration, [Partial<Registratio
     eventId,
     registrationDate: this.create('date'),
     vehicleId: this.create('id'),
-    carId: this.create('number').toString(),
+    carId: this.create('carId'),
     stripePaymentId: undefined,
     votingCategories: [this.create('votingCategory', [{ eventId }])],
     ...overrides,

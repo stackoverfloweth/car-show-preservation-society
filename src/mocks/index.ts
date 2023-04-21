@@ -2,6 +2,7 @@ import { randomAdvertisement } from '@/mocks/advertisement'
 import { randomBallot } from '@/mocks/ballot'
 import { randomBallotVotingCategory } from '@/mocks/ballotVotingCategory'
 import { randomBoolean } from '@/mocks/boolean'
+import { randomCarId } from '@/mocks/carId'
 import { randomClub } from '@/mocks/club'
 import { randomClubMembership } from '@/mocks/clubMembership'
 import { randomClubSubscription } from '@/mocks/clubSubscription'
@@ -29,6 +30,7 @@ export const mocks = {
   ballot: randomBallot,
   ballotVotingCategory: randomBallotVotingCategory,
   boolean: randomBoolean,
+  carId: randomCarId,
   char: randomChar,
   club: randomClub,
   clubMembership: randomClubMembership,
