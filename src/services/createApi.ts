@@ -3,6 +3,7 @@ import { InjectionKey } from 'vue'
 import { AdvertisementsApi } from '@/services/advertisementsApi'
 import { ApiConfig } from '@/services/api'
 import { BallotsApi } from '@/services/ballotsApi'
+import { BallotVotingApi } from '@/services/ballotVotingApi'
 import { ClubImagesApi } from '@/services/clubImagesApi'
 import { ClubInvitationsApi } from '@/services/clubInvitationsApi'
 import { ClubMembershipApi } from '@/services/clubMembershipApi'
@@ -18,6 +19,7 @@ export function createApi(config: ApiConfig) {
   return {
     advertisements: createActions(new AdvertisementsApi(config)),
     ballots: createActions(new BallotsApi(config)),
+    ballotVoting: createActions(new BallotVotingApi(config)),
     clubImages: createActions(new ClubImagesApi(config)),
     clubInvitations: createActions(new ClubInvitationsApi(config)),
     clubMembership: createActions(new ClubMembershipApi(config)),

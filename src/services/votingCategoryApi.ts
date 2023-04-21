@@ -1,13 +1,6 @@
-import { Registration, User, Vehicle } from '@/models'
 import { VotingCategoryRequest } from '@/models/api'
 import { VotingCategory } from '@/models/votingCategory'
 import { Api, mocker } from '@/services'
-
-type VotingCategoryOption = {
-  registration: Registration,
-  vehicle: Vehicle,
-  user: User,
-}
 
 export class VotingCategoriesApi extends Api {
   protected override routePrefix = '/votingCategories'
@@ -38,13 +31,5 @@ export class VotingCategoriesApi extends Api {
 
   public async deleteAllVotingCategories(eventId: string): Promise<void> {
     await Promise.resolve(eventId)
-  }
-
-  public async getVotingCategoryOptions(votingCategoryId: string): Promise<VotingCategoryOption[]> {
-    return await Promise.resolve(mocker.createMany('registration', 50).map(registration => ({
-      registration,
-      vehicle: mocker.create('vehicle', [{ vehicleId: registration.vehicleId }]),
-      user: mocker.create('user', [{ userId: registration.userId }]),
-    })))
   }
 }

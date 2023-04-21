@@ -55,7 +55,7 @@
   const { votingCategoryId } = toRefs(props)
   const api = useApi()
 
-  const optionsSubscription = useSubscription(api.votingCategories.getVotingCategoryOptions, [votingCategoryId])
+  const optionsSubscription = useSubscription(api.ballotVoting.getBallotVotingCategoryData, [votingCategoryId])
   const options = computed(() => optionsSubscription.response ?? [])
 </script>
 
