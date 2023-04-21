@@ -5,5 +5,5 @@ export function useCanEditEvent(): boolean {
   const { userId } = currentUser
   const eventId = useRouteParam('eventId')
 
-  return !!userId && !!eventId && false
+  return !!userId && !!eventId
 }

@@ -5,7 +5,7 @@
       <template v-if="canEditVehicle">
         <p-icon-button-menu>
           <p-overflow-menu-item label="Share" icon="ShareIcon" />
-          <p-overflow-menu-item label="Edit" icon="PencilIcon" :to="routes.vehicleEditor(vehicle.vehicleId)" />
+          <p-overflow-menu-item label="Edit Vehicle" icon="PencilIcon" :to="routes.vehicleEditor(vehicle.vehicleId)" />
         </p-icon-button-menu>
       </template>
       <template v-else>

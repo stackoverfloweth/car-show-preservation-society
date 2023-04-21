@@ -2,23 +2,8 @@
   <div class="event-viewer">
     <EventHeader :event="event" class="event-viewer__header" @club:click="openRelatedClub">
       <template #actions>
-        <template v-if="canEditEvent">
-          <p-icon-button-menu>
-            <p-overflow-menu-item label="Share" icon="ShareIcon" />
-            <template v-if="canRegister">
-              <p-overflow-menu-item label="Register" icon="BookmarkIcon" :to="routes.eventRegistration(event.eventId)" />
-            </template>
-            <template v-else-if="alreadyRegistered">
-              <p-overflow-menu-item label="View Registration" icon="BookmarkIcon" :to="routes.eventRegistration(event.eventId)" />
-            </template>
-            <p-overflow-menu-item label="Edit" icon="PencilIcon" :to="routes.eventEditor(event.eventId)" />
-          </p-icon-button-menu>
-        </template>
-
-        <template v-else-if="media.hover">
-          <template v-if="!canEditEvent">
-            <p-button inset icon="ShareIcon" />
-          </template>
+        <template v-if="media.hover">
+          <p-button inset icon="ShareIcon" />
           <template v-if="canRegister">
             <p-button :to="routes.eventRegistration(event.eventId)">
               Register
@@ -28,6 +13,11 @@
             <router-link :to="routes.eventRegistration(event.eventId)">
               <p-button icon="QrcodeIcon" />
             </router-link>
+          </template>
+          <template v-if="isViewing">
+            <p-button @click="isViewing = false">
+              Manage
+            </p-button>
           </template>
         </template>
 
@@ -39,6 +29,9 @@
             </template>
             <template v-else-if="alreadyRegistered">
               <p-overflow-menu-item label="View Registration" icon="BookmarkIcon" :to="routes.eventRegistration(event.eventId)" />
+            </template>
+            <template v-if="isViewing">
+              <p-overflow-menu-item label="Manage" icon="CogIcon" @click="isViewing = false" />
             </template>
           </p-icon-button-menu>
         </template>
@@ -80,7 +73,7 @@
 
 <script lang="ts" setup>
   import { media } from '@prefecthq/prefect-design'
-  import { useSubscription } from '@prefecthq/vue-compositions'
+  import { BooleanRouteParam, useRouteQueryParam, useSubscription } from '@prefecthq/vue-compositions'
   import { computed } from 'vue'
   import ContactIdCard from '@/components/ContactIdCard.vue'
   import EventBallots from '@/components/EventBallots.vue'
@@ -91,7 +84,7 @@
   import PageHeader from '@/components/PageHeader.vue'
   import RelatedEvents from '@/components/RelatedEvents.vue'
   import SizedImage from '@/components/SizedImage.vue'
-  import { useApi, useCanEditEvent } from '@/compositions'
+  import { useApi } from '@/compositions'
   import { Event } from '@/models'
   import { routes } from '@/router/routes'
   import { currentUser } from '@/services/auth'
@@ -105,9 +98,9 @@
     (event: 'open:event', value: Event): void,
   }>()
 
-  const canEditEvent = useCanEditEvent()
   const api = useApi()
 
+  const isViewing = useRouteQueryParam('is-viewing', BooleanRouteParam, false)
   const eventId = computed(() => props.event.eventId)
   const registrationSubscription = useSubscription(api.registration.findRegistration, [eventId, currentUser.userId])
   const alreadyRegistered = computed(() => !!registrationSubscription.response)

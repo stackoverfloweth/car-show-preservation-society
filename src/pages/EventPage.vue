@@ -1,10 +1,18 @@
 <template>
-  <EventViewer
-    v-if="event"
-    :event="event"
-    @open:event="openRelatedEvent"
-    @open:club="openRelatedClub"
-  />
+  <template v-if="event">
+    <EventManager
+      v-if="canEditEvent && !isViewing"
+      :event="event"
+      @open:event="openRelatedEvent"
+      @open:club="openRelatedClub"
+    />
+    <EventViewer
+      v-else
+      :event="event"
+      @open:event="openRelatedEvent"
+      @open:club="openRelatedClub"
+    />
+  </template>
 
   <p-modal v-model:show-modal="showEventModal" :title="relatedEvent?.name" auto-close>
     <template v-if="relatedEvent">
@@ -31,13 +39,14 @@
 </script>
 
 <script lang="ts" setup>
-  import { useRouteParam, useSubscription, useSubscriptionWithDependencies } from '@prefecthq/vue-compositions'
+  import { BooleanRouteParam, useRouteParam, useRouteQueryParam, useSubscription, useSubscriptionWithDependencies } from '@prefecthq/vue-compositions'
   import { computed, ref, watch } from 'vue'
   import { useRoute } from 'vue-router'
   import ClubOverview from '@/components/ClubOverview.vue'
   import EventCard from '@/components/EventCard.vue'
+  import EventManager from '@/components/EventManager.vue'
   import EventViewer from '@/components/EventViewer.vue'
-  import { NavigationRecord, useApi, useNavigation, useShowModal } from '@/compositions'
+  import { NavigationRecord, useApi, useCanEditEvent, useNavigation, useShowModal } from '@/compositions'
   import { Event } from '@/models'
   import { routes } from '@/router/routes'
 
@@ -45,9 +54,11 @@
   const eventId = useRouteParam('eventId')
   const api = useApi()
   const { set } = useNavigation()
+  const isViewing = useRouteQueryParam('is-viewing', BooleanRouteParam, false)
 
   const eventSubscription = useSubscription(api.events.getEvent, [eventId])
   const event = computed(() => eventSubscription.response)
+  const canEditEvent = useCanEditEvent()
 
   const clubSubscriptionDependencies = computed<Parameters<typeof api.clubs.getClub> | null>(() => event.value ? [event.value.clubId] : null)
   const clubSubscription = useSubscriptionWithDependencies(api.clubs.getClub, clubSubscriptionDependencies)

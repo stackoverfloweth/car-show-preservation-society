@@ -20,7 +20,7 @@
             </template>
           </MenuItemConfirm>
           <p-overflow-menu-item label="Invite Member" icon="UserAddIcon" @click="openInviteMemberModal" />
-          <p-overflow-menu-item label="Edit" icon="PencilIcon" :to="routes.clubEditor(clubId)" />
+          <p-overflow-menu-item label="Edit Club" icon="PencilIcon" :to="routes.clubEditor(clubId)" />
         </p-icon-button-menu>
       </template>
     </div>

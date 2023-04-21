@@ -3,7 +3,7 @@
     <template v-if="canEditProfile">
       <div class="profile-viewer__header">
         <p-icon-button-menu>
-          <p-overflow-menu-item label="Edit" icon="PencilIcon" :to="routes.profileEditor()" />
+          <p-overflow-menu-item label="Edit Profile" icon="PencilIcon" :to="routes.profileEditor()" />
         </p-icon-button-menu>
       </div>
     </template>
