@@ -6,9 +6,9 @@
         {{ votingCategory?.name }}
       </div>
       <template v-if="carId">
-        <div class="ballot-voting-category__voted">
+        <p-tag class="ballot-voting-category__voted">
           {{ carId }}
-        </div>
+        </p-tag>
       </template>
       <PIcon
         icon="ChevronRightIcon"
@@ -98,7 +98,7 @@
   display: flex;
   align-items: center;
   font-size: 1.1rem;
-  padding: var(--space-2) var(--space-4);
+  padding: var(--space-4);
   gap: var(--space-4);
 }
 
@@ -114,8 +114,7 @@
 }
 
 .ballot-voting-category__voted {
-  width: 50px;
-  color: var(--green-600);
+  background-color: var(--green-700) !important;
   text-align: center;
 }
 

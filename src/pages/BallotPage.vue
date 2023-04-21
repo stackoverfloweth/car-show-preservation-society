@@ -16,11 +16,11 @@
     <template v-if="event?.votingOpen && ballot">
       <div class="ballot-page__ballot">
         <template v-for="vote in ballot.votes" :key="vote.ballotVotingCategoryId">
-          <BallotVotingCategory
+          <BallotVotingCategoryComponent
             :car-id="votes[vote.ballotVotingCategoryId]"
             :voting-category="vote.votingCategory"
             :open="isVotingCategoryOpen(vote.votingCategory)"
-            @update:car-id="carId => votes[vote.ballotVotingCategoryId] = carId"
+            @update:car-id="carId => setVote(vote, carId)"
             @update:open="toggleOpenVotingCategory(vote.votingCategory)"
           />
         </template>
@@ -38,11 +38,11 @@
   import { showToast } from '@prefecthq/prefect-design'
   import { useRouteParam, useSubscription, useSubscriptionWithDependencies, useValidationObserver } from '@prefecthq/vue-compositions'
   import { computed, ref, watch, watchEffect } from 'vue'
-  import BallotVotingCategory from '@/components/BallotVotingCategory.vue'
+  import BallotVotingCategoryComponent from '@/components/BallotVotingCategory.vue'
   import PageHeader from '@/components/PageHeader.vue'
   import { useApi, useNavigation } from '@/compositions'
   import seal from '@/icons/csps-seal.svg'
-  import { VotingCategory } from '@/models'
+  import { BallotVotingCategory, VotingCategory } from '@/models'
   import { VoteRequest } from '@/models/api'
   import { routes } from '@/router/routes'
 
@@ -55,18 +55,6 @@
 
   const votes = ref<Record<string, string | null>>({})
   const openVotingCategoryId = ref<string>()
-
-  function isVotingCategoryOpen({ votingCategoryId }: VotingCategory): boolean {
-    return openVotingCategoryId.value === votingCategoryId
-  }
-
-  function toggleOpenVotingCategory(votingCategory: VotingCategory): void {
-    if (isVotingCategoryOpen(votingCategory)) {
-      openVotingCategoryId.value = undefined
-    } else {
-      openVotingCategoryId.value = votingCategory.votingCategoryId
-    }
-  }
 
   const eventSubscription = useSubscription(api.events.getEvent, [eventId])
   const event = computed(() => eventSubscription.response)
@@ -107,6 +95,24 @@
     showToast('Ballot Saved!', 'success')
   }
 
+  function isVotingCategoryOpen({ votingCategoryId }: VotingCategory): boolean {
+    return openVotingCategoryId.value === votingCategoryId
+  }
+
+  function toggleOpenVotingCategory(votingCategory: VotingCategory): void {
+    if (isVotingCategoryOpen(votingCategory)) {
+      openVotingCategoryId.value = undefined
+    } else {
+      openVotingCategoryId.value = votingCategory.votingCategoryId
+    }
+  }
+
+  function setVote(ballotVotingCategory: BallotVotingCategory, carId: string | null): void {
+    votes.value[ballotVotingCategory.ballotVotingCategoryId] = carId
+
+    toggleOpenVotingCategory(ballotVotingCategory.votingCategory)
+  }
+
   watchEffect(() => {
     const left = { title: 'Event', route: routes.event(eventId.value) }
     const center = { title: 'Official Ballot' }
@@ -127,14 +133,22 @@
 
 .ballot-page__header {
   display: grid;
+  grid-template-areas: 'header seal actions';
   grid-template-columns: minmax(0, 1fr) var(--seal-width) minmax(0, 1fr);
+  gap: var(--space-2);
 }
 
 .ballot-page__seal {
+  grid-area: header;
+}
+
+.ballot-page__seal {
+  grid-area: seal;
   width: var(--seal-width);
 }
 
 .ballot-page__actions {
+  grid-area: actions;
   display: flex;
   justify-content: end;
   align-items: start;
@@ -149,5 +163,18 @@
 
 .ballot-page__ballot-name {
   text-transform: uppercase;
+}
+
+@media(max-width: 768px){
+  .ballot-page__header {
+    grid-template-areas:
+      'header seal'
+      'actions actions';
+    grid-template-columns: minmax(0, 1fr) var(--seal-width);
+  }
+
+  .ballot-page__actions {
+    justify-content: start;
+  }
 }
 </style>

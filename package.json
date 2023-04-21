@@ -19,7 +19,7 @@
   "homepage": "https://github.com/stackoverfloweth/car-show-manager#readme",
   "dependencies": {
     "@prefecthq/prefect-design": "1.7.2",
-    "@prefecthq/vue-compositions": "1.3.5",
+    "@prefecthq/vue-compositions": "1.4.3",
     "axios": "^1.3.4",
     "date-fns": "^2.29.3",
     "stripe": "^11.14.0",
