@@ -1,34 +1,68 @@
 <template>
-  <div class="ballot-voting-category-option">
-    <p class="ballot-voting-category-option__value ballot-voting-category-option__value--carId">
-      {{ registration.carId }}
-    </p>
-    <p class="ballot-voting-category-option__value ballot-voting-category-option__value--year">
-      {{ vehicle.year }}
-    </p>
-    <p class="ballot-voting-category-option__value ballot-voting-category-option__value--make">
-      {{ vehicle.make }}
-    </p>
-    <p class="ballot-voting-category-option__value ballot-voting-category-option__value--model">
-      {{ vehicle.model }}
-    </p>
-    <p class="ballot-voting-category-option__value ballot-voting-category-option__value--exteriorColor">
-      {{ vehicle.color }}
-    </p>
-    <p class="ballot-voting-category-option__value ballot-voting-category-option__value--owner">
-      {{ user.displayName }}
-    </p>
-  </div>
+  <p-radio
+    v-model="carId"
+    class="ballot-voting-category-option__option"
+    :class="classes"
+    label=""
+    :value="registration.carId!"
+    :disabled="isInvalidSelfVote"
+  >
+    <template #label>
+      <div class="ballot-voting-category-option">
+        <p class="ballot-voting-category-option__value ballot-voting-category-option__value--carId">
+          {{ registration.carId }}
+        </p>
+        <p class="ballot-voting-category-option__value ballot-voting-category-option__value--year">
+          {{ vehicle.year }}
+        </p>
+        <p class="ballot-voting-category-option__value ballot-voting-category-option__value--make">
+          {{ vehicle.make }}
+        </p>
+        <p class="ballot-voting-category-option__value ballot-voting-category-option__value--model">
+          {{ vehicle.model }}
+        </p>
+        <p class="ballot-voting-category-option__value ballot-voting-category-option__value--exteriorColor">
+          {{ vehicle.color }}
+        </p>
+        <p class="ballot-voting-category-option__value ballot-voting-category-option__value--owner">
+          {{ user.displayName }}
+        </p>
+      </div>
+    </template>
+  </p-radio>
 </template>
 
 <script lang="ts" setup>
-  import { Registration, User, Vehicle } from '@/models'
+  import { computed } from 'vue'
+  import { Event, Registration, User, Vehicle } from '@/models'
+  import { currentUser } from '@/services/auth'
 
-  defineProps<{
+  const props = defineProps<{
+    carId: string | null | undefined,
+    event: Event,
     registration: Registration,
     vehicle: Vehicle,
     user: User,
   }>()
+
+  const emit = defineEmits<{
+    (event: 'update:carId', value: string | null): void,
+  }>()
+
+  const carId = computed({
+    get() {
+      return props.carId ?? null
+    },
+    set(value) {
+      emit('update:carId', value)
+    },
+  })
+
+  const isInvalidSelfVote = computed(() => !props.event.canVoteForSelf && props.registration.userId === currentUser.userId)
+
+  const classes = computed(() => ({
+    'ballot-voting-category-option__option--selected': carId.value === props.registration.carId,
+  }))
 </script>
 
 <style>
@@ -69,6 +103,23 @@
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
+}
+
+.ballot-voting-category-option__option {
+  padding: var(--space-2);
+}
+
+.ballot-voting-category-option__option:nth-child(even):not(.ballot-voting-category-option__option--selected) {
+  background-color: var(--slate-700);
+}
+
+.ballot-voting-category-option__option--selected {
+  background-color: var(--green-700);
+}
+
+.ballot-voting-category-option__option .p-label__header,
+.ballot-voting-category-option__option .p-label__label {
+  width: 100% !important;
 }
 
 @media(max-width: 768px){

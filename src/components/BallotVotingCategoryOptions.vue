@@ -1,18 +1,7 @@
 <template>
   <div class="ballot-voting-category-options">
     <template v-for="({ registration, vehicle, user }) in options" :key="registration.registrationId">
-      <p-radio
-        v-model="carId"
-        class="ballot-voting-category-options__option"
-        :class="classes.option(registration)"
-        label=""
-        :value="registration.carId!"
-        :name="votingCategoryId"
-      >
-        <template #label>
-          <BallotVotingCategoryOption v-bind="{ registration, vehicle, user }" :selected="carId === registration.carId" />
-        </template>
-      </p-radio>
+      <BallotVotingCategoryOption v-bind="{ registration, vehicle, user, event }" v-model:car-id="carId" :name="votingCategoryId" />
     </template>
   </div>
 </template>
@@ -22,10 +11,11 @@
   import { computed, toRefs } from 'vue'
   import BallotVotingCategoryOption from '@/components/BallotVotingCategoryOption.vue'
   import { useApi } from '@/compositions'
-  import { Registration } from '@/models'
+  import { Event } from '@/models'
 
   const props = defineProps<{
     votingCategoryId: string,
+    event: Event,
     carId: string | null | undefined,
   }>()
 
@@ -47,12 +37,6 @@
 
   const optionsSubscription = useSubscription(api.ballotVoting.getBallotVotingCategoryData, [votingCategoryId], { lifecycle: 'app' })
   const options = computed(() => optionsSubscription.response ?? [])
-
-  const classes = computed(() => ({
-    option: (registration: Registration) => ({
-      'ballot-voting-category-options__option--selected': carId.value === registration.carId,
-    }),
-  }))
 </script>
 
 <style>
@@ -62,22 +46,5 @@
   flex-direction: column;
   gap: var(--space-2);
   overflow-y: auto;
-}
-
-.ballot-voting-category-options__option {
-  padding: var(--space-2);
-}
-
-.ballot-voting-category-options__option:nth-child(even):not(.ballot-voting-category-options__option--selected) {
-  background-color: var(--slate-700);
-}
-
-.ballot-voting-category-options__option--selected {
-  background-color: var(--green-700);
-}
-
-.ballot-voting-category-options__option .p-label__header,
-.ballot-voting-category-options__option .p-label__label {
-  width: 100% !important;
 }
 </style>

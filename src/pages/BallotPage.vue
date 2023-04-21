@@ -22,6 +22,7 @@
         <template v-for="vote in ballot.votes" :key="vote.ballotVotingCategoryId">
           <BallotVotingCategoryComponent
             :car-id="votes[vote.ballotVotingCategoryId]"
+            :event="event"
             :voting-category="vote.votingCategory"
             :open="isVotingCategoryOpen(vote.votingCategory)"
             @update:car-id="carId => setVote(vote, carId)"

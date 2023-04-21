@@ -26,7 +26,7 @@
             </p-button>
           </template>
         </div>
-        <BallotVotingCategoryOptions v-model:car-id="carId" :voting-category-id="votingCategory.votingCategoryId" />
+        <BallotVotingCategoryOptions v-model:car-id="carId" :voting-category-id="votingCategory.votingCategoryId" :event="event" />
       </div>
     </PAutoHeightTransition>
   </div>
@@ -35,10 +35,11 @@
 <script lang="ts" setup>
   import { computed } from 'vue'
   import BallotVotingCategoryOptions from '@/components/BallotVotingCategoryOptions.vue'
-  import { VotingCategory } from '@/models'
+  import { VotingCategory, Event } from '@/models'
 
   const props = defineProps<{
     votingCategory: VotingCategory,
+    event: Event,
     open: boolean,
     carId: string | null | undefined,
   }>()
