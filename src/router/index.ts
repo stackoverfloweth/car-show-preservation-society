@@ -9,16 +9,6 @@ const routeRecords: AppRouteRecord[] = [
     component: () => import('@/pages/TodayViewPage.vue'),
   },
   {
-    path: '/ballot',
-    children: [
-      {
-        name: 'ballot.view',
-        path: ':ballotId',
-        component: () => import('@/pages/BallotPage.vue'),
-      },
-    ],
-  },
-  {
     path: '/clubs',
     children: [
       {
@@ -98,6 +88,11 @@ const routeRecords: AppRouteRecord[] = [
         name: 'events.register',
         path: ':eventId/register',
         component: () => import('@/pages/RegistrationPage.vue'),
+      },
+      {
+        name: 'events.ballot',
+        path: ':eventId/ballots/:ballotId',
+        component: () => import('@/pages/BallotPage.vue'),
       },
     ],
   },

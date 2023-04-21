@@ -4,22 +4,19 @@
       Official Ballot
     </div>
     <div class="ballot-list-item__name">
-      {{ ballotName }}
+      {{ ballot.name }}
     </div>
     <img :src="seal">
   </p-card>
 </template>
 
 <script lang="ts" setup>
-  import { computed } from 'vue'
   import seal from '@/icons/csps-seal.svg'
-  import { currentUser } from '@/services/auth'
+  import { Ballot } from '@/models'
 
-  const props = defineProps<{
-    index: number,
+  defineProps<{
+    ballot: Ballot,
   }>()
-
-  const ballotName = computed(() => `${currentUser.displayName.slice(0, 2) }000${props.index + 1}`)
 </script>
 
 <style>

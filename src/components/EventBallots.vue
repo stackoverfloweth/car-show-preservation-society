@@ -1,6 +1,6 @@
 <template>
   <div class="event-ballots">
-    <BallotList :ballots="ballots" />
+    <BallotList :event="event" :ballots="ballots" />
   </div>
 </template>
 

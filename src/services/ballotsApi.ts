@@ -6,11 +6,17 @@ export class BallotsApi extends Api {
   protected override routePrefix = '/ballots'
 
   public async getBallot(ballotId: string): Promise<Ballot | undefined> {
-    return await Promise.resolve(mocker.create('ballot', [{ ballotId }]))
+    return await Promise.resolve(mocker.create('ballot', [1, { ballotId }]))
   }
 
   public async findBallots(eventId: string, userId: string): Promise<Ballot[]> {
     // this function will return theoretical ballots alongside existing ballots.
-    return await Promise.resolve(mocker.createMany('ballot', mocker.create('number', [1, 3])))
+    const ballots: Ballot[] = []
+
+    for (let index = 0; index < mocker.create('number', [1, 3]); index++) {
+      ballots.push(mocker.create('ballot', [index + 1]))
+    }
+
+    return await Promise.resolve(ballots)
   }
 }

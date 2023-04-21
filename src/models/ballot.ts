@@ -1,5 +1,6 @@
 export type Ballot = {
   ballotId: string,
+  name: string,
   registrationId?: string,
   clubMembershipId?: string,
 }

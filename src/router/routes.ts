@@ -2,7 +2,6 @@ import { RouteLocationRaw, RouteRecordRaw } from 'vue-router'
 
 export const routes = {
   home: () => ({ name: 'home' }) as const,
-  ballot: (ballotId: string) => ({ name: 'ballot.view', params: { ballotId } }) as const,
   clubs: () => ({ name: 'clubs.list' }) as const,
   clubCreate: () => ({ name: 'clubs.create' }) as const,
   club: (clubId: string) => ({ name: 'clubs.view', params: { clubId } }) as const,
@@ -16,6 +15,7 @@ export const routes = {
   eventEditorSponsors: (eventId: string) => ({ name: 'events.editor.sponsors', params: { eventId } }) as const,
   eventEditorPreview: (eventId: string) => ({ name: 'events.editor.preview', params: { eventId } }) as const,
   eventRegistration: (eventId: string) => ({ name: 'events.register', params: { eventId } }) as const,
+  eventBallot: (eventId: string, ballotId: string) => ({ name: 'events.ballot', params: { ballotId } }) as const,
   event: (eventId: string) => ({ name: 'events.view', params: { eventId } }) as const,
   vehicles: () => ({ name: 'vehicles.list' }) as const,
   vehicleCreate: () => ({ name: 'vehicles.create' }) as const,
