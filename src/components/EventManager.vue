@@ -10,25 +10,36 @@
       </template>
     </EventHeader>
 
-    <template v-if="event.isToday && !event.votingOpen">
-      <p-card class="event-manager__voting">
-        <PageHeader heading="Voting Opens Soon" />
-        <div class="event-manager__voting-times">
-          <p-tag>{{ format(event.votingStart ?? event.start, 'pp') }}</p-tag> to <p-tag>{{ format(event.votingEnd ?? event.end, 'pp') }}</p-tag>
-        </div>
-        <p-link>Start Voting Now</p-link>
-      </p-card>
+    {{ event.votingStart }}
+    <template v-if="event.isHappening">
+      <div class="event-manager__voting">
+        <template v-if="event.votingOpen">
+          <p-card class="event-manager__voting-settings">
+            <PageHeader heading="Voting Is Open" />
+            <div class="event-manager__voting-times">
+              {{ format(event.votingEnd ?? event.end, 'pp') }}
+            </div>
+            <p-link @click="endVotingNow">
+              End Voting Now
+            </p-link>
+          </p-card>
+        </template>
+        <template v-else>
+          <p-card class="event-manager__voting-settings">
+            <PageHeader heading="Voting Opens Soon" />
+            <div class="event-manager__voting-times">
+              {{ format(event.votingStart ?? event.start, 'pp') }}
+            </div>
+            <p-link @click="startVotingNow">
+              Start Voting Now
+            </p-link>
+          </p-card>
+        </template>
+        <EventBallots :event="event" />
+      </div>
     </template>
 
     <template v-if="event.votingOpen">
-      <p-card class="event-manager__voting">
-        <PageHeader heading="Voting Is Open" />
-        <div class="event-manager__voting-times">
-          <p-tag>{{ format(event.votingStart ?? event.start, 'pp') }}</p-tag> to <p-tag>{{ format(event.votingEnd ?? event.end, 'pp') }}</p-tag>
-        </div>
-        <p-link>End Voting Now</p-link>
-      </p-card>
-
       <p-card class="event-manager__ballots">
         <PageHeader heading="View Ballots" />
         here are state of all ballots, not results
@@ -42,21 +53,19 @@
       </p-card>
     </template>
 
-    <p-card class="event-manager__registrations">
-      <PageHeader heading="Registrations" />
-      here are all the registered drivers
-      <template v-if="event.registrationOpen">
-        <p-button>Check-in</p-button>
-        <!-- communicate if registration is paid or not, what do they owe -->
+    <template v-if="event.registrationOpen">
+      <p-card class="event-manager__registrations">
+        <PageHeader heading="Registrations" />
+        <p-button>assign registrations to their correct voting category</p-button>
         <p-button>New Registration</p-button>
         <!-- find existing user, if new user system should contact them to finish profile -->
-      </template>
-    </p-card>
-
-    <template v-if="event.registrationOpen">
-      <p-card class="event-manager__judging-categories">
-        <PageHeader heading="Review Judging Categories" />
-        assign registrations to their correct voting category
+        <template v-if="event.isHappening">
+          <p-button>Check-in</p-button>
+          <!-- communicate if registration is paid or not, what do they owe -->
+        </template>
+        <p-link :to="routes.eventRegistrations(event.eventId)">
+          View All Registrations
+        </p-link>
       </p-card>
     </template>
 
@@ -64,21 +73,20 @@
       <PageHeader heading="Messages" />
       send event messages (coming soon!)
     </p-card>
-
-    <EventBallots :event="event" />
   </div>
 </template>
 
 <script lang="ts" setup>
-  import { BooleanRouteParam, useRouteQueryParam } from '@prefecthq/vue-compositions'
+  import { BooleanRouteParam, useRouteQueryParam, useSubscription } from '@prefecthq/vue-compositions'
   import { format } from 'date-fns'
   import EventBallots from '@/components/EventBallots.vue'
   import EventHeader from '@/components/EventHeader.vue'
   import PageHeader from '@/components/PageHeader.vue'
-  import { Event } from '@/models'
+  import { useApi } from '@/compositions'
+  import { Event, isEnded, isHappening, isToday, votingOpen } from '@/models'
   import { routes } from '@/router/routes'
 
-  defineProps<{
+  const props = defineProps<{
     event: Event,
   }>()
 
@@ -87,10 +95,28 @@
     (event: 'open:event', value: Event): void,
   }>()
 
+  const api = useApi()
   const isViewing = useRouteQueryParam('is-viewing', BooleanRouteParam, false)
 
   function openRelatedClub(clubId: string): void {
+    if (!isToday.value) {
+      isToday.value = true
+    } else {
+      isHappening.value = true
+    }
+    useSubscription(api.events.getEvent, [props.event.eventId]).refresh()
+
     emit('open:club', clubId)
+  }
+
+  function startVotingNow(): void {
+    votingOpen.value = true
+    useSubscription(api.events.getEvent, [props.event.eventId]).refresh()
+  }
+
+  function endVotingNow(): void {
+    isEnded.value = true
+    useSubscription(api.events.getEvent, [props.event.eventId]).refresh()
   }
 </script>
 
@@ -111,5 +137,20 @@
   z-index: var(--z-front);
   padding: var(--space-4) 0;
   background-color: var(--slate-900);
+}
+
+.event-manager__voting {
+  display: flex;
+  gap: var(--space-4);
+}
+
+.event-manager__voting-settings {
+  display: flex;
+  flex-direction: column;
+}
+
+.event-manager__voting-times {
+  flex-grow: 1;
+  font-size: 2rem;
 }
 </style>

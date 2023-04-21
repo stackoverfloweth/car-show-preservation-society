@@ -90,6 +90,11 @@ const routeRecords: AppRouteRecord[] = [
         component: () => import('@/pages/RegistrationPage.vue'),
       },
       {
+        name: 'events.registrations',
+        path: ':eventId/registrations',
+        component: () => import('@/pages/EventRegistrationsPage.vue'),
+      },
+      {
         name: 'events.ballot',
         path: ':eventId/ballots/:ballotId',
         component: () => import('@/pages/BallotPage.vue'),

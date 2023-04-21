@@ -1,6 +1,13 @@
-import { isFuture, isPast as dateInPast, isSameDay, isWithinInterval } from 'date-fns'
+import { isFuture, isPast as dateInPast, isSameDay, isWithinInterval, addHours, endOfDay, startOfDay } from 'date-fns'
+import { ref } from 'vue'
 import { Image } from '@/models/image'
 import { Location } from '@/models/location'
+import { mocker } from '@/services'
+
+export const isToday = ref(false)
+export const isHappening = ref(false)
+export const votingOpen = ref(false)
+export const isEnded = ref(false)
 
 export interface IEvent {
   eventId: string,
@@ -78,6 +85,24 @@ export class Event implements IEvent {
     this.stripeCrossProductIds = event.stripeCrossProductIds
     this.isDraft = event.isDraft
     this.currentCapacity = event.currentCapacity ?? 0
+
+    if (isToday.value) {
+      this.start = mocker.create('date', [new Date(), endOfDay(new Date())])
+      this.end = endOfDay(this.start)
+    }
+
+    if (isHappening.value) {
+      this.start = startOfDay(this.start)
+      this.votingStart = addHours(new Date(), 3)
+    }
+
+    if (votingOpen.value) {
+      this.votingStart = addHours(new Date(), -1)
+    }
+
+    if (isEnded.value) {
+      this.end = addHours(new Date(), -1)
+    }
   }
 
   public get isUpcoming(): boolean {
@@ -89,7 +114,7 @@ export class Event implements IEvent {
   }
 
   public get isToday(): boolean {
-    return isSameDay(this.start, new Date()) || true
+    return !this.isPast && isSameDay(this.start, new Date())
   }
 
   public get isHappening(): boolean {
@@ -119,6 +144,6 @@ export class Event implements IEvent {
   }
 
   public get registrationOpen(): boolean {
-    return isFuture(this.votingStart ?? this.start) && this.hasCapacity || true
+    return isFuture(this.votingStart ?? this.start) && this.hasCapacity
   }
 }

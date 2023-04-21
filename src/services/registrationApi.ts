@@ -13,6 +13,10 @@ export class RegistrationsApi extends Api {
     return await Promise.resolve(mocker.create('registration', [{ registrationId }]))
   }
 
+  public async getRegistrations(eventId: string): Promise<Registration[]> {
+    return await Promise.resolve(mocker.createMany('registration', 50, [{ eventId }]))
+  }
+
   public async findRegistration(eventId: string, userId: string): Promise<Registration | undefined> {
     if (!isRegistered.value) {
       return undefined

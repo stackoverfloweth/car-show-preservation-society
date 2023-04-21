@@ -4,7 +4,6 @@ import { capitalize, toOrdinal } from '@/utilities'
 
 export const randomEvent: MockFunction<Event, [Partial<Event>?]> = function(overrides) {
   const start = this.create('date', [new Date()])
-  const votingStart = this.create('date', [start])
 
   return new Event({
     eventId: this.create('id'),
@@ -16,8 +15,6 @@ export const randomEvent: MockFunction<Event, [Partial<Event>?]> = function(over
     eventLogo: this.create('image'),
     start,
     end: this.create('date', [start]),
-    votingStart,
-    votingEnd: this.create('date', [votingStart]),
     maxCapacity: this.create('boolean') ? this.create('number') : undefined,
     stripePriceId: undefined,
     preRegistration: true,

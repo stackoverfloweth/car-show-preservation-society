@@ -88,10 +88,6 @@
       return { title: 'Events', route: routes.events() }
     }
 
-    if (route.name === 'clubs.event' && club.value) {
-      return { title: club.value.name, route: routes.club(club.value.clubId) }
-    }
-
     return undefined
   })
 
