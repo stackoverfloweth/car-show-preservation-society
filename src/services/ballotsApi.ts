@@ -10,6 +10,7 @@ export class BallotsApi extends Api {
   }
 
   public async findBallots(eventId: string, userId: string): Promise<Ballot[]> {
+    // this function will return theoretical ballots alongside existing ballots.
     return await Promise.resolve(mocker.createMany('ballot', mocker.create('number', [1, 3])))
   }
 }

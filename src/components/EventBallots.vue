@@ -1,7 +1,6 @@
 <template>
   <div class="event-ballots">
-    <p-bread-crumbs :crumbs="[{ text: 'Vote' }]" />
-    <BallotList :event="event" :ballots="ballots" />
+    <BallotList :ballots="ballots" />
   </div>
 </template>
 
