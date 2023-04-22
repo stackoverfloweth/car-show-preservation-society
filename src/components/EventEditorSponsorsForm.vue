@@ -137,10 +137,11 @@
 
 <style>
 .event-editor-sponsors-form-fields {
+  --form-cols: 3;
   display: grid;
   grid-template-areas:
   'left center right';
-  grid-template-columns: repeat(3, minmax(0, 1fr));
+  grid-template-columns: repeat(var(--form-cols), minmax(0, 1fr));
   column-gap: var(--space-5);
   row-gap: var(--space-5);
 }
@@ -210,13 +211,22 @@
   max-height: 150px;
 }
 
+@media(max-width: 1024px){
+  .event-editor-sponsors-form-fields {
+    grid-template-areas:
+    'left right'
+    'center right';
+    --form-cols: 2;
+  }
+}
+
 @media(max-width: 768px){
   .event-editor-sponsors-form-fields {
     grid-template-areas:
     'left'
     'center'
     'right';
-    grid-template-columns: minmax(0, 1fr);
+    --form-cols: 1;
   }
 }
 </style>

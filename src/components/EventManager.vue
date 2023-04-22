@@ -57,7 +57,9 @@
       <p-card class="event-manager__registrations">
         <PageHeader heading="Registrations" />
         <p-button>assign registrations to their correct voting category</p-button>
-        <p-button>New Registration</p-button>
+        <p-button :to="routes.eventRegistration(event.eventId)">
+          New Registration
+        </p-button>
         <!-- find existing user, if new user system should contact them to finish profile -->
         <template v-if="event.isHappening">
           <p-button>Check-in</p-button>

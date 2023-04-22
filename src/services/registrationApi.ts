@@ -1,5 +1,5 @@
 import { ref } from 'vue'
-import { RegistrationRequest } from '@/models/api'
+import { NewUserRegistrationRequest, RegistrationRequest } from '@/models/api'
 import { Registration } from '@/models/registration'
 import { Api } from '@/services/api'
 import { mocker } from '@/services/mocker'
@@ -22,10 +22,16 @@ export class RegistrationsApi extends Api {
       return undefined
     }
 
+    return undefined
+
     return await Promise.resolve(mocker.create('registration', [{ eventId, userId }]))
   }
 
   public async createRegistration(request: RegistrationRequest): Promise<Registration> {
+    return await Promise.resolve(mocker.create('registration', [request]))
+  }
+
+  public async createNewUserRegistration(request: NewUserRegistrationRequest): Promise<Registration> {
     return await Promise.resolve(mocker.create('registration', [request]))
   }
 
