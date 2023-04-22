@@ -10,7 +10,6 @@
       </template>
     </EventHeader>
 
-    {{ event.votingStart }}
     <template v-if="event.isHappening">
       <div class="event-manager__voting">
         <template v-if="event.votingOpen">
@@ -55,37 +54,58 @@
 
     <template v-if="event.registrationOpen">
       <p-card class="event-manager__registrations">
-        <PageHeader heading="Registrations" />
-        <p-button>assign registrations to their correct voting category</p-button>
-        <p-button :to="routes.eventRegistration(event.eventId)">
-          New Registration
-        </p-button>
-        <!-- find existing user, if new user system should contact them to finish profile -->
-        <template v-if="event.isHappening">
-          <p-button>Check-in</p-button>
-          <!-- communicate if registration is paid or not, what do they owe -->
+        <PageHeader heading="Registrations">
+          <template #actions>
+            <p-button :to="routes.eventRegistration(event.eventId)">
+              New Registration
+            </p-button>
+          </template>
+        </PageHeader>
+        <p-label label="Find Registration">
+          <p-text-input v-model="searchValue" type="search" />
+        </p-label>
+        <template v-if="singleSearchResult">
+          <RegistrationCard :registration="singleSearchResult" />
         </template>
-        <p-link :to="routes.eventRegistrations(event.eventId)">
-          View All Registrations
-        </p-link>
+        <template v-else-if="searchResults.length">
+          <RegistrationsList
+            v-model:selected="singleSearchResult"
+            :registrations="searchResults"
+          />
+        </template>
+        <template v-else-if="searchDebounced">
+          <p>No Results Found</p>
+          <p-link @click="searchDebounced = undefined">
+            Clear Search
+          </p-link>
+        </template>
+
+        <div class="event-manager__registration-actions">
+          <p-link :to="routes.eventRegistrations(event.eventId)">
+            View All Registrations
+          </p-link>
+        </div>
       </p-card>
     </template>
 
     <p-card class="event-manager__messaging">
       <PageHeader heading="Messages" />
-      send event messages (coming soon!)
+      (coming soon!)
     </p-card>
   </div>
 </template>
 
 <script lang="ts" setup>
-  import { BooleanRouteParam, useRouteQueryParam, useSubscription } from '@prefecthq/vue-compositions'
+  import { BooleanRouteParam, useDebouncedRef, useRouteQueryParam, useSubscription, useSubscriptionWithDependencies } from '@prefecthq/vue-compositions'
   import { format } from 'date-fns'
+  import { computed, ref, watch } from 'vue'
   import EventBallots from '@/components/EventBallots.vue'
   import EventHeader from '@/components/EventHeader.vue'
   import PageHeader from '@/components/PageHeader.vue'
+  import RegistrationCard from '@/components/RegistrationCard.vue'
+  import RegistrationsList from '@/components/RegistrationsList.vue'
   import { useApi } from '@/compositions'
-  import { Event, isEnded, isHappening, isToday, votingOpen } from '@/models'
+  import { Event, Registration, isEnded, isHappening, isToday, votingOpen } from '@/models'
   import { routes } from '@/router/routes'
 
   const props = defineProps<{
@@ -99,6 +119,13 @@
 
   const api = useApi()
   const isViewing = useRouteQueryParam('is-viewing', BooleanRouteParam, false)
+  const searchValue = ref<string>()
+  const searchDebounced = useDebouncedRef(searchValue, 750)
+
+  const searchResultsSubscriptionArgs = computed<Parameters<typeof api.registration.searchRegistrations> | null>(() => searchDebounced.value ? [searchDebounced.value] : null)
+  const searchResultsSubscription = useSubscriptionWithDependencies(api.registration.searchRegistrations, searchResultsSubscriptionArgs)
+  const searchResults = computed(() => searchResultsSubscription.response ?? [])
+  const singleSearchResult = ref<Registration | null>(null)
 
   function openRelatedClub(clubId: string): void {
     if (!isToday.value) {
@@ -120,6 +147,10 @@
     isEnded.value = true
     useSubscription(api.events.getEvent, [props.event.eventId]).refresh()
   }
+
+  watch(searchResults, () => {
+    singleSearchResult.value = null
+  })
 </script>
 
 <style>
@@ -154,5 +185,11 @@
 .event-manager__voting-times {
   flex-grow: 1;
   font-size: 2rem;
+}
+
+.event-manager__registrations {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
 }
 </style>

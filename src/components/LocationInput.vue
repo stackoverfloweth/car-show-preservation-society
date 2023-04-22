@@ -105,7 +105,7 @@
   const place = computed(() => location.value?.place ?? '')
 
   const search = ref<string>()
-  const searchDebounced = useDebouncedRef(search, 1500)
+  const searchDebounced = useDebouncedRef(search, 750)
 
   const locationsSubscriptionArgs = computed<Parameters<typeof mapBoxApi.getLocations> | null>(() => searchDebounced.value ? [searchDebounced.value] : null)
   const locationsSubscription = useSubscriptionWithDependencies(mapBoxApi.getLocations, locationsSubscriptionArgs)
