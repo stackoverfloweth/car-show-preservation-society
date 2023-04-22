@@ -75,7 +75,7 @@ const routeRecords: AppRouteRecord[] = [
           {
             name: 'events.editor.sponsors',
             path: 'sponsors',
-            component: () => import('@/pages/EventFormContainer.vue'),
+            component: () => import('@/pages/EventSponsorsFormContainer.vue'),
           },
           {
             name: 'events.editor.preview',
