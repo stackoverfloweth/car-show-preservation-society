@@ -5,8 +5,8 @@
         :vehicle="vehicle"
         role="button"
         class="vehicle-select__vehicle"
-        :class="{ 'vehicle-select__vehicle--selected': selected?.vehicleId === vehicle.vehicleId }"
-        @click="selected = vehicle"
+        :class="{ 'vehicle-select__vehicle--selected': vehicleId === vehicle.vehicleId }"
+        @click="vehicleId = vehicle.vehicleId"
       />
     </template>
     <p-card class="vehicle-select__vehicle vehicle-select__vehicle--new" role="button" @click="open">
@@ -35,27 +35,26 @@
   import VehicleCard from '@/components/VehicleCard.vue'
   import VehicleFormFields from '@/components/VehicleFormFields.vue'
   import { useApi, useShowModal } from '@/compositions'
-  import { Vehicle } from '@/models'
   import { VehicleRequest } from '@/models/api'
 
   const props = defineProps<{
-    selected: Vehicle | null | undefined,
+    vehicleId: string | null | undefined,
   }>()
 
   const emit = defineEmits<{
-    (event: 'update:selected', value: Vehicle | null): void,
+    (event: 'update:vehicleId', value: string | null): void,
   }>()
 
   const api = useApi()
   const { validate, pending } = useValidationObserver()
   const { showModal, open, close } = useShowModal()
 
-  const selected = computed({
+  const vehicleId = computed({
     get() {
-      return props.selected ?? null
+      return props.vehicleId ?? null
     },
     set(value) {
-      emit('update:selected', value)
+      emit('update:vehicleId', value)
     },
   })
 
@@ -80,8 +79,9 @@
 
 <style>
 .vehicle-select {
+  --num-cols: 3;
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
+  grid-template-columns: repeat(var(--num-cols), 1fr);
   gap: var(--space-4);
 }
 
@@ -109,6 +109,10 @@
 }
 
 @media(max-width: 768px){
+  .vehicle-select {
+    --num-cols: 2;
+  }
+
   .vehicle-select__new-vehicle-actions {
     flex-direction: column;
   }
