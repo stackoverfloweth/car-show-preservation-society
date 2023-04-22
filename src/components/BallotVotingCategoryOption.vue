@@ -13,19 +13,19 @@
           {{ registration.carId }}
         </p>
         <p class="ballot-voting-category-option__value ballot-voting-category-option__value--year">
-          {{ vehicle.year }}
+          {{ registration.vehicle.year }}
         </p>
         <p class="ballot-voting-category-option__value ballot-voting-category-option__value--make">
-          {{ vehicle.make }}
+          {{ registration.vehicle.make }}
         </p>
         <p class="ballot-voting-category-option__value ballot-voting-category-option__value--model">
-          {{ vehicle.model }}
+          {{ registration.vehicle.model }}
         </p>
         <p class="ballot-voting-category-option__value ballot-voting-category-option__value--exteriorColor">
-          {{ vehicle.color }}
+          {{ registration.vehicle.color }}
         </p>
         <p class="ballot-voting-category-option__value ballot-voting-category-option__value--owner">
-          {{ user.displayName }}
+          {{ registration.user.displayName }}
         </p>
       </div>
     </template>
@@ -34,15 +34,13 @@
 
 <script lang="ts" setup>
   import { computed } from 'vue'
-  import { Event, Registration, User, Vehicle } from '@/models'
+  import { Event, Registration } from '@/models'
   import { currentUser } from '@/services/auth'
 
   const props = defineProps<{
     carId: string | null | undefined,
     event: Event,
     registration: Registration,
-    vehicle: Vehicle,
-    user: User,
   }>()
 
   const emit = defineEmits<{

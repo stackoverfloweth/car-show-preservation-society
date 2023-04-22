@@ -17,6 +17,10 @@ export class RegistrationsApi extends Api {
     return await Promise.resolve(mocker.createMany('registration', 50, [{ eventId }]))
   }
 
+  public async getRegistrationsForCategory(eventId: string, votingCategoryId: string): Promise<Registration[]> {
+    return await Promise.resolve(mocker.createMany('registration', 50, [{ eventId }]))
+  }
+
   public async findRegistration(eventId: string, userId: string): Promise<Registration | undefined> {
     if (!isRegistered.value) {
       return undefined
@@ -27,12 +31,19 @@ export class RegistrationsApi extends Api {
     return await Promise.resolve(mocker.create('registration', [{ eventId, userId }]))
   }
 
+  public async searchRegistrations(needle: string): Promise<Registration[]> {
+    const count = needle.length > 3 ? 1 : 3
+    // needle can be firstname, lastname, email, phone, displayName, carId, registrationCode
+    return await Promise.resolve(mocker.createMany('registration', count))
+  }
+
   public async createRegistration(request: RegistrationRequest): Promise<Registration> {
     return await Promise.resolve(mocker.create('registration', [request]))
   }
 
   public async createNewUserRegistration(request: NewUserRegistrationRequest): Promise<Registration> {
-    return await Promise.resolve(mocker.create('registration', [request]))
+    // should notify user to complete profile
+    return await Promise.resolve(mocker.create('registration'))
   }
 
   public async updateRegistration(registration: Registration): Promise<Registration> {

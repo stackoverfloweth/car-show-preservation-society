@@ -1,7 +1,7 @@
 <template>
   <div class="ballot-voting-category-options">
-    <template v-for="({ registration, vehicle, user }) in options" :key="registration.registrationId">
-      <BallotVotingCategoryOption v-bind="{ registration, vehicle, user, event }" v-model:car-id="carId" :name="votingCategoryId" />
+    <template v-for="registration in registrations" :key="registration.registrationId">
+      <BallotVotingCategoryOption v-bind="{ registration, event }" v-model:car-id="carId" :name="votingCategoryId" />
     </template>
   </div>
 </template>
@@ -32,11 +32,12 @@
     },
   })
 
+  const eventId = computed(() => props.event.eventId)
   const { votingCategoryId } = toRefs(props)
   const api = useApi()
 
-  const optionsSubscription = useSubscription(api.ballotVoting.getBallotVotingCategoryData, [votingCategoryId], { lifecycle: 'app' })
-  const options = computed(() => optionsSubscription.response ?? [])
+  const registrationsSubscription = useSubscription(api.registration.getRegistrationsForCategory, [eventId, votingCategoryId], { lifecycle: 'app' })
+  const registrations = computed(() => registrationsSubscription.response ?? [])
 </script>
 
 <style>
