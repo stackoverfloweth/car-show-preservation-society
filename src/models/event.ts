@@ -23,7 +23,6 @@ export interface IEvent {
   votingEnd?: Date,
   mustBePresentToWin?: boolean,
   maxCapacity?: number,
-  currentCapacity?: number,
   stripePriceId?: string,
   preRegistration?: boolean,
   preRegistrationStripePriceId?: string,
@@ -49,7 +48,6 @@ export class Event implements IEvent {
   public votingStart?: Date
   public votingEnd?: Date
   public maxCapacity: number
-  public currentCapacity: number
   public stripePriceId?: string
   public preRegistration?: boolean
   public preRegistrationStripePriceId?: string
@@ -84,7 +82,6 @@ export class Event implements IEvent {
     this.maxSelfCategorization = event.maxSelfCategorization ?? 1
     this.stripeCrossProductIds = event.stripeCrossProductIds
     this.isDraft = event.isDraft
-    this.currentCapacity = event.currentCapacity ?? 0
 
     if (isToday.value) {
       this.start = mocker.create('date', [new Date(), endOfDay(new Date())])
@@ -131,19 +128,11 @@ export class Event implements IEvent {
     return isWithinInterval(new Date(), interval)
   }
 
-  public get openSlots(): number {
-    return this.maxCapacity - this.currentCapacity
-  }
-
-  public get hasCapacity(): boolean {
-    return this.openSlots > 0
-  }
-
   public get preregistrationOpen(): boolean {
-    return !!this.preRegistration && this.isUpcoming && this.hasCapacity
+    return !!this.preRegistration && this.isUpcoming
   }
 
   public get registrationOpen(): boolean {
-    return isFuture(this.votingStart ?? this.start) && this.hasCapacity
+    return isFuture(this.votingStart ?? this.start)
   }
 }

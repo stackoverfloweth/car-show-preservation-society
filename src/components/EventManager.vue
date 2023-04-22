@@ -52,7 +52,7 @@
       </p-card>
     </template>
 
-    <template v-if="event.registrationOpen">
+    <template v-if="!event.isPast">
       <p-card class="event-manager__registrations">
         <PageHeader heading="Registrations">
           <template #actions>
@@ -61,9 +61,15 @@
             </p-button>
           </template>
         </PageHeader>
+
+        <div class="event-manager__registrations-count">
+          {{ checkedInCount }} / {{ registrationsCount }}
+        </div>
+
         <p-label label="Find Registration">
           <p-text-input v-model="searchValue" type="search" />
         </p-label>
+
         <template v-if="singleSearchResult">
           <RegistrationCard :registration="singleSearchResult" />
         </template>
@@ -118,6 +124,7 @@
   }>()
 
   const api = useApi()
+  const eventId = computed(() => props.event.eventId)
   const isViewing = useRouteQueryParam('is-viewing', BooleanRouteParam, false)
   const searchValue = ref<string>()
   const searchDebounced = useDebouncedRef(searchValue, 750)
@@ -126,6 +133,12 @@
   const searchResultsSubscription = useSubscriptionWithDependencies(api.registration.searchRegistrations, searchResultsSubscriptionArgs)
   const searchResults = computed(() => searchResultsSubscription.response ?? [])
   const singleSearchResult = ref<Registration | null>(null)
+
+  const registrationsSubscription = useSubscription(api.registration.getRegistrationsCount, [eventId])
+  const registrationsCount = computed(() => registrationsSubscription.response ?? 0)
+
+  const checkedInSubscription = useSubscription(api.registration.getRegistrationsCheckedInCount, [eventId])
+  const checkedInCount = computed(() => checkedInSubscription.response ?? 0)
 
   function openRelatedClub(clubId: string): void {
     if (!isToday.value) {
@@ -175,6 +188,7 @@
 .event-manager__voting {
   display: flex;
   gap: var(--space-4);
+  overflow-x: auto;
 }
 
 .event-manager__voting-settings {
@@ -185,11 +199,16 @@
 .event-manager__voting-times {
   flex-grow: 1;
   font-size: 2rem;
+  white-space: nowrap;
 }
 
 .event-manager__registrations {
   display: flex;
   flex-direction: column;
   gap: var(--space-2);
+}
+
+.event-manager__registrations-count {
+  font-size: 2rem;
 }
 </style>

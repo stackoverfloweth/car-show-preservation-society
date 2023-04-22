@@ -21,6 +21,14 @@ export class RegistrationsApi extends Api {
     return await Promise.resolve(mocker.createMany('registration', 50, [{ eventId }]))
   }
 
+  public async getRegistrationsCount(eventId: string): Promise<number> {
+    return await Promise.resolve(mocker.create('number', [50, 100]))
+  }
+
+  public async getRegistrationsCheckedInCount(eventId: string): Promise<number> {
+    return await Promise.resolve(mocker.create('number', [0, 65]))
+  }
+
   public async findRegistration(eventId: string, userId: string): Promise<Registration | undefined> {
     if (!isRegistered.value) {
       return undefined
@@ -51,6 +59,10 @@ export class RegistrationsApi extends Api {
   }
 
   public async deleteRegistration(registrationId: string): Promise<void> {
+    await Promise.resolve({ registrationId })
+  }
+
+  public async checkIn(registrationId: string): Promise<void> {
     await Promise.resolve({ registrationId })
   }
 }

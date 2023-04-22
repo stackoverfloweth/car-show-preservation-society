@@ -25,7 +25,6 @@ export const randomEvent: MockFunction<Event, [Partial<Event>?]> = function(over
     driverSelfCategorization: this.create('boolean'),
     stripeCrossProductIds: [],
     isDraft: this.create('boolean'),
-    currentCapacity: this.create('number', [0, 100]),
     maxSelfCategorization: 1,
     ...overrides,
   })
