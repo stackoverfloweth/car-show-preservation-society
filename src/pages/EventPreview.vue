@@ -2,7 +2,7 @@
   <div class="event-preview">
     <template v-if="event">
       <div class="event-preview__overlay" />
-      <EventViewer v-if="event" :event="event" class="event-preview__event-page" />
+      <EventViewer :event="event" class="event-preview__event-page" />
     </template>
   </div>
 </template>
@@ -39,7 +39,7 @@
 
   watchEffect(() => {
     set({
-      left: { title: 'Events', route: routes.events() },
+      left: { title: 'Event', route: routes.event(eventId.value) },
       right: { title: event.value?.isDraft ? 'Publish' : 'Revert to draft', pending: pending.value, callback: toggleDraft },
     })
   })

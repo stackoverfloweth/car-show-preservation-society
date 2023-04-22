@@ -11,7 +11,6 @@
   import { NavigationGuard, onBeforeRouteLeave, useRoute, useRouter } from 'vue-router'
   import EventEditorJudgingFormFields from '@/components/EventEditorJudgingFormFields.vue'
   import EventEditorRegistrationFormFields from '@/components/EventEditorRegistrationFormFields.vue'
-  import EventEditorSponsorsFormFields from '@/components/EventEditorSponsorsFormFields.vue'
   import EventFormFields from '@/components/EventFormFields.vue'
   import { useApi, useNavigation } from '@/compositions'
   import { Event } from '@/models'
@@ -39,8 +38,6 @@
         return EventEditorJudgingFormFields
       case 'events.editor.registration':
         return EventEditorRegistrationFormFields
-      case 'events.editor.sponsors':
-        return EventEditorSponsorsFormFields
       default:
         return null
     }

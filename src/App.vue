@@ -27,7 +27,7 @@
 
 <style>
   html, body {
-    height: 100%;
+    min-height: 100%;
     background-color: var(--slate-900);
   }
 
