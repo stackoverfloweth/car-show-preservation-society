@@ -42,6 +42,8 @@
             <p-form @submit="updateRegistration">
               <RegistrationFormFields v-model:values="registrationValues" :event="event" />
             </p-form>
+
+            <CheckoutSummary :event="event" :registration="registration" />
           </template>
         </div>
       </div>
@@ -60,6 +62,7 @@
   import { useRouteParam, useSubscription, useSubscriptionWithDependencies, useValidationObserver } from '@prefecthq/vue-compositions'
   import { format } from 'date-fns'
   import { computed, ref, watch } from 'vue'
+  import CheckoutSummary from '@/components/CheckoutSummary.vue'
   import ClubOverview from '@/components/ClubOverview.vue'
   import EventBallots from '@/components/EventBallots.vue'
   import EventHeader from '@/components/EventHeader.vue'

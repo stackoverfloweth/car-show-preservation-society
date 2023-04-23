@@ -317,6 +317,11 @@
     gap: var(--space-3);
 }
 
+.p-tag__icon {
+    height: unset !important;
+    width: unset !important;
+}
+
 @media(max-width: 768px) {
     .p-modal__container {
         padding: 0;

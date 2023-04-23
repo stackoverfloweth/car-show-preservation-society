@@ -65,20 +65,6 @@
   padding: 0;
 }
 
-.judging-categories-input-list__category:hover {
-  cursor: pointer;
-  background-color: var(--slate-700);
-}
-
-.judging-categories-input-list__category {
-  display: grid;
-  grid-template-areas:
-    'name info-badges'
-    'description description';
-  grid-template-columns: minmax(0, 1fr) min-content;
-  padding: var(--space-4);
-}
-
 .judging-categories-input-list__name {
   grid-area: name;
 }

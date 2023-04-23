@@ -13,27 +13,21 @@
       </div>
       <div class="judging-categories-input-list__info-badges">
         <template v-if="category.automaticEntry">
-          <p-icon-text class="judging-categories-input-list__info-badge judging-categories-input-list__info-badge--featured" icon="StarIcon">
-            Featured
-          </p-icon-text>
+          <p-tag class="judging-categories-input-list__info-badge judging-categories-input-list__info-badge--featured" icon="StarIcon" label="Featured" />
         </template>
         <template v-if="category.stripePriceId">
-          <p-icon-text class="judging-categories-input-list__info-badge" icon="CurrencyDollarIcon">
-            2.00
-          </p-icon-text>
+          <p-tag class="judging-categories-input-list__info-badge" icon="CurrencyDollarIcon" label="2.00" />
         </template>
         <template v-if="category.automaticEntry">
-          <p-icon-text class="judging-categories-input-list__info-badge" icon="LightningBoltIcon">
-            Automatic Entry
-          </p-icon-text>
+          <p-tag class="judging-categories-input-list__info-badge" icon="LightningBoltIcon" label="Automatic Entry" />
         </template>
-        <p-icon-text class="judging-categories-input-list__info-badge" icon="ClipboardCheckIcon">
+        <p-tag class="judging-categories-input-list__info-badge" icon="ClipboardCheckIcon">
           {{ category.driversOnly ? 'drivers only' : 'everyone' }}
-        </p-icon-text>
+        </p-tag>
         <template v-if="category.maxCapacity !== Infinity">
-          <p-icon-text class="judging-categories-input-list__info-badge" icon="UserGroupIcon">
+          <p-tag class="judging-categories-input-list__info-badge" icon="UserGroupIcon">
             max: {{ category.maxCapacity }}
-          </p-icon-text>
+          </p-tag>
         </template>
       </div>
     </div>
@@ -69,7 +63,13 @@
 </script>
 
 <style>
+.judging-categories-input-list__category:hover {
+  cursor: pointer;
+  background-color: var(--slate-700);
+}
+
 .judging-categories-input-list__category {
+  padding: var(--space-4);
   display: flex;
   flex-direction: column;
   gap: var(--space-2);
@@ -77,5 +77,10 @@
 
 .judging-categories-input-list__info-badge--featured {
   background-color: var(--blue-600) !important;
+}
+
+.judging-categories-input-list__info-badges {
+  display: flex;
+  flex-wrap: wrap;
 }
 </style>

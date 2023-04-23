@@ -12,18 +12,16 @@
     </p>
     <div class="judging-categories-list-item__info-badges">
       <template v-if="category.featured">
-        <p-icon-text class="judging-categories-list-item__info-badge judging-categories-list-item__info-badge--primary" icon="StarIcon" text="Featured" />
+        <p-tag class="judging-categories-list-item__info-badge judging-categories-list-item__info-badge--primary" icon="StarIcon" label="Featured" />
       </template>
       <template v-if="category.stripePriceId">
-        <p-icon-text class="judging-categories-list-item__info-badge judging-categories-list-item__info-badge--green" icon="CurrencyDollarIcon">
-          +40
-        </p-icon-text>
+        <p-tag class="judging-categories-list-item__info-badge judging-categories-list-item__info-badge--green" icon="CurrencyDollarIcon" label="+40" />
       </template>
       <template v-if="!category.hasCapacity">
-        <p-icon-text class="judging-categories-list-item__info-badge judging-categories-list-item__info-badge--red" icon="BanIcon" text="Full" />
+        <p-tag class="judging-categories-list-item__info-badge judging-categories-list-item__info-badge--red" icon="BanIcon" label="Full" />
       </template>
       <template v-else-if="category.openSlots < 5">
-        <p-icon-text class="judging-categories-list-item__info-badge judging-categories-list-item__info-badge--yellow" icon="ExclamationIcon" :text="`Only ${category.openSlots} ${toPluralString('spot', category.openSlots)} open`" />
+        <p-tag class="judging-categories-list-item__info-badge judging-categories-list-item__info-badge--yellow" icon="ExclamationIcon" :label="`Only ${category.openSlots} ${toPluralString('spot', category.openSlots)} open`" />
       </template>
     </div>
   </p-list-item>
@@ -95,24 +93,24 @@
 }
 
 .judging-categories-list-item__info-badge {
+  display: flex;
   white-space: nowrap;
-  border-radius: var(--rounded);
-  padding: var(--space-2) var(--space-3);
+  align-items: center;
 }
 
 .judging-categories-list-item__info-badge--red {
-  background-color: var(--red-800);
+  background-color: var(--red-800) !important;
 }
 
 .judging-categories-list-item__info-badge--yellow {
-  background-color: var(--yellow-800);
+  background-color: var(--yellow-800) !important;
 }
 
 .judging-categories-list-item__info-badge--green {
-  background-color: var(--green-800);
+  background-color: var(--green-800) !important;
 }
 
 .judging-categories-list-item__info-badge--primary {
-  background-color: var(--blue-800);
+  background-color: var(--blue-800) !important;
 }
 </style>

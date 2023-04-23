@@ -9,48 +9,55 @@
     </ul>
     <p>$50.00</p>
 
-    <template v-if="canEditEvent">
-      <img class="event-register-page__qr-code" src="/qr-example.png">
-
-      <div class="checkout-summary__actions">
-        <p-button inset>
-          Send Payment Link
-        </p-button>
-        <template v-if="event.isHappening">
-          <CheckInModal>
-            <template #target="{ open }">
-              <p-button @click="open">
-                Check-In
-              </p-button>
-            </template>
-          </CheckInModal>
-        </template>
-      </div>
+    <template v-if="registration?.stripePaymentId">
+      Has Paid
+      <p-button inset>
+        Download Receipt
+      </p-button>
     </template>
-
     <template v-else>
-      <div class="checkout-summary__actions">
-        <template v-if="event.preRegistrationUnpaid">
+      <template v-if="canEditEvent">
+        <img class="event-register-page__qr-code" src="/qr-example.png">
+
+        <div class="checkout-summary__actions">
           <p-button inset>
-            Register Without Paying
+            Send Payment Link
           </p-button>
-        </template>
-        <p-button>Complete Payment</p-button>
-      </div>
+          <template v-if="event.isHappening">
+            <p-button @click="open">
+              Check-In
+            </p-button>
+          </template>
+        </div>
+      </template>
+
+      <template v-else>
+        <div class="checkout-summary__actions">
+          <template v-if="event.preRegistrationUnpaid">
+            <p-button inset>
+              Register Without Paying
+            </p-button>
+          </template>
+          <p-button>Complete Payment</p-button>
+        </div>
+      </template>
     </template>
+    <CheckInModal v-model:showModal="showModal" />
   </p-card>
 </template>
 
 <script lang="ts" setup>
   import CheckInModal from '@/components/CheckInModal.vue'
-  import { useCanEditEvent } from '@/compositions'
-  import { Event } from '@/models'
+  import { useCanEditEvent, useShowModal } from '@/compositions'
+  import { Event, Registration } from '@/models'
 
   defineProps<{
     event: Event,
+    registration?: Registration,
   }>()
 
   const canEditEvent = useCanEditEvent()
+  const { showModal, open } = useShowModal()
 </script>
 
 <style>

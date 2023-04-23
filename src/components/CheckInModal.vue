@@ -1,22 +1,31 @@
 <template>
-  <p-modal v-bind="$attrs" v-model:showModal="showModal" title="Check In" class="check-in-modal" auto-close>
-    check-in-modal
+  <p-modal v-model:showModal="showModal" title="Check In" class="check-in-modal" auto-close>
+    <ul>
+      <li>Show Registration Info</li>
+      <li>Show if paid, what is owed, option to complete payment</li>
+      <li>If event.isHappening, option to "check-in"</li>
+      <li>"check-in" includes option to change vehicle/category</li>
+    </ul>
   </p-modal>
-  <slot name="target" v-bind="{ showModal, open, close }" />
 </template>
 
-<script lang="ts">
-  import { defineComponent } from 'vue'
-
-  export default defineComponent({
-    name: 'CheckInModal',
-    expose: [],
-    inheritAttrs: false,
-  })
-</script>
-
 <script lang="ts" setup>
-  import { useShowModal } from '@/compositions'
+  import { computed } from 'vue'
 
-  const { showModal, open, close } = useShowModal()
+  const props = defineProps<{
+    showModal: boolean,
+  }>()
+
+  const emit = defineEmits<{
+    (event: 'update:showModal', value: boolean): void,
+  }>()
+
+  const showModal = computed({
+    get() {
+      return props.showModal
+    },
+    set(value) {
+      emit('update:showModal', value)
+    },
+  })
 </script>

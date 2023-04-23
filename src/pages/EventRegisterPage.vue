@@ -21,7 +21,7 @@
       </div>
 
       <div class="event-register-page__column">
-        <CheckoutSummary :event="event" />
+        <CheckoutSummary :event="event" :registration="existingRegistration" />
       </div>
     </template>
 
@@ -38,6 +38,7 @@
   import { useRouteParam, useSubscription, useSubscriptionWithDependencies, useValidationObserver } from '@prefecthq/vue-compositions'
   import { computed, ref, watchEffect } from 'vue'
   import { useRouter } from 'vue-router'
+  import CheckoutSummary from '@/components/CheckoutSummary.vue'
   import ClubOverview from '@/components/ClubOverview.vue'
   import EventHeader from '@/components/EventHeader.vue'
   import RegistrationFormFields from '@/components/RegistrationFormFields.vue'

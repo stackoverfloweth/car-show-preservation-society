@@ -4,6 +4,7 @@ import { MapFunction } from '@/services/mapper'
 
 export const mapRegistrationToRegistrationRequest: MapFunction<Registration, RegistrationRequest> = function(source) {
   return {
+    registrationId: source.registrationId,
     eventId: source.eventId,
     stripePaymentId: source.stripePaymentId,
     userId: source.userId,

@@ -66,12 +66,12 @@
           {{ checkedInCount }} / {{ registrationsCount }}
         </div>
 
-        <p-label label="Find Registration">
-          <p-text-input v-model="searchValue" type="search" />
+        <p-label label="Check In">
+          <p-text-input v-model="searchValue" type="search" placeholder="Search" />
         </p-label>
 
         <template v-if="searchResults.length">
-          <RegistrationsList :event-id="event.eventId" :registrations="searchResults" />
+          <RegistrationsCheckInList :event-id="event.eventId" :registrations="searchResults" />
         </template>
         <template v-else-if="searchDebounced">
           <p>No Results Found</p>
@@ -102,7 +102,7 @@
   import EventBallots from '@/components/EventBallots.vue'
   import EventHeader from '@/components/EventHeader.vue'
   import PageHeader from '@/components/PageHeader.vue'
-  import RegistrationsList from '@/components/RegistrationsList.vue'
+  import RegistrationsCheckInList from '@/components/RegistrationsCheckInList.vue'
   import { useApi } from '@/compositions'
   import { Event, isEnded, isHappening, isToday, votingOpen } from '@/models'
   import { routes } from '@/router/routes'
