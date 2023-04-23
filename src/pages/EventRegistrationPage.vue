@@ -39,7 +39,9 @@
           </template>
 
           <template v-else-if="registration">
-            <RegistrationFormFields v-model:values="registrationValues" :event="event" />
+            <p-form @submit="updateRegistration">
+              <RegistrationFormFields v-model:values="registrationValues" :event="event" />
+            </p-form>
           </template>
         </div>
       </div>
@@ -54,16 +56,15 @@
 </template>
 
 <script lang="ts" setup>
-  import { useRouteParam, useSubscription, useSubscriptionWithDependencies } from '@prefecthq/vue-compositions'
+  import { showToast } from '@prefecthq/prefect-design'
+  import { useRouteParam, useSubscription, useSubscriptionWithDependencies, useValidationObserver } from '@prefecthq/vue-compositions'
   import { format } from 'date-fns'
   import { computed, ref, watch } from 'vue'
   import ClubOverview from '@/components/ClubOverview.vue'
   import EventBallots from '@/components/EventBallots.vue'
   import EventHeader from '@/components/EventHeader.vue'
-  import JudgingCategoriesList from '@/components/JudgingCategoriesList.vue'
   import PageHeader from '@/components/PageHeader.vue'
   import RegistrationFormFields from '@/components/RegistrationFormFields.vue'
-  import VehicleCard from '@/components/VehicleCard.vue'
   import { useApi, useNavigation, useShowModal } from '@/compositions'
   import { RegistrationRequest } from '@/models/api'
   import { routes } from '@/router/routes'
@@ -73,6 +74,8 @@
   const api = useApi()
   const eventId = useRouteParam('eventId')
   const registrationId = useRouteParam('registrationId')
+
+  const { validate, pending } = useValidationObserver()
   const { showModal: showClubModal, open: openRelatedClub } = useShowModal()
 
   const registrationValues = ref<RegistrationRequest>({ eventId: eventId.value, userId: currentUser.userId, votingCategoryIds: [] })
@@ -87,6 +90,20 @@
   const clubSubscription = useSubscriptionWithDependencies(api.clubs.getClub, clubSubscriptionDependencies)
   const club = computed(() => clubSubscription.response)
 
+  async function updateRegistration(): Promise<void> {
+    const isValid = await validate()
+
+    if (!isValid) {
+      return
+    }
+
+    await api.registration.updateRegistration(registrationValues.value)
+
+    showToast('Registration Updated!', 'success')
+
+    registrationSubscription.refresh()
+  }
+
   watch(registration, value => {
     if (value) {
       registrationValues.value = mapper.map('Registration', value, 'RegistrationRequest')
@@ -95,6 +112,7 @@
 
   useNavigation({
     left: { title: 'Event', route: routes.event(eventId.value) },
+    right: { title: 'Save', pending: pending.value, callback: updateRegistration },
   })
 </script>
 

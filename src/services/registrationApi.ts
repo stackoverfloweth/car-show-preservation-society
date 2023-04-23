@@ -52,8 +52,8 @@ export class RegistrationsApi extends Api {
     return await Promise.resolve(mocker.create('registration'))
   }
 
-  public async updateRegistration(registration: Registration): Promise<Registration> {
-    return await Promise.resolve(mocker.create('registration', [registration]))
+  public async updateRegistration(request: RegistrationRequest): Promise<Registration> {
+    return await Promise.resolve(mocker.create('registration', [request]))
   }
 
   public async deleteRegistration(registrationId: string): Promise<void> {
