@@ -34,13 +34,11 @@ export class RegistrationsApi extends Api {
       return undefined
     }
 
-    return undefined
-
     return await Promise.resolve(mocker.create('registration', [{ eventId, userId }]))
   }
 
   public async searchRegistrations(needle: string): Promise<Registration[]> {
-    const count = needle.length > 3 ? 1 : 3
+    const count = 5 - needle.length
     // needle can be firstname, lastname, email, phone, displayName, carId, registrationCode
     return await Promise.resolve(mocker.createMany('registration', count))
   }
@@ -59,6 +57,10 @@ export class RegistrationsApi extends Api {
   }
 
   public async deleteRegistration(registrationId: string): Promise<void> {
+    await Promise.resolve({ registrationId })
+  }
+
+  public async markAsPaid(registrationId: string): Promise<void> {
     await Promise.resolve({ registrationId })
   }
 

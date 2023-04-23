@@ -1,6 +1,6 @@
 <template>
   <div class="event-registrations-page">
-    <RegistrationsList :registrations="registrations" />
+    <RegistrationsList :event-id="eventId" :registrations="registrations" />
     <p-button>assign registrations to their correct voting category</p-button>
   </div>
 </template>
@@ -17,7 +17,7 @@
   useNavigation({
     left: { title: 'Event', route: routes.event(eventId.value) },
     center: { title: 'Registrations' },
-    right: { title: 'New', route: routes.eventRegistration(eventId.value) },
+    right: { title: 'New', route: routes.eventRegister(eventId.value) },
   })
 
   const registrationsSubscription = useSubscription(api.registration.getRegistrations, [eventId])

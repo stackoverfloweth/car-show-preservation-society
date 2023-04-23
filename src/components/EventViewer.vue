@@ -5,12 +5,12 @@
         <template v-if="media.hover">
           <p-button inset icon="ShareIcon" />
           <template v-if="canRegister">
-            <p-button :to="routes.eventRegistration(event.eventId)">
+            <p-button :to="routes.eventRegister(event.eventId)">
               Register
             </p-button>
           </template>
-          <template v-else-if="alreadyRegistered">
-            <router-link :to="routes.eventRegistration(event.eventId)">
+          <template v-else-if="existingRegistration">
+            <router-link :to="routes.eventRegistration(event.eventId, existingRegistration.registrationId)">
               <p-button icon="QrcodeIcon" />
             </router-link>
           </template>
@@ -25,10 +25,10 @@
           <p-icon-button-menu>
             <p-overflow-menu-item label="Share" icon="ShareIcon" />
             <template v-if="canRegister">
-              <p-overflow-menu-item label="Register" icon="BookmarkIcon" :to="routes.eventRegistration(event.eventId)" />
+              <p-overflow-menu-item label="Register" icon="BookmarkIcon" :to="routes.eventRegister(event.eventId)" />
             </template>
-            <template v-else-if="alreadyRegistered">
-              <p-overflow-menu-item label="View Registration" icon="BookmarkIcon" :to="routes.eventRegistration(event.eventId)" />
+            <template v-else-if="existingRegistration">
+              <p-overflow-menu-item label="View Registration" icon="BookmarkIcon" :to="routes.eventRegistration(event.eventId, existingRegistration.registrationId)" />
             </template>
             <template v-if="isViewing">
               <p-overflow-menu-item label="Manage" icon="CogIcon" @click="isViewing = false" />
@@ -53,7 +53,7 @@
       </div>
 
       <div class="event-viewer__column">
-        <template v-if="alreadyRegistered">
+        <template v-if="existingRegistration">
           <EventBallots :event="event" />
         </template>
         <template v-else>
@@ -103,10 +103,10 @@
   const isViewing = useRouteQueryParam('is-viewing', BooleanRouteParam, false)
   const eventId = computed(() => props.event.eventId)
   const registrationSubscription = useSubscription(api.registration.findRegistration, [eventId, currentUser.userId])
-  const alreadyRegistered = computed(() => !!registrationSubscription.response)
+  const existingRegistration = computed(() => registrationSubscription.response)
 
   // also needs to check max-capacity
-  const canRegister = computed(() => props.event.preregistrationOpen && !alreadyRegistered.value)
+  const canRegister = computed(() => props.event.preregistrationOpen && !existingRegistration.value)
 
   function openRelatedEvent(event: Event): void {
     emit('open:event', event)

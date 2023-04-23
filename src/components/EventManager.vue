@@ -56,7 +56,7 @@
       <p-card class="event-manager__registrations">
         <PageHeader heading="Registrations">
           <template #actions>
-            <p-button :to="routes.eventRegistration(event.eventId)">
+            <p-button :to="routes.eventRegister(event.eventId)">
               New Registration
             </p-button>
           </template>
@@ -70,14 +70,8 @@
           <p-text-input v-model="searchValue" type="search" />
         </p-label>
 
-        <template v-if="singleSearchResult">
-          <RegistrationCard :registration="singleSearchResult" />
-        </template>
-        <template v-else-if="searchResults.length">
-          <RegistrationsList
-            v-model:selected="singleSearchResult"
-            :registrations="searchResults"
-          />
+        <template v-if="searchResults.length">
+          <RegistrationsList :event-id="event.eventId" :registrations="searchResults" />
         </template>
         <template v-else-if="searchDebounced">
           <p>No Results Found</p>
@@ -104,14 +98,13 @@
 <script lang="ts" setup>
   import { BooleanRouteParam, useDebouncedRef, useRouteQueryParam, useSubscription, useSubscriptionWithDependencies } from '@prefecthq/vue-compositions'
   import { format } from 'date-fns'
-  import { computed, ref, watch } from 'vue'
+  import { computed, ref } from 'vue'
   import EventBallots from '@/components/EventBallots.vue'
   import EventHeader from '@/components/EventHeader.vue'
   import PageHeader from '@/components/PageHeader.vue'
-  import RegistrationCard from '@/components/RegistrationCard.vue'
   import RegistrationsList from '@/components/RegistrationsList.vue'
   import { useApi } from '@/compositions'
-  import { Event, Registration, isEnded, isHappening, isToday, votingOpen } from '@/models'
+  import { Event, isEnded, isHappening, isToday, votingOpen } from '@/models'
   import { routes } from '@/router/routes'
 
   const props = defineProps<{
@@ -132,7 +125,6 @@
   const searchResultsSubscriptionArgs = computed<Parameters<typeof api.registration.searchRegistrations> | null>(() => searchDebounced.value ? [searchDebounced.value] : null)
   const searchResultsSubscription = useSubscriptionWithDependencies(api.registration.searchRegistrations, searchResultsSubscriptionArgs)
   const searchResults = computed(() => searchResultsSubscription.response ?? [])
-  const singleSearchResult = ref<Registration | null>(null)
 
   const registrationsSubscription = useSubscription(api.registration.getRegistrationsCount, [eventId])
   const registrationsCount = computed(() => registrationsSubscription.response ?? 0)
@@ -160,10 +152,6 @@
     isEnded.value = true
     useSubscription(api.events.getEvent, [props.event.eventId]).refresh()
   }
-
-  watch(searchResults, () => {
-    singleSearchResult.value = null
-  })
 </script>
 
 <style>
@@ -205,7 +193,7 @@
 .event-manager__registrations {
   display: flex;
   flex-direction: column;
-  gap: var(--space-2);
+  gap: var(--space-3);
 }
 
 .event-manager__registrations-count {

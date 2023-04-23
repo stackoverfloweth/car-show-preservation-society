@@ -67,7 +67,7 @@
 
 <style>
 .judging-category-select__category-list {
-  max-height: 75vh;
+  max-height: 70vh;
   overflow-y: auto;
 }
 

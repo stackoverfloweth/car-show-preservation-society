@@ -1,35 +1,28 @@
 <template>
-  <div class="registration-page">
+  <div class="event-register-page">
     <template v-if="event">
-      <div class="registration-page__column">
+      <div class="event-register-page__column">
         <EventHeader :event="event" @club:click="openRelatedClub" />
 
         <template v-if="existingRegistration">
-          <p-label label="Selected Vehicle">
-            <VehicleIdCard v-if="existingRegistration.vehicleId" :vehicle-id="existingRegistration.vehicleId" />
-          </p-label>
-
-          <p-label label="Judging Category">
-            <JudgingCategoriesList :categories="existingRegistration.votingCategories" />
-          </p-label>
+          <p-link :to="routes.eventRegistration(event.eventId, existingRegistration.registrationId)">
+            View Registration
+          </p-link>
         </template>
         <template v-else>
-          <p-form v-if="canEditEvent" class="registration-page__form" @submit="submitNewUserRegistration">
+          <p-form v-if="canEditEvent" class="event-register-page__form" @submit="submitNewUserRegistration">
             <RegistrationNewUserFormFields v-model:values="registrationNewUserValues" :event="event" />
           </p-form>
 
-          <p-form v-else class="registration-page__form" @submit="submitRegistration">
+          <p-form v-else class="event-register-page__form" @submit="submitRegistration">
             <RegistrationFormFields v-model:values="registrationValues" :event="event" />
           </p-form>
         </template>
       </div>
 
-      <div class="registration-page__column">
-        <template v-if="existingRegistration">
-          <img class="registration-page__qr-code" src="/qr-example.png">
-        </template>
-        <template v-else>
-          <p-card class="registration-page__checkout">
+      <div class="event-register-page__column">
+        <template v-if="!existingRegistration">
+          <p-card class="event-register-page__checkout">
             <p>Cost</p>
             <ul>
               <li>+ Registration Fee</li>
@@ -39,7 +32,7 @@
             </ul>
             <p>$50.00</p>
 
-            <div class="registration-page__checkout-actions">
+            <div class="event-register-page__checkout-actions">
               <template v-if="event.preRegistrationUnpaid">
                 <p-button inset>
                   Register Without Paying
@@ -64,6 +57,7 @@
   import { showToast } from '@prefecthq/prefect-design'
   import { useRouteParam, useSubscription, useSubscriptionWithDependencies, useValidationObserver } from '@prefecthq/vue-compositions'
   import { computed, ref, watchEffect } from 'vue'
+  import { useRouter } from 'vue-router'
   import ClubOverview from '@/components/ClubOverview.vue'
   import EventHeader from '@/components/EventHeader.vue'
   import JudgingCategoriesList from '@/components/JudgingCategoriesList.vue'
@@ -79,6 +73,7 @@
 
   const api = useApi()
   const eventId = useRouteParam('eventId')
+  const router = useRouter()
   useNavigation({
     left: { title: 'Event', route: routes.event(eventId.value) },
     center: { title: 'Event Registration' },
@@ -110,14 +105,14 @@
       return
     }
 
-    await api.registration.createRegistration(registrationValues.value)
+    const registration = await api.registration.createRegistration(registrationValues.value)
 
     showToast('Registered!', 'success')
 
     // todo: this is demo only
     isRegistered.value = true
 
-    registrationSubscription.refresh()
+    router.push(routes.eventRegistration(eventId.value, registration.registrationId))
   }
 
   async function submitRegistration(): Promise<void> {
@@ -139,7 +134,7 @@
 </script>
 
 <style>
-.registration-page {
+.event-register-page {
   --num-cols: 2;
   display: grid;
   grid-template-columns: repeat(var(--num-cols), minmax(0, 1fr));
@@ -149,27 +144,31 @@
   padding: var(--space-4);
 }
 
-.registration-page__column {
+.event-register-page__column {
   display: flex;
   flex-direction: column;
   gap: var(--space-4);
 }
 
-.registration-page__checkout {
+.event-register-page__checkout {
   justify-content: space-between;
   display: flex;
   flex-direction: column;
   gap: var(--space-4);
 }
 
-.registration-page__checkout-actions {
+.event-register-page__checkout-actions {
   display: flex;
   gap: var(--space-3);
 }
 
 @media(max-width: 768px){
-  .registration-page {
+  .event-register-page {
     --num-cols: 1;
+  }
+
+  .event-register-page__checkout-actions {
+    flex-direction: column;
   }
 }
 </style>

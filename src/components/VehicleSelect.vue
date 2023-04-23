@@ -93,6 +93,7 @@
 .vehicle-select__vehicle--new {
   display: flex;
   font-weight: bold;
+  justify-content: center;
   align-items: center;
   text-align: center;
   min-height: 150px;
