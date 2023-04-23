@@ -1,11 +1,11 @@
 <template>
   <div class="registrations-list-item">
     <SizedImage :image="registration.vehicle.profileImage" class="registration-list-item__image" rounded />
-    <div class="registration-list-item__vehicle">
-      {{ registration.vehicle.year }} {{ registration.vehicle.make }} {{ registration.vehicle.model }} {{ registration.vehicle.color }}
-    </div>
     <div class="registration-list-item__user">
       {{ registration.user.displayName }}
+    </div>
+    <div class="registration-list-item__vehicle">
+      {{ registration.vehicle.year }} {{ registration.vehicle.make }} {{ registration.vehicle.model }}
     </div>
   </div>
 </template>
@@ -26,8 +26,8 @@
   padding: var(--space-2);
   border-radius: var(--rounded);
   grid-template-areas:
-    'image vehicle'
-    'image user';
+    'image user'
+    'image vehicle';
   grid-template-columns: min-content 1fr;
 }
 
