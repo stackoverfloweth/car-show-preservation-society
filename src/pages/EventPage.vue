@@ -59,8 +59,9 @@
   const eventSubscription = useSubscription(api.events.getEvent, [eventId])
   const event = computed(() => eventSubscription.response)
   const canEditEvent = useCanEditEvent()
+  const { showModal: showClubModal, open: openRelatedClub } = useShowModal()
 
-  const clubSubscriptionDependencies = computed<Parameters<typeof api.clubs.getClub> | null>(() => event.value ? [event.value.clubId] : null)
+  const clubSubscriptionDependencies = computed<Parameters<typeof api.clubs.getClub> | null>(() => event.value && showClubModal.value ? [event.value.clubId] : null)
   const clubSubscription = useSubscriptionWithDependencies(api.clubs.getClub, clubSubscriptionDependencies)
   const club = computed(() => clubSubscription.response)
 
@@ -80,8 +81,6 @@
   function openRelatedEvent(event: Event): void {
     relatedEvent.value = event
   }
-
-  const { showModal: showClubModal, open: openRelatedClub } = useShowModal()
 
   const navigationRecord = computed<Partial<NavigationRecord> | undefined>(() => {
     if (route.name === 'events.view') {

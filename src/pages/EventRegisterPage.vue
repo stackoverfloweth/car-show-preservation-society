@@ -21,56 +21,7 @@
       </div>
 
       <div class="event-register-page__column">
-        <template v-if="canEditEvent">
-          <p-card class="event-register-page__checkout">
-            <p>Cost</p>
-            <ul>
-              <li>+ Registration Fee</li>
-              <li>+ Optional Fee for Judging categories</li>
-              <li>+ Cross Sells</li>
-              <li>+ Discount Code</li>
-            </ul>
-            <p>$50.00</p>
-
-            <img class="event-register-page__qr-code" src="/qr-example.png">
-
-            <div class="event-register-page__checkout-actions">
-              <p-button inset>
-                Send Payment Link
-              </p-button>
-              <template v-if="event.isHappening">
-                <CheckInModal>
-                  <template #target="{ open }">
-                    <p-button @click="open">
-                      Check-In
-                    </p-button>
-                  </template>
-                </CheckInModal>
-              </template>
-            </div>
-          </p-card>
-        </template>
-        <template v-else-if="!existingRegistration">
-          <p-card class="event-register-page__checkout">
-            <p>Cost</p>
-            <ul>
-              <li>+ Registration Fee</li>
-              <li>+ Optional Fee for Judging categories</li>
-              <li>+ Cross Sells</li>
-              <li>+ Discount Code</li>
-            </ul>
-            <p>$50.00</p>
-
-            <div class="event-register-page__checkout-actions">
-              <template v-if="event.preRegistrationUnpaid">
-                <p-button inset>
-                  Register Without Paying
-                </p-button>
-              </template>
-              <p-button>Complete Payment</p-button>
-            </div>
-          </p-card>
-        </template>
+        <CheckoutSummary :event="event" />
       </div>
     </template>
 
@@ -87,7 +38,6 @@
   import { useRouteParam, useSubscription, useSubscriptionWithDependencies, useValidationObserver } from '@prefecthq/vue-compositions'
   import { computed, ref, watchEffect } from 'vue'
   import { useRouter } from 'vue-router'
-  import CheckInModal from '@/components/CheckInModal.vue'
   import ClubOverview from '@/components/ClubOverview.vue'
   import EventHeader from '@/components/EventHeader.vue'
   import RegistrationFormFields from '@/components/RegistrationFormFields.vue'
@@ -113,7 +63,7 @@
   const eventSubscription = useSubscription(api.events.getEvent, [eventId])
   const event = computed(() => eventSubscription.response)
 
-  const clubSubscriptionDependencies = computed<Parameters<typeof api.clubs.getClub> | null>(() => event.value ? [event.value.clubId] : null)
+  const clubSubscriptionDependencies = computed<Parameters<typeof api.clubs.getClub> | null>(() => event.value && showClubModal.value ? [event.value.clubId] : null)
   const clubSubscription = useSubscriptionWithDependencies(api.clubs.getClub, clubSubscriptionDependencies)
   const club = computed(() => clubSubscription.response)
 
@@ -178,25 +128,9 @@
   gap: var(--space-4);
 }
 
-.event-register-page__checkout {
-  justify-content: space-between;
-  display: flex;
-  flex-direction: column;
-  gap: var(--space-4);
-}
-
-.event-register-page__checkout-actions {
-  display: flex;
-  gap: var(--space-3);
-}
-
 @media(max-width: 768px){
   .event-register-page {
     --num-cols: 1;
-  }
-
-  .event-register-page__checkout-actions {
-    flex-direction: column;
   }
 }
 </style>

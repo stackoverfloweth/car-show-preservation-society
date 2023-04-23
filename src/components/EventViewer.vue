@@ -137,8 +137,9 @@
 }
 
 .event-viewer__columns {
+  --num-cols: 2;
   display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
+  grid-template-columns: repeat(var(--num-cols), minmax(0, 1fr));
   gap: var(--space-4);
 }
 
@@ -163,7 +164,7 @@
 
 @media(max-width: 768px) {
   .event-viewer__columns {
-    grid-template-columns: minmax(0, 1fr);
+    --num-cols:1;
   }
 }
 </style>
