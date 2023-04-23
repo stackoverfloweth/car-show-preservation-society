@@ -12,12 +12,22 @@
       </template>
     </p-label>
 
+    <p-label label="Automatic Entry">
+      <template #description>
+        This category should include every vehicle registered for the event.
+      </template>
+      <template #default="{ id }">
+        <p-toggle :id="id" v-model="automaticEntry" />
+      </template>
+    </p-label>
+
     <p-label label="Maximum Capacity" :message="maxCapacityError" :state="maxCapacityState">
       <template #description>
         Optional, maximum number of registrations accepted for this category.
+        <p>(does not apply for categories that apply to all registrations.)</p>
       </template>
       <template #default="{ id }">
-        <p-number-input :id="id" v-model="maxCapacity" :min="0" :state="maxCapacityState" />
+        <p-number-input :id="id" v-model="maxCapacity" :disabled="automaticEntry" :min="0" :state="maxCapacityState" />
       </template>
     </p-label>
 
@@ -80,6 +90,8 @@
   const maxCapacity = usePatchRef(values, 'maxCapacity')
   const driversOnly = usePatchRef(values, 'driversOnly')
   const membersOnly = usePatchRef(values, 'membersOnly')
+  const automaticEntry = usePatchRef(values, 'automaticEntry')
+  const featured = usePatchRef(values, 'featured')
   const priceInPennies = ref<number>()
 
   const { error: nameError, state: nameState } = useValidation(name, 'Name', [stringHasValue])

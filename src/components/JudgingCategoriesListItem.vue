@@ -11,6 +11,9 @@
       {{ category.description }}
     </p>
     <div class="judging-categories-list-item__info-badges">
+      <template v-if="category.featured">
+        <p-icon-text class="judging-categories-list-item__info-badge judging-categories-list-item__info-badge--primary" icon="StarIcon" text="Featured" />
+      </template>
       <template v-if="category.stripePriceId">
         <p-icon-text class="judging-categories-list-item__info-badge judging-categories-list-item__info-badge--green" icon="CurrencyDollarIcon">
           +40
@@ -62,7 +65,7 @@
     'description description';
   grid-template-columns: minmax(0, 1fr) min-content;
   column-gap: var(--space-4);
-  row-gap: var(--space-2);
+  row-gap: var(--space-3);
 }
 
 .judging-categories-list-item--selected {
@@ -107,5 +110,9 @@
 
 .judging-categories-list-item__info-badge--green {
   background-color: var(--green-800);
+}
+
+.judging-categories-list-item__info-badge--primary {
+  background-color: var(--blue-800);
 }
 </style>

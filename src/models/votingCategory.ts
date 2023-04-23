@@ -7,6 +7,8 @@ export interface IVotingCategory {
   currentCapacity?: number,
   driversOnly?: boolean,
   membersOnly?: boolean,
+  automaticEntry?: boolean,
+  featured?: boolean,
   stripePriceId?: string,
 }
 
@@ -19,6 +21,8 @@ export class VotingCategory implements IVotingCategory {
   public currentCapacity: number
   public driversOnly?: boolean
   public membersOnly?: boolean
+  public automaticEntry?: boolean
+  public featured?: boolean
   public stripePriceId?: string
 
   public constructor(category: IVotingCategory) {
@@ -30,6 +34,8 @@ export class VotingCategory implements IVotingCategory {
     this.currentCapacity = category.currentCapacity ?? 0
     this.driversOnly = category.driversOnly
     this.membersOnly = category.membersOnly
+    this.automaticEntry = category.automaticEntry
+    this.featured = category.featured
     this.stripePriceId = category.stripePriceId
   }
 

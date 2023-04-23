@@ -12,9 +12,19 @@
         {{ category.description }}
       </div>
       <div class="judging-categories-input-list__info-badges">
+        <template v-if="category.automaticEntry">
+          <p-icon-text class="judging-categories-input-list__info-badge judging-categories-input-list__info-badge--featured" icon="StarIcon">
+            Featured
+          </p-icon-text>
+        </template>
         <template v-if="category.stripePriceId">
           <p-icon-text class="judging-categories-input-list__info-badge" icon="CurrencyDollarIcon">
             2.00
+          </p-icon-text>
+        </template>
+        <template v-if="category.automaticEntry">
+          <p-icon-text class="judging-categories-input-list__info-badge" icon="LightningBoltIcon">
+            Automatic Entry
           </p-icon-text>
         </template>
         <p-icon-text class="judging-categories-input-list__info-badge" icon="ClipboardCheckIcon">
@@ -59,5 +69,13 @@
 </script>
 
 <style>
+.judging-categories-input-list__category {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+}
 
+.judging-categories-input-list__info-badge--featured {
+  background-color: var(--blue-600) !important;
+}
 </style>

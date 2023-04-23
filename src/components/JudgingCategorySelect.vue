@@ -7,7 +7,12 @@
       Set Voting Category
     </p-link>
     <p-modal v-model:showModal="showModal" title="Select Judging Category" auto-close>
-      <JudgingCategoriesList :selected="selectedVotingCategories" class="judging-category-select__category-list" :categories="votingCategories" @update:selected="setSelectedToMaxSelfCategorizationCount" />
+      <JudgingCategoriesList
+        :selected="selectedVotingCategories"
+        class="judging-category-select__category-list"
+        :categories="availableVotingCategories"
+        @update:selected="setSelectedToMaxSelfCategorizationCount"
+      />
       <div class="judging-category-select__actions">
         <p-button inset @click="close">
           Cancel
@@ -51,6 +56,7 @@
 
   const votingCategoriesSubscription = useSubscription(api.votingCategories.getVotingCategories, [eventId])
   const votingCategories = computed(() => votingCategoriesSubscription.response ?? [])
+  const availableVotingCategories = computed(() => votingCategories.value.filter(category => !category.automaticEntry))
   const votingCategoriesCurrentlySelected = computed(() => votingCategories.value.filter(category => votingCategoryIds.value.includes(category.votingCategoryId)))
 
   const selectedVotingCategories = ref<VotingCategory[]>([])

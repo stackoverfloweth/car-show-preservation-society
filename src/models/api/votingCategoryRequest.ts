@@ -6,4 +6,6 @@ export type VotingCategoryRequest = {
   maxCapacity?: number,
   driversOnly?: boolean,
   membersOnly?: boolean,
+  automaticEntry?: boolean,
+  featured?: boolean,
 }
