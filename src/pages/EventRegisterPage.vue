@@ -4,15 +4,15 @@
       <div class="event-register-page__column">
         <EventHeader :event="event" @club:click="openRelatedClub" />
 
-        <template v-if="existingRegistration">
-          <p-link :to="routes.eventRegistration(event.eventId, existingRegistration.registrationId)">
-            View Registration
-          </p-link>
-        </template>
-        <template v-else>
-          <p-form v-if="canEditEvent" class="event-register-page__form" @submit="submitNewUserRegistration">
+        <template v-if="canEditEvent">
+          <p-form class="event-register-page__form" @submit="submitNewUserRegistration">
             <RegistrationNewUserFormFields v-model:values="registrationNewUserValues" :event="event" />
           </p-form>
+        </template>
+        <template v-else>
+          <p-link v-if="existingRegistration" :to="routes.eventRegistration(event.eventId, existingRegistration.registrationId)">
+            View Registration
+          </p-link>
 
           <p-form v-else class="event-register-page__form" @submit="submitRegistration">
             <RegistrationFormFields v-model:values="registrationValues" :event="event" />
@@ -21,7 +21,36 @@
       </div>
 
       <div class="event-register-page__column">
-        <template v-if="!existingRegistration">
+        <template v-if="canEditEvent">
+          <p-card class="event-register-page__checkout">
+            <p>Cost</p>
+            <ul>
+              <li>+ Registration Fee</li>
+              <li>+ Optional Fee for Judging categories</li>
+              <li>+ Cross Sells</li>
+              <li>+ Discount Code</li>
+            </ul>
+            <p>$50.00</p>
+
+            <img class="event-register-page__qr-code" src="/qr-example.png">
+
+            <div class="event-register-page__checkout-actions">
+              <p-button inset>
+                Send Payment Link
+              </p-button>
+              <template v-if="event.isHappening">
+                <CheckInModal>
+                  <template #target="{ open }">
+                    <p-button @click="open">
+                      Check-In
+                    </p-button>
+                  </template>
+                </CheckInModal>
+              </template>
+            </div>
+          </p-card>
+        </template>
+        <template v-else-if="!existingRegistration">
           <p-card class="event-register-page__checkout">
             <p>Cost</p>
             <ul>
@@ -58,12 +87,11 @@
   import { useRouteParam, useSubscription, useSubscriptionWithDependencies, useValidationObserver } from '@prefecthq/vue-compositions'
   import { computed, ref, watchEffect } from 'vue'
   import { useRouter } from 'vue-router'
+  import CheckInModal from '@/components/CheckInModal.vue'
   import ClubOverview from '@/components/ClubOverview.vue'
   import EventHeader from '@/components/EventHeader.vue'
-  import JudgingCategoriesList from '@/components/JudgingCategoriesList.vue'
   import RegistrationFormFields from '@/components/RegistrationFormFields.vue'
   import RegistrationNewUserFormFields from '@/components/RegistrationNewUserFormFields.vue'
-  import VehicleIdCard from '@/components/VehicleIdCard.vue'
   import { useApi, useCanEditEvent, useNavigation, useShowModal } from '@/compositions'
   import { Registration } from '@/models'
   import { RegistrationRequest, NewUserRegistrationRequest } from '@/models/api'
