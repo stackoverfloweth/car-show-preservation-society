@@ -1,12 +1,14 @@
 <template>
   <div class="event-header">
     <div class="event-header__name">
-      <p-link @click="emit('club:click', event!.clubId)">
+      <p-link @click="handleClubClick">
         {{ club?.name }}
       </p-link>
       <page-header :heading="event.name" />
       <p>{{ startDate }}</p>
-      <p>{{ startTime }}</p>
+      <p v-if="!event.isPast">
+        {{ startTime }}
+      </p>
       <template v-if="event.isHappening">
         <p-tag class="event-header__today-tag">
           Now
@@ -31,7 +33,7 @@
   import { computed, toRefs } from 'vue'
   import PageHeader from '@/components/PageHeader.vue'
   import { useApi } from '@/compositions'
-  import { Event } from '@/models'
+  import { Event, isEnded, isHappening, isToday } from '@/models'
 
   const props = defineProps<{
     event: Event,
@@ -49,6 +51,19 @@
 
   const startDate = computed(() => format(event.value.start, 'PPPP'))
   const startTime = computed(() => format(event.value.start, 'pp'))
+
+  function handleClubClick(): void {
+    if (!isToday.value) {
+      isToday.value = true
+    } else if (!isHappening.value) {
+      isHappening.value = true
+    } else {
+      isEnded.value = true
+    }
+    useSubscription(api.events.getEvent, [props.event.eventId]).refresh()
+
+    emit('club:click', event.value.clubId)
+  }
 </script>
 
 <style>

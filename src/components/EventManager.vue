@@ -104,7 +104,7 @@
   import PageHeader from '@/components/PageHeader.vue'
   import RegistrationsCheckInList from '@/components/RegistrationsCheckInList.vue'
   import { useApi } from '@/compositions'
-  import { Event, isEnded, isHappening, isToday, votingOpen } from '@/models'
+  import { Event, isEnded, votingOpen } from '@/models'
   import { routes } from '@/router/routes'
 
   const props = defineProps<{
@@ -133,13 +133,6 @@
   const checkedInCount = computed(() => checkedInSubscription.response ?? 0)
 
   function openRelatedClub(clubId: string): void {
-    if (!isToday.value) {
-      isToday.value = true
-    } else {
-      isHappening.value = true
-    }
-    useSubscription(api.events.getEvent, [props.event.eventId]).refresh()
-
     emit('open:club', clubId)
   }
 
