@@ -114,7 +114,7 @@
     const request = Object.entries(votes.value).reduce<VoteRequest[]>((requests, [ballotVotingCategoryId, carId]) => {
       return [...requests, { ballotVotingCategoryId, carId }]
     }, [])
-    await api.ballotVoting.setVotes(request)
+    await api.voting.setVotes(request)
 
     showToast('Ballot Saved!', 'success')
   }

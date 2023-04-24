@@ -3,7 +3,6 @@ import { InjectionKey } from 'vue'
 import { AdvertisementsApi } from '@/services/advertisementsApi'
 import { ApiConfig } from '@/services/api'
 import { BallotsApi } from '@/services/ballotsApi'
-import { BallotVotingApi } from '@/services/ballotVotingApi'
 import { ClubImagesApi } from '@/services/clubImagesApi'
 import { ClubInvitationsApi } from '@/services/clubInvitationsApi'
 import { ClubMembershipApi } from '@/services/clubMembershipApi'
@@ -12,6 +11,7 @@ import { EventsApi } from '@/services/eventsApi'
 import { RegistrationsApi } from '@/services/registrationApi'
 import { UsersApi } from '@/services/usersApi'
 import { VehiclesApi } from '@/services/vehiclesApi'
+import { VotingApi } from '@/services/votingApi'
 import { VotingCategoriesApi } from '@/services/votingCategoryApi'
 
 // eslint-disable-next-line @typescript-eslint/explicit-function-return-type
@@ -19,7 +19,6 @@ export function createApi(config: ApiConfig) {
   return {
     advertisements: createActions(new AdvertisementsApi(config)),
     ballots: createActions(new BallotsApi(config)),
-    ballotVoting: createActions(new BallotVotingApi(config)),
     clubImages: createActions(new ClubImagesApi(config)),
     clubInvitations: createActions(new ClubInvitationsApi(config)),
     clubMembership: createActions(new ClubMembershipApi(config)),
@@ -28,6 +27,7 @@ export function createApi(config: ApiConfig) {
     registration: createActions(new RegistrationsApi(config)),
     users: createActions(new UsersApi(config)),
     vehicles: createActions(new VehiclesApi(config)),
+    voting: createActions(new VotingApi(config)),
     votingCategories: createActions(new VotingCategoriesApi(config)),
   }
 }
