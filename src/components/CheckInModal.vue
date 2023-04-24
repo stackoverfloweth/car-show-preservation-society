@@ -1,23 +1,84 @@
 <template>
   <p-modal v-model:showModal="showModal" title="Check In" class="check-in-modal" auto-close>
-    <ul>
-      <li>Show Registration Info</li>
-      <li>Show if paid, what is owed, option to complete payment</li>
-      <li>If event.isHappening, option to "check-in"</li>
-      <li>"check-in" includes option to change vehicle/category</li>
-    </ul>
+    <p-key-value label="Registration Status">
+      <template #value>
+        <div class="check-in-modal__registration-status">
+          <template v-if="registration.isCheckedIn && registration.checkInDate">
+            Checked in at {{ format(registration.checkInDate, 'pp') }}
+          </template>
+          <template v-else-if="registration.stripePaymentId">
+            <div class="check-in-modal__registration-status-details">
+              <div class="check-in-modal__paid-label">
+                Paid
+              </div>
+              $50.24
+            </div>
+          </template>
+          <template v-else>
+            <div class="check-in-modal__registration-status-details">
+              <div class="check-in-modal__unpaid-label">
+                Payment Due
+              </div>
+              $50.24
+            </div>
+            <div class="check-in-modal__unpaid-actions">
+              <p-button inset @click="markAsPaid">
+                Mark as Paid
+              </p-button>
+            </div>
+          </template>
+        </div>
+      </template>
+    </p-key-value>
+
+    <p-key-value label="Driver">
+      <template #value>
+        {{ registration.user.displayName }}
+      </template>
+    </p-key-value>
+
+    <p-key-value label="Registered Vehicle">
+      <template #value>
+        {{ registration.vehicle.year }} {{ registration.vehicle.make }} {{ registration.vehicle.model }}
+      </template>
+    </p-key-value>
+
+    <p-key-value label="Selected Category">
+      <template #value>
+        <div class="check-in-modal__voting-categories">
+          {{ registration.votingCategories.map(category => category.name).join(', ') }}
+        </div>
+      </template>
+    </p-key-value>
+
+    <div class="check-in-modal__actions">
+      <p-button inset :to="routes.eventRegistration(event.eventId, registration.registrationId)">
+        View Registration
+      </p-button>
+      <template v-if="event.isHappening && !registration.isCheckedIn">
+        <p-button :disabled="!registration.stripePaymentId" @click="completeCheckIn">
+          Complete Check In
+        </p-button>
+      </template>
+    </div>
   </p-modal>
 </template>
 
 <script lang="ts" setup>
+  import { format } from 'date-fns'
   import { computed } from 'vue'
+  import { Event, Registration } from '@/models'
+  import { routes } from '@/router/routes'
 
   const props = defineProps<{
     showModal: boolean,
+    event: Event,
+    registration: Registration,
   }>()
 
   const emit = defineEmits<{
     (event: 'update:showModal', value: boolean): void,
+    (event: 'complete'|'mark-paid'): void,
   }>()
 
   const showModal = computed({
@@ -28,4 +89,51 @@
       emit('update:showModal', value)
     },
   })
+
+  function markAsPaid(): void {
+    emit('mark-paid')
+  }
+
+  function completeCheckIn(): void {
+    emit('complete')
+  }
 </script>
+
+<style>
+.check-in-modal__registration-status {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-4);
+}
+
+.check-in-modal__paid-label {
+  font-size: 1rem;
+  font-weight: normal;
+  color: var(--green-600);
+  font-weight: bold;
+}
+
+.check-in-modal__unpaid-label {
+  font-size: 1rem;
+  font-weight: normal;
+  color: var(--red-600);
+  font-weight: bold;
+}
+
+.check-in-modal__registration-status-details {
+  font-size: 2rem;
+  white-space: nowrap;
+}
+
+.check-in-modal__actions {
+  display: flex;
+  justify-content: space-between;
+  gap: var(--space-3);
+}
+
+@media(max-width:768px){
+  .check-in-modal__actions {
+    flex-direction: column;
+  }
+}
+</style>

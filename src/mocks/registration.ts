@@ -3,6 +3,7 @@ import { MockFunction } from '@/services/mocker'
 
 export const randomRegistration: MockFunction<Registration, [Partial<Registration>?]> = function(overrides) {
   const eventId = this.create('id')
+  const isCheckedIn = this.create('boolean')
 
   return new Registration({
     registrationId: this.create('id'),
@@ -13,7 +14,8 @@ export const randomRegistration: MockFunction<Registration, [Partial<Registratio
     registrationDate: this.create('date'),
     vehicleId: this.create('id'),
     vehicle: this.create('vehicle'),
-    carId: this.create('boolean') ? this.create('carId') : undefined,
+    carId: isCheckedIn ? this.create('carId') : undefined,
+    checkInDate: isCheckedIn ? this.create('date') : undefined,
     stripePaymentId: this.create('boolean') ? this.create('id') : undefined,
     votingCategories: [this.create('votingCategory', [{ eventId }])],
     ...overrides,

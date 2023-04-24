@@ -139,7 +139,7 @@
   flex-grow: 1;
   display: flex;
   flex-direction: column;
-  gap: var(--space-5)
+  gap: var(--space-4)
 }
 
 .event-registration-page__voting-times {

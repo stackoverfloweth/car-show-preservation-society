@@ -71,7 +71,7 @@
         </p-label>
 
         <template v-if="searchResults.length">
-          <RegistrationsCheckInList :event-id="event.eventId" :registrations="searchResults" />
+          <RegistrationsCheckInList :event="event" :registrations="searchResults" @changed="searchResultsSubscription.refresh" />
         </template>
         <template v-else-if="searchDebounced">
           <p>No Results Found</p>

@@ -8,14 +8,9 @@
       <div class="registrations-check-in-list-item__vehicle">
         {{ registration.vehicle.year }} {{ registration.vehicle.make }} {{ registration.vehicle.model }}
       </div>
-
       <div class="registrations-check-in-list-item__tags">
-        <template v-if="registration.stripePaymentId">
-          <p-tag class="registrations-check-in-list-item__tag" icon="CurrencyDollarIcon" />
-        </template>
-        <template v-if="registration.isCheckedIn">
-          <p-tag class="registrations-check-in-list-item__tag" icon="ClipboardCheckIcon" />
-        </template>
+        <p-tag class="registrations-check-in-list-item__tag" :class="{ 'registrations-check-in-list-item__tag--active': registration.stripePaymentId }" icon="CurrencyDollarIcon" />
+        <p-tag class="registrations-check-in-list-item__tag" :class="{ 'registrations-check-in-list-item__tag--active': registration.isCheckedIn }" icon="ClipboardCheckIcon" />
       </div>
     </div>
   </div>
@@ -34,7 +29,6 @@
 .registrations-check-in-list-item {
   display: flex;
   align-items: center;
-  flex-wrap: wrap;
   column-gap: var(--space-4);
   padding: var(--space-2);
   border-radius: var(--rounded);
@@ -46,7 +40,7 @@
 }
 
 .registrations-check-in-list-item__image {
-  grid-area: image;
+  border: 1px solid var(--slate-500);
   flex-shrink: 0;
   height: 50px;
   width: 50px;
@@ -64,7 +58,11 @@
 
 .registrations-check-in-list-item__tag {
   white-space: nowrap;
-  background-color: var(--green-800) !important;
   padding: var(--space-2);
+  border: 1px solid var(--slate-500);
+}
+
+.registrations-check-in-list-item__tag--active {
+  background-color: var(--green-800) !important;
 }
 </style>

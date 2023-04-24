@@ -7,6 +7,7 @@ export interface IRegistration {
   registrationCode: string,
   eventId: string,
   registrationDate: Date,
+  checkInDate?: Date,
   carId?: string,
   stripePaymentId?: string,
   userId: string,
@@ -21,6 +22,7 @@ export class Registration implements IRegistration {
   public registrationCode: string
   public eventId: string
   public registrationDate: Date
+  public checkInDate?: Date
   public carId?: string
   public stripePaymentId?: string
   public userId: string
@@ -34,6 +36,7 @@ export class Registration implements IRegistration {
     this.registrationCode = registration.registrationCode
     this.eventId = registration.eventId
     this.registrationDate = registration.registrationDate
+    this.checkInDate = registration.checkInDate
     this.carId = registration.carId
     this.stripePaymentId = registration.stripePaymentId
     this.userId = registration.userId

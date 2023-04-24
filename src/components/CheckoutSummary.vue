@@ -42,7 +42,10 @@
         </div>
       </template>
     </template>
-    <CheckInModal v-model:showModal="showModal" />
+
+    <template v-if="registration">
+      <CheckInModal v-model:showModal="showModal" :event="event" :registration="registration" />
+    </template>
   </p-card>
 </template>
 
