@@ -13,6 +13,11 @@
               </div>
               $50.24
             </div>
+            <div class="check-in-modal__registration-status-actions">
+              <p-button inset @click="markAsUnpaid">
+                Mark as Unpaid
+              </p-button>
+            </div>
           </template>
           <template v-else>
             <div class="check-in-modal__registration-status-details">
@@ -21,7 +26,10 @@
               </div>
               $50.24
             </div>
-            <div class="check-in-modal__unpaid-actions">
+            <div class="check-in-modal__registration-status-actions">
+              <p-button inset>
+                Send Payment Link
+              </p-button>
               <p-button inset @click="markAsPaid">
                 Mark as Paid
               </p-button>
@@ -78,7 +86,7 @@
 
   const emit = defineEmits<{
     (event: 'update:showModal', value: boolean): void,
-    (event: 'complete'|'mark-paid'): void,
+    (event: 'complete'|'mark-paid'|'mark-unpaid'): void,
   }>()
 
   const showModal = computed({
@@ -92,6 +100,10 @@
 
   function markAsPaid(): void {
     emit('mark-paid')
+  }
+
+  function markAsUnpaid(): void {
+    emit('mark-unpaid')
   }
 
   function completeCheckIn(): void {
@@ -125,6 +137,7 @@
   white-space: nowrap;
 }
 
+.check-in-modal__registration-status-actions,
 .check-in-modal__actions {
   display: flex;
   justify-content: space-between;

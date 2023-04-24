@@ -10,6 +10,7 @@
         :event="event"
         :registration="selectedRegistration"
         @mark-paid="markAsPaid"
+        @mark-unpaid="markAsUnpaid"
         @complete="completeCheckIn"
       />
     </template>
@@ -63,6 +64,17 @@
     await api.registration.markAsPaid(selectedRegistration.value.registrationId)
 
     showToast('Marked as Paid!', 'success')
+    emit('changed')
+  }
+
+  async function markAsUnpaid(): Promise<void> {
+    if (!selectedRegistration.value) {
+      return
+    }
+
+    await api.registration.markAsUnpaid(selectedRegistration.value.registrationId)
+
+    showToast('Marked as UnPaid!', 'success')
     emit('changed')
   }
 

@@ -64,6 +64,10 @@ export class RegistrationsApi extends Api {
     await Promise.resolve({ registrationId })
   }
 
+  public async markAsUnpaid(registrationId: string): Promise<void> {
+    await Promise.resolve({ registrationId })
+  }
+
   public async checkIn(registrationId: string): Promise<void> {
     await Promise.resolve({ registrationId })
   }
