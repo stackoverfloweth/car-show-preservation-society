@@ -12,6 +12,15 @@
       </template>
     </p-label>
 
+    <p-label label="Featured" :message="featuredError" :state="featuredState">
+      <template #description>
+        Featured categories are voting groups that the club wants to give special attention to. Usually these are categories such as "Best of Show", and are usually open to all vehicles (automatic entry).
+      </template>
+      <template #default="{ id }">
+        <p-toggle :id="id" v-model="featured" :state="featuredState" />
+      </template>
+    </p-label>
+
     <p-label label="Automatic Entry">
       <template #description>
         This category should include every vehicle registered for the event.
@@ -98,6 +107,8 @@
   const { error: descriptionError, state: descriptionState } = useValidation(description, 'Description', [stringHasValue])
   const { error: maxCapacityError, state: maxCapacityState } = useValidation(maxCapacity, 'Maximum Capacity', [])
   const { error: priceInPenniesError, state: priceInPenniesState } = useValidation(priceInPennies, 'Additional Cost', [])
+  // validate no more than 3 total featured categories
+  const { error: featuredError, state: featuredState } = useValidation(featured, 'Featured', [])
 
   watch(driversOnly, value => {
     if (value && membersOnly.value) {
