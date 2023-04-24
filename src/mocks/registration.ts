@@ -17,7 +17,7 @@ export const randomRegistration: MockFunction<Registration, [Partial<Registratio
     carId: isCheckedIn ? this.create('carId') : undefined,
     checkInDate: isCheckedIn ? this.create('date') : undefined,
     stripePaymentId: this.create('boolean') ? this.create('id') : undefined,
-    votingCategories: [this.create('votingCategory', [{ eventId }])],
+    votingCategoryIds: this.createMany('id', this.create('number', [1, 3])),
     ...overrides,
   })
 }

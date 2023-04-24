@@ -1,6 +1,5 @@
 import { User } from '@/models/user'
 import { Vehicle } from '@/models/vehicle'
-import { VotingCategory } from '@/models/votingCategory'
 
 export interface IRegistration {
   registrationId: string,
@@ -14,7 +13,7 @@ export interface IRegistration {
   user: User,
   vehicleId?: string,
   vehicle: Vehicle,
-  votingCategories: VotingCategory[],
+  votingCategoryIds: string[],
 }
 
 export class Registration implements IRegistration {
@@ -29,7 +28,7 @@ export class Registration implements IRegistration {
   public user: User
   public vehicleId?: string
   public vehicle: Vehicle
-  public votingCategories: VotingCategory[]
+  public votingCategoryIds: string[]
 
   public constructor(registration: IRegistration) {
     this.registrationId = registration.registrationId
@@ -43,7 +42,7 @@ export class Registration implements IRegistration {
     this.user = registration.user
     this.vehicleId = registration.vehicleId
     this.vehicle = registration.vehicle
-    this.votingCategories = registration.votingCategories
+    this.votingCategoryIds = registration.votingCategoryIds
   }
 
   public get isCheckedIn(): boolean {

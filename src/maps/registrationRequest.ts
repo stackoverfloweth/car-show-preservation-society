@@ -9,6 +9,6 @@ export const mapRegistrationToRegistrationRequest: MapFunction<Registration, Reg
     stripePaymentId: source.stripePaymentId,
     userId: source.userId,
     vehicleId: source.vehicleId,
-    votingCategoryIds: source.votingCategories.map(category => category.votingCategoryId),
+    votingCategoryIds: source.votingCategoryIds,
   }
 }

@@ -54,7 +54,7 @@
     <p-key-value label="Selected Category">
       <template #value>
         <div class="check-in-modal__voting-categories">
-          {{ registration.votingCategories.map(category => category.name).join(', ') }}
+          {{ votingCategories.map(category => category.name).join(', ') }}
         </div>
       </template>
     </p-key-value>
@@ -73,8 +73,10 @@
 </template>
 
 <script lang="ts" setup>
+  import { useSubscription } from '@prefecthq/vue-compositions'
   import { format } from 'date-fns'
   import { computed } from 'vue'
+  import { useApi } from '@/compositions'
   import { Event, Registration } from '@/models'
   import { routes } from '@/router/routes'
 
@@ -89,6 +91,9 @@
     (event: 'complete'|'mark-paid'|'mark-unpaid'): void,
   }>()
 
+  const registrationId = computed(() => props.registration.registrationId)
+  const api = useApi()
+
   const showModal = computed({
     get() {
       return props.showModal
@@ -97,6 +102,9 @@
       emit('update:showModal', value)
     },
   })
+
+  const votingCategoriesSubscription = useSubscription(api.votingCategories.getVotingCategoriesByRegistration, [registrationId])
+  const votingCategories = computed(() => votingCategoriesSubscription.response ?? [])
 
   function markAsPaid(): void {
     emit('mark-paid')

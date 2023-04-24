@@ -16,6 +16,13 @@ export class VotingCategoriesApi extends Api {
     ])
   }
 
+  public async getVotingCategoriesByRegistration(registrationId: string): Promise<VotingCategory[]> {
+    return await Promise.resolve([
+      mocker.create('votingCategory', [{ featured: true, automaticEntry: true }]),
+      ...mocker.createMany('votingCategory', 50),
+    ])
+  }
+
   public async suggestVotingCategories(eventId: string): Promise<VotingCategory[]> {
     return await Promise.resolve(mocker.createMany('votingCategory', 5, [{ eventId }]))
   }
