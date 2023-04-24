@@ -10,10 +10,7 @@ export type RegistrationRequest = {
   votingCategoryIds?: string[],
 }
 
-export type NewUserRegistrationRequest = {
+export type NewUserRegistrationRequest = RegistrationRequest & {
   user: UserRequest,
-  eventId: string,
   vehicle: VehicleRequest,
-  stripePaymentId?: string,
-  votingCategoryIds?: string[],
 }

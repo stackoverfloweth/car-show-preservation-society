@@ -74,8 +74,8 @@
     existingRegistration.value = registrationSubscription.response
   })
 
-  const registrationNewUserValues = ref<NewUserRegistrationRequest>({ eventId: eventId.value, user: {}, vehicle: {}, votingCategoryIds: [] })
   const registrationValues = ref<RegistrationRequest>({ eventId: eventId.value, userId: currentUser.userId, votingCategoryIds: [] })
+  const registrationNewUserValues = ref<NewUserRegistrationRequest>({ ...registrationValues.value, user: {}, vehicle: {} })
 
   async function submitNewUserRegistration(): Promise<void> {
     const isValid = await validate()

@@ -10,6 +10,14 @@ export class UsersApi extends Api {
     return await Promise.resolve(mocker.create('user', [{ userId }]))
   }
 
+  public async findUser({ phoneNumber, emailAddress }: { phoneNumber?: string, emailAddress?: string }): Promise<User | undefined> {
+    if (`${phoneNumber ?? ''}${emailAddress ?? ''}`.length > 5) {
+      return await Promise.resolve(mocker.create('user', [{ phoneNumber, emailAddress }]))
+    }
+
+    return undefined
+  }
+
   public async getUsersFromClub(clubId: string): Promise<User[]> {
     return await Promise.resolve(mocker.createMany('user', 5))
   }

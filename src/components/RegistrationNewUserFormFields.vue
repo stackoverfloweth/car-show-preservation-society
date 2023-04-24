@@ -12,32 +12,38 @@
       </template>
     </p-label>
 
-    <p-label label="Year" :message="yearError" :state="yearState">
-      <template #default="{ id }">
-        <p-text-input :id="id" v-model="year" :state="yearState" />
-      </template>
-    </p-label>
+    <template v-if="existingUser">
+      <ContactCard :user="existingUser" show-details />
+      <VehicleSelect v-model:vehicleId="vehicleId" />
+    </template>
+    <template v-else>
+      <p-label label="Year" :message="yearError" :state="yearState">
+        <template #default="{ id }">
+          <p-text-input :id="id" v-model="year" :state="yearState" />
+        </template>
+      </p-label>
 
-    <p-label label="Make" :message="makeError" :state="makeState">
-      <template #default="{ id }">
-        <p-text-input :id="id" v-model="make" :state="makeState" />
-      </template>
-    </p-label>
+      <p-label label="Make" :message="makeError" :state="makeState">
+        <template #default="{ id }">
+          <p-text-input :id="id" v-model="make" :state="makeState" />
+        </template>
+      </p-label>
 
-    <p-label label="Model" :message="modelError" :state="modelState">
-      <template #default="{ id }">
-        <p-text-input :id="id" v-model="model" :state="modelState" />
-      </template>
-    </p-label>
+      <p-label label="Model" :message="modelError" :state="modelState">
+        <template #default="{ id }">
+          <p-text-input :id="id" v-model="model" :state="modelState" />
+        </template>
+      </p-label>
 
-    <p-label label="Color" :message="colorError" :state="colorState">
-      <template #description>
-        Exterior body primary paint color
-      </template>
-      <template #default="{ id }">
-        <p-text-input :id="id" v-model="color" :state="colorState" />
-      </template>
-    </p-label>
+      <p-label label="Color" :message="colorError" :state="colorState">
+        <template #description>
+          Exterior body primary paint color
+        </template>
+        <template #default="{ id }">
+          <p-text-input :id="id" v-model="color" :state="colorState" />
+        </template>
+      </p-label>
+    </template>
 
     <p-label label="Judging Category" :state="selectedVotingCategoriesState" :message="selectedVotingCategoriesError">
       <template v-if="event.driverSelfCategorization">
@@ -53,9 +59,12 @@
 </template>
 
 <script lang="ts" setup>
-  import { usePatchRef, useValidation } from '@prefecthq/vue-compositions'
-  import { computed } from 'vue'
+  import { useDebouncedRef, usePatchRef, useSubscriptionWithDependencies, useValidation } from '@prefecthq/vue-compositions'
+  import { computed, ref, watch } from 'vue'
+  import ContactCard from '@/components/ContactCard.vue'
   import JudgingCategorySelect from '@/components/JudgingCategorySelect.vue'
+  import VehicleSelect from '@/components/VehicleSelect.vue'
+  import { useApi } from '@/compositions'
   import { Event } from '@/models'
   import { NewUserRegistrationRequest } from '@/models/api'
 
@@ -77,7 +86,9 @@
     },
   })
 
+  const api = useApi()
   const user = usePatchRef(values, 'user')
+  const vehicleId = usePatchRef(values, 'vehicleId')
   const vehicle = usePatchRef(values, 'vehicle')
   const votingCategoryIds = usePatchRef(values, 'votingCategoryIds')
 
@@ -95,6 +106,25 @@
   const { error: yearError, state: yearState } = useValidation(year, 'Year', [])
   const { error: colorError, state: colorState } = useValidation(color, 'Color', [])
   const { error: selectedVotingCategoriesError, state: selectedVotingCategoriesState } = useValidation(votingCategoryIds, 'Category', [])
+
+  const existingUserSubscriptionArgs = ref<Parameters<typeof api.users.findUser> | null>(null)
+  const existingUserSubscription = useSubscriptionWithDependencies(api.users.findUser, existingUserSubscriptionArgs)
+  const existingUser = computed(() => existingUserSubscription.response)
+
+  const emailAddressDebounced = useDebouncedRef(emailAddress, 750)
+  const phoneNumberDebounced = useDebouncedRef(phoneNumber, 750)
+
+  watch([emailAddressDebounced, phoneNumberDebounced], ([emailAddress, phoneNumber]) => {
+    if (!emailAddress && !phoneNumber) {
+      return existingUserSubscriptionArgs.value = null
+    }
+
+    if (existingUser.value) {
+      return
+    }
+
+    existingUserSubscriptionArgs.value = [{ emailAddress, phoneNumber }]
+  })
 </script>
 
 <style>
