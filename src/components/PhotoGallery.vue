@@ -3,6 +3,13 @@
     <template v-for="image in images" :key="image.imageId">
       <SizedImage role="button" class="photo-gallery__image" :image="image" @click="fullScreenImage = image" />
     </template>
+    <template v-if="hasMore">
+      <div class="photo-gallery__actions">
+        <p-button inset @click="loadMore">
+          Load More
+        </p-button>
+      </div>
+    </template>
     <p-modal v-model:show-modal="showModal" :title="fullScreenImage?.caption" class="photo-gallery__full-screen-modal" auto-close>
       <SizedImage :image="fullScreenImage" class="photo-gallery__full-screen-image" />
     </p-modal>
@@ -14,7 +21,14 @@
   import SizedImage from '@/components/SizedImage.vue'
   import { Image } from '@/models'
 
-  defineProps<{ images: Image[] }>()
+  defineProps<{
+    images: Image[],
+    hasMore?: boolean,
+  }>()
+
+  const emit = defineEmits<{
+    (event: 'load-more'): void,
+  }>()
 
   const fullScreenImage = ref<Image>()
   const showModal = computed({
@@ -27,6 +41,10 @@
       }
     },
   })
+
+  function loadMore(): void {
+    emit('load-more')
+  }
 </script>
 
 <style>
@@ -39,6 +57,12 @@
 
 .photo-gallery__image {
   padding-top: 50%;
+}
+
+.photo-gallery__actions {
+  grid-column: 1/-1;
+  display: flex;
+  justify-content: center;
 }
 
 .photo-gallery__full-screen-modal .p-modal__header {

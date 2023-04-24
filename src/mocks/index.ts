@@ -11,6 +11,7 @@ import { randomEmail } from '@/mocks/email'
 import { randomEvent } from '@/mocks/event'
 import { randomId } from '@/mocks/id'
 import { randomImage } from '@/mocks/image'
+import { randomImageResults } from '@/mocks/imageResults'
 import { randomLocation } from '@/mocks/location'
 import { randomMessage } from '@/mocks/message'
 import { randomNumber } from '@/mocks/number'
@@ -40,6 +41,7 @@ export const mocks = {
   event: randomEvent,
   id: randomId,
   image: randomImage,
+  imageResults: randomImageResults,
   location: randomLocation,
   message: randomMessage,
   noun: randomNoun,

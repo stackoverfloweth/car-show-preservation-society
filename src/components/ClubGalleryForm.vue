@@ -8,12 +8,19 @@
     </div>
 
     <div class="club-gallery-form__right">
-      <template v-for="image in clubImages" :key="image.id">
+      <template v-for="image in images" :key="image.id">
         <div class="club-gallery-form__gallery-item">
           <div class="club-gallery-form__gallery-item-actions">
             <TrashConfirm @confirmed="deleteImage(image)" />
           </div>
           <SizedImage :image="image" class="club-gallery-form__gallery-item-image" />
+        </div>
+      </template>
+      <template v-if="hasMore">
+        <div class="club-gallery-form__load-more">
+          <p-button inset @click="loadMore">
+            Load More
+          </p-button>
         </div>
       </template>
     </div>
@@ -22,12 +29,12 @@
 
 <script lang="ts" setup>
   import { showToast } from '@prefecthq/prefect-design'
-  import { useSubscription, useValidation, useValidationObserver } from '@prefecthq/vue-compositions'
-  import { computed, ref, toRefs } from 'vue'
+  import { useValidation, useValidationObserver } from '@prefecthq/vue-compositions'
+  import { ref, toRefs } from 'vue'
   import ImageUpload from '@/components/ImageUpload.vue'
   import SizedImage from '@/components/SizedImage.vue'
   import TrashConfirm from '@/components/TrashConfirm.vue'
-  import { useApi } from '@/compositions'
+  import { useApi, useImageResultsSubscription } from '@/compositions'
   import { Image } from '@/models'
   import { ImageRequest } from '@/models/api'
 
@@ -42,8 +49,7 @@
 
   const { error: newImageError, state: newImageState } = useValidation(newImage, 'Image', [])
 
-  const clubImagesSubscription = useSubscription(api.clubs.getClubImages, [clubId])
-  const clubImages = computed(() => clubImagesSubscription.response ?? [])
+  const { images, hasMore, loadMore } = useImageResultsSubscription(api.clubImages.getClubImages, clubId)
 
   async function createImage(): Promise<void> {
     const isValid = await validate()
@@ -56,14 +62,10 @@
 
     showToast('Sponsor Added!', 'success')
     clearNewImage()
-
-    clubImagesSubscription.refresh()
   }
 
   async function deleteImage(image: Image): Promise<void> {
     await api.clubs.deleteClubImage(image.imageId)
-
-    clubImagesSubscription.refresh()
   }
 
   function clearNewImage(): void {
@@ -122,6 +124,13 @@
   width: 100%;
 }
 
+.club-gallery-form__load-more {
+  display: flex;
+  justify-content: center;
+  grid-column: 1/-1;
+  gap: var(--space-3);
+}
+
 @media(max-width: 768px){
   .club-gallery-form {
     display: grid;
@@ -129,6 +138,10 @@
       'left'
       'right';
     grid-template-columns: minmax(0, 1fr);
+  }
+
+  .club-gallery-form__load-more {
+    flex-direction: column;
   }
 }
 </style>

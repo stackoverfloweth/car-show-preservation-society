@@ -1,6 +1,5 @@
-import { Image } from '@/models'
+import { Image, ImageResults, Vehicle } from '@/models'
 import { ImageRequest, VehicleRequest } from '@/models/api'
-import { Vehicle } from '@/models/vehicle'
 import { Api, mocker } from '@/services'
 
 export class VehiclesApi extends Api {
@@ -18,8 +17,8 @@ export class VehiclesApi extends Api {
     return await Promise.resolve(mocker.create('vehicle', [request]))
   }
 
-  public async getVehicleImages(vehicleId: string): Promise<Image[]> {
-    return await Promise.resolve(mocker.createMany('image', mocker.create('number', [0, 10])))
+  public async getVehicleImages(vehicleId: string, page = 1): Promise<ImageResults> {
+    return await Promise.resolve(mocker.create('imageResults'))
   }
 
   public async deleteVehicleImage(imageId: string): Promise<void> {

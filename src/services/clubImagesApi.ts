@@ -1,12 +1,12 @@
-import { Image } from '@/models'
+import { Image, ImageResults } from '@/models'
 import { ImageRequest } from '@/models/api'
 import { Api, mocker } from '@/services'
 
 export class ClubImagesApi extends Api {
   protected override routePrefix = '/club-images'
 
-  public async getClubImages(clubId: string): Promise<Image[]> {
-    return await Promise.resolve(mocker.createMany('image', mocker.create('number', [0, 50])))
+  public async getClubImages(clubId: string, page = 1): Promise<ImageResults> {
+    return await Promise.resolve(mocker.create('imageResults'))
   }
 
   public async deleteClubImage(imageId: string): Promise<void> {
