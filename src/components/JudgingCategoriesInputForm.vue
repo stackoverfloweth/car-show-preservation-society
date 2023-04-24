@@ -60,13 +60,13 @@
       <JudgingCategoryFormFields v-model:values="categoryFormValues" />
 
       <template v-if="isVotingCategory(categoryFormValues)">
-        <TrashConfirm @confirmed="deleteCategory">
-          <template #default="{ open: openConfirm }">
+        <DangerAreaConfirm :confirm-text="`Are you sure you want to delete ${categoryFormValues.name}?`" @confirmed="deleteCategory">
+          <template #target="{ open: openConfirm }">
             <p-link class="judging-category-input__modal-delete-link" danger @click="openConfirm">
               Delete Category
             </p-link>
           </template>
-        </TrashConfirm>
+        </DangerAreaConfirm>
       </template>
 
       <div class="judging-category-input__modal-actions">
@@ -93,6 +93,7 @@
   import { showToast } from '@prefecthq/prefect-design'
   import { useSubscription, useValidationObserver } from '@prefecthq/vue-compositions'
   import { computed, ref, toRefs, watch } from 'vue'
+  import DangerAreaConfirm from '@/components/DangerAreaConfirm.vue'
   import JudgingCategoriesEmptyState from '@/components/JudgingCategoriesEmptyState.vue'
   import JudgingCategoriesInputList from '@/components/JudgingCategoriesInputList.vue'
   import JudgingCategoryFormFields from '@/components/JudgingCategoryFormFields.vue'

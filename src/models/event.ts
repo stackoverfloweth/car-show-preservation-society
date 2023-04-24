@@ -47,7 +47,7 @@ export class Event implements IEvent {
   public end: Date
   public votingStart?: Date
   public votingEnd?: Date
-  public maxCapacity: number
+  public maxCapacity?: number
   public stripePriceId?: string
   public preRegistration?: boolean
   public preRegistrationStripePriceId?: string
@@ -71,7 +71,7 @@ export class Event implements IEvent {
     this.end = event.end
     this.votingStart = event.votingStart
     this.votingEnd = event.votingEnd
-    this.maxCapacity = event.maxCapacity ?? Infinity
+    this.maxCapacity = event.maxCapacity
     this.stripePriceId = event.stripePriceId
     this.preRegistration = event.preRegistration
     this.preRegistrationStripePriceId = event.preRegistrationStripePriceId

@@ -17,7 +17,7 @@ export class VotingCategory implements IVotingCategory {
   public readonly eventId: string
   public name: string
   public description: string
-  public maxCapacity: number
+  public maxCapacity?: number
   public currentCapacity: number
   public driversOnly?: boolean
   public membersOnly?: boolean
@@ -30,7 +30,7 @@ export class VotingCategory implements IVotingCategory {
     this.eventId = category.eventId
     this.name = category.name
     this.description = category.description
-    this.maxCapacity = category.maxCapacity ?? Infinity
+    this.maxCapacity = category.maxCapacity
     this.currentCapacity = category.currentCapacity ?? 0
     this.driversOnly = category.driversOnly
     this.membersOnly = category.membersOnly
@@ -40,7 +40,7 @@ export class VotingCategory implements IVotingCategory {
   }
 
   public get openSlots(): number {
-    return this.maxCapacity - this.currentCapacity
+    return this.maxCapacity ?? Infinity - this.currentCapacity
   }
 
   public get hasCapacity(): boolean {

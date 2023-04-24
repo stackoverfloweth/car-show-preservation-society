@@ -1,14 +1,20 @@
 <template>
-  <div class="judging-categories-input-list">
-    <template v-for="category in categories" :key="category.votingCategoryId">
+  <p-virtual-scroller
+    class="judging-categories-input-list"
+    :item-estimate-height="140"
+    :items="categories"
+    item-key="votingCategoryId"
+    :chunk-size="10"
+  >
+    <template #default="{ item }:{item: VotingCategory}">
       <JudgingCategoriesInputListItem
-        :category="category"
-        :selected="getIsSelected(category)"
+        :category="item"
+        :selected="getIsSelected(item)"
         @edit:category="editCategory"
-        @update:selected="toggleSelected(category)"
+        @update:selected="toggleSelected(item)"
       />
     </template>
-  </div>
+  </p-virtual-scroller>
 </template>
 
 <script lang="ts" setup>
@@ -55,12 +61,6 @@
 </script>
 
 <style>
-.judging-categories-input-list {
-  display: flex;
-  flex-direction: column;
-  gap: var(--space-2);
-}
-
 .judging-categories-input-list .p-list-item-input__content {
   padding: 0;
 }
