@@ -9,7 +9,7 @@ export const randomVotingCategory: MockFunction<VotingCategory, [Partial<VotingC
     votingCategoryId: this.create('id'),
     eventId: this.create('id'),
     name: `${this.create('number', [1, 9])}0's ${capitalize(this.create('noun'))}`,
-    description: this.create('paragraph'),
+    description: this.create('sentence'),
     currentCapacity: this.create('number', [0, 10]),
     maxCapacity: this.create('boolean') ? this.create('number', [0, 10]) : undefined,
     driversOnly: driversOnly,

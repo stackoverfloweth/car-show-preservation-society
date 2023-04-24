@@ -29,3 +29,11 @@
   const votingCategoriesSubscription = useSubscription(api.votingCategories.getVotingCategories, [event.value.eventId])
   const votingCategories = computed(() => votingCategoriesSubscription.response ?? [])
 </script>
+
+<style>
+.event-judging-summary {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+}
+</style>

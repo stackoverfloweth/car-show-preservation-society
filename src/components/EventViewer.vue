@@ -9,7 +9,7 @@
               Register
             </p-button>
           </template>
-          <template v-else-if="existingRegistration">
+          <template v-else-if="existingRegistration && !event.isPast">
             <router-link :to="routes.eventRegistration(event.eventId, existingRegistration.registrationId)">
               <p-button icon="QrcodeIcon" />
             </router-link>
@@ -27,11 +27,16 @@
             <template v-if="canRegister">
               <p-overflow-menu-item label="Register" icon="BookmarkIcon" :to="routes.eventRegister(event.eventId)" />
             </template>
-            <template v-else-if="existingRegistration">
+            <template v-else-if="existingRegistration && !event.isPast">
               <p-overflow-menu-item label="View Registration" icon="BookmarkIcon" :to="routes.eventRegistration(event.eventId, existingRegistration.registrationId)" />
             </template>
             <template v-if="isViewing">
               <p-overflow-menu-item label="Manage" icon="CogIcon" @click="isViewing = false" />
+            </template>
+            <template v-if="event.isPast">
+              <a href="#voting-results">
+                <p-overflow-menu-item label="View Results" icon="ChartBarIcon" />
+              </a>
             </template>
           </p-icon-button-menu>
         </template>
@@ -53,11 +58,11 @@
       </div>
 
       <div class="event-viewer__column">
-        <template v-if="existingRegistration">
+        <template v-if="existingRegistration && !event.isPast">
           <EventBallots :event="event" />
         </template>
         <template v-else>
-          <EventJudgingSummary class="event-viewer__voting-summary" :event="event" />
+          <EventJudgingSummary id="voting-results" class="event-viewer__voting-summary" :event="event" />
         </template>
       </div>
     </div>
@@ -154,6 +159,7 @@
 .event-viewer__voting-summary {
   position: absolute;
   overflow-y: auto;
+  padding-bottom: var(--space-2);
   top: 0;
   bottom: 0;
 }
@@ -165,6 +171,12 @@
 @media(max-width: 768px) {
   .event-viewer__columns {
     --num-cols:1;
+  }
+
+  .event-viewer__voting-summary {
+    position: relative;
+    max-height: 350px;
+    overflow-y: auto;
   }
 }
 </style>

@@ -9,7 +9,7 @@ export const randomVotingResultsByCategory: MockFunction<VotingResultsByCategory
   }
 
   for (let index = 1; index <= this.create('number', [5, 20]); index ++) {
-    const isTie = this.create('number', [0, 9]) > 7
+    const isTie = this.create('number', [0, 9]) > 8
 
     if (isTie) {
       value.results.push(this.create('votingResult', [{ votingCategoryId, place: `T${index}` }]))

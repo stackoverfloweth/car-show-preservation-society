@@ -16,7 +16,7 @@
         :class="classes.indicator"
       />
     </button>
-    <PAutoHeightTransition>
+    <p-auto-height-transition>
       <div v-if="open" class="ballot-voting-category__contents">
         <div class="ballot-voting-category__description">
           {{ votingCategory?.description }}
@@ -28,7 +28,7 @@
         </div>
         <BallotVotingCategoryOptions v-model:car-id="carId" :voting-category-id="votingCategory.votingCategoryId" :event="event" />
       </div>
-    </PAutoHeightTransition>
+    </p-auto-height-transition>
   </div>
 </template>
 
