@@ -12,10 +12,10 @@ export const randomVotingResultsByCategory: MockFunction<VotingResultsByCategory
     const isTie = this.create('number', [0, 9]) > 8
 
     if (isTie) {
-      value.results.push(this.create('votingResult', [{ votingCategoryId, place: `T${index}` }]))
-      value.results.push(this.create('votingResult', [{ votingCategoryId, place: `T${index}` }]))
+      value.results.push(this.create('votingResult', [{ votingCategoryId, placeNumber: index, place: `T${index}` }]))
+      value.results.push(this.create('votingResult', [{ votingCategoryId, placeNumber: index, place: `T${index}` }]))
     } else {
-      value.results.push(this.create('votingResult', [{ votingCategoryId, place: `${index}` }]))
+      value.results.push(this.create('votingResult', [{ votingCategoryId, placeNumber: index, place: `${index}` }]))
     }
   }
 

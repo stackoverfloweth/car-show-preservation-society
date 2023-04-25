@@ -25,7 +25,9 @@ import { randomUserSearchSubscription } from '@/mocks/userSearchSubscription'
 import { randomVehicle } from '@/mocks/vehicle'
 import { randomVotingCategory } from '@/mocks/votingCategory'
 import { randomVotingResult } from '@/mocks/votingResult'
-import { randomVotingResultsByCategory } from '@/mocks/votingResultByCategory'
+import { randomVotingResultsByCategory } from '@/mocks/votingResultsByCategory'
+import { randomVotingResultsByEvent } from '@/mocks/votingResultsByEvent'
+import { randomVotingResultsByEventAndCategory } from '@/mocks/votingResultsByEventAndCategory'
 
 export const mocks = {
   adjective: randomAdjective,
@@ -60,5 +62,7 @@ export const mocks = {
   votingCategory: randomVotingCategory,
   votingResult: randomVotingResult,
   votingResultsByCategory: randomVotingResultsByCategory,
+  votingResultsByEvent: randomVotingResultsByEvent,
+  votingResultsByEventAndCategory: randomVotingResultsByEventAndCategory,
   ...stripeMocks,
 }
