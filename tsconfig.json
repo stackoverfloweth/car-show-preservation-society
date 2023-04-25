@@ -26,6 +26,7 @@
     "*.ts",
     "src/**/*.ts",
     "src/**/*.vue",
+    "netlify/functions/**/*.ts",
   ],
   "exclude": [
     "/node_modules"

@@ -5,7 +5,7 @@ export type ClubVisibility = 'public' | 'private'
 export interface IClub {
   clubId: string,
   name: string,
-  description: string,
+  description?: string,
   contactUserId?: string,
   stripeCustomerId?: string,
   clubLogo?: Image,
@@ -16,7 +16,7 @@ export interface IClub {
 export class Club implements IClub {
   public readonly clubId: string
   public name: string
-  public description: string
+  public description?: string
   public contactUserId?: string
   public stripeCustomerId?: string
   public clubLogo?: Image
