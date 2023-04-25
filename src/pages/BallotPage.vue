@@ -6,7 +6,7 @@
         <PageHeader :heading="event?.name" />
         Ballot <span class="ballot-page__ballot-name">{{ ballot?.name }}</span>
       </div>
-      <img class="ballot-page__seal" :src="seal">
+      <component :is="seal" class="ballot-page__seal" />
       <div class="ballot-page__actions">
         <template v-if="event?.isUpcoming">
           <p-button inset icon="ShareIcon" />
@@ -161,11 +161,12 @@
   display: grid;
   grid-template-areas: 'header seal actions';
   grid-template-columns: minmax(0, 1fr) var(--seal-width) minmax(0, 1fr);
-  gap: var(--space-2);
+  gap: var(--space-3);
 }
 
 .ballot-page__seal {
   grid-area: header;
+  color: var(--blue-600);
 }
 
 .ballot-page__seal {

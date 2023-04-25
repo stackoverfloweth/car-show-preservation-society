@@ -6,7 +6,7 @@
     <div class="ballot-list-item__name">
       {{ ballot.name }}
     </div>
-    <img :src="seal">
+    <component :is="seal" class="ballot-list-item__seal" />
   </p-card>
 </template>
 
@@ -36,5 +36,9 @@
 
 .ballot-list-item__name {
   text-transform: uppercase;
+}
+
+.ballot-list-item__seal {
+  color: var(--blue-600);
 }
 </style>
