@@ -15,9 +15,7 @@
     "lib": [ "ESNext", "DOM", "DOM.iterable", "scripthost" ],
     "skipLibCheck": true,
     "baseUrl": ".",
-    "types": [
-      "vite/client"
-    ],
+    "types": ["vite-svg-loader", "vite/client"],
     "paths": {
       "@/*": [
         "./src/*"
