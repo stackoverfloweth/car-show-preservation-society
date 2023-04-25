@@ -1,5 +1,5 @@
 <template>
-  <ProfileViewer v-if="user" class="profile-page" :user="user" />
+  <ProfileViewer v-if="user" class="profile-page" :user="user" :best-placements="bestPlacements" />
 </template>
 
 <script lang="ts" setup>
@@ -16,6 +16,9 @@
 
   const userSubscription = useSubscription(api.users.getUser, [userId])
   const user = computed(() => userSubscription.response)
+
+  const bestPlacementsSubscription = useSubscription(api.voting.getBestPlacementsCounts, [currentUser.userId])
+  const bestPlacements = computed(() => bestPlacementsSubscription.response ?? [])
 </script>
 
 <style>

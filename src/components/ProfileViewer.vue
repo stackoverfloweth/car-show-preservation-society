@@ -11,24 +11,37 @@
     <div class="profile-viewer__details">
       <SizedImage v-if="user.profileImage" class="profile-viewer__image" :image="user.profileImage" />
 
-      <div class="profile-viewer__contact">
-        <div class="profile-viewer__name">
-          <template v-if="user.displayNameOverride">
-            {{ user.displayNameOverride }}
-          </template>
-          <template v-else>
-            {{ user.firstName }} {{ user.lastName }}
-          </template>
-        </div>
+      <div class="profile-viewer__columns">
+        <div class="profile-viewer__contact">
+          <div class="profile-viewer__name">
+            <template v-if="user.displayNameOverride">
+              {{ user.displayNameOverride }}
+            </template>
+            <template v-else>
+              {{ user.firstName }} {{ user.lastName }}
+            </template>
+          </div>
 
-        <div v-if="canEditProfile || !user.hideEmailAddress" class="profile-viewer__email-address">
-          {{ user.emailAddress }}
+          <div v-if="canEditProfile || !user.hideEmailAddress" class="profile-viewer__email-address">
+            {{ user.emailAddress }}
+          </div>
+          <div v-if="canEditProfile || !user.hidePhoneNumber" class="profile-viewer__phone-number">
+            {{ formatPhoneNumber(user.phoneNumber) }}
+          </div>
+          <div v-if="canEditProfile || !user.hideLocation" class="profile-viewer__location">
+            {{ user.location?.place }}
+          </div>
         </div>
-        <div v-if="canEditProfile || !user.hidePhoneNumber" class="profile-viewer__phone-number">
-          {{ formatPhoneNumber(user.phoneNumber) }}
-        </div>
-        <div v-if="canEditProfile || !user.hideLocation" class="profile-viewer__location">
-          {{ user.location?.place }}
+        <div class="profile-viewer__best-placements">
+          <template v-for="(placement, index) in bestPlacements" :key="index">
+            <div class="profile-viewer__best-placement">
+              <ResultPlace :place="placement.placeNumber" />
+              <p>X</p>
+              <div class="profile-viewer__best-placement-count">
+                {{ placement.count }}
+              </div>
+            </div>
+          </template>
         </div>
       </div>
     </div>
@@ -37,14 +50,16 @@
 
 <script lang="ts" setup>
   import { computed } from 'vue'
+  import ResultPlace from '@/components/ResultPlace.vue'
   import SizedImage from '@/components/SizedImage.vue'
-  import { User } from '@/models'
+  import { User, VotingResultsCount } from '@/models'
   import { routes } from '@/router/routes'
   import { currentUser } from '@/services/auth'
   import { formatPhoneNumber } from '@/utilities'
 
   const props = defineProps<{
     user: User,
+    bestPlacements: VotingResultsCount[],
   }>()
 
   const canEditProfile = computed(() => props.user.userId === currentUser.userId)
@@ -87,9 +102,37 @@
   white-space: pre-line;
 }
 
+.profile-viewer__columns {
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+}
+
+.profile-viewer__best-placements {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-4);
+}
+
+.profile-viewer__best-placement {
+  display: flex;
+  gap: var(--space-3);
+  align-items: center;
+}
+
+.profile-viewer__best-placement-count {
+  font-size: 1.25rem;
+}
+
 @media(max-width: 768px){
   .profile-viewer__details {
     flex-direction: column;
+  }
+
+  .profile-viewer__image {
+    max-width: 80%;
+    padding-top: 50%;
+    align-self: center;
   }
 }
 </style>

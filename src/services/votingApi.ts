@@ -1,4 +1,4 @@
-import { VotingResultsByCategory, VotingResultsByEventAndCategory } from '@/models'
+import { VotingResultsCount, VotingResultsByCategory, VotingResultsByEventAndCategory } from '@/models'
 import { VoteRequest } from '@/models/api'
 import { Api, mocker } from '@/services'
 
@@ -22,5 +22,22 @@ export class VotingApi extends Api {
     }
 
     return await Promise.resolve(mocker.createMany('votingResultsByEventAndCategory', mocker.create('number', [0, 4])))
+  }
+
+  public async getBestPlacementsCounts(userId: string): Promise<VotingResultsCount[]> {
+    const value: VotingResultsCount[] = []
+    if (mocker.create('boolean')) {
+      value.push(mocker.create('votingResultsCount', [{ placeNumber: 1 }]))
+    }
+
+    if (mocker.create('boolean')) {
+      value.push(mocker.create('votingResultsCount', [{ placeNumber: 2 }]))
+    }
+
+    if (mocker.create('boolean')) {
+      value.push(mocker.create('votingResultsCount', [{ placeNumber: 3 }]))
+    }
+
+    return await Promise.resolve(value)
   }
 }

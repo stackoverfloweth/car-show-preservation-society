@@ -28,6 +28,7 @@ import { randomVotingResult } from '@/mocks/votingResult'
 import { randomVotingResultsByCategory } from '@/mocks/votingResultsByCategory'
 import { randomVotingResultsByEvent } from '@/mocks/votingResultsByEvent'
 import { randomVotingResultsByEventAndCategory } from '@/mocks/votingResultsByEventAndCategory'
+import { randomVotingResultsCount } from '@/mocks/votingResultsCount'
 
 export const mocks = {
   adjective: randomAdjective,
@@ -64,5 +65,6 @@ export const mocks = {
   votingResultsByCategory: randomVotingResultsByCategory,
   votingResultsByEvent: randomVotingResultsByEvent,
   votingResultsByEventAndCategory: randomVotingResultsByEventAndCategory,
+  votingResultsCount: randomVotingResultsCount,
   ...stripeMocks,
 }
