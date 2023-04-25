@@ -2,10 +2,14 @@ import { VotingResult } from '@/models'
 import { MockFunction } from '@/services/mocker'
 
 export const randomVotingResult: MockFunction<VotingResult, [Partial<VotingResult>?]> = function(overrides = {}) {
+  const placeNumber = this.create('number', [1, 6])
+
   return {
-    registration: this.create('registration'),
+    eventId: this.create('id'),
     votingCategoryId: this.create('id'),
-    place: this.create('number').toString(),
+    registration: this.create('registration'),
+    place: placeNumber.toString(),
+    placeNumber,
     ...overrides,
   }
 }

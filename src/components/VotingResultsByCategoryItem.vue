@@ -52,11 +52,11 @@
   }>()
 
   const first = computed<VotingResult[]>(() => {
-    return props.results.filter(result => result.place === '1' || result.place === 'T1')
+    return props.results.filter(result => result.placeNumber === 1)
   })
 
   const rest = computed<VotingResult[]>(() => {
-    return props.results.filter(result => result.place !== '1' && result.place !== 'T1')
+    return props.results.filter(result => result.placeNumber > 1)
   })
 
   const classes = computed(() => ({
