@@ -9,6 +9,9 @@
       <p-button v-model="hasCapacity" :flat="!hasCapacity" :secondary="hasCapacity" @click="hasCapacity = !hasCapacity">
         Has Capacity
       </p-button>
+      <p-button v-model="hasPast" :flat="!hasPast" :secondary="hasPast" @click="hasPast = !hasPast">
+        Has Past
+      </p-button>
     </div>
     <div class="events-filter__sort">
       <div class="events-filter__mobile-label">
@@ -59,6 +62,7 @@
 
   const clubId = usePatchRef(filter, 'clubId')
   const hasCapacity = usePatchRef(filter, 'hasCapacity')
+  const hasPast = usePatchRef(filter, 'hasPast')
   const distanceInMiles = usePatchRef(filter, 'distanceInMiles')
 
   const sortType = usePatchRef(sort, 'sort')
