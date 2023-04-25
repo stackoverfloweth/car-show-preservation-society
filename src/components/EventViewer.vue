@@ -33,6 +33,11 @@
             <template v-if="isViewing">
               <p-overflow-menu-item label="Manage" icon="CogIcon" @click="isViewing = false" />
             </template>
+            <template v-if="existingRegistration && !event.isPast">
+              <a href="#ballots">
+                <p-overflow-menu-item label="View Ballots" icon="ClipboardCheckIcon" />
+              </a>
+            </template>
             <template v-if="event.isPast">
               <a href="#voting-results">
                 <p-overflow-menu-item label="View Results" icon="ChartBarIcon" />
@@ -59,7 +64,7 @@
 
       <div class="event-viewer__column">
         <template v-if="existingRegistration && !event.isPast">
-          <EventBallots :event="event" />
+          <EventBallots id="ballots" :event="event" />
         </template>
         <template v-else>
           <EventJudgingSummary id="voting-results" class="event-viewer__voting-summary" :event="event" />
@@ -132,7 +137,6 @@
 }
 
 .event-viewer__header {
-  grid-area: header;
   position: sticky;
   top: 0;
   margin-bottom: -34px;
