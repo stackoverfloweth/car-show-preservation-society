@@ -1,5 +1,6 @@
 <template>
   <p-list-item class="events-list-item">
+    <SizedImage class="events-list-item__image" :image="event.eventLogo" />
     <EventHeader class="events-list-item__header" :event="event" />
     <p class="events-list-item__location">
       {{ event.location?.place }}
@@ -9,6 +10,7 @@
 
 <script lang="ts" setup>
   import EventHeader from '@/components/EventHeader.vue'
+  import SizedImage from '@/components/SizedImage.vue'
   import { Event } from '@/models'
 
   defineProps<{
@@ -20,9 +22,16 @@
 .events-list-item {
   display: grid;
   grid-template-areas:
-    'header'
-    'location';
+    'image header'
+    'image location';
   gap: var(--space-4);
+  grid-template-columns: 200px 1fr;
+}
+
+.events-list-item__image {
+  grid-area: image;
+  width: 100%;
+  padding-top: 50%;
 }
 
 .events-list-item__header {
@@ -33,5 +42,15 @@
 .events-list-item__location {
   grid-area: location;
   white-space: pre-line;
+}
+
+@media(max-width: 768px){
+  .events-list-item {
+    grid-template-areas:
+      'header'
+      'image'
+      'location';
+    grid-template-columns: minmax(0, 1fr);
+  }
 }
 </style>
