@@ -15,7 +15,6 @@
 <script lang="ts" setup>
   import { computed } from 'vue'
   import { ImageRequest } from '@/models/api'
-  import { cloudFlareApi } from '@/services/cloudFlareApi'
 
   const props = defineProps<{
     image: ImageRequest | undefined,
@@ -41,8 +40,6 @@
     const data = new FormData()
     data.append('name', 'my-picture')
     data.append('file', file)
-
-    cloudFlareApi.uploadImage(data)
   }
 </script>
 

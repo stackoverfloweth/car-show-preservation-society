@@ -5,23 +5,25 @@ export type ClubVisibility = 'public' | 'private'
 export interface IClub {
   clubId: string,
   name: string,
-  description: string,
+  description?: string,
   contactUserId?: string,
   stripeCustomerId?: string,
   clubLogo?: Image,
   joinableByAnyone?: boolean,
   joinableByApplication?: boolean,
+  isDeleted?: boolean,
 }
 
 export class Club implements IClub {
   public readonly clubId: string
   public name: string
-  public description: string
+  public description?: string
   public contactUserId?: string
   public stripeCustomerId?: string
   public clubLogo?: Image
   public joinableByAnyone?: boolean
   public joinableByApplication?: boolean
+  public isDeleted?: boolean
 
   public constructor(club: IClub) {
     this.clubId = club.clubId
@@ -32,6 +34,7 @@ export class Club implements IClub {
     this.clubLogo = club.clubLogo
     this.joinableByAnyone = club.joinableByAnyone
     this.joinableByApplication = club.joinableByApplication
+    this.isDeleted = club.isDeleted
   }
 
   public get visibility(): ClubVisibility {

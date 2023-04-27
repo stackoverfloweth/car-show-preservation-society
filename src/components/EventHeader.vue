@@ -30,7 +30,7 @@
 <script lang="ts" setup>
   import { useSubscription } from '@prefecthq/vue-compositions'
   import { format } from 'date-fns'
-  import { computed, toRefs } from 'vue'
+  import { computed } from 'vue'
   import PageHeader from '@/components/PageHeader.vue'
   import { useApi } from '@/compositions'
   import { Event, isEnded, isHappening, isToday } from '@/models'
@@ -43,14 +43,15 @@
     (event: 'club:click', value: string): void,
   }>()
 
-  const { event } = toRefs(props)
+  const eventId = computed(() => props.event.clubId)
+  const clubId = computed(() => props.event.clubId)
   const api = useApi()
 
-  const clubSubscription = useSubscription(api.clubs.getClub, [event.value.clubId])
+  const clubSubscription = useSubscription(api.clubs.getClub, [clubId])
   const club = computed(() => clubSubscription.response)
 
-  const startDate = computed(() => format(event.value.start, 'PPPP'))
-  const startTime = computed(() => format(event.value.start, 'pp'))
+  const startDate = computed(() => format(props.event.start, 'PPPP'))
+  const startTime = computed(() => format(props.event.start, 'pp'))
 
   function handleClubClick(): void {
     if (!isToday.value) {
@@ -60,9 +61,9 @@
     } else {
       isEnded.value = true
     }
-    useSubscription(api.events.getEvent, [props.event.eventId]).refresh()
+    useSubscription(api.events.getEvent, [eventId]).refresh()
 
-    emit('club:click', event.value.clubId)
+    emit('club:click', clubId.value)
   }
 </script>
 
