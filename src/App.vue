@@ -12,6 +12,7 @@
   import { useNavigation } from '@/compositions'
   import { ApiConfig } from '@/services'
   import { apiKey, createApi } from '@/services/createApi'
+  import { env } from '@/utilities'
 
   const { setTheme } = useColorTheme()
   setTheme('dark')
@@ -19,7 +20,7 @@
   const { left, center, right } = useNavigation()
 
   const config: ApiConfig = {
-    baseUrl: 'localhost:4200',
+    baseUrl: env().baseApiUrl,
   }
   const api = createApi(config)
   provide(apiKey, api)

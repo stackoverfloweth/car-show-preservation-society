@@ -11,6 +11,7 @@ export interface IClub {
   clubLogo?: Image,
   joinableByAnyone?: boolean,
   joinableByApplication?: boolean,
+  isDeleted?: boolean,
 }
 
 export class Club implements IClub {
@@ -22,6 +23,7 @@ export class Club implements IClub {
   public clubLogo?: Image
   public joinableByAnyone?: boolean
   public joinableByApplication?: boolean
+  public isDeleted?: boolean
 
   public constructor(club: IClub) {
     this.clubId = club.clubId
@@ -32,6 +34,7 @@ export class Club implements IClub {
     this.clubLogo = club.clubLogo
     this.joinableByAnyone = club.joinableByAnyone
     this.joinableByApplication = club.joinableByApplication
+    this.isDeleted = club.isDeleted
   }
 
   public get visibility(): ClubVisibility {

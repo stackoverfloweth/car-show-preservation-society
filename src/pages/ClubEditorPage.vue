@@ -49,6 +49,7 @@
     await api.clubs.updateClub(values.value)
 
     showToast('Saved!', 'success')
+    clubSubscription.refresh()
     router.push(routes.club(clubId.value))
   }
 

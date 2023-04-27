@@ -1,13 +1,11 @@
 export type Env = {
+  baseApiUrl: string,
   mapBoxToken: string,
-  cloudFlareAccount: string,
-  cloudFlareToken: string,
 }
 
 export function env(): Env {
   return {
+    baseApiUrl: import.meta.env.VITE_BASE_API_URL,
     mapBoxToken: import.meta.env.VITE_MAPBOX_TOKEN,
-    cloudFlareAccount: import.meta.env.VITE_CLOUD_FLARE_ACCOUNT,
-    cloudFlareToken: import.meta.env.VITE_CLOUD_FLARE_TOKEN,
   }
 }

@@ -68,7 +68,22 @@
     },
   })
 
-  const openToPublic = ref((values.value.joinableByAnyone ?? false) || (values.value.joinableByApplication ?? false))
+  const openToPublic = computed({
+    get() {
+      return values.value.joinableByAnyone || values.value.joinableByApplication
+    },
+    set(value) {
+      if (value) {
+        joinableByAnyone.value = true
+      } else {
+        values.value = {
+          ...values.value,
+          joinableByAnyone: false,
+          joinableByApplication: false,
+        }
+      }
+    },
+  })
 
   const name = usePatchRef(values, 'name')
   const description = usePatchRef(values, 'description')
@@ -80,13 +95,8 @@
   const { error: descriptionError, state: descriptionState } = useValidation(description, 'Description', [])
   const { error: clubLogoError, state: clubLogoState } = useValidation(clubLogo, 'Club Logo', [])
 
-  watch(openToPublic, value => {
-    joinableByAnyone.value = value
-
-    if (!value) {
-      joinableByApplication.value = false
-    }
-  })
+  watch(joinableByAnyone, value => console.log('changed joinableByAnyone to', value))
+  watch(joinableByApplication, value => console.log('changed joinableByApplication to', value))
 </script>
 
 <style>
