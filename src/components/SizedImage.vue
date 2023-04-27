@@ -19,7 +19,7 @@
   }>()
 
   const position = computed(() => props.image?.position ?? 'center')
-  const size = computed(() => props.image?.size ?? 'contain')
+  const size = computed(() => props.image?.size ?? 'cover')
 
   const styles = computed(() => ({
     backgroundImage: `url(${props.image?.src})`,

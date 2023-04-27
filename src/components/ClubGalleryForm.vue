@@ -3,7 +3,7 @@
     <div class="club-gallery-form__left">
       <div class="club-gallery-form__image-upload">
         <p-label label="Add Photo" :message="newImageError" :state="newImageState" />
-        <ImageUpload v-model:image="newImage" :state="newImageState" />
+        <ImageUpload v-model:image="newImage" />
       </div>
     </div>
 

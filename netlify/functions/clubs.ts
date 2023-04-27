@@ -1,8 +1,8 @@
 import { Handler } from '@netlify/functions'
 import { ObjectId } from 'mongodb'
-import { IClub } from '@/models'
-
+import { ClubRequest, IClub, ImageRequest } from '@/models'
 import { Api, withCollection } from 'netlify/utilities'
+import { isValidImageRequest, uploadMedia } from 'netlify/utilities/images'
 
 const api = new Api()
 
@@ -20,8 +20,12 @@ api.get('/clubs', () => async () => {
 })
 
 api.post('/clubs', (args, body) => async () => {
+  const clubLogo = hasValidImageRequest(body) ? await uploadMedia(body.clubLogo) : undefined
   const inserted = await withCollection<IClub, ObjectId>('club', async (collection) => {
-    const result = await collection.insertOne(body as IClub)
+    const result = await collection.insertOne({
+      ...body,
+      clubLogo,
+    } as IClub)
 
     return result.insertedId
   })
@@ -48,8 +52,14 @@ api.get('clubs/:clubId', ([clubId]) => async () => {
 })
 
 api.put('/clubs/:clubId', ([clubId], body) => async () => {
+  const clubLogo = hasValidImageRequest(body) ? await uploadMedia(body.clubLogo) : undefined
   const acknowledged = await withCollection<IClub, boolean>('club', async (collection) => {
-    const result = await collection.updateOne({ _id: new ObjectId(clubId) }, { $set: body as IClub })
+    const result = await collection.updateOne({ _id: new ObjectId(clubId) }, {
+      $set: {
+        ...body,
+        clubLogo,
+      } as IClub,
+    })
 
     return result.acknowledged
   })
@@ -67,3 +77,7 @@ api.delete('/clubs/:clubId', ([clubId]) => async () => {
 
   return { statusCode: deletedCount === 1 ? 202 : 400 }
 })
+
+function hasValidImageRequest(value: unknown): value is ClubRequest & { clubLogo: ImageRequest & { file: string } } {
+  return !!value && typeof value === 'object' && 'clubLogo' in value && isValidImageRequest(value.clubLogo)
+}

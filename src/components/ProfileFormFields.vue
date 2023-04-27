@@ -72,7 +72,7 @@
 
       <div class="profile-form-fields__image-upload">
         <p-label label="Add Photo" :message="profileImageError" :state="profileImageState" />
-        <ImageUpload v-model:image="profileImage" :state="profileImageState" />
+        <ImageUpload v-model:image="profileImage" />
       </div>
     </div>
   </div>

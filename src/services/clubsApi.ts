@@ -26,7 +26,7 @@ export class ClubsApi extends Api {
       .then(({ data }) => data)
   }
 
-  public async updateClub(club: IClub): Promise<void> {
+  public async updateClub(club: ClubRequest): Promise<void> {
     await this.put(`/${club.clubId}`, club)
   }
 

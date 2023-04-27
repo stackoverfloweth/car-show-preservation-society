@@ -9,7 +9,7 @@
 
       <div class="club-form-fields__image-upload">
         <p-label label="Club Logo" :message="clubLogoError" :state="clubLogoState" />
-        <ImageUpload v-model:image="clubLogo" :state="clubLogoState" />
+        <ImageUpload v-model:image="clubLogo" />
       </div>
     </div>
 

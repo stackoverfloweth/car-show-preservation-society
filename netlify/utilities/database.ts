@@ -1,6 +1,7 @@
 import { Collection, MongoClient, ServerApiVersion, Document } from 'mongodb'
+import { env } from 'netlify/utilities'
 
-const client = new MongoClient(process.env.VITE_MONGODB_URI ?? '', {
+const client = new MongoClient(env().mongodbUrl, {
   serverApi: {
     version: ServerApiVersion.v1,
     strict: true,

@@ -1,7 +1,7 @@
 import { Handler, HandlerResponse } from '@netlify/functions'
 import { JsonOutput, Pattern, PatternHandler } from 'netlify/types'
 
-const headers = {
+export const headers = {
   'Access-Control-Allow-Origin': '*',
   'Access-Control-Allow-Headers': 'Origin, X-Requested-With, Content-Type, Accept',
   'Content-Type': 'application/json',
@@ -59,6 +59,7 @@ export class Api {
       const [, ...args] = pattern.regexp.exec(event.path) ?? []
       const body = this.tryParseBody(event, context)
       const result = await pattern.handler(args, body)(event, context)
+      console.log({ result })
 
       if (result) {
         return {

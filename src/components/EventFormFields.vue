@@ -49,7 +49,7 @@
 
       <div class="event-form-fields__image-upload">
         <p-label label="Event Image" :message="eventLogoError" :state="eventLogoState" />
-        <ImageUpload v-model:image="eventLogo" :state="eventLogoState" />
+        <ImageUpload v-model:image="eventLogo" />
       </div>
     </div>
   </div>

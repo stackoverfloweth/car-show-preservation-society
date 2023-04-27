@@ -7,7 +7,7 @@
 
     <div class="club-editor-page__gallery">
       <PageHeader heading="Gallery" />
-      <ClubGalleryForm v-if="values" :club-id="clubId" />
+      <ClubGalleryForm :club-id="clubId" />
     </div>
   </p-form>
 </template>
@@ -21,7 +21,7 @@
   import ClubGalleryForm from '@/components/ClubGalleryForm.vue'
   import PageHeader from '@/components/PageHeader.vue'
   import { useApi, useNavigation } from '@/compositions'
-  import { IClub } from '@/models'
+  import { ClubRequest } from '@/models'
   import { routes } from '@/router/routes'
 
   const clubId = useRouteParam('clubId')
@@ -37,7 +37,7 @@
     }
   })
 
-  const values = ref<IClub | undefined>()
+  const values = ref<ClubRequest | undefined>()
 
   async function submit(): Promise<void> {
     const isValid = await validate()

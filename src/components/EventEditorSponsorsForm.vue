@@ -16,7 +16,7 @@
 
         <div class="event-editor-sponsors-form-fields__image-upload">
           <p-label label="Advertisement Logo" :message="imageError" :state="imageState" />
-          <ImageUpload v-model:image="image" :state="imageState" />
+          <ImageUpload v-model:image="image" />
         </div>
 
         <p-label label="Advertisement Link" :state="hrefState" :message="hrefError">

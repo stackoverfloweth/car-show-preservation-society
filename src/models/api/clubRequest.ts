@@ -1,11 +1,11 @@
-import { Image } from '@/models/image'
+import { ImageRequest } from '@/models/api/imageRequest'
 
 export type ClubRequest = {
   clubId?: string,
   name?: string,
   description?: string,
   stripeCustomerId?: string,
-  clubLogo?: Image,
+  clubLogo?: ImageRequest,
   joinableByAnyone?: boolean,
   joinableByApplication?: boolean,
 }

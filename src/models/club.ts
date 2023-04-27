@@ -1,4 +1,4 @@
-import { Image } from '@/models/image'
+import { IImage, Image } from '@/models/image'
 
 export type ClubVisibility = 'public' | 'private'
 
@@ -8,7 +8,7 @@ export interface IClub {
   description?: string,
   contactUserId?: string,
   stripeCustomerId?: string,
-  clubLogo?: Image,
+  clubLogo?: IImage,
   joinableByAnyone?: boolean,
   joinableByApplication?: boolean,
   isDeleted?: boolean,
@@ -31,7 +31,7 @@ export class Club implements IClub {
     this.description = club.description
     this.contactUserId = club.contactUserId
     this.stripeCustomerId = club.stripeCustomerId
-    this.clubLogo = club.clubLogo
+    this.clubLogo = club.clubLogo ? new Image(club.clubLogo) : undefined
     this.joinableByAnyone = club.joinableByAnyone
     this.joinableByApplication = club.joinableByApplication
     this.isDeleted = club.isDeleted

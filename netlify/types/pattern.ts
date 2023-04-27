@@ -1,5 +1,5 @@
 import { Handler } from '@netlify/functions'
-import { HttpMethod, JsonOutput } from '@/../netlify/types'
+import { HttpMethod, JsonOutput } from 'netlify/types'
 
 export type PatternHandler = (args: string[], body: JsonOutput) => Handler
 
