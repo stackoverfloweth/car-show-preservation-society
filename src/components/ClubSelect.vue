@@ -1,11 +1,17 @@
 <template>
-  <p-combobox v-model="clubId" class="club-select" :options="options" />
+  <p-combobox v-model="clubId" class="club-select" :options="options" @open="fetchResults">
+    <template v-if="loading" #post-options>
+      <div class="club-select__loading">
+        <p-loading-icon />
+      </div>
+    </template>
+  </p-combobox>
 </template>
 
 <script lang="ts" setup>
   import { SelectOption } from '@prefecthq/prefect-design'
-  import { useSubscription } from '@prefecthq/vue-compositions'
-  import { computed } from 'vue'
+  import { useSubscriptionWithDependencies } from '@prefecthq/vue-compositions'
+  import { computed, ref } from 'vue'
   import { useApi } from '@/compositions'
 
   const props = defineProps<{
@@ -28,7 +34,9 @@
 
   const api = useApi()
 
-  const clubSubscription = useSubscription(api.clubs.getClubs)
+  const clubSubscriptionArgs = ref<Parameters<typeof api.clubs.getClubs> | null>(null)
+  const clubSubscription = useSubscriptionWithDependencies(api.clubs.getClubs, clubSubscriptionArgs)
+  const loading = computed(() => !clubSubscription.executed && clubSubscription.loading)
   const clubs = computed(() => clubSubscription.response ?? [])
   const options = computed(() => {
     const value: SelectOption[] = clubs.value.map(club => ({
@@ -42,4 +50,18 @@
 
     return value
   })
+
+  function fetchResults(): void {
+    if (clubSubscriptionArgs.value === null) {
+      clubSubscriptionArgs.value = []
+    }
+  }
 </script>
+
+<style>
+.club-select__loading {
+  padding: var(--space-4);
+  display: flex;
+  justify-content: center;
+}
+</style>
