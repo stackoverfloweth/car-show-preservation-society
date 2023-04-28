@@ -50,7 +50,7 @@
 
     <div class="event-viewer__columns">
       <div class="event-viewer__column">
-        <SizedImage v-if="event.eventLogo" :image="event.eventLogo" class="event-viewer__logo" />
+        <SizedImage v-if="event.image" :image="event.image" class="event-viewer__logo" />
         <p>{{ event.description }}</p>
 
         <LocationCard class="event-viewer__location" :location="event.location" />

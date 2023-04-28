@@ -1,4 +1,5 @@
 import { isFuture, isPast as dateInPast, isSameDay, isWithinInterval, addHours, endOfDay, startOfDay } from 'date-fns'
+import { ObjectId } from 'mongodb'
 import { ref } from 'vue'
 import { Image } from '@/models/image'
 import { Location } from '@/models/location'
@@ -10,11 +11,11 @@ export const votingOpen = ref(false)
 export const isEnded = ref(false)
 
 export interface IEvent {
-  eventId: string,
+  _id: ObjectId,
   contactUserId?: string,
   name: string,
   description: string,
-  eventLogo?: Image,
+  image?: Image,
   location: Location,
   clubId: string,
   start: Date,
@@ -36,11 +37,11 @@ export interface IEvent {
 }
 
 export class Event implements IEvent {
-  public readonly eventId: string
+  public readonly _id: ObjectId
   public contactUserId?: string
   public name: string
   public description: string
-  public eventLogo?: Image
+  public image?: Image
   public location: Location
   public clubId: string
   public start: Date
@@ -60,11 +61,11 @@ export class Event implements IEvent {
   public isDraft?: boolean
 
   public constructor(event: IEvent) {
-    this.eventId = event.eventId
+    this._id = event._id
     this.contactUserId = event.contactUserId
     this.name = event.name
     this.description = event.description
-    this.eventLogo = event.eventLogo
+    this.image = event.image
     this.location = event.location
     this.clubId = event.clubId
     this.start = event.start
@@ -100,6 +101,10 @@ export class Event implements IEvent {
     if (isEnded.value) {
       this.end = addHours(new Date(), -1)
     }
+  }
+
+  public get eventId(): string {
+    return this._id.toString()
   }
 
   public get isUpcoming(): boolean {

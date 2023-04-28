@@ -1,6 +1,6 @@
 <template>
   <p-list-item class="events-list-item">
-    <SizedImage class="events-list-item__image" :image="event.eventLogo" />
+    <SizedImage class="events-list-item__image" :image="event.image" />
     <EventHeader class="events-list-item__header" :event="event" />
     <p class="events-list-item__location">
       {{ event.location?.place }}

@@ -48,8 +48,8 @@
       </div>
 
       <div class="event-form-fields__image-upload">
-        <p-label label="Event Image" :message="eventLogoError" :state="eventLogoState" />
-        <ImageUpload v-model:image="eventLogo" />
+        <p-label label="Event Image" :message="imageError" :state="imageState" />
+        <ImageUpload v-model:image="image" />
       </div>
     </div>
   </div>
@@ -88,7 +88,7 @@
   const description = usePatchRef(event, 'description')
   const start = usePatchRef(event, 'start')
   const end = usePatchRef(event, 'end')
-  const eventLogo = usePatchRef(event, 'eventLogo')
+  const image = usePatchRef(event, 'image')
   const location = usePatchRef(event, 'location')
 
   const { error: clubError, state: clubState } = useValidation(clubId, 'Club', [stringHasValue])
@@ -97,7 +97,7 @@
   const { error: descriptionError, state: descriptionState } = useValidation(description, 'Description', [])
   const { error: startError, state: startState } = useValidation(start, 'Start', [])
   const { error: endError, state: endState } = useValidation(end, 'End', [])
-  const { error: eventLogoError, state: eventLogoState } = useValidation(eventLogo, 'Event Logo', [])
+  const { error: imageError, state: imageState } = useValidation(image, 'Event Logo', [])
   const { error: locationError, state: locationState } = useValidation(location, 'Location', [])
 </script>
 

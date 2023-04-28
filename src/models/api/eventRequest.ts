@@ -1,9 +1,10 @@
 import { Location, Image } from '@/models'
 
 export type EventRequest = {
+  eventId?: string,
   name?: string,
   description?: string,
-  eventLogo?: Image,
+  image?: Image,
   location?: Location,
   clubId?: string,
   contactUserId?: string,

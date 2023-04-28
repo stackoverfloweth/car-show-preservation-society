@@ -4,8 +4,8 @@
       <PageHeader :heading="event.name" />
     </template>
 
-    <template v-if="event.eventLogo">
-      <SizedImage class="event-card__image" :image="event.eventLogo" />
+    <template v-if="event.image">
+      <SizedImage class="event-card__image" :image="event.image" />
     </template>
 
     <div class="event-card__description">
