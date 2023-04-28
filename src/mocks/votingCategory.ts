@@ -6,15 +6,15 @@ export const randomVotingCategory: MockFunction<VotingCategory, [Partial<VotingC
   const driversOnly = this.create('boolean')
 
   return new VotingCategory({
-    votingCategoryId: this.create('id'),
-    eventId: this.create('id'),
+    votingCategoryId: this.create('id').toString(),
+    eventId: this.create('id').toString(),
     name: `${this.create('number', [1, 9])}0's ${capitalize(this.create('noun'))}`,
     description: this.create('sentence'),
     currentCapacity: this.create('number', [0, 10]),
     maxCapacity: this.create('boolean') ? this.create('number', [0, 10]) : undefined,
     driversOnly: driversOnly,
     membersOnly: !driversOnly && this.create('boolean'),
-    stripePriceId: this.create('boolean') ? this.create('id') : undefined,
+    stripePriceId: this.create('boolean') ? this.create('id').toString() : undefined,
     ...overrides,
   })
 }

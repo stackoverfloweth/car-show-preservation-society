@@ -1,6 +1,6 @@
 <template>
   <div class="club-overview">
-    <SizedImage v-if="club.clubLogo" :image="club.clubLogo" class="club-overview__logo" />
+    <SizedImage v-if="club.image" :image="club.image" class="club-overview__logo" />
 
     <p>{{ club.description }}</p>
 

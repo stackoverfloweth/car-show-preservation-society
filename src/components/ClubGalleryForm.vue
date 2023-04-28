@@ -3,7 +3,7 @@
     <div class="club-gallery-form__left">
       <div class="club-gallery-form__image-upload">
         <p-label label="Add Photo" :message="newImageError" :state="newImageState" />
-        <ImageUpload v-model:image="newImage" />
+        <ImageUpload v-model:image="newImage" @update:image="addImage" />
       </div>
     </div>
 
@@ -45,27 +45,28 @@
   const { clubId } = toRefs(props)
   const newImage = ref<ImageRequest>({})
   const api = useApi()
-  const { validate, pending } = useValidationObserver()
+  const { validate } = useValidationObserver()
 
   const { error: newImageError, state: newImageState } = useValidation(newImage, 'Image', [])
 
   const { images, hasMore, loadMore } = useImageResultsSubscription(api.clubImages.getClubImages, clubId)
 
-  async function createImage(): Promise<void> {
+  async function addImage(): Promise<void> {
     const isValid = await validate()
 
     if (!isValid) {
       return
     }
 
-    await api.clubs.createClubImage(newImage.value)
+    await api.clubImages.createClubImage(clubId.value, newImage.value)
 
     showToast('Sponsor Added!', 'success')
     clearNewImage()
+    loadMore()
   }
 
   async function deleteImage(image: Image): Promise<void> {
-    await api.clubs.deleteClubImage(image.imageId)
+    await api.clubImages.deleteClubImage(image.imageId)
   }
 
   function clearNewImage(): void {

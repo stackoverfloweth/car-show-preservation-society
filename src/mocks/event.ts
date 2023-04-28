@@ -6,12 +6,12 @@ export const randomEvent: MockFunction<Event, [Partial<Event>?]> = function(over
   const start = this.create('date', [new Date()])
 
   return new Event({
-    eventId: this.create('id'),
-    contactUserId: this.create('id'),
+    eventId: this.create('id').toString(),
+    contactUserId: this.create('id').toString(),
     name: `${toOrdinal(this.create('number', [5, 100]))} Annual ${capitalize(this.create('adjective')) } ${ capitalize(this.create('noun'))}`,
     description: this.create('paragraph'),
     location: this.create('location'),
-    clubId: this.create('id'),
+    clubId: this.create('id').toString(),
     eventLogo: this.create('image'),
     start,
     end: this.create('date', [start]),

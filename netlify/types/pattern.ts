@@ -1,17 +1,13 @@
 import { Handler } from '@netlify/functions'
-import { HttpMethod, JsonOutput } from 'netlify/types'
-
-export type PatternHandler = (args: string[], body: JsonOutput) => Handler
+import { HttpMethod } from 'netlify/types'
 
 export class Pattern {
   public method: HttpMethod
   public path: string
-  public handler: PatternHandler
 
-  public constructor(method: HttpMethod, path: string, handler: PatternHandler) {
+  public constructor(method: HttpMethod, path: string) {
     this.method = method
     this.path = path
-    this.handler = handler
   }
 
   private readonly beforePath = '^/.netlify/functions/'

@@ -5,8 +5,8 @@ export const randomVotingResult: MockFunction<VotingResult, [Partial<VotingResul
   const placeNumber = this.create('number', [1, 6])
 
   return {
-    eventId: this.create('id'),
-    votingCategoryId: this.create('id'),
+    eventId: this.create('id').toString(),
+    votingCategoryId: this.create('id').toString(),
     registration: this.create('registration'),
     place: placeNumber.toString(),
     placeNumber,

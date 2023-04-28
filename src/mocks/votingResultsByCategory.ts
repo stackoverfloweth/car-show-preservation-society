@@ -2,7 +2,7 @@ import { VotingResultsByCategory } from '@/models'
 import { MockFunction } from '@/services/mocker'
 
 export const randomVotingResultsByCategory: MockFunction<VotingResultsByCategory, [Partial<VotingResultsByCategory>?]> = function(overrides = {}) {
-  const votingCategoryId = this.create('id')
+  const votingCategoryId = this.create('id').toString()
   const value: VotingResultsByCategory = {
     results: [],
     votingCategory: this.create('votingCategory', [{ votingCategoryId }]),

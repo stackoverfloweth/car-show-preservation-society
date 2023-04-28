@@ -2,7 +2,7 @@
   <div class="clubs-list">
     <template v-for="club in clubs" :key="club.clubId">
       <router-link :to="routes.club(club.clubId)">
-        <ClubsListItem :club="club" />
+        <ClubsListItem :club="club" class="clubs-list__item" />
       </router-link>
     </template>
   </div>
@@ -22,7 +22,12 @@
 .clubs-list {
   display: grid;
   grid-template-columns: repeat(3, minmax(0, 1fr));
+  align-items: start;
   gap: var(--space-4);
+}
+
+.clubs-list__item:hover {
+  background-color: var(--slate-700);
 }
 
 @media(max-width: 768px){

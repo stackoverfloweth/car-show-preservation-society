@@ -1,5 +1,5 @@
 import { Handler, HandlerResponse } from '@netlify/functions'
-import { JsonOutput, Pattern, PatternHandler } from 'netlify/types'
+import { JsonOutput, Pattern } from 'netlify/types'
 
 export const headers = {
   'Access-Control-Allow-Origin': '*',
@@ -10,42 +10,23 @@ export const headers = {
   'Access-Control-Allow-Credentials': 'true',
 }
 
-export class Api {
-  private readonly patterns: Pattern[] = []
+export type ApiMethod = 'GET'|'POST'|'PUT'|'DELETE'
+export type ApiHandler<T> = (args: string[], body: T | null) => Handler
 
-  public get(path: string, handler: PatternHandler): void {
-    this.patterns.push(new Pattern('GET', path, handler))
+function tryParseBody<T>(...[event]: Parameters<Handler>): T | null {
+  if (event.body === null) {
+    return null
   }
 
-  public put(path: string, handler: PatternHandler): void {
-    this.patterns.push(new Pattern('PUT', path, handler))
+  try {
+    return JSON.parse(event.body) as T
+  } catch {
+    return null
   }
+}
 
-  public post(path: string, handler: PatternHandler): void {
-    this.patterns.push(new Pattern('POST', path, handler))
-  }
-
-  public delete(path: string, handler: PatternHandler): void {
-    this.patterns.push(new Pattern('DELETE', path, handler))
-  }
-
-  private findPattern(...[event, context]: Parameters<Handler>): Pattern | undefined {
-    return this.patterns.find(pattern => pattern.matches([event, context]))
-  }
-
-  private tryParseBody(...[event]: Parameters<Handler>): JsonOutput {
-    if (event.body === null) {
-      return null
-    }
-
-    try {
-      return JSON.parse(event.body)
-    } catch {
-      return null
-    }
-  }
-
-  public async execute(...[event, context]: Parameters<Handler>): Promise<HandlerResponse> {
+export function Api<T>(method: ApiMethod, path: string, apiHandler: ApiHandler<T>): Handler {
+  return async (event, context) => {
     if (event.httpMethod === 'OPTIONS') {
       return {
         statusCode: 200,
@@ -53,13 +34,12 @@ export class Api {
       }
     }
 
-    const pattern = this.findPattern(event, context)
+    const pattern = new Pattern(method, path)
 
-    if (pattern) {
+    if (pattern.matches([event, context])) {
       const [, ...args] = pattern.regexp.exec(event.path) ?? []
-      const body = this.tryParseBody(event, context)
-      const result = await pattern.handler(args, body)(event, context)
-      console.log({ result })
+      const body = tryParseBody<T>(event, context)
+      const result = await apiHandler(args, body)(event, context)
 
       if (result) {
         return {

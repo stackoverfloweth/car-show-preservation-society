@@ -1,20 +1,28 @@
 <template>
   <p-card class="clubs-list-item">
-    <template v-if="club.clubLogo">
-      <SizedImage class="clubs-list-item__logo" :image="club.clubLogo" />
+    <template v-if="club.image">
+      <SizedImage class="clubs-list-item__logo" :image="club.image" />
     </template>
     <div class="clubs-list-item__name">
       {{ club.name }}
     </div>
     <div class="clubs-list-item__tags">
       <template v-if="club.visibility === 'public'">
-        <p-tag><p-icon icon="GlobeAltIcon" />Public Club</p-tag>
+        <p-tag icon="GlobeAltIcon" class="clubs-list-item__tag">
+          Public Club
+        </p-tag>
       </template>
       <template v-else>
-        <p-tag><p-icon icon="LockClosedIcon" />Private Club</p-tag>
+        <p-tag icon="LockClosedIcon" class="clubs-list-item__tag">
+          Private Club
+        </p-tag>
       </template>
-      <p-tag><p-icon icon="UsersIcon" />{{ memberCount.toLocaleString() }}</p-tag>
-      <p-tag><p-icon icon="CalendarIcon" />{{ upcomingEventsCount.toLocaleString() }}</p-tag>
+      <p-tag icon="UsersIcon" class="clubs-list-item__tag">
+        {{ memberCount.toLocaleString() }}
+      </p-tag>
+      <p-tag icon="CalendarIcon" class="clubs-list-item__tag">
+        {{ upcomingEventsCount.toLocaleString() }}
+      </p-tag>
     </div>
   </p-card>
 </template>
@@ -63,5 +71,9 @@
   display: flex;
   flex-wrap: wrap;
   gap: var(--space-2);
+}
+
+.clubs-list-item__tag {
+  border: 1px solid var(--slate-600);
 }
 </style>

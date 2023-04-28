@@ -26,8 +26,8 @@
     </div>
 
     <div class="club-viewer__body">
-      <div v-if="club.clubLogo" class="club-viewer__logo-container">
-        <SizedImage :image="club.clubLogo" class="club-viewer__logo" />
+      <div v-if="club.image" class="club-viewer__logo-container">
+        <SizedImage :image="club.image" class="club-viewer__logo" />
       </div>
 
       <div class="club-viewer__details">

@@ -8,8 +8,8 @@
       </p-label>
 
       <div class="club-form-fields__image-upload">
-        <p-label label="Club Logo" :message="clubLogoError" :state="clubLogoState" />
-        <ImageUpload v-model:image="clubLogo" />
+        <p-label label="Club Logo" :message="imageError" :state="imageState" />
+        <ImageUpload v-model:image="image" />
       </div>
     </div>
 
@@ -46,7 +46,7 @@
 
 <script lang="ts" setup>
   import { usePatchRef, useValidation } from '@prefecthq/vue-compositions'
-  import { computed, ref, watch } from 'vue'
+  import { computed } from 'vue'
   import ImageUpload from '@/components/ImageUpload.vue'
   import { ClubRequest } from '@/models/api'
   import { stringHasValue } from '@/services'
@@ -89,14 +89,11 @@
   const description = usePatchRef(values, 'description')
   const joinableByAnyone = usePatchRef(values, 'joinableByAnyone')
   const joinableByApplication = usePatchRef(values, 'joinableByApplication')
-  const clubLogo = usePatchRef(values, 'clubLogo')
+  const image = usePatchRef(values, 'image')
 
   const { error: nameError, state: nameState } = useValidation(name, 'Name', [stringHasValue])
   const { error: descriptionError, state: descriptionState } = useValidation(description, 'Description', [])
-  const { error: clubLogoError, state: clubLogoState } = useValidation(clubLogo, 'Club Logo', [])
-
-  watch(joinableByAnyone, value => console.log('changed joinableByAnyone to', value))
-  watch(joinableByApplication, value => console.log('changed joinableByApplication to', value))
+  const { error: imageError, state: imageState } = useValidation(image, 'Club Logo', [])
 </script>
 
 <style>

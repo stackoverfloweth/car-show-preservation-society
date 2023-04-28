@@ -23,12 +23,19 @@ const cars = [
 ]
 
 export const randomImage: MockFunction<Image, [Partial<Image>?]> = function(overrides) {
-  return {
-    imageId: this.create('id'),
-    // src: `https://placekitten.com/${this.create('number', [300, 600])}/${this.create('number', [300, 600])}`,
+  return new Image({
+    _id: this.create('id'),
+    cloudinaryId: this.create('id').toString(),
     src: pick(cars),
     size: 'cover',
+    version: this.create('number'),
+    width: this.create('number'),
+    height: this.create('number'),
+    format: this.create('string'),
+    resource: this.create('string'),
+    bytes: this.create('number'),
+    type: this.create('string'),
     caption: `${this.create('adjective')} ${this.create('noun')}`,
     ...overrides,
-  }
+  })
 }

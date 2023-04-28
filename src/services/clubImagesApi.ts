@@ -1,19 +1,24 @@
-import { Image, ImageResults } from '@/models'
+import { IImage, Image, ImageResults } from '@/models'
 import { ImageRequest } from '@/models/api'
-import { Api, mocker } from '@/services'
+import { Api } from '@/services'
 
 export class ClubImagesApi extends Api {
-  protected override routePrefix = '/club-images'
-
   public async getClubImages(clubId: string, page = 1): Promise<ImageResults> {
-    return await Promise.resolve(mocker.create('imageResults'))
+    return await this.get<{
+      images: IImage[],
+      hasMore: boolean,
+    }>(`clubs-images-get-list/${clubId}`).then(({ data }) => ({
+      images: data.images.map(image => new Image(image)),
+      hasMore: data.hasMore,
+    }))
+
   }
 
   public async deleteClubImage(imageId: string): Promise<void> {
-    await Promise.resolve(imageId)
+    return await this.delete(`clubs-images-delete/${imageId}`)
   }
 
-  public async createClubImage(request: ImageRequest): Promise<Image> {
-    return await Promise.resolve(mocker.create('image', [request]))
+  public async createClubImage(clubId: string, request: ImageRequest): Promise<Image> {
+    return await this.post(`clubs-images-create/${clubId}`, request)
   }
 }

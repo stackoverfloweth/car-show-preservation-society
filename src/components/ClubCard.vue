@@ -1,7 +1,7 @@
 <template>
   <div class="club-card">
     <template v-if="club">
-      <SizedImage v-if="club.clubLogo" :image="club.clubLogo" class="club-card__logo" />
+      <SizedImage v-if="club.image" :image="club.image" class="club-card__logo" />
       <PageHeader :heading="club.name" />
       <p>{{ club.description }}</p>
       <ContactIdCard :user-id="club.contactUserId" show-label show-details />
