@@ -1,7 +1,7 @@
 import { isFuture, isPast as dateInPast, isSameDay, isWithinInterval, addHours, endOfDay, startOfDay } from 'date-fns'
 import { ObjectId } from 'mongodb'
 import { ref } from 'vue'
-import { Image } from '@/models/image'
+import { IImage, Image } from '@/models/image'
 import { Location } from '@/models/location'
 import { mocker } from '@/services'
 
@@ -15,7 +15,7 @@ export interface IEvent {
   contactUserId?: string,
   name: string,
   description: string,
-  image?: Image,
+  image?: IImage,
   location: Location,
   clubId: string,
   start: Date,
@@ -33,7 +33,9 @@ export interface IEvent {
   driverSelfCategorization?: boolean,
   maxSelfCategorization?: number,
   stripeCrossProductIds: string[],
+  images?: IImage[],
   isDraft?: boolean,
+  isDeleted?: boolean,
 }
 
 export class Event implements IEvent {
@@ -58,14 +60,16 @@ export class Event implements IEvent {
   public driverSelfCategorization?: boolean
   public maxSelfCategorization: number
   public stripeCrossProductIds: string[]
+  public images: Image[]
   public isDraft?: boolean
+  public isDeleted?: boolean
 
   public constructor(event: IEvent) {
     this._id = event._id
     this.contactUserId = event.contactUserId
     this.name = event.name
     this.description = event.description
-    this.image = event.image
+    this.image = event.image ? new Image(event.image) : undefined
     this.location = event.location
     this.clubId = event.clubId
     this.start = event.start
@@ -82,7 +86,9 @@ export class Event implements IEvent {
     this.driverSelfCategorization = event.driverSelfCategorization
     this.maxSelfCategorization = event.maxSelfCategorization ?? 1
     this.stripeCrossProductIds = event.stripeCrossProductIds
+    this.images = (event.images ?? []).map(image => new Image(image))
     this.isDraft = event.isDraft
+    this.isDeleted = event.isDeleted
 
     if (isToday.value) {
       this.start = mocker.create('date', [new Date(), endOfDay(new Date())])

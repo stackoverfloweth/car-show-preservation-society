@@ -7,6 +7,7 @@ import { ClubImagesApi } from '@/services/clubImagesApi'
 import { ClubInvitationsApi } from '@/services/clubInvitationsApi'
 import { ClubMembershipApi } from '@/services/clubMembershipApi'
 import { ClubsApi } from '@/services/clubsApi'
+import { EventImagesApi } from '@/services/eventImagesApi'
 import { EventsApi } from '@/services/eventsApi'
 import { RegistrationsApi } from '@/services/registrationApi'
 import { UsersApi } from '@/services/usersApi'
@@ -24,6 +25,7 @@ export function createApi(config: ApiConfig) {
     clubMembership: createActions(new ClubMembershipApi(config)),
     clubs: createActions(new ClubsApi(config)),
     events: createActions(new EventsApi(config)),
+    eventImages: createActions(new EventImagesApi(config)),
     registration: createActions(new RegistrationsApi(config)),
     users: createActions(new UsersApi(config)),
     vehicles: createActions(new VehiclesApi(config)),

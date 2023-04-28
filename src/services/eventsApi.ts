@@ -1,19 +1,21 @@
 import { startOfDay } from 'date-fns'
-import { ImageResults } from '@/models'
+import { WithId } from 'mongodb'
+import { ImageResults, Event, IEvent } from '@/models'
 import { EventRequest, EventsFilter, EventsSort } from '@/models/api'
-import { Event, IEvent } from '@/models/event'
 import { Api } from '@/services/api'
 import { mocker } from '@/services/mocker'
 
 export class EventsApi extends Api {
   protected override routePrefix = '/events'
 
-  public async getEvent(eventId: string): Promise<Event | undefined> {
-    return await Promise.resolve(mocker.create('event', [{ eventId }]))
+  public getEvent(eventId: string): Promise<Event | undefined> {
+    return this.get<WithId<IEvent> | undefined>(`events-get-by-id/${eventId}`)
+      .then(({ data }) => data ? new Event(data) : undefined)
   }
 
-  public async getEvents(filter?: EventsFilter, sort?: EventsSort): Promise<Event[]> {
-    return await Promise.resolve(mocker.createMany('event', 5))
+  public getEvents(filter?: EventsFilter, sort?: EventsSort): Promise<Event[]> {
+    return this.get<WithId<IEvent>[]>('events-get-list')
+      .then(({ data }) => data.map(event => new Event(event)))
   }
 
   public async getEventsHappeningToday(): Promise<Event[]> {
@@ -42,15 +44,12 @@ export class EventsApi extends Api {
     return await Promise.resolve(mocker.createMany('event', 5))
   }
 
-  public async createEvent(request: EventRequest): Promise<Event> {
-    return await Promise.resolve(mocker.create('event', [request]))
+  public createEvent(request: EventRequest): Promise<string> {
+    return this.post<string>(`events-create/${request.eventId}`, request)
+      .then(({ data }) => data)
   }
 
-  public async updateEvent(event: IEvent): Promise<Event> {
-    return await Promise.resolve(mocker.create('event', [event]))
-  }
-
-  public async getEventImages(eventId: string, page = 1): Promise<ImageResults> {
-    return await Promise.resolve(mocker.create('imageResults'))
+  public updateEvent(request: EventRequest): Promise<void> {
+    return this.put(`events-update/${request.eventId}`, request)
   }
 }

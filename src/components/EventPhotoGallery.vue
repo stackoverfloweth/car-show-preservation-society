@@ -16,5 +16,5 @@
   const api = useApi()
   const { eventId } = toRefs(props)
 
-  const { images, hasMore, loadMore } = useImageResultsSubscription(api.events.getEventImages, eventId)
+  const { images, hasMore, loadMore } = useImageResultsSubscription(api.eventImages.getEventImages, eventId)
 </script>
