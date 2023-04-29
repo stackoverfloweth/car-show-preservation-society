@@ -1,4 +1,3 @@
-import { startOfDay } from 'date-fns'
 import { Event } from '@/models'
 import { EventRequest, EventResponse, EventsFilter, EventsSort } from '@/models/api'
 import { Api } from '@/services/api'
@@ -16,14 +15,14 @@ export class EventsApi extends Api {
       .then(({ data }) => mapper.map('EventResponse', data, 'Event'))
   }
 
-  public async getEventsHappeningToday(): Promise<Event[]> {
-    // should only include events current user is registered to
-    return await Promise.resolve(mocker.createMany('event', mocker.create('number', [0, 1]), [{ start: startOfDay(new Date()) }]))
+  public getEventsHappeningToday(): Promise<Event[]> {
+    return this.get<EventResponse[]>('events-get-list-today')
+      .then(({ data }) => mapper.map('EventResponse', data, 'Event'))
   }
 
-  public async getEventsHappeningNow(): Promise<Event[]> {
-    // should only include events current user is registered to
-    return await Promise.resolve(mocker.createMany('event', mocker.create('number', [0, 1]), [{ start: new Date() }]))
+  public getEventsHappeningNow(): Promise<Event[]> {
+    return this.get<EventResponse[]>('events-get-list-now')
+      .then(({ data }) => mapper.map('EventResponse', data, 'Event'))
   }
 
   public getUpcomingEvents(): Promise<Event[]> {
