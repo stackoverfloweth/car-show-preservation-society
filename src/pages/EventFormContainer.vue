@@ -8,7 +8,7 @@
   import { PButton, showToast } from '@prefecthq/prefect-design'
   import { useIsSame, useRouteParam, useSubscription, useValidationObserver } from '@prefecthq/vue-compositions'
   import { computed, ref, watchEffect, h } from 'vue'
-  import { NavigationGuard, onBeforeRouteLeave, useRoute, useRouter } from 'vue-router'
+  import { NavigationGuard, onBeforeRouteLeave, useRoute } from 'vue-router'
   import EventEditorJudgingFormFields from '@/components/EventEditorJudgingFormFields.vue'
   import EventEditorRegistrationFormFields from '@/components/EventEditorRegistrationFormFields.vue'
   import EventFormFields from '@/components/EventFormFields.vue'
@@ -19,17 +19,12 @@
 
   const eventId = useRouteParam('eventId')
 
-  const router = useRouter()
   const route = useRoute()
   const api = useApi()
   const { validate, pending } = useValidationObserver()
   const { set } = useNavigation()
 
   const eventSubscription = useSubscription(api.events.getEvent, [eventId])
-  eventSubscription.promise().then(({ response }) => {
-    event.value = mapper.map('Event', response, 'EventRequest')
-    values.value = mapper.map('Event', response, 'EventRequest')
-  })
   const event = ref<EventRequest>()
   const values = ref<EventRequest>()
   const isSame = useIsSame(event, values)
@@ -48,6 +43,11 @@
     }
   })
 
+  watchEffect(() => {
+    event.value = mapper.map('Event', eventSubscription.response, 'EventRequest')
+    values.value = mapper.map('Event', eventSubscription.response, 'EventRequest')
+  })
+
   async function submit(): Promise<void> {
     const isValid = await validate()
 
@@ -56,9 +56,9 @@
     }
 
     await api.events.updateEvent(values.value as EventRequest)
+    eventSubscription.refresh()
 
     showToast('Saved!', 'success')
-    router.push(routes.event(eventId.value))
   }
 
   const unsavedChangesCheck: NavigationGuard = () => {
