@@ -34,7 +34,7 @@
 
   const api = useApi()
 
-  const clubSubscriptionArgs = ref<Parameters<typeof api.clubs.getClubs> | null>(null)
+  const clubSubscriptionArgs = ref<Parameters<typeof api.clubs.getClubs> | null>(clubId.value ? [] : null)
   const clubSubscription = useSubscriptionWithDependencies(api.clubs.getClubs, clubSubscriptionArgs)
   const loading = computed(() => !clubSubscription.executed && clubSubscription.loading)
   const clubs = computed(() => clubSubscription.response ?? [])
