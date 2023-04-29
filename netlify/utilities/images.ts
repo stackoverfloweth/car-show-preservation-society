@@ -1,6 +1,6 @@
 import { v2 as cloudinary } from 'cloudinary'
 import { ObjectId } from 'mongodb'
-import { ImageResponse, ImageRequest } from '@/models'
+import { ImageResponse, ImageRequest } from '@/models/api'
 
 export async function uploadMedia(request: ImageRequest): Promise<ImageResponse | undefined> {
   const cloudinaryResult = await cloudinary.uploader.upload(request.file)

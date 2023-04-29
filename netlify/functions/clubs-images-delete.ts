@@ -1,6 +1,6 @@
 import { Handler } from '@netlify/functions'
 import { ObjectId } from 'mongodb'
-import { ClubResponse } from '@/models'
+import { ClubResponse } from '@/models/api'
 import { Api, env } from 'netlify/utilities'
 import { client } from 'netlify/utilities/mongodbClient'
 

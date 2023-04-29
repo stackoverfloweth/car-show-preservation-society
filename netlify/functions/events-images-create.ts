@@ -1,6 +1,6 @@
 import { Handler } from '@netlify/functions'
 import { ObjectId } from 'mongodb'
-import { EventResponse } from '@/models'
+import { EventResponse } from '@/models/api'
 import { Api, env } from 'netlify/utilities'
 import { isValidImageRequest, uploadMedia } from 'netlify/utilities/images'
 import { client } from 'netlify/utilities/mongodbClient'

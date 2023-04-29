@@ -1,5 +1,5 @@
-import { Image, ImageResponse, ImageResults } from '@/models'
-import { ImageRequest } from '@/models/api'
+import { Image, ImageResults } from '@/models'
+import { ImageRequest, ImageResponse } from '@/models/api'
 import { Api, mapper } from '@/services'
 
 export class EventImagesApi extends Api {

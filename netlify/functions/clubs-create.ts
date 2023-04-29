@@ -1,6 +1,6 @@
 import { Handler } from '@netlify/functions'
 import { ObjectId } from 'mongodb'
-import { ClubRequest, ClubResponse } from '@/models'
+import { ClubRequest, ClubResponse } from '@/models/api'
 import { Api, env } from 'netlify/utilities'
 import { isValidImageRequest, uploadMedia } from 'netlify/utilities/images'
 import { client } from 'netlify/utilities/mongodbClient'
@@ -17,12 +17,16 @@ export const handler: Handler = Api<ClubRequest>('POST', 'clubs-create', (args, 
     const collection = db.collection<ClubResponse>('club')
 
     const { clubId, image: imageRequest, ...rest } = body
-    const image = isValidImageRequest(imageRequest) ? await uploadMedia(imageRequest) : undefined
-    const result = await collection.insertOne({
+    const insert: ClubResponse = {
       ...rest,
       _id: new ObjectId(),
-      image,
-    })
+    }
+
+    if (isValidImageRequest(imageRequest)) {
+      insert.image = await uploadMedia(imageRequest)
+    }
+
+    const result = await collection.insertOne(insert)
 
     return {
       statusCode: 201,

@@ -1,6 +1,6 @@
 import { Handler } from '@netlify/functions'
 import { ObjectId } from 'mongodb'
-import { EventRequest, EventResponse } from '@/models'
+import { EventRequest, EventResponse } from '@/models/api'
 import { Api, env } from 'netlify/utilities'
 import { isValidImageRequest, uploadMedia } from 'netlify/utilities/images'
 import { client } from 'netlify/utilities/mongodbClient'
@@ -17,13 +17,16 @@ export const handler: Handler = Api<EventRequest>('POST', 'events-create', (args
     const collection = db.collection<EventResponse>('event')
 
     const { eventId, image: imageRequest, ...rest } = body
-    const image = isValidImageRequest(imageRequest) ? await uploadMedia(imageRequest) : undefined
-    const result = await collection.insertOne({
+    const insert: EventResponse = {
       ...rest,
       _id: new ObjectId(),
-      images: undefined,
-      image,
-    })
+    }
+
+    if (isValidImageRequest(imageRequest)) {
+      insert.image = await uploadMedia(imageRequest)
+    }
+
+    const result = await collection.insertOne(insert)
 
     return {
       statusCode: 201,

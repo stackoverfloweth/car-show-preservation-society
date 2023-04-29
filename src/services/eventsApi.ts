@@ -1,6 +1,6 @@
 import { startOfDay } from 'date-fns'
-import { Event, EventResponse } from '@/models'
-import { EventRequest, EventsFilter, EventsSort } from '@/models/api'
+import { Event } from '@/models'
+import { EventRequest, EventResponse, EventsFilter, EventsSort } from '@/models/api'
 import { Api } from '@/services/api'
 import { mapper } from '@/services/mapper'
 import { mocker } from '@/services/mocker'

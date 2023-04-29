@@ -96,7 +96,7 @@
   import { usePatchRef, useValidation } from '@prefecthq/vue-compositions'
   import { computed } from 'vue'
   import JudgingCategoriesInputForm from '@/components/JudgingCategoriesInputForm.vue'
-  import { EventRequest } from '@/models'
+  import { EventRequest } from '@/models/api'
   import { mapper } from '@/services'
 
   const props = defineProps<{

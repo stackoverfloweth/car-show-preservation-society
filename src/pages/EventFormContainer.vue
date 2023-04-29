@@ -13,7 +13,7 @@
   import EventEditorRegistrationFormFields from '@/components/EventEditorRegistrationFormFields.vue'
   import EventFormFields from '@/components/EventFormFields.vue'
   import { useApi, useNavigation } from '@/compositions'
-  import { EventRequest } from '@/models'
+  import { EventRequest } from '@/models/api'
   import { NamedRoute, routes } from '@/router/routes'
   import { mapper } from '@/services'
 

@@ -1,4 +1,5 @@
-import { Location, ImageRequest } from '@/models'
+import { Location } from '@/models'
+import { ImageRequest } from '@/models/api/imageRequest'
 
 export type EventRequest = {
   eventId?: string,

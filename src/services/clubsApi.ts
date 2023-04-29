@@ -1,5 +1,5 @@
-import { Club, ClubResponse } from '@/models'
-import { ClubRequest, ClubsFilter, ClubsSort } from '@/models/api'
+import { Club } from '@/models'
+import { ClubRequest, ClubResponse, ClubsFilter, ClubsSort } from '@/models/api'
 import { Api, mapper, mocker } from '@/services'
 
 export class ClubsApi extends Api {

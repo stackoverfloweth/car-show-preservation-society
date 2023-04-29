@@ -21,7 +21,7 @@
   import ClubGalleryForm from '@/components/ClubGalleryForm.vue'
   import PageHeader from '@/components/PageHeader.vue'
   import { useApi, useNavigation } from '@/compositions'
-  import { ClubRequest } from '@/models'
+  import { ClubRequest } from '@/models/api'
   import { routes } from '@/router/routes'
 
   const clubId = useRouteParam('clubId')

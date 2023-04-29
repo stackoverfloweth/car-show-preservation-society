@@ -1,5 +1,5 @@
 import { Handler } from '@netlify/functions'
-import { IClub } from '@/models'
+import { EventResponse } from '@/models/api'
 import { Api, env } from 'netlify/utilities'
 import { client } from 'netlify/utilities/mongodbClient'
 
@@ -8,7 +8,7 @@ export const handler: Handler = Api('GET', 'events-get-list', () => async () => 
     await client.connect()
 
     const db = client.db(env().mongodbName)
-    const collection = db.collection<IClub>('event')
+    const collection = db.collection<EventResponse>('event')
 
     const events = await collection.find({ $or: [{ isDeleted: false }, { isDeleted: { $exists: false } }] }).toArray()
 

@@ -1,5 +1,4 @@
 export * from './advertisement'
-export * from './api'
 export * from './ballot'
 export * from './ballotVotingCategory'
 export * from './club'
