@@ -4,7 +4,7 @@ import { capitalize } from '@/utilities'
 
 export const randomUser: MockFunction<User, [Partial<User>?]> = function(overrides) {
   return new User({
-    userId: this.create('id').toString(),
+    userId: this.create('id'),
     emailAddress: this.create('email'),
     phoneNumber: this.create('phone'),
     firstName: capitalize(this.create('adjective')),

@@ -6,11 +6,11 @@ export const randomBallot: MockFunction<Ballot, [number, Partial<Ballot>?]> = fu
   const isDriver = this.create('boolean')
 
   return {
-    ballotId: this.create('id').toString(),
+    ballotId: this.create('id'),
     name: `${currentUser.displayName.slice(0, 2) }000${index}`,
     votes: this.createMany('ballotVotingCategory', 20),
-    registrationId: isDriver ? this.create('id').toString() : undefined,
-    clubMembershipId: isDriver ? undefined : this.create('id').toString(),
+    registrationId: isDriver ? this.create('id') : undefined,
+    clubMembershipId: isDriver ? undefined : this.create('id'),
     ...overrides,
   }
 }

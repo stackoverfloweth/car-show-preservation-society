@@ -24,8 +24,8 @@ const cars = [
 
 export const randomImage: MockFunction<Image, [Partial<Image>?]> = function(overrides) {
   return new Image({
-    _id: this.create('id'),
-    cloudinaryId: this.create('id').toString(),
+    imageId: this.create('id'),
+    cloudinaryId: this.create('id'),
     src: pick(cars),
     size: 'cover',
     version: this.create('number'),

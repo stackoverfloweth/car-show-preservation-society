@@ -8,7 +8,7 @@ export const randomAdvertisement: MockFunction<Advertisement, [Partial<Advertise
   const size = pick([...standardSizes])
 
   return {
-    advertisementId: this.create('id').toString(),
+    advertisementId: this.create('id'),
     title: hasText ? this.create('noun') : undefined,
     description: hasText ? this.create('sentence') : undefined,
     image: hasImage ? this.create('image') : undefined,

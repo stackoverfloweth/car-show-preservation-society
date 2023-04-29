@@ -4,8 +4,8 @@ import { capitalize, pick } from '@/utilities'
 
 export const randomVehicle: MockFunction<Vehicle, [Partial<Vehicle>?]> = function(overrides) {
   return {
-    vehicleId: this.create('id').toString(),
-    userId: this.create('id').toString(),
+    vehicleId: this.create('id'),
+    userId: this.create('id'),
     make: capitalize(this.create('adjective')),
     model: capitalize(this.create('noun')),
     year: this.create('number', [1900, 2020]).toString(),
