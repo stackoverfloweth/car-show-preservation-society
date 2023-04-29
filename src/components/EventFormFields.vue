@@ -63,14 +63,14 @@
   import ImageUpload from '@/components/ImageUpload.vue'
   import LocationInput from '@/components/LocationInput.vue'
   import { EventRequest } from '@/models/api'
-  import { stringHasValue } from '@/services'
+  import { mapper, stringHasValue } from '@/services'
 
   const props = defineProps<{
-    event: EventRequest,
+    event: Partial<EventRequest>,
   }>()
 
   const emit = defineEmits<{
-    (event: 'update:event', value: EventRequest): void,
+    (event: 'update:event', value: Partial<EventRequest>): void,
   }>()
 
   const event = computed({
@@ -82,12 +82,28 @@
     },
   })
 
+  const start = computed<Date | undefined>({
+    get() {
+      return mapper.map('String', event.value.start, 'Date')
+    },
+    set(value) {
+      event.value.start = mapper.map('Date', value, 'String')
+    },
+  })
+
+  const end = computed<Date | undefined>({
+    get() {
+      return mapper.map('String', event.value.end, 'Date')
+    },
+    set(value) {
+      event.value.end = mapper.map('Date', value, 'String')
+    },
+  })
+
   const clubId = usePatchRef(event, 'clubId')
   const contactUserId = usePatchRef(event, 'contactUserId')
   const name = usePatchRef(event, 'name')
   const description = usePatchRef(event, 'description')
-  const start = usePatchRef(event, 'start')
-  const end = usePatchRef(event, 'end')
   const image = usePatchRef(event, 'image')
   const location = usePatchRef(event, 'location')
 

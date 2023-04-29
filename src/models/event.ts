@@ -1,5 +1,4 @@
 import { isFuture, isPast as dateInPast, isSameDay, isWithinInterval, addHours, endOfDay, startOfDay } from 'date-fns'
-import { ObjectId } from 'mongodb'
 import { ref } from 'vue'
 import { IImage, Image } from '@/models/image'
 import { Location } from '@/models/location'
@@ -11,12 +10,12 @@ export const votingOpen = ref(false)
 export const isEnded = ref(false)
 
 export interface IEvent {
-  _id: ObjectId,
+  eventId: string,
   contactUserId?: string,
   name: string,
-  description: string,
+  description?: string,
   image?: IImage,
-  location: Location,
+  location?: Location,
   clubId: string,
   start: Date,
   end: Date,
@@ -35,16 +34,15 @@ export interface IEvent {
   stripeCrossProductIds: string[],
   images?: IImage[],
   isDraft?: boolean,
-  isDeleted?: boolean,
 }
 
 export class Event implements IEvent {
-  public readonly _id: ObjectId
+  public readonly eventId: string
   public contactUserId?: string
   public name: string
-  public description: string
+  public description?: string
   public image?: Image
-  public location: Location
+  public location?: Location
   public clubId: string
   public start: Date
   public end: Date
@@ -62,10 +60,9 @@ export class Event implements IEvent {
   public stripeCrossProductIds: string[]
   public images: Image[]
   public isDraft?: boolean
-  public isDeleted?: boolean
 
   public constructor(event: IEvent) {
-    this._id = event._id
+    this.eventId = event.eventId
     this.contactUserId = event.contactUserId
     this.name = event.name
     this.description = event.description
@@ -88,7 +85,6 @@ export class Event implements IEvent {
     this.stripeCrossProductIds = event.stripeCrossProductIds
     this.images = (event.images ?? []).map(image => new Image(image))
     this.isDraft = event.isDraft
-    this.isDeleted = event.isDeleted
 
     if (isToday.value) {
       this.start = mocker.create('date', [new Date(), endOfDay(new Date())])
@@ -107,10 +103,6 @@ export class Event implements IEvent {
     if (isEnded.value) {
       this.end = addHours(new Date(), -1)
     }
-  }
-
-  public get eventId(): string {
-    return this._id.toString()
   }
 
   public get isUpcoming(): boolean {

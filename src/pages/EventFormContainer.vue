@@ -1,6 +1,6 @@
 <template>
   <p-form class="event-form-container">
-    <component :is="component" v-model:event="values" />
+    <component :is="component" v-if="values" v-model:event="values" />
   </p-form>
 </template>
 
@@ -13,8 +13,9 @@
   import EventEditorRegistrationFormFields from '@/components/EventEditorRegistrationFormFields.vue'
   import EventFormFields from '@/components/EventFormFields.vue'
   import { useApi, useNavigation } from '@/compositions'
-  import { Event } from '@/models'
+  import { EventRequest } from '@/models'
   import { NamedRoute, routes } from '@/router/routes'
+  import { mapper } from '@/services'
 
   const eventId = useRouteParam('eventId')
 
@@ -25,8 +26,12 @@
   const { set } = useNavigation()
 
   const eventSubscription = useSubscription(api.events.getEvent, [eventId])
-  const { response: event } = await eventSubscription.promise()
-  const values = ref<Event | undefined>(event)
+  eventSubscription.promise().then(({ response }) => {
+    event.value = mapper.map('Event', response, 'EventRequest')
+    values.value = mapper.map('Event', response, 'EventRequest')
+  })
+  const event = ref<EventRequest>()
+  const values = ref<EventRequest>()
   const isSame = useIsSame(event, values)
   const confirmToastId = ref<number>()
 
@@ -39,7 +44,7 @@
       case 'events.editor.registration':
         return EventEditorRegistrationFormFields
       default:
-        return null
+        throw `No form fields assignable to route ${route.name?.toString()}`
     }
   })
 
@@ -50,7 +55,7 @@
       return
     }
 
-    await api.events.updateEvent(values.value)
+    await api.events.updateEvent(values.value as EventRequest)
 
     showToast('Saved!', 'success')
     router.push(routes.event(eventId.value))
@@ -87,7 +92,7 @@
               danger: true,
               innerText: 'Discard',
               onClick: () => {
-                values.value = event
+                values.value = event.value
                 confirmToastId.value = undefined
                 dismiss()
                 resolve(true)

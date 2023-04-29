@@ -18,7 +18,7 @@
   const router = useRouter()
   const { validate, pending } = useValidationObserver()
   const { set } = useNavigation()
-  const values = ref<EventRequest>({})
+  const values = ref<Partial<EventRequest>>({})
 
   async function submit(): Promise<void> {
     const isValid = await validate()
@@ -27,10 +27,10 @@
       return
     }
 
-    const event = await api.events.createEvent(values.value as EventRequest)
+    const eventId = await api.events.createEvent(values.value as EventRequest)
 
     showToast('Event Created!', 'success')
-    router.push(routes.eventEditor(event.eventId))
+    router.push(routes.eventEditor(eventId))
   }
 
   watchEffect(() => {

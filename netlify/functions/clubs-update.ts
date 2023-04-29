@@ -22,7 +22,7 @@ export const handler: Handler = Api<ClubRequest>('PUT', 'clubs-update/:id', (arg
       $set: {
         ...rest,
         image,
-      } as ClubResponse,
+      },
     })
 
 

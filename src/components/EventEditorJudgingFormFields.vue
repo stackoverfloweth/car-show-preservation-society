@@ -87,7 +87,7 @@
     </div>
 
     <div class="event-editor-judging-form-fields__right">
-      <JudgingCategoriesInputForm :event-id="event.eventId" />
+      <JudgingCategoriesInputForm v-if="event.eventId" :event-id="event.eventId" />
     </div>
   </div>
 </template>
@@ -96,14 +96,15 @@
   import { usePatchRef, useValidation } from '@prefecthq/vue-compositions'
   import { computed } from 'vue'
   import JudgingCategoriesInputForm from '@/components/JudgingCategoriesInputForm.vue'
-  import { IEvent } from '@/models'
+  import { EventRequest } from '@/models'
+  import { mapper } from '@/services'
 
   const props = defineProps<{
-    event: IEvent,
+    event: EventRequest,
   }>()
 
   const emit = defineEmits<{
-    (event: 'update:event', value: IEvent): void,
+    (event: 'update:event', value: EventRequest): void,
   }>()
 
   const event = computed({
@@ -115,8 +116,24 @@
     },
   })
 
-  const votingStart = usePatchRef(event, 'votingStart')
-  const votingEnd = usePatchRef(event, 'votingEnd')
+  const votingStart = computed<Date | undefined>({
+    get() {
+      return mapper.map('String', event.value.votingStart, 'Date')
+    },
+    set(value) {
+      event.value.votingStart = mapper.map('Date', value, 'String')
+    },
+  })
+
+  const votingEnd = computed<Date | undefined>({
+    get() {
+      return mapper.map('String', event.value.votingEnd, 'Date')
+    },
+    set(value) {
+      event.value.votingEnd = mapper.map('Date', value, 'String')
+    },
+  })
+
   const mustBePresentToWin = usePatchRef(event, 'mustBePresentToWin')
   const canVoteForSelf = usePatchRef(event, 'canVoteForSelf')
   const driverSelfCategorization = usePatchRef(event, 'driverSelfCategorization')

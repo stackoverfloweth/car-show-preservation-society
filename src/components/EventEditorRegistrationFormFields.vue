@@ -65,14 +65,14 @@
   import { usePatchRef, useValidation } from '@prefecthq/vue-compositions'
   import { computed, ref } from 'vue'
   import PriceInput from '@/components/PriceInput.vue'
-  import { IEvent } from '@/models'
+  import { EventRequest } from '@/models'
 
   const props = defineProps<{
-    event: IEvent,
+    event: EventRequest,
   }>()
 
   const emit = defineEmits<{
-    (event: 'update:event', value: IEvent): void,
+    (event: 'update:event', value: EventRequest): void,
   }>()
 
   const event = computed({

@@ -32,12 +32,7 @@
 
   const clubSubscription = useSubscription(api.clubs.getClub, [clubId])
   clubSubscription.promise().then(({ response }) => {
-    if (response) {
-      values.value = {
-        ...response,
-        image: undefined,
-      }
-    }
+    values.value = { ...response, image: undefined }
   })
 
   const values = ref<Partial<ClubRequest>>({})

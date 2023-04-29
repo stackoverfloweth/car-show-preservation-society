@@ -53,7 +53,7 @@
         <SizedImage v-if="event.image" :image="event.image" class="event-viewer__logo" />
         <p>{{ event.description }}</p>
 
-        <LocationCard class="event-viewer__location" :location="event.location" />
+        <LocationCard v-if="event.location" class="event-viewer__location" :location="event.location" />
 
         <ContactIdCard class="event-viewer__contact" :user-id="event.contactUserId" show-label show-details />
 

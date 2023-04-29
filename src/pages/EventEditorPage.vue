@@ -43,7 +43,7 @@
 </template>
 
 <script lang="ts" setup>
-  import { Crumb, media } from '@prefecthq/prefect-design'
+  import { media } from '@prefecthq/prefect-design'
   import { useRouteParam } from '@prefecthq/vue-compositions'
   import { computed, ref } from 'vue'
   import { useRoute } from 'vue-router'

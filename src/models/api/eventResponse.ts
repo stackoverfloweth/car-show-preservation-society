@@ -1,11 +1,13 @@
-import { Location, ImageRequest } from '@/models'
+import { ObjectId } from 'mongodb'
+import { Location } from '@/models'
+import { ImageResponse } from '@/models/api'
 
-export type EventRequest = {
-  eventId?: string,
+export type EventResponse = {
+  _id: ObjectId,
   contactUserId?: string,
   name: string,
   description?: string,
-  image?: ImageRequest,
+  image?: ImageResponse,
   location?: Location,
   clubId: string,
   start: string,
@@ -23,6 +25,6 @@ export type EventRequest = {
   driverSelfCategorization?: boolean,
   maxSelfCategorization?: number,
   stripeCrossProductIds?: string[],
-  images?: ImageRequest[],
+  images?: ImageResponse[],
   isDraft?: boolean,
 }

@@ -13,6 +13,7 @@
   import EventViewer from '@/components/EventViewer.vue'
   import { useApi, useNavigation } from '@/compositions'
   import { routes } from '@/router/routes'
+  import { mapper } from '@/services'
 
   const api = useApi()
   const { set } = useNavigation()
@@ -20,18 +21,19 @@
 
   const eventSubscription = useSubscription(api.events.getEvent, [eventId])
   const event = computed(() => eventSubscription.response)
+  const request = computed(() => mapper.map('Event', event.value, 'EventRequest'))
 
   const pending = ref(false)
 
   async function toggleDraft(): Promise<void> {
     pending.value = true
 
-    if (!event.value) {
+    if (!request.value) {
       return
     }
 
-    const { isDraft } = event.value
-    await api.events.updateEvent({ ...event.value, isDraft: !isDraft })
+    const { isDraft } = request.value
+    await api.events.updateEvent({ ...request.value, isDraft: !isDraft })
 
     await eventSubscription.refresh()
     pending.value = false

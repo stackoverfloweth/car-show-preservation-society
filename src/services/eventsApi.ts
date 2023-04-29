@@ -1,21 +1,19 @@
 import { startOfDay } from 'date-fns'
-import { WithId } from 'mongodb'
-import { ImageResults, Event, IEvent } from '@/models'
+import { Event, EventResponse } from '@/models'
 import { EventRequest, EventsFilter, EventsSort } from '@/models/api'
 import { Api } from '@/services/api'
+import { mapper } from '@/services/mapper'
 import { mocker } from '@/services/mocker'
 
 export class EventsApi extends Api {
-  protected override routePrefix = '/events'
-
   public getEvent(eventId: string): Promise<Event | undefined> {
-    return this.get<WithId<IEvent> | undefined>(`events-get-by-id/${eventId}`)
-      .then(({ data }) => data ? new Event(data) : undefined)
+    return this.get<EventResponse | undefined>(`events-get-by-id/${eventId}`)
+      .then(({ data }) => mapper.map('EventResponse', data, 'Event'))
   }
 
   public getEvents(filter?: EventsFilter, sort?: EventsSort): Promise<Event[]> {
-    return this.get<WithId<IEvent>[]>('events-get-list')
-      .then(({ data }) => data.map(event => new Event(event)))
+    return this.get<EventResponse[]>('events-get-list')
+      .then(({ data }) => mapper.map('EventResponse', data, 'Event'))
   }
 
   public async getEventsHappeningToday(): Promise<Event[]> {
@@ -45,11 +43,15 @@ export class EventsApi extends Api {
   }
 
   public createEvent(request: EventRequest): Promise<string> {
-    return this.post<string>(`events-create/${request.eventId}`, request)
+    return this.post<string>('events-create', request)
       .then(({ data }) => data)
   }
 
   public updateEvent(request: EventRequest): Promise<void> {
     return this.put(`events-update/${request.eventId}`, request)
+  }
+
+  public deleteEvent(eventId: string): Promise<void> {
+    return this.delete(`events-delete/${eventId}`)
   }
 }
