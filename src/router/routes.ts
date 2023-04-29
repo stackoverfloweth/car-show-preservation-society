@@ -1,6 +1,7 @@
 import { RouteLocationRaw, RouteRecordRaw } from 'vue-router'
 
 export const routes = {
+  purgatory: () => ({ name: 'purgatory' }) as const,
   home: () => ({ name: 'home' }) as const,
   clubs: () => ({ name: 'clubs.list' }) as const,
   clubCreate: () => ({ name: 'clubs.create' }) as const,
