@@ -48,6 +48,7 @@ export class Event implements IEvent {
   public end: Date
   public votingStart?: Date
   public votingEnd?: Date
+  public mustBePresentToWin?: boolean
   public maxCapacity?: number
   public stripePriceId?: string
   public preRegistration?: boolean
@@ -73,6 +74,7 @@ export class Event implements IEvent {
     this.end = event.end
     this.votingStart = event.votingStart
     this.votingEnd = event.votingEnd
+    this.mustBePresentToWin = event.mustBePresentToWin
     this.maxCapacity = event.maxCapacity
     this.stripePriceId = event.stripePriceId
     this.preRegistration = event.preRegistration
