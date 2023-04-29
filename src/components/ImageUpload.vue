@@ -34,11 +34,11 @@
   import { ImageRequest } from '@/models/api'
 
   const props = defineProps<{
-    image: ImageRequest | undefined | null,
+    image: Partial<ImageRequest> | undefined | null,
   }>()
 
   const emit = defineEmits<{
-    (event: 'update:image', value: ImageRequest): void,
+    (event: 'update:image', value: Partial<ImageRequest>): void,
   }>()
 
   const image = computed({
@@ -51,7 +51,7 @@
   })
 
   const { validate, pending } = useValidationObserver()
-  const imageFile = ref<string | ArrayBuffer>()
+  const imageFile = ref<string>()
   const caption = ref<string>()
 
   const { error: captionError, state: captionState } = useValidation(caption, 'Caption', [])
@@ -92,7 +92,7 @@
     const [file] = target.files!
     const reader = new FileReader()
 
-    reader.onload = () => imageFile.value = reader.result ?? undefined
+    reader.onload = () => imageFile.value = typeof reader.result === 'string' ? reader.result : undefined
     reader.onerror = () => imageFile.value = undefined
     reader.readAsDataURL(file)
   }

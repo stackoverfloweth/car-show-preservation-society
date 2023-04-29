@@ -24,7 +24,7 @@
   const { validate, pending } = useValidationObserver()
   const { set } = useNavigation()
 
-  const values = ref<ClubRequest>({})
+  const values = ref<Partial<ClubRequest>>({})
 
   async function submit(): Promise<void> {
     const isValid = await validate()
@@ -33,10 +33,10 @@
       return
     }
 
-    await api.clubs.createClub(values.value as ClubRequest)
+    const clubId = await api.clubs.createClub(values.value as ClubRequest)
 
     showToast('Club Created!', 'success')
-    router.push(routes.clubs())
+    router.push(routes.club(clubId))
   }
 
   watchEffect(() => {

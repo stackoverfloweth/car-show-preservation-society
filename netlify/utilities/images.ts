@@ -1,8 +1,8 @@
 import { v2 as cloudinary } from 'cloudinary'
 import { ObjectId } from 'mongodb'
-import { IImage, ImageRequest } from '@/models'
+import { ImageResponse, ImageRequest } from '@/models'
 
-export async function uploadMedia(request: ImageRequest & { file: string }): Promise<IImage | undefined> {
+export async function uploadMedia(request: ImageRequest): Promise<ImageResponse | undefined> {
   const cloudinaryResult = await cloudinary.uploader.upload(request.file)
 
   return {
@@ -18,10 +18,10 @@ export async function uploadMedia(request: ImageRequest & { file: string }): Pro
   }
 }
 
-export function isValidImageRequest(value: unknown): value is ImageRequest & { file: string } {
+export function isValidImageRequest(value: unknown): value is ImageRequest {
   return !!value && typeof value === 'object' && 'file' in value && typeof value.file === 'string'
 }
 
-export function hasValidImageRequest(value: unknown): value is { image: ImageRequest & { file: string } } {
+export function hasValidImageRequest(value: unknown): value is { image: ImageRequest } {
   return !!value && typeof value === 'object' && 'image' in value && isValidImageRequest(value.image)
 }

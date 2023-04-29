@@ -1,10 +1,9 @@
-import { ObjectId } from 'mongodb'
 import { env } from '@/utilities'
 
 export type BackgroundPosition = string | [number, number]
 
 export interface IImage {
-  _id: ObjectId,
+  imageId: string,
   cloudinaryId: string,
   version: number,
   width: number,
@@ -19,7 +18,7 @@ export interface IImage {
 }
 
 export class Image implements IImage {
-  public readonly _id: ObjectId
+  public readonly imageId: string
   public readonly cloudinaryId: string
   public version: number
   public width: number
@@ -33,7 +32,7 @@ export class Image implements IImage {
   public caption?: string
 
   public constructor(image: IImage) {
-    this._id = image._id
+    this.imageId = image.imageId
     this.cloudinaryId = image.cloudinaryId
     this.version = image.version
     this.width = image.width
@@ -45,10 +44,6 @@ export class Image implements IImage {
     this.size = image.size
     this.position = image.position
     this.caption = image.caption
-  }
-
-  public get imageId(): string {
-    return this._id.toString()
   }
 
   public get src(): string {

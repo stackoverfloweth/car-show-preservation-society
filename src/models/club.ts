@@ -1,10 +1,9 @@
-import { ObjectId } from 'mongodb'
 import { IImage, Image } from '@/models/image'
 
 export type ClubVisibility = 'public' | 'private'
 
 export interface IClub {
-  _id: ObjectId,
+  clubId: string,
   name: string,
   description?: string,
   contactUserId?: string,
@@ -12,12 +11,11 @@ export interface IClub {
   image?: IImage,
   joinableByAnyone?: boolean,
   joinableByApplication?: boolean,
-  images?: IImage[],
-  isDeleted?: boolean,
+  images: IImage[],
 }
 
 export class Club implements IClub {
-  public readonly _id: ObjectId
+  public readonly clubId: string
   public name: string
   public description?: string
   public contactUserId?: string
@@ -26,10 +24,9 @@ export class Club implements IClub {
   public joinableByAnyone?: boolean
   public joinableByApplication?: boolean
   public images: Image[]
-  public isDeleted?: boolean
 
   public constructor(club: IClub) {
-    this._id = club._id
+    this.clubId = club.clubId
     this.name = club.name
     this.description = club.description
     this.contactUserId = club.contactUserId
@@ -37,12 +34,7 @@ export class Club implements IClub {
     this.image = club.image ? new Image(club.image) : undefined
     this.joinableByAnyone = club.joinableByAnyone
     this.joinableByApplication = club.joinableByApplication
-    this.images = (club.images ?? []).map(image => new Image(image))
-    this.isDeleted = club.isDeleted
-  }
-
-  public get clubId(): string {
-    return this._id.toString()
+    this.images = club.images.map(image => new Image(image))
   }
 
   public get visibility(): ClubVisibility {

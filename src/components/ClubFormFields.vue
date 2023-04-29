@@ -52,11 +52,11 @@
   import { stringHasValue } from '@/services'
 
   const props = defineProps<{
-    values: ClubRequest,
+    values: Partial<ClubRequest>,
   }>()
 
   const emit = defineEmits<{
-    (event: 'update:values', value: ClubRequest): void,
+    (event: 'update:values', value: Partial<ClubRequest>): void,
   }>()
 
   const values = computed({

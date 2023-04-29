@@ -43,7 +43,7 @@
   }>()
 
   const { clubId } = toRefs(props)
-  const newImage = ref<ImageRequest>({})
+  const newImage = ref<Partial<ImageRequest>>({})
   const api = useApi()
   const { validate } = useValidationObserver()
 
@@ -58,7 +58,7 @@
       return
     }
 
-    await api.clubImages.createClubImage(clubId.value, newImage.value)
+    await api.clubImages.createClubImage(clubId.value, newImage.value as ImageRequest)
 
     showToast('Sponsor Added!', 'success')
     clearNewImage()

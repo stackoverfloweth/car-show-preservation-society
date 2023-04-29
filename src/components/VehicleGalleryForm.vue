@@ -43,7 +43,7 @@
   }>()
 
   const { vehicleId } = toRefs(props)
-  const newImage = ref<ImageRequest>({})
+  const newImage = ref<Partial<ImageRequest>>({})
   const api = useApi()
   const { validate, pending } = useValidationObserver()
 
@@ -58,7 +58,7 @@
       return
     }
 
-    await api.vehicles.createVehicleImage(newImage.value)
+    await api.vehicles.createVehicleImage(newImage.value as ImageRequest)
 
     showToast('Sponsor Added!', 'success')
     clearNewImage()

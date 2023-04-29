@@ -33,20 +33,23 @@
   const clubSubscription = useSubscription(api.clubs.getClub, [clubId])
   clubSubscription.promise().then(({ response }) => {
     if (response) {
-      values.value = response
+      values.value = {
+        ...response,
+        image: undefined,
+      }
     }
   })
 
-  const values = ref<ClubRequest | undefined>()
+  const values = ref<Partial<ClubRequest>>({})
 
   async function submit(): Promise<void> {
     const isValid = await validate()
 
-    if (!isValid || !values.value) {
+    if (!isValid) {
       return
     }
 
-    await api.clubs.updateClub(values.value)
+    await api.clubs.updateClub(values.value as ClubRequest)
 
     showToast('Saved!', 'success')
     clubSubscription.refresh()

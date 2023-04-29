@@ -1,12 +1,11 @@
-import { WithId } from 'mongodb'
-import { Club, IClub } from '@/models'
+import { Club, ClubResponse } from '@/models'
 import { ClubRequest, ClubsFilter, ClubsSort } from '@/models/api'
-import { Api, mocker } from '@/services'
+import { Api, mapper, mocker } from '@/services'
 
 export class ClubsApi extends Api {
   public getClubs(filter?: ClubsFilter, sort?: ClubsSort): Promise<Club[]> {
-    return this.get<WithId<IClub>[]>('clubs-get-list')
-      .then(({ data }) => data.map(club => new Club(club)))
+    return this.get<ClubResponse[]>('clubs-get-list')
+      .then(({ data }) => mapper.map('ClubResponse', data, 'Club'))
   }
 
   public async getUpcomingEventsCount(clubId: string): Promise<number> {
@@ -14,8 +13,8 @@ export class ClubsApi extends Api {
   }
 
   public getClub(clubId: string): Promise<Club | undefined> {
-    return this.get<WithId<IClub> | undefined>(`clubs-get-by-id/${clubId}`)
-      .then(({ data }) => data ? new Club(data) : undefined)
+    return this.get<ClubResponse | undefined>(`clubs-get-by-id/${clubId}`)
+      .then(({ data }) => mapper.map('ClubResponse', data, 'Club'))
   }
 
   public createClub(request: ClubRequest): Promise<string> {
