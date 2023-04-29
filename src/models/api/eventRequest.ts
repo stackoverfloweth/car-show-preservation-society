@@ -24,6 +24,5 @@ export type EventRequest = {
   driverSelfCategorization?: boolean,
   maxSelfCategorization?: number,
   stripeCrossProductIds?: string[],
-  images?: ImageRequest[],
   isDraft?: boolean,
 }

@@ -1,6 +1,6 @@
 import { ObjectId } from 'mongodb'
 import { Location } from '@/models'
-import { ImageResponse } from '@/models/api'
+import { ImageResponse } from '@/models/api/imageResponse'
 
 export type EventResponse = {
   _id: ObjectId,
@@ -8,6 +8,7 @@ export type EventResponse = {
   name: string,
   description?: string,
   image?: ImageResponse,
+  images?: ImageResponse[],
   location?: Location,
   clubId: string,
   start: string,
@@ -25,6 +26,6 @@ export type EventResponse = {
   driverSelfCategorization?: boolean,
   maxSelfCategorization?: number,
   stripeCrossProductIds?: string[],
-  images?: ImageResponse[],
   isDraft?: boolean,
+  isDeleted?: boolean,
 }
