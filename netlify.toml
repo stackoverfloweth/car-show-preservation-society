@@ -1,2 +1,2 @@
 [functions]
-  included_files = ["src/models/api/**"]
+  node_bundler = "esbuild"
