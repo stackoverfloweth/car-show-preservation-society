@@ -1,5 +1,5 @@
 import { createRouter, createWebHistory, RouteRecordRaw } from 'vue-router'
-import { protectProd } from '@/router/guards/protectProd'
+import { saintPeter } from '@/router/guards/saintPeter'
 import { AppRouteRecord } from '@/router/routes'
 import { RouteGuardExecutioner } from '@/services/routeGuardExecutioner'
 
@@ -159,7 +159,7 @@ const router = createRouter({
   routes: routeRecords as RouteRecordRaw[],
 })
 
-RouteGuardExecutioner.register(protectProd)
+RouteGuardExecutioner.register(saintPeter)
 
 router.beforeEach(async (to, from) => {
   return await RouteGuardExecutioner.before(to, from)

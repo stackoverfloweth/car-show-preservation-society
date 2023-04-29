@@ -5,7 +5,7 @@ import { env } from '@/utilities'
 
 export const password = ref<string>()
 
-export const protectProd: RouteGuard = {
+export const saintPeter: RouteGuard = {
   before: (to) => {
     const purgatoryRoute = routes.purgatory()
 
@@ -13,7 +13,7 @@ export const protectProd: RouteGuard = {
       return true
     }
 
-    if (!env().prod && password.value !== env().password) {
+    if (env().prod && password.value !== env().password) {
       return purgatoryRoute
     }
   },

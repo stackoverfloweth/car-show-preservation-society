@@ -18,7 +18,7 @@
 
 <script lang="ts" setup>
   import { useRouter } from 'vue-router'
-  import { password } from '@/router/guards/protectProd'
+  import { password } from '@/router/guards/saintPeter'
   import { routes } from '@/router/routes'
 
   const router = useRouter()
