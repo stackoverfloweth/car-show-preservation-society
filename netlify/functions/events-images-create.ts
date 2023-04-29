@@ -38,6 +38,6 @@ export const handler: Handler = Api('POST', 'events-images-create/:id', ([eventI
       body: JSON.stringify(insertedId),
     }
   } finally {
-    await client.close()
+    // await client.close()
   }
 })

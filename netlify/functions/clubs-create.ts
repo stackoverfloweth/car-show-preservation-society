@@ -33,6 +33,6 @@ export const handler: Handler = Api<ClubRequest>('POST', 'clubs-create', (args, 
       body: JSON.stringify(result.insertedId),
     }
   } finally {
-    await client.close()
+    // await client.close()
   }
 })

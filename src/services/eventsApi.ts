@@ -26,20 +26,18 @@ export class EventsApi extends Api {
     return await Promise.resolve(mocker.createMany('event', mocker.create('number', [0, 1]), [{ start: new Date() }]))
   }
 
-  public async getUpcomingEvents(): Promise<Event[]> {
-    return await Promise.resolve(mocker.createMany('event', 5))
+  public getUpcomingEvents(): Promise<Event[]> {
+    return this.get<EventResponse[]>('events-get-list-upcoming')
+      .then(({ data }) => mapper.map('EventResponse', data, 'Event'))
   }
 
   public async getRelatedEvents(eventId: string): Promise<Event[]> {
     return await Promise.resolve(mocker.createMany('event', 5))
   }
 
-  public async getEventsByClubId(clubId: string): Promise<Event[]> {
-    return await Promise.resolve(mocker.createMany('event', 5, [{ clubId }]))
-  }
-
-  public async getEventsByUserId(userId: string): Promise<Event[]> {
-    return await Promise.resolve(mocker.createMany('event', 5))
+  public getEventsByClubId(clubId: string): Promise<Event[]> {
+    return this.get<EventResponse[]>(`events-get-list-by-club/${clubId}`)
+      .then(({ data }) => mapper.map('EventResponse', data, 'Event'))
   }
 
   public createEvent(request: EventRequest): Promise<string> {
@@ -53,5 +51,10 @@ export class EventsApi extends Api {
 
   public deleteEvent(eventId: string): Promise<void> {
     return this.delete(`events-delete/${eventId}`)
+  }
+
+  public getUpcomingEventsCount(clubId: string): Promise<number> {
+    return this.get<number>(`events-get-count-by-club/${clubId}`)
+      .then(({ data }) => data)
   }
 }

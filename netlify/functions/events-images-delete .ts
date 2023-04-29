@@ -15,6 +15,6 @@ export const handler: Handler = Api('GET', 'events-images-delete/:imageId', ([im
 
     return { statusCode: result.deletedCount === 1 ? 202 : 400 }
   } finally {
-    await client.close()
+    // await client.close()
   }
 })

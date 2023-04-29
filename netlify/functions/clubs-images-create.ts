@@ -38,6 +38,6 @@ export const handler: Handler = Api('POST', 'clubs-images-create/:id', ([clubId]
       body: JSON.stringify(insertedId),
     }
   } finally {
-    await client.close()
+    // await client.close()
   }
 })

@@ -27,6 +27,6 @@ export const handler: Handler = Api<EventRequest>('PUT', 'events-update/:id', (a
 
     return { statusCode: result.acknowledged ? 202 : 400 }
   } finally {
-    await client.close()
+    // await client.close()
   }
 })

@@ -25,6 +25,6 @@ export const handler: Handler = Api('GET', 'clubs-images-get-list/:id', ([clubId
       }),
     }
   } finally {
-    await client.close()
+    // await client.close()
   }
 })

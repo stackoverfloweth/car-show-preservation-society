@@ -121,7 +121,7 @@
   const memberCountSubscription = useSubscription(api.clubMembership.getActiveMemberCount, [clubId])
   const memberCount = computed(() => memberCountSubscription.response ?? 0)
 
-  const upcomingEventsCountSubscription = useSubscription(api.clubs.getUpcomingEventsCount, [clubId])
+  const upcomingEventsCountSubscription = useSubscription(api.events.getUpcomingEventsCount, [clubId])
   const upcomingEventsCount = computed(() => upcomingEventsCountSubscription.response ?? 0)
 
   const adminsSubscription = useSubscription(api.clubMembership.getClubAdmins, [clubId])

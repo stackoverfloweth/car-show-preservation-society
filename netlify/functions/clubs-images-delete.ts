@@ -15,6 +15,6 @@ export const handler: Handler = Api('GET', 'clubs-images-delete/:imageId', ([ima
 
     return { statusCode: result.deletedCount === 1 ? 202 : 400 }
   } finally {
-    await client.close()
+    // await client.close()
   }
 })

@@ -21,6 +21,6 @@ export const handler: Handler = Api('GET', 'clubs-get-by-id/:id', ([clubId]) => 
       body: JSON.stringify(club),
     }
   } finally {
-    await client.close()
+    // await client.close()
   }
 })

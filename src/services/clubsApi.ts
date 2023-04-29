@@ -1,15 +1,11 @@
 import { Club } from '@/models'
 import { ClubRequest, ClubResponse, ClubsFilter, ClubsSort } from '@/models/api'
-import { Api, mapper, mocker } from '@/services'
+import { Api, mapper } from '@/services'
 
 export class ClubsApi extends Api {
   public getClubs(filter?: ClubsFilter, sort?: ClubsSort): Promise<Club[]> {
     return this.get<ClubResponse[]>('clubs-get-list')
       .then(({ data }) => mapper.map('ClubResponse', data, 'Club'))
-  }
-
-  public async getUpcomingEventsCount(clubId: string): Promise<number> {
-    return await Promise.resolve(mocker.create('number', [0, 50]))
   }
 
   public getClub(clubId: string): Promise<Club | undefined> {

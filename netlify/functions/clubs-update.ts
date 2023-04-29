@@ -27,6 +27,6 @@ export const handler: Handler = Api<ClubRequest>('PUT', 'clubs-update/:id', (arg
 
     return { statusCode: result.acknowledged ? 202 : 400 }
   } finally {
-    await client.close()
+    // await client.close()
   }
 })

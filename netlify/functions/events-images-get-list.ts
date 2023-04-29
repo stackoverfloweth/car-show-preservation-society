@@ -25,6 +25,6 @@ export const handler: Handler = Api('GET', 'events-images-get-list/:id', ([event
       }),
     }
   } finally {
-    await client.close()
+    // await client.close()
   }
 })

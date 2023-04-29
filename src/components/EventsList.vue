@@ -2,7 +2,7 @@
   <div class="events-list">
     <template v-for="event in events" :key="event.eventId">
       <router-link :to="routes.event(event.eventId)">
-        <EventsListItem :event="event" />
+        <EventsListItem :event="event" class="events-list__item" />
       </router-link>
     </template>
   </div>
@@ -23,5 +23,9 @@
   display: flex;
   flex-direction: column;
   gap: var(--space-4);
+}
+
+.events-list__item:hover {
+  background-color: var(--slate-700);
 }
 </style>

@@ -33,6 +33,6 @@ export const handler: Handler = Api<EventRequest>('POST', 'events-create', (args
       body: JSON.stringify(result.insertedId),
     }
   } finally {
-    await client.close()
+    // await client.close()
   }
 })
