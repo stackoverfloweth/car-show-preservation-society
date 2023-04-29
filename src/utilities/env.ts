@@ -12,6 +12,6 @@ export function env(): Env {
     cloudinaryName: import.meta.env.VITE_CLOUDINARY_NAME,
     mapBoxToken: import.meta.env.VITE_MAPBOX_TOKEN,
     password: import.meta.env.VITE_PASSWORD,
-    prod: !!import.meta.env.PROD,
+    prod: import.meta.env.PROD,
   }
 }
