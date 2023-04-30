@@ -71,8 +71,8 @@
       </p-label>
 
       <div class="profile-form-fields__image-upload">
-        <p-label label="Add Photo" :message="profileImageError" :state="profileImageState" />
-        <ImageUpload v-model:image="profileImage" />
+        <p-label label="Add Photo" :message="imageError" :state="imageState" />
+        <ImageUpload v-model:image="image" />
       </div>
     </div>
   </div>
@@ -107,7 +107,7 @@
   const emailAddress = usePatchRef(user, 'emailAddress')
   const phoneNumber = usePatchRef(user, 'phoneNumber')
   const location = usePatchRef(user, 'location')
-  const profileImage = usePatchRef(user, 'profileImage')
+  const image = usePatchRef(user, 'image')
   const displayNameOverride = usePatchRef(user, 'displayNameOverride')
   const hideEmailAddress = usePatchRef(user, 'hideEmailAddress')
   const hidePhoneNumber = usePatchRef(user, 'hidePhoneNumber')
@@ -118,7 +118,7 @@
   const { error: emailAddressError, state: emailAddressState } = useValidation(emailAddress, 'Email Address', [])
   const { error: phoneNumberError, state: phoneNumberState } = useValidation(phoneNumber, 'Phone Number', [])
   const { error: locationError, state: locationState } = useValidation(location, 'Location', [])
-  const { error: profileImageError, state: profileImageState } = useValidation(profileImage, 'Profile Image', [])
+  const { error: imageError, state: imageState } = useValidation(image, 'Profile Image', [])
 </script>
 
 <style>

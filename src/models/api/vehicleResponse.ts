@@ -13,4 +13,5 @@ export type VehicleResponse = {
   modifiedAppearance?: boolean,
   image?: ImageResponse,
   images?: ImageResponse[],
+  isDeleted?: boolean,
 }

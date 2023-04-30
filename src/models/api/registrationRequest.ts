@@ -3,11 +3,11 @@ import { VehicleRequest } from '@/models/api/vehicleRequest'
 
 export type RegistrationRequest = {
   registrationId?: string,
-  userId: string,
   eventId: string,
-  vehicleId?: string,
   stripePaymentId?: string,
-  votingCategoryIds?: string[],
+  userId: string,
+  vehicleId?: string,
+  votingCategoryIds: string[],
 }
 
 export type NewUserRegistrationRequest = RegistrationRequest & {

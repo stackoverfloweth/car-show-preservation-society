@@ -10,7 +10,7 @@ export const randomUser: MockFunction<User, [Partial<User>?]> = function(overrid
     firstName: capitalize(this.create('adjective')),
     lastName: capitalize(this.create('noun')),
     location: this.create('location'),
-    profileImage: this.create('image'),
+    image: this.create('image'),
     stripeCustomerId: undefined,
     ...overrides,
   })

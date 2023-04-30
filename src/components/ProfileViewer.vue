@@ -9,7 +9,7 @@
     </template>
 
     <div class="profile-viewer__details">
-      <SizedImage v-if="user.profileImage" class="profile-viewer__image" :image="user.profileImage" />
+      <SizedImage v-if="user.image" class="profile-viewer__image" :image="user.image" />
 
       <div class="profile-viewer__columns">
         <div class="profile-viewer__contact">

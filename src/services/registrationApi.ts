@@ -1,74 +1,73 @@
-import { ref } from 'vue'
-import { NewUserRegistrationRequest, RegistrationRequest } from '@/models/api'
+import { NewUserRegistrationRequest, RegistrationRequest, RegistrationResponse } from '@/models/api'
 import { Registration } from '@/models/registration'
 import { Api } from '@/services/api'
-import { mocker } from '@/services/mocker'
-
-export const isRegistered = ref(true)
+import { mapper } from '@/services/mapper'
 
 export class RegistrationsApi extends Api {
-  protected override routePrefix = '/registration'
-
-  public async getRegistration(registrationId: string): Promise<Registration | undefined> {
-    return await Promise.resolve(mocker.create('registration', [{ registrationId }]))
+  public getRegistration(registrationId: string): Promise<Registration | undefined> {
+    return this.get<RegistrationResponse | undefined>(`registrations-get-by-id/${registrationId}`)
+      .then(({ data }) => mapper.map('RegistrationResponse', data, 'Registration'))
   }
 
-  public async getRegistrations(eventId: string): Promise<Registration[]> {
-    return await Promise.resolve(mocker.createMany('registration', 50, [{ eventId }]))
+  public getRegistrations(eventId: string): Promise<Registration[]> {
+    return this.get<RegistrationResponse[]>(`registrations-get-list/${eventId}`)
+      .then(({ data }) => mapper.map('RegistrationResponse', data, 'Registration'))
   }
 
-  public async getRegistrationsForCategory(eventId: string, votingCategoryId: string): Promise<Registration[]> {
-    return await Promise.resolve(mocker.createMany('registration', 50, [{ eventId }]))
+  public getRegistrationsForCategory(eventId: string, votingCategoryId: string): Promise<Registration[]> {
+    return this.get<RegistrationResponse[]>(`registrations-get-list-by-category/${eventId}/${votingCategoryId}`)
+      .then(({ data }) => mapper.map('RegistrationResponse', data, 'Registration'))
   }
 
-  public async getRegistrationsCount(eventId: string): Promise<number> {
-    return await Promise.resolve(mocker.create('number', [50, 100]))
+  public getRegistrationsCount(eventId: string): Promise<number> {
+    return this.get<number>(`registrations-get-count/${eventId}`)
+      .then(({ data }) => data)
   }
 
-  public async getRegistrationsCheckedInCount(eventId: string): Promise<number> {
-    return await Promise.resolve(mocker.create('number', [0, 65]))
+  public getRegistrationsCheckedInCount(eventId: string): Promise<number> {
+    return this.get<number>(`registrations-get-count-by-checked-in/${eventId}`)
+      .then(({ data }) => data)
   }
 
-  public async findRegistration(eventId: string, userId: string): Promise<Registration | undefined> {
-    if (!isRegistered.value) {
-      return undefined
-    }
-
-    return await Promise.resolve(mocker.create('registration', [{ eventId, userId }]))
+  public findRegistration(eventId: string, userId: string): Promise<Registration | undefined> {
+    return this.get<RegistrationResponse | undefined>(`registrations-get-by-event-and-user/${eventId}/${userId}`)
+      .then(({ data }) => mapper.map('RegistrationResponse', data, 'Registration'))
   }
 
-  public async searchRegistrations(needle: string): Promise<Registration[]> {
-    const count = 5 - needle.length
-    // needle can be firstname, lastname, email, phone, displayName, carId, registrationCode
-    return await Promise.resolve(mocker.createMany('registration', count))
+  public searchRegistrations(needle: string): Promise<Registration[]> {
+    return this.get<RegistrationResponse[]>(`registrations-search-list/${needle}`)
+      .then(({ data }) => mapper.map('RegistrationResponse', data, 'Registration'))
   }
 
-  public async createRegistration(request: RegistrationRequest): Promise<Registration> {
-    return await Promise.resolve(mocker.create('registration', [request]))
+  public createRegistration(request: RegistrationRequest): Promise<string> {
+    return this.post<string>('registrations-create', request)
+      .then(({ data }) => data)
   }
 
-  public async createNewUserRegistration(request: NewUserRegistrationRequest): Promise<Registration> {
-    // should notify user to complete profile
-    return await Promise.resolve(mocker.create('registration'))
+  public createNewUserRegistration(request: NewUserRegistrationRequest): Promise<string> {
+    // should notify user to complete profile, must be event admin
+    return this.post<string>('registrations-create-as-admin', request)
+      .then(({ data }) => data)
   }
 
-  public async updateRegistration(request: RegistrationRequest): Promise<Registration> {
-    return await Promise.resolve(mocker.create('registration', [request]))
+  public updateRegistration(request: RegistrationRequest): Promise<void> {
+    return this.put(`registrations-update/${request.registrationId}`, request)
   }
 
-  public async deleteRegistration(registrationId: string): Promise<void> {
-    await Promise.resolve({ registrationId })
+  public deleteRegistration(registrationId: string): Promise<void> {
+    return this.delete(`registrations-delete/${registrationId}`)
   }
 
-  public async markAsPaid(registrationId: string): Promise<void> {
-    await Promise.resolve({ registrationId })
+  public markAsPaid(registrationId: string): Promise<void> {
+    return this.post(`registrations-mark-paid/${registrationId}`)
   }
 
-  public async markAsUnpaid(registrationId: string): Promise<void> {
-    await Promise.resolve({ registrationId })
+  public markAsUnpaid(registrationId: string): Promise<void> {
+    return this.post(`registrations-mark-unpaid/${registrationId}`)
   }
 
-  public async checkIn(registrationId: string): Promise<void> {
-    await Promise.resolve({ registrationId })
+  public checkIn(registrationId: string): Promise<string> {
+    return this.post<string>(`registrations-check-in/${registrationId}`)
+      .then(({ data }) => data)
   }
 }

@@ -1,7 +1,7 @@
 <template>
   <ClubMembersListItem
     :name="member.displayName"
-    :image="member.profileImage"
+    :image="member.image"
     :user-id="member.userId"
     member-type="administrator"
     class="club-members-list-item-admin"

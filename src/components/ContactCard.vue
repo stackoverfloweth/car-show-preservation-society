@@ -6,10 +6,10 @@
     <template v-if="user">
       <div class="contact-card__content">
         <SizedImage
-          v-if="user.profileImage"
+          v-if="user.image"
           class="contact-card__image"
           :role="canShowDetailsModal ? 'button' : 'img'"
-          :image="user.profileImage"
+          :image="user.image"
           rounded
           @click="handleImageClick"
         />

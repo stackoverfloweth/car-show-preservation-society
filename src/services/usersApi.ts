@@ -1,38 +1,30 @@
-import { Club } from '@/models'
-import { IUser, User } from '@/models/user'
+import { UserRequest, UserResponse } from '@/models/api'
+import { User } from '@/models/user'
 import { Api } from '@/services/api'
-import { mocker } from '@/services/mocker'
+import { mapper } from '@/services/mapper'
 
 export class UsersApi extends Api {
-  protected override routePrefix = '/users'
-
-  public async getUser(userId: string): Promise<User | undefined> {
-    return await Promise.resolve(mocker.create('user', [{ userId }]))
+  public getUser(userId: string): Promise<User | undefined> {
+    return this.get<UserResponse | undefined>(`users-get-by-id/${userId}`)
+      .then(({ data }) => mapper.map('UserResponse', data, 'User'))
   }
 
-  public async findUser({ phoneNumber, emailAddress }: { phoneNumber?: string, emailAddress?: string }): Promise<User | undefined> {
-    if (`${phoneNumber ?? ''}${emailAddress ?? ''}`.length > 5) {
-      return await Promise.resolve(mocker.create('user', [{ phoneNumber, emailAddress }]))
-    }
-
-    return undefined
+  public findUser({ phoneNumber, emailAddress }: { phoneNumber?: string, emailAddress?: string }): Promise<User | undefined> {
+    return this.get<UserResponse | undefined>(`users-get-by-phone-and-email/${phoneNumber}/${emailAddress}`)
+      .then(({ data }) => mapper.map('UserResponse', data, 'User'))
   }
 
-  public async getUsersFromClub(clubId: string): Promise<User[]> {
-    return await Promise.resolve(mocker.createMany('user', 5))
+  public getUsersFromClub(clubId: string): Promise<User[]> {
+    return this.get<UserResponse[]>(`users-get-list-by-club/${clubId}`)
+      .then(({ data }) => mapper.map('UserResponse', data, 'User'))
   }
 
-  public async updateUser(user: IUser): Promise<User> {
-    return await Promise.resolve(mocker.create('user', [user]))
+  public createUser(request: UserRequest): Promise<string> {
+    return this.post<string>('users-create', request)
+      .then(({ data }) => data)
   }
 
-  public async getUserClubs(userId: string): Promise<Club[]> {
-    return await Promise.resolve(mocker.createMany('club', mocker.create('number', [0, 5])))
-  }
-
-  public async isMemberOfClub(userId: string, clubId: string): Promise<boolean> {
-    const clubs = await this.getUserClubs(userId)
-
-    return clubs.some(club => club.clubId === clubId)
+  public updateUser(request: UserRequest): Promise<User> {
+    return this.put(`users-update/${request.userId}`, request)
   }
 }

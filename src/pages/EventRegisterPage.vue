@@ -21,7 +21,7 @@
       </div>
 
       <div class="event-register-page__column">
-        <CheckoutSummary :event="event" :registration="existingRegistration" />
+        <CheckoutSummary :event="event" :registration="existingRegistration" @submit="submit" />
       </div>
     </template>
 
@@ -48,7 +48,6 @@
   import { RegistrationRequest, NewUserRegistrationRequest } from '@/models/api'
   import { routes } from '@/router/routes'
   import { currentUser } from '@/services/auth'
-  import { isRegistered } from '@/services/registrationApi'
 
   const api = useApi()
   const eventId = useRouteParam('eventId')
@@ -77,6 +76,10 @@
   const registrationValues = ref<RegistrationRequest>({ eventId: eventId.value, userId: currentUser.userId, votingCategoryIds: [] })
   const registrationNewUserValues = ref<NewUserRegistrationRequest>({ ...registrationValues.value, user: {}, vehicle: { userId: currentUser.userId } })
 
+  function submit(): Promise<void> {
+    return canEditEvent ? submitNewUserRegistration() : submitRegistration()
+  }
+
   async function submitNewUserRegistration(): Promise<void> {
     const isValid = await validate()
 
@@ -84,14 +87,11 @@
       return
     }
 
-    const registration = await api.registration.createRegistration(registrationValues.value)
+    const registrationId = await api.registration.createNewUserRegistration(registrationNewUserValues.value)
 
     showToast('Registered!', 'success')
 
-    // todo: this is demo only
-    isRegistered.value = true
-
-    router.push(routes.eventRegistration(eventId.value, registration.registrationId))
+    router.push(routes.eventRegistration(eventId.value, registrationId))
   }
 
   async function submitRegistration(): Promise<void> {
@@ -104,9 +104,6 @@
     await api.registration.createRegistration(registrationValues.value)
 
     showToast('Registered!', 'success')
-
-    // todo: this is demo only
-    isRegistered.value = true
 
     registrationSubscription.refresh()
   }

@@ -8,7 +8,7 @@ export interface IUser {
   firstName?: string,
   lastName?: string,
   location?: Location,
-  profileImage?: Image,
+  image?: Image,
   stripeCustomerId?: string,
   hideEmailAddress?: boolean,
   hidePhoneNumber?: boolean,
@@ -23,7 +23,7 @@ export class User implements IUser {
   public firstName?: string
   public lastName?: string
   public location?: Location
-  public profileImage?: Image
+  public image?: Image
   public stripeCustomerId?: string
   public hideEmailAddress?: boolean
   public hidePhoneNumber?: boolean
@@ -37,7 +37,7 @@ export class User implements IUser {
     this.firstName = user.firstName
     this.lastName = user.lastName
     this.location = user.location
-    this.profileImage = user.profileImage
+    this.image = user.image
     this.stripeCustomerId = user.stripeCustomerId
     this.hideEmailAddress = user.hideEmailAddress
     this.hidePhoneNumber = user.hidePhoneNumber

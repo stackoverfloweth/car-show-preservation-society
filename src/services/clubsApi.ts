@@ -8,6 +8,11 @@ export class ClubsApi extends Api {
       .then(({ data }) => mapper.map('ClubResponse', data, 'Club'))
   }
 
+  public getUserClubs(userId: string): Promise<Club[]> {
+    return this.get<ClubResponse[]>(`clubs-get-list-by-user/${userId}`)
+      .then(({ data }) => mapper.map('ClubResponse', data, 'Club'))
+  }
+
   public getClub(clubId: string): Promise<Club | undefined> {
     return this.get<ClubResponse | undefined>(`clubs-get-by-id/${clubId}`)
       .then(({ data }) => mapper.map('ClubResponse', data, 'Club'))

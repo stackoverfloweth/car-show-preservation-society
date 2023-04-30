@@ -12,4 +12,5 @@ export type VotingCategoryResponse = {
   featured?: boolean,
   stripePriceId?: string,
   currentCapacity?: number,
+  isDeleted?: boolean,
 }

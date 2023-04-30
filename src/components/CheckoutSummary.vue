@@ -38,7 +38,9 @@
               Register Without Paying
             </p-button>
           </template>
-          <p-button>Complete Payment</p-button>
+          <p-button @click="submit">
+            Complete Payment
+          </p-button>
         </div>
       </template>
     </template>
@@ -59,8 +61,16 @@
     registration?: Registration,
   }>()
 
+  const emit = defineEmits<{
+    (event: 'submit'): void,
+  }>()
+
   const canEditEvent = useCanEditEvent()
   const { showModal, open } = useShowModal()
+
+  function submit(): void {
+    emit('submit')
+  }
 </script>
 
 <style>

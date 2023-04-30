@@ -8,6 +8,10 @@ export class ClubMembershipApi extends Api {
     return await Promise.resolve(mocker.create('number', [1, 500]))
   }
 
+  public isMemberOfClub(userId: string, clubId: string): Promise<boolean> {
+    throw 'not implemented'
+  }
+
   public async joinClub(clubId: string, userId: string): Promise<void> {
     // shouldn't work for non-public or requires review
     await Promise.resolve({ clubId, userId })
