@@ -1,5 +1,7 @@
-export type VotingCategoryRequest = {
-  votingCategoryId?: string,
+import { ObjectId } from 'mongodb'
+
+export type VotingCategoryResponse = {
+  _id: ObjectId,
   eventId: string,
   name: string,
   description?: string,
@@ -9,4 +11,5 @@ export type VotingCategoryRequest = {
   automaticEntry?: boolean,
   featured?: boolean,
   stripePriceId?: string,
+  currentCapacity?: number,
 }

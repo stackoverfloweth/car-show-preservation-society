@@ -1,19 +1,16 @@
-import { VotingCategoryRequest } from '@/models/api'
+import { VotingCategoryRequest, VotingCategoryResponse } from '@/models/api'
 import { VotingCategory } from '@/models/votingCategory'
-import { Api, mocker } from '@/services'
+import { Api, mapper, mocker } from '@/services'
 
 export class VotingCategoriesApi extends Api {
-  protected override routePrefix = '/votingCategories'
-
-  public async getVotingCategory(votingCategoryId: string): Promise<VotingCategory> {
-    return await Promise.resolve(mocker.create('votingCategory', [{ votingCategoryId }]))
+  public getVotingCategory(votingCategoryId: string): Promise<VotingCategory | undefined> {
+    return this.get<VotingCategoryResponse | undefined>(`voting-category-get-by-id/${votingCategoryId}`)
+      .then(({ data }) => mapper.map('VotingCategoryResponse', data, 'VotingCategory'))
   }
 
-  public async getVotingCategories(eventId: string): Promise<VotingCategory[]> {
-    return await Promise.resolve([
-      mocker.create('votingCategory', [{ eventId, featured: true, automaticEntry: true }]),
-      ...mocker.createMany('votingCategory', 50, [{ eventId }]),
-    ])
+  public getVotingCategories(eventId: string): Promise<VotingCategory[]> {
+    return this.get<VotingCategoryResponse[]>(`voting-category-get-list/${eventId}`)
+      .then(({ data }) => mapper.map('VotingCategoryResponse', data, 'VotingCategory'))
   }
 
   public async getVotingCategoriesByRegistration(registrationId: string): Promise<VotingCategory[]> {
@@ -23,23 +20,29 @@ export class VotingCategoriesApi extends Api {
     ])
   }
 
-  public async suggestVotingCategories(eventId: string): Promise<VotingCategory[]> {
-    return await Promise.resolve(mocker.createMany('votingCategory', 5, [{ eventId }]))
+  public suggestVotingCategories(eventId: string): Promise<string[]> {
+    return this.post<string[]>(`voting-category-suggest/${eventId}`)
+      .then(({ data }) => data)
   }
 
-  public async createVotingCategory(request: VotingCategoryRequest): Promise<VotingCategory> {
-    return await Promise.resolve(mocker.create('votingCategory', [request]))
+  public createVotingCategory(request: VotingCategoryRequest): Promise<string> {
+    return this.post<string>('voting-category-create', request)
+      .then(({ data }) => data)
   }
 
-  public async updateVotingCategory(request: VotingCategory): Promise<VotingCategory> {
-    return await Promise.resolve(mocker.create('votingCategory', [request]))
+  public updateVotingCategory(request: VotingCategoryRequest): Promise<VotingCategory> {
+    return this.put(`voting-category-update/${request.votingCategoryId}`, request)
   }
 
-  public async deleteVotingCategory(votingCategoryId: string): Promise<void> {
-    await Promise.resolve(votingCategoryId)
+  public deleteVotingCategory(votingCategoryId: string): Promise<void> {
+    return this.delete(`voting-category-delete/${votingCategoryId}`)
   }
 
-  public async deleteAllVotingCategories(eventId: string): Promise<void> {
-    await Promise.resolve(eventId)
+  public deleteVotingCategories(votingCategoryIds: string[]): Promise<void> {
+    return this.post('voting-category-delete-many', { votingCategoryIds })
+  }
+
+  public deleteAllVotingCategories(eventId: string): Promise<void> {
+    return this.delete(`voting-category-delete-all/${eventId}`)
   }
 }

@@ -2,21 +2,21 @@ export interface IVotingCategory {
   votingCategoryId: string,
   eventId: string,
   name: string,
-  description: string,
+  description?: string,
   maxCapacity?: number,
-  currentCapacity?: number,
   driversOnly?: boolean,
   membersOnly?: boolean,
   automaticEntry?: boolean,
   featured?: boolean,
   stripePriceId?: string,
+  currentCapacity?: number,
 }
 
 export class VotingCategory implements IVotingCategory {
   public readonly votingCategoryId: string
   public readonly eventId: string
   public name: string
-  public description: string
+  public description?: string
   public maxCapacity?: number
   public currentCapacity: number
   public driversOnly?: boolean
@@ -45,5 +45,9 @@ export class VotingCategory implements IVotingCategory {
 
   public get hasCapacity(): boolean {
     return this.openSlots > 0
+  }
+
+  public get restricted(): boolean {
+    return this.driversOnly === true || this.membersOnly === true
   }
 }

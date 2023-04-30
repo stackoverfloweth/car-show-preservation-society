@@ -22,6 +22,7 @@
     --font-sm: 0.85rem;
 
     --rounded: .5rem;
+    --virtual-scroller-item-gap: 0.25rem;
 
     --z-root: 0;
     --z-front: 1;

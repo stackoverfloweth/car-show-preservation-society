@@ -85,6 +85,16 @@
 </script>
 
 <style>
+.danger-area-confirm {
+  background: repeating-linear-gradient(
+    45deg,
+    rgba(220, 38, 38, 0.4),
+    rgba(220, 38, 38, 0.4) 10px,
+    rgba(220, 38, 38, 0.5) 10px,
+    rgba(220, 38, 38, 0.5) 20px
+  );
+}
+
 .danger-area-confirm__body {
   display: flex;
   flex-direction: column;

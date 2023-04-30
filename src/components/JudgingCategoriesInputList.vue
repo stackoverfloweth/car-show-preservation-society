@@ -5,6 +5,7 @@
     :items="categories"
     item-key="votingCategoryId"
     :chunk-size="10"
+    :gap="5"
   >
     <template #default="{ item }:{item: VotingCategory}">
       <JudgingCategoriesInputListItem

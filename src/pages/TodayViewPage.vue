@@ -17,9 +17,11 @@
       <EventsList :events="upcomingEvents" />
     </div>
 
-    <p-link :to="routes.events()">
-      See All Events
-    </p-link>
+    <div class="today-view-page__actions">
+      <p-link :to="routes.events()">
+        See All Events
+      </p-link>
+    </div>
   </div>
 </template>
 

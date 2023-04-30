@@ -60,7 +60,6 @@
 .clubs-list-item__logo {
   padding-top: 50%;
   width: 100%;
-  margin-bottom: var(--space-2);
 }
 
 .clubs-list-item__name {

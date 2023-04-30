@@ -78,11 +78,11 @@
   import { stringHasValue } from '@/services'
 
   const props = defineProps<{
-    values: VotingCategoryRequest,
+    values: Partial<VotingCategoryRequest>,
   }>()
 
   const emit = defineEmits<{
-    (event: 'update:values', value: VotingCategoryRequest): void,
+    (event: 'update:values', value: Partial<VotingCategoryRequest>): void,
   }>()
 
   const values = computed({
@@ -104,7 +104,7 @@
   const priceInPennies = ref<number>()
 
   const { error: nameError, state: nameState } = useValidation(name, 'Name', [stringHasValue])
-  const { error: descriptionError, state: descriptionState } = useValidation(description, 'Description', [stringHasValue])
+  const { error: descriptionError, state: descriptionState } = useValidation(description, 'Description', [])
   const { error: maxCapacityError, state: maxCapacityState } = useValidation(maxCapacity, 'Maximum Capacity', [])
   const { error: priceInPenniesError, state: priceInPenniesState } = useValidation(priceInPennies, 'Additional Cost', [])
   // validate no more than 3 total featured categories

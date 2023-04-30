@@ -12,7 +12,7 @@
         {{ category.description }}
       </div>
       <div class="judging-categories-input-list-item__info-badges">
-        <template v-if="category.automaticEntry">
+        <template v-if="category.featured">
           <p-tag class="judging-categories-input-list-item__info-badge judging-categories-input-list-item__info-badge--featured" icon="StarIcon" label="Featured" />
         </template>
         <template v-if="category.stripePriceId">
@@ -21,8 +21,13 @@
         <template v-if="category.automaticEntry">
           <p-tag class="judging-categories-input-list-item__info-badge" icon="LightningBoltIcon" label="Automatic Entry" />
         </template>
-        <p-tag class="judging-categories-input-list-item__info-badge" icon="ClipboardCheckIcon">
-          {{ category.driversOnly ? 'drivers only' : 'everyone' }}
+        <p-tag v-if="category.restricted" class="judging-categories-input-list-item__info-badge" icon="ClipboardCheckIcon">
+          <template v-if="category.driversOnly">
+            Drivers Only
+          </template>
+          <template v-else>
+            Members Only
+          </template>
         </p-tag>
         <template v-if="category.maxCapacity">
           <p-tag class="judging-categories-input-list-item__info-badge" icon="UserGroupIcon">
@@ -63,10 +68,6 @@
 </script>
 
 <style>
-.judging-categories-input-list-item {
-  margin-bottom: var(--space-2);
-}
-
 .judging-categories-input-list-item__category:hover {
   cursor: pointer;
   background-color: var(--slate-700);
@@ -77,6 +78,12 @@
   display: flex;
   flex-direction: column;
   gap: var(--space-2);
+}
+
+.judging-categories-input-list-item__description {
+  color: var(--slate-400);
+  font-size: .75rem;
+  line-height: 0.95rem;
 }
 
 .judging-categories-input-list-item__info-badges {

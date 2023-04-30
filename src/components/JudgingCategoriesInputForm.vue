@@ -59,7 +59,7 @@
     <p-form @submit="saveCategoryForm">
       <JudgingCategoryFormFields v-model:values="categoryFormValues" />
 
-      <template v-if="isVotingCategory(categoryFormValues)">
+      <template v-if="isExistingVotingCategory(categoryFormValues)">
         <DangerAreaConfirm :confirm-text="`Are you sure you want to delete ${categoryFormValues.name}?`" @confirmed="deleteCategory">
           <template #target="{ open: openConfirm }">
             <p-link class="judging-category-input__modal-delete-link" danger @click="openConfirm">
@@ -114,16 +114,16 @@
 
 
   const selectedCategories = ref<VotingCategory[]>([])
-  const categoryFormValues = ref<VotingCategoryRequest | VotingCategory>({})
+  const categoryFormValues = ref<Partial<VotingCategoryRequest>>({ eventId: eventId.value })
 
   const votingCategoriesSubscription = useSubscription(api.votingCategories.getVotingCategories, [eventId])
   const votingCategories = computed(() => votingCategoriesSubscription.response ?? [])
 
-  function isVotingCategory(values: VotingCategoryRequest | VotingCategory): values is VotingCategory {
+  function isExistingVotingCategory(values: Partial<VotingCategoryRequest>): values is VotingCategory & { votingCategoryId: string } {
     return 'votingCategoryId' in values && !!values.votingCategoryId
   }
 
-  const modalTitle = computed(() => isVotingCategory(categoryFormValues.value) ? 'Update Category' : 'Add Category')
+  const modalTitle = computed(() => isExistingVotingCategory(categoryFormValues.value) ? 'Update Category' : 'Add Category')
 
   async function saveCategoryForm(): Promise<void> {
     const isValid = await validate()
@@ -132,12 +132,12 @@
       return
     }
 
-    if (isVotingCategory(categoryFormValues.value)) {
+    if (isExistingVotingCategory(categoryFormValues.value)) {
       await api.votingCategories.updateVotingCategory(categoryFormValues.value)
 
       showToast('Judging Category Updated!', 'success')
     } else {
-      await api.votingCategories.createVotingCategory(categoryFormValues.value)
+      await api.votingCategories.createVotingCategory(categoryFormValues.value as VotingCategoryRequest)
 
       showToast('Judging Category Added!', 'success')
     }
@@ -158,7 +158,7 @@
   }
 
   async function deleteCategory(): Promise<void> {
-    if (isVotingCategory(categoryFormValues.value)) {
+    if (isExistingVotingCategory(categoryFormValues.value)) {
       await api.votingCategories.deleteVotingCategory(categoryFormValues.value.votingCategoryId)
 
       votingCategoriesSubscription.refresh()
@@ -174,9 +174,7 @@
   }
 
   async function deleteSelected(): Promise<void> {
-    const promises = selectedCategories.value.map(category => api.votingCategories.deleteVotingCategory(category.votingCategoryId))
-
-    await Promise.all(promises)
+    await api.votingCategories.deleteVotingCategories(selectedCategories.value.map(category => category.votingCategoryId))
 
     clearSelected()
 
