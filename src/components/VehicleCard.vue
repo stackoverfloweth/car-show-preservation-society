@@ -1,6 +1,6 @@
 <template>
   <p-card class="vehicle-card">
-    <SizedImage class="vehicle-card__image" :image="vehicle.profileImage" />
+    <SizedImage class="vehicle-card__image" :image="vehicle.image" />
     <VehicleLabel class="vehicle-card__label" :vehicle="vehicle" />
   </p-card>
 </template>

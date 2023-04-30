@@ -11,11 +11,10 @@ export class ClubImagesApi extends Api {
       images: mapper.map('ImageResponse', data.images, 'Image'),
       hasMore: data.hasMore,
     }))
-
   }
 
-  public async deleteClubImage(imageId: string): Promise<void> {
-    return await this.delete(`clubs-images-delete/${imageId}`)
+  public async deleteClubImage(clubId: string, imageId: string): Promise<void> {
+    return await this.delete(`clubs-images-delete/${clubId}/${imageId}`)
   }
 
   public async createClubImage(clubId: string, request: ImageRequest): Promise<Image> {

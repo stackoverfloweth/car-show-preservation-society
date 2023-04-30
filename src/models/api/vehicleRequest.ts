@@ -1,3 +1,5 @@
+import { ImageRequest } from '@/models/api/imageRequest'
+
 export type VehicleRequest = {
   vehicleId?: string,
   userId: string,
@@ -8,4 +10,5 @@ export type VehicleRequest = {
   color?: string,
   modificationCount?: number,
   modifiedAppearance?: boolean,
+  image?: ImageRequest,
 }

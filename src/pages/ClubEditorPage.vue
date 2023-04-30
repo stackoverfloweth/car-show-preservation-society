@@ -16,7 +16,6 @@
   import { showToast } from '@prefecthq/prefect-design'
   import { useRouteParam, useSubscription, useValidationObserver } from '@prefecthq/vue-compositions'
   import { ref, watchEffect } from 'vue'
-  import { useRouter } from 'vue-router'
   import ClubFormFields from '@/components/ClubFormFields.vue'
   import ClubGalleryForm from '@/components/ClubGalleryForm.vue'
   import PageHeader from '@/components/PageHeader.vue'
@@ -26,7 +25,6 @@
 
   const clubId = useRouteParam('clubId')
   const api = useApi()
-  const router = useRouter()
   const { validate, pending } = useValidationObserver()
   const { set } = useNavigation()
 
@@ -47,8 +45,8 @@
     await api.clubs.updateClub(values.value as ClubRequest)
 
     showToast('Saved!', 'success')
+
     clubSubscription.refresh()
-    router.push(routes.club(clubId.value))
   }
 
   watchEffect(() => {

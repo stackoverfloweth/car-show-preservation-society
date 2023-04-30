@@ -27,6 +27,11 @@
           <p-text-input :id="id" v-model="color" :state="colorState" />
         </template>
       </p-label>
+
+      <div class="vehicle-form-fields__image-upload">
+        <p-label label="Photo" :message="imageError" :state="imageState" />
+        <ImageUpload v-model:image="image" />
+      </div>
     </div>
 
     <div class="vehicle-form-fields__column">
@@ -76,6 +81,7 @@
 <script lang="ts" setup>
   import { usePatchRef, useValidation } from '@prefecthq/vue-compositions'
   import { computed } from 'vue'
+  import ImageUpload from '@/components/ImageUpload.vue'
   import { VehicleRequest } from '@/models/api'
 
   const props = defineProps<{
@@ -102,6 +108,7 @@
   const color = usePatchRef(vehicle, 'color')
   const modificationCount = usePatchRef(vehicle, 'modificationCount')
   const modifiedAppearance = usePatchRef(vehicle, 'modifiedAppearance')
+  const image = usePatchRef(vehicle, 'image')
 
   const visiblyStock = computed({
     get() {
@@ -123,6 +130,7 @@
   const { error: colorError, state: colorState } = useValidation(color, 'Color', [])
   const { error: modificationCountError, state: modificationCountState } = useValidation(modificationCount, 'Modification Count', [])
   const { error: visiblyStockError, state: visiblyStockState } = useValidation(visiblyStock, 'Visibly Stock', [])
+  const { error: imageError, state: imageState } = useValidation(image, 'Main Image', [])
 </script>
 
 <style>
@@ -152,6 +160,13 @@
   display: flex;
   align-items: end;
   padding-bottom: var(--space-3);
+}
+
+.vehicle-form-fields__image-upload {
+  display: flex;
+  flex-direction: column;
+  flex-grow: 1;
+  max-height: 150px;
 }
 
 @media(max-width: 768px){

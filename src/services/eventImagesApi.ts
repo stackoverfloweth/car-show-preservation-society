@@ -11,11 +11,10 @@ export class EventImagesApi extends Api {
       images: mapper.map('ImageResponse', data.images, 'Image'),
       hasMore: data.hasMore,
     }))
-
   }
 
-  public async deleteEventImage(imageId: string): Promise<void> {
-    return await this.delete(`events-images-delete/${imageId}`)
+  public async deleteEventImage(eventId: string, imageId: string): Promise<void> {
+    return await this.delete(`events-images-delete/${eventId}/${imageId}`)
   }
 
   public async createEventImage(eventId: string, request: ImageRequest): Promise<Image> {

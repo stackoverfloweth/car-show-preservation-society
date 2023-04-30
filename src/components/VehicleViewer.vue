@@ -12,7 +12,7 @@
         <ContactIdCard :user-id="vehicle.userId" />
       </template>
     </div>
-    <SizedImage :image="vehicle.profileImage" class="vehicle-viewer__hero" />
+    <SizedImage :image="vehicle.image" class="vehicle-viewer__hero" />
     <VehiclePhotoGallery :vehicle-id="vehicle.vehicleId" />
   </div>
 </template>

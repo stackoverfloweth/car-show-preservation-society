@@ -16,5 +16,5 @@
   const api = useApi()
   const { vehicleId } = toRefs(props)
 
-  const { images, hasMore, loadMore } = useImageResultsSubscription(api.vehicles.getVehicleImages, vehicleId)
+  const { images, hasMore, loadMore } = useImageResultsSubscription(api.vehicleImages.getVehicleImages, vehicleId)
 </script>

@@ -60,13 +60,15 @@
 
     await api.clubImages.createClubImage(clubId.value, newImage.value as ImageRequest)
 
-    showToast('Sponsor Added!', 'success')
+    showToast('Photo Added!', 'success')
     clearNewImage()
     loadMore()
   }
 
   async function deleteImage(image: Image): Promise<void> {
-    await api.clubImages.deleteClubImage(image.imageId)
+    await api.clubImages.deleteClubImage(clubId.value, image.imageId)
+    showToast('Photo Deleted!', 'success')
+    loadMore()
   }
 
   function clearNewImage(): void {

@@ -1,6 +1,6 @@
 <template>
   <div class="registrations-list-item">
-    <SizedImage :image="registration.vehicle.profileImage" class="registrations-list-item__image" rounded />
+    <SizedImage :image="registration.vehicle.image" class="registrations-list-item__image" rounded />
     <div class="registrations-list-item__body">
       <div class="registrations-list-item__user">
         {{ registration.user.displayName }}

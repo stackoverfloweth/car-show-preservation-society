@@ -10,5 +10,6 @@ export type Vehicle = {
   color?: string,
   modificationCount?: number,
   modifiedAppearance?: boolean,
-  profileImage?: Image,
+  image?: Image,
+  images?: Image[],
 }

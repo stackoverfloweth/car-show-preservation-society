@@ -16,10 +16,11 @@
   import VehicleViewer from '@/components/VehicleViewer.vue'
   import { useApi, useNavigation } from '@/compositions'
   import { routes } from '@/router/routes'
+  import { currentUser } from '@/services'
 
   const api = useApi()
 
-  const vehiclesSubscription = useSubscription(api.vehicles.getVehicles)
+  const vehiclesSubscription = useSubscription(api.vehicles.getVehicles, [currentUser.userId])
   const vehicles = computed(() => vehiclesSubscription.response ?? [])
 
   const onlyVehicle = computed(() => vehicles.value.length === 1 && !!vehicles.value.at(0) ? vehicles.value.at(0) : undefined)

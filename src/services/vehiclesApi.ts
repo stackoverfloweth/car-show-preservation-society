@@ -1,31 +1,28 @@
-import { Image, ImageResults, Vehicle } from '@/models'
-import { ImageRequest, VehicleRequest } from '@/models/api'
-import { Api, mocker } from '@/services'
+import { Vehicle } from '@/models'
+import { VehicleRequest, VehicleResponse } from '@/models/api'
+import { Api, mapper } from '@/services'
 
 export class VehiclesApi extends Api {
-  protected override routePrefix = '/vehicles'
-
-  public async getVehicles(): Promise<Vehicle[]> {
-    return await Promise.resolve(mocker.createMany('vehicle', mocker.create('number', [1, 5])))
+  public getVehicles(userId: string): Promise<Vehicle[]> {
+    return this.get<VehicleResponse[]>(`vehicles-get-list/${userId}`)
+      .then(({ data }) => mapper.map('VehicleResponse', data, 'Vehicle'))
   }
 
-  public async getVehicle(vehicleId: string): Promise<Vehicle | undefined> {
-    return await Promise.resolve(mocker.create('vehicle', [{ vehicleId }]))
+  public getVehicle(vehicleId: string): Promise<Vehicle | undefined> {
+    return this.get<VehicleResponse | undefined>(`vehicles-get-by-id/${vehicleId}`)
+      .then(({ data }) => mapper.map('VehicleResponse', data, 'Vehicle'))
   }
 
-  public async createVehicle(request: VehicleRequest): Promise<Vehicle> {
-    return await Promise.resolve(mocker.create('vehicle', [request]))
+  public createVehicle(request: VehicleRequest): Promise<string> {
+    return this.post<string>('vehicles-create', request)
+      .then(({ data }) => data)
   }
 
-  public async getVehicleImages(vehicleId: string, page = 1): Promise<ImageResults> {
-    return await Promise.resolve(mocker.create('imageResults'))
+  public updateVehicle(request: VehicleRequest): Promise<void> {
+    return this.put(`vehicles-update/${request.vehicleId}`, request)
   }
 
-  public async deleteVehicleImage(imageId: string): Promise<void> {
-    await Promise.resolve(imageId)
-  }
-
-  public async createVehicleImage(request: ImageRequest): Promise<Image> {
-    return await Promise.resolve(mocker.create('image', [request]))
+  public deleteVehicle(vehicleId: string): Promise<void> {
+    return this.delete(`vehicles-delete/${vehicleId}`)
   }
 }

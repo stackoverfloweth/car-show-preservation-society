@@ -11,5 +11,6 @@ export type VehicleResponse = {
   color?: string,
   modificationCount?: number,
   modifiedAppearance?: boolean,
-  profileImage?: ImageResponse,
+  image?: ImageResponse,
+  images?: ImageResponse[],
 }

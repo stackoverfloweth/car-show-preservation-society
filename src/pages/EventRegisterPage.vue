@@ -75,7 +75,7 @@
   })
 
   const registrationValues = ref<RegistrationRequest>({ eventId: eventId.value, userId: currentUser.userId, votingCategoryIds: [] })
-  const registrationNewUserValues = ref<NewUserRegistrationRequest>({ ...registrationValues.value, user: {}, vehicle: {} })
+  const registrationNewUserValues = ref<NewUserRegistrationRequest>({ ...registrationValues.value, user: {}, vehicle: { userId: currentUser.userId } })
 
   async function submitNewUserRegistration(): Promise<void> {
     const isValid = await validate()

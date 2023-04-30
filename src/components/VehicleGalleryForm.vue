@@ -3,7 +3,7 @@
     <div class="vehicle-gallery-form__left">
       <div class="vehicle-gallery-form__image-upload">
         <p-label label="Add Photo" :message="newImageError" :state="newImageState" />
-        <ImageUpload v-model:image="newImage" />
+        <ImageUpload v-model:image="newImage" @update:image="addImage" />
       </div>
     </div>
 
@@ -45,27 +45,30 @@
   const { vehicleId } = toRefs(props)
   const newImage = ref<Partial<ImageRequest>>({})
   const api = useApi()
-  const { validate, pending } = useValidationObserver()
+  const { validate } = useValidationObserver()
 
   const { error: newImageError, state: newImageState } = useValidation(newImage, 'Image', [])
 
-  const { images, hasMore, loadMore } = useImageResultsSubscription(api.vehicles.getVehicleImages, vehicleId)
+  const { images, hasMore, loadMore } = useImageResultsSubscription(api.vehicleImages.getVehicleImages, vehicleId)
 
-  async function createImage(): Promise<void> {
+  async function addImage(): Promise<void> {
     const isValid = await validate()
 
     if (!isValid) {
       return
     }
 
-    await api.vehicles.createVehicleImage(newImage.value as ImageRequest)
+    await api.vehicleImages.createVehicleImage(vehicleId.value, newImage.value as ImageRequest)
 
-    showToast('Sponsor Added!', 'success')
+    showToast('Photo Added!', 'success')
     clearNewImage()
+    loadMore()
   }
 
   async function deleteImage(image: Image): Promise<void> {
-    await api.vehicles.deleteVehicleImage(image.imageId)
+    await api.vehicleImages.deleteVehicleImage(vehicleId.value, image.imageId)
+    showToast('Photo Deleted!', 'success')
+    loadMore()
   }
 
   function clearNewImage(): void {

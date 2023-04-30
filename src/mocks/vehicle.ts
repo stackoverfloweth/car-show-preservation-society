@@ -13,7 +13,7 @@ export const randomVehicle: MockFunction<Vehicle, [Partial<Vehicle>?]> = functio
     color: pick(['red', 'green', 'blue', 'white', 'orange', 'black', 'fuchsia']),
     modificationCount: this.create('number', [0, 4]),
     modifiedAppearance: this.create('boolean'),
-    profileImage: this.create('boolean') ? this.create('image') : undefined,
+    image: this.create('boolean') ? this.create('image') : undefined,
     ...overrides,
   }
 }

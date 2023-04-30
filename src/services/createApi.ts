@@ -11,6 +11,7 @@ import { EventImagesApi } from '@/services/eventImagesApi'
 import { EventsApi } from '@/services/eventsApi'
 import { RegistrationsApi } from '@/services/registrationApi'
 import { UsersApi } from '@/services/usersApi'
+import { VehicleImagesApi } from '@/services/vehicleImagesApi'
 import { VehiclesApi } from '@/services/vehiclesApi'
 import { VotingApi } from '@/services/votingApi'
 import { VotingCategoriesApi } from '@/services/votingCategoryApi'
@@ -29,6 +30,7 @@ export function createApi(config: ApiConfig) {
     registration: createActions(new RegistrationsApi(config)),
     users: createActions(new UsersApi(config)),
     vehicles: createActions(new VehiclesApi(config)),
+    vehicleImages: createActions(new VehicleImagesApi(config)),
     voting: createActions(new VotingApi(config)),
     votingCategories: createActions(new VotingCategoriesApi(config)),
   }

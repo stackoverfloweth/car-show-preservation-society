@@ -16,30 +16,26 @@
   import { showToast } from '@prefecthq/prefect-design'
   import { useRouteParam, useSubscription, useValidationObserver } from '@prefecthq/vue-compositions'
   import { ref, watchEffect } from 'vue'
-  import { useRouter } from 'vue-router'
   import PageHeader from '@/components/PageHeader.vue'
   import VehicleFormFields from '@/components/VehicleFormFields.vue'
   import VehicleGalleryForm from '@/components/VehicleGalleryForm.vue'
   import { useApi, useNavigation } from '@/compositions'
-  import { Vehicle } from '@/models'
   import { VehicleRequest } from '@/models/api'
   import { routes } from '@/router/routes'
+  import { mapper } from '@/services'
 
   const vehicleId = useRouteParam('vehicleId')
 
   const api = useApi()
-  const router = useRouter()
   const { validate, pending } = useValidationObserver()
   const { set } = useNavigation()
 
   const vehicleSubscription = useSubscription(api.vehicles.getVehicle, [vehicleId])
-  vehicleSubscription.promise().then(({ response }) => {
-    if (response) {
-      values.value = response
-    }
-  })
+  const values = ref<VehicleRequest | undefined>()
 
-  const values = ref<Vehicle | undefined>()
+  watchEffect(() => {
+    values.value = mapper.map('Vehicle', vehicleSubscription.response, 'VehicleRequest')
+  })
 
   async function submit(): Promise<void> {
     const isValid = await validate()
@@ -48,10 +44,11 @@
       return
     }
 
-    await api.vehicles.createVehicle(values.value as VehicleRequest)
+    await api.vehicles.updateVehicle(values.value!)
 
     showToast('Saved!', 'success')
-    router.push(routes.vehicle(vehicleId.value))
+
+    vehicleSubscription.refresh()
   }
 
   watchEffect(() => {

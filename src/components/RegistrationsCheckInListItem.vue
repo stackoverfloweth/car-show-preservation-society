@@ -1,6 +1,6 @@
 <template>
   <div class="registrations-check-in-list-item" role="button">
-    <SizedImage :image="registration.vehicle.profileImage" class="registrations-check-in-list-item__image" rounded />
+    <SizedImage :image="registration.vehicle.image" class="registrations-check-in-list-item__image" rounded />
     <div class="registrations-check-in-list-item__body">
       <div class="registrations-check-in-list-item__user">
         {{ registration.user.displayName }}
