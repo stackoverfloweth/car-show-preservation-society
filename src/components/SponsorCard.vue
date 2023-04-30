@@ -6,8 +6,8 @@
     class="sponsor-card"
     :class="classes"
   >
-    <template v-if="advertisement.image">
-      <SizedImage class="sponsor-card__image" :image="advertisement.image" />
+    <template v-if="image">
+      <SizedImage class="sponsor-card__image" :image="image" />
     </template>
 
     <template v-if="advertisement.title || advertisement.description">
@@ -26,10 +26,11 @@
 <script lang="ts" setup>
   import { computed } from 'vue'
   import SizedImage from '@/components/SizedImage.vue'
+  import { Advertisement, Image } from '@/models'
   import { AdvertisementRequest } from '@/models/api'
 
   const props = defineProps<{
-    advertisement: AdvertisementRequest,
+    advertisement: AdvertisementRequest | Advertisement,
     disabled?: boolean,
   }>()
 
@@ -42,6 +43,14 @@
     'sponsor-card--clickable': !props.disabled && isClickable.value,
     'sponsor-card--disabled': props.disabled,
   }))
+
+  const image = computed<Image | { src: string } | undefined>(() => {
+    if (!!props.advertisement.image && 'file' in props.advertisement.image) {
+      return { src: props.advertisement.image.file }
+    }
+
+    return props.advertisement.image
+  })
 </script>
 
 <style>

@@ -37,6 +37,5 @@
   overflow-y: auto;
   border-radius: var(--rounded);
   padding: var(--space-4);
-  background-color: white;
 }
 </style>

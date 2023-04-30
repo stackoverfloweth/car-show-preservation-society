@@ -3,6 +3,8 @@ import { Size } from '@/models/size'
 
 export type Advertisement = {
   advertisementId: string,
+  eventId?: string,
+  clubId?: string,
   image?: Image,
   title?: string,
   description?: string,

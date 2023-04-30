@@ -1,14 +1,14 @@
 <template>
   <div class="sponsor-size-select">
-    <template v-for="size in sizesWithoutPx" :key="getSizeKey(size)">
+    <template v-for="size in standardSizes" :key="getSizeKey(size)">
       <div class="sponsor-size-select__option" :class="classes.option(size)">
         <button type="button" class="sponsor-size-select__button" :class="classes.button(size)" @click="setSize(size)">
           <div class="sponsor-size-select__button-content">
-            <template v-if="advertisementWithoutSize && !advertisementEmpty">
-              <SponsorCard class="sponsor-size-select__sponsor-card" :advertisement="advertisementWithoutSize" />
+            <template v-if="advertisementFormFields && !advertisementEmpty">
+              <SponsorCard class="sponsor-size-select__sponsor-card" :advertisement="advertisementFormFields" />
             </template>
             <template v-else>
-              {{ size.width }} x {{ size.height }}
+              {{ size.width.replace("px", "") }} x {{ size.height.replace("px", "") }}
             </template>
           </div>
         </button>
@@ -18,7 +18,6 @@
 </template>
 
 <script lang="ts" setup>
-  import { useIsSame } from '@prefecthq/vue-compositions'
   import { computed } from 'vue'
   import SponsorCard from '@/components/SponsorCard.vue'
   import { defaultSize, standardSizes } from '@/models/advertisement'
@@ -45,23 +44,24 @@
 
   const modelValueKey = computed(() => getSizeKey(modelValue.value))
 
-  const advertisementWithoutSize = computed(() => {
+  const advertisementFormFields = computed(() => {
     if (!props.advertisement) {
       return undefined
     }
 
-    return {
-      ...props.advertisement,
-      size: undefined,
-    }
+    const { image, title, description } = props.advertisement
+
+    return { image, title, description }
   })
 
-  const advertisementEmpty = useIsSame(advertisementWithoutSize, {})
+  const advertisementEmpty = computed(() => {
+    if (!advertisementFormFields.value) {
+      return true
+    }
 
-  const sizesWithoutPx = computed(() => standardSizes.map(({ height, width }) => ({
-    height: height.replace('px', ''),
-    width: width.replace('px', ''),
-  })))
+    const { image, title, description } = advertisementFormFields.value
+    return !image && !title && !description
+  })
 
   const classes = computed(() => ({
     option: (size: Size) => [`sponsor-size-select__option--${getSizeKey(size)}`],
@@ -77,11 +77,11 @@
 
   function getSizeKey(size: Size): string {
     const lookup: Record<string, string> = {
-      '200300': 'TwoByThree',
-      '200200': 'TwoByTwo',
-      '250250': 'TwoFiftyByTwoFifty',
-      '100300': 'OneByThree',
-      '50300': 'FiftyByThree',
+      '200px300px': 'TwoByThree',
+      '200px200px': 'TwoByTwo',
+      '250px250px': 'TwoFiftyByTwoFifty',
+      '100px300px': 'OneByThree',
+      '50px300px': 'FiftyByThree',
     }
 
     return lookup[size.height.toString() + size.width.toString()]

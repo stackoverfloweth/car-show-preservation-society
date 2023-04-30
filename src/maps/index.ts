@@ -1,3 +1,4 @@
+import { mapAdvertisementResponseToAdvertisement } from '@/maps/advertisement'
 import { mapClubResponseToClub } from '@/maps/club'
 import { mapDateToString, mapStringToDate } from '@/maps/date'
 import { mapEventResponseToEvent, mapEventToEventRequest } from '@/maps/event'
@@ -7,6 +8,7 @@ import { mapRegistrationToRegistrationRequest } from '@/maps/registrationRequest
 import { mapVotingCategoryResponseToVotingCategory } from '@/maps/votingCategory'
 
 export const maps = {
+  AdvertisementResponse: { Advertisement: mapAdvertisementResponseToAdvertisement },
   ClubResponse: { Club: mapClubResponseToClub },
   Date: { String: mapDateToString },
   Event: { EventRequest: mapEventToEventRequest },

@@ -1,4 +1,5 @@
 export * from './advertisementRequest'
+export * from './advertisementResponse'
 export * from './clubRequest'
 export * from './clubResponse'
 export * from './clubsFilter'

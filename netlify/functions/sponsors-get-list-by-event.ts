@@ -1,16 +1,16 @@
 import { Handler } from '@netlify/functions'
-import { VotingCategoryResponse } from '@/models/api'
+import { AdvertisementResponse } from '@/models/api'
 import { Api, env } from 'netlify/utilities'
 import { client } from 'netlify/utilities/mongodbClient'
 
-export const handler: Handler = Api('GET', 'voting-category-get-list/:eventId', ([eventId]) => async () => {
+export const handler: Handler = Api('GET', 'sponsors-get-list-by-event/:eventId', ([eventId]) => async () => {
   try {
     await client.connect()
 
     const db = client.db(env().mongodbName)
-    const collection = db.collection<VotingCategoryResponse>('voting-category')
+    const collection = db.collection<AdvertisementResponse>('advertisement')
 
-    const votingCategories = await collection
+    const advertisements = await collection
       .find({
         eventId,
         $or: [{ isDeleted: false }, { isDeleted: { $exists: false } }],
@@ -20,7 +20,7 @@ export const handler: Handler = Api('GET', 'voting-category-get-list/:eventId', 
 
     return {
       statusCode: 200,
-      body: JSON.stringify(votingCategories),
+      body: JSON.stringify(advertisements),
     }
   } finally {
     // await client.close()

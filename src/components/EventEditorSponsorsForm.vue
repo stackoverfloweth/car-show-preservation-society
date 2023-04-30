@@ -95,7 +95,7 @@
   const advertisementsSubscription = useSubscription(api.advertisements.getAdvertisementsForEvent, [eventId])
   const advertisements = computed(() => advertisementsSubscription.response ?? [])
 
-  const newAdvertisementValues = ref<AdvertisementRequest>({})
+  const newAdvertisementValues = ref<AdvertisementRequest>({ eventId: eventId.value })
 
   const image = usePatchRef(newAdvertisementValues, 'image')
   const title = usePatchRef(newAdvertisementValues, 'title')

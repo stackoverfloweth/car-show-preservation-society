@@ -1,7 +1,7 @@
 <template>
-  <div class="sized-image" :class="classes" :style="styles" :aria-label="image?.caption">
-    <template v-if="image">
-      <img :alt="image.caption" class="sized-image__img">
+  <div class="sized-image" :class="classes" :style="styles" :aria-label="caption">
+    <template v-if="src">
+      <img :alt="caption" class="sized-image__img">
     </template>
     <template v-else>
       <p-icon class="sized-image__icon" icon="PhotographIcon" size="large" />
@@ -14,20 +14,22 @@
   import { Image } from '@/models'
 
   const props = defineProps<{
-    image?: Image,
+    image?: Image | { src: string },
     rounded?: boolean,
   }>()
 
-  const position = computed(() => props.image?.position ?? 'center')
-  const size = computed(() => props.image?.size ?? 'cover')
+  const position = computed(() => props.image && 'position' in props.image && !!props.image.position ? props.image.position : 'center')
+  const size = computed(() => props.image && 'size' in props.image && !!props.image.size ? props.image.size : 'cover')
+  const caption = computed(() => props.image && 'caption' in props.image ? props.image.caption : undefined)
+  const src = computed(() => props.image?.src)
 
   const styles = computed(() => ({
-    backgroundImage: `url(${props.image?.src})`,
+    backgroundImage: `url(${src.value})`,
   }))
 
   const classes = computed(() => ({
     'sized-image--rounded': props.rounded,
-    'sized-image--empty': props.image === undefined,
+    'sized-image--empty': src.value === undefined,
   }))
 </script>
 
