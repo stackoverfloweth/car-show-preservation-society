@@ -10,7 +10,10 @@ export const handler: Handler = Api('GET', 'clubs-get-by-id/:id', ([clubId]) => 
 
     const db = client.db(env().mongodbName)
     const collection = db.collection<ClubResponse>('club')
-    const club = await collection.findOne({ _id: new ObjectId(clubId) }, { projection: {} })
+    const club = await collection.findOne(
+      { _id: new ObjectId(clubId) },
+      { projection: { images: 0 } },
+    )
 
     if (!club) {
       return { statusCode: 404 }

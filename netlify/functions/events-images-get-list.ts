@@ -11,7 +11,10 @@ export const handler: Handler = Api('GET', 'events-images-get-list/:id', ([event
     const db = client.db(env().mongodbName)
     const collection = db.collection<EventResponse>('event')
 
-    const event = await collection.findOne({ _id: new ObjectId(eventId) }, { projection: { images: 1 } })
+    const event = await collection.findOne(
+      { _id: new ObjectId(eventId) },
+      { projection: { images: 1 } },
+    )
 
     if (!event) {
       return { statusCode: 404 }

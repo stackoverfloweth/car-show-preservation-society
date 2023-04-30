@@ -11,13 +11,16 @@ export const handler: Handler = Api('GET', 'events-get-list-upcoming', () => asy
     const db = client.db(env().mongodbName)
     const collection = db.collection<EventResponse>('event')
 
-    const events = await collection.find({
-      start: {
-        $gt: new Date().toISOString(),
-        $lt: addWeeks(new Date(), 2).toISOString(),
+    const events = await collection.find(
+      {
+        start: {
+          $gt: new Date().toISOString(),
+          $lt: addWeeks(new Date(), 2).toISOString(),
+        },
+        $or: [{ isDeleted: false }, { isDeleted: { $exists: false } }],
       },
-      $or: [{ isDeleted: false }, { isDeleted: { $exists: false } }],
-    }).toArray()
+      { projection: { images: 0 } },
+    ).toArray()
 
     return {
       statusCode: 200,

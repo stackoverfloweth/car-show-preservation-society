@@ -10,10 +10,13 @@ export const handler: Handler = Api('GET', 'events-get-list-by-club/:clubId', ([
     const db = client.db(env().mongodbName)
     const collection = db.collection<EventResponse>('event')
 
-    const events = await collection.find({
-      clubId,
-      $or: [{ isDeleted: false }, { isDeleted: { $exists: false } }],
-    }).toArray()
+    const events = await collection.find(
+      {
+        clubId,
+        $or: [{ isDeleted: false }, { isDeleted: { $exists: false } }],
+      },
+      { projection: { images: 0 } },
+    ).toArray()
 
     return {
       statusCode: 200,

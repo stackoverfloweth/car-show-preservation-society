@@ -10,7 +10,10 @@ export const handler: Handler = Api('GET', 'events-get-list', () => async () => 
     const db = client.db(env().mongodbName)
     const collection = db.collection<EventResponse>('event')
 
-    const events = await collection.find({ $or: [{ isDeleted: false }, { isDeleted: { $exists: false } }] }).toArray()
+    const events = await collection.find(
+      { $or: [{ isDeleted: false }, { isDeleted: { $exists: false } }] },
+      { projection: { images: 0 } },
+    ).toArray()
 
     return {
       statusCode: 200,
