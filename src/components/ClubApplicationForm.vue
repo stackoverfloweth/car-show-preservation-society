@@ -48,7 +48,7 @@
   const agreed = ref(false)
   const clubApplicationMessage = ref<string>()
 
-  const userIsMemberSubscription = useSubscription(api.users.isMemberOfClub, [currentUser.userId, props.club.clubId])
+  const userIsMemberSubscription = useSubscription(api.clubMembership.isMemberOfClub, [currentUser.userId, props.club.clubId])
   const currentUserIsMember = computed(() => userIsMemberSubscription.response ?? false)
 
   function close(): void {

@@ -1,5 +1,10 @@
 <template>
   <div class="ballot-voting-category-options">
+    <template v-if="registrations.length === 0 && registrationsSubscription.executed">
+      <p-message error class="ballot-voting-category-options__empty">
+        Nobody is registered for this category
+      </p-message>
+    </template>
     <template v-for="registration in registrations" :key="registration.registrationId">
       <BallotVotingCategoryOption v-bind="{ registration, event }" v-model:car-id="carId" :name="votingCategoryId" />
     </template>
@@ -42,10 +47,14 @@
 
 <style>
 .ballot-voting-category-options {
-  height: 380px;
+  max-height: 380px;
   display: grid;
   flex-direction: column;
   gap: var(--space-2);
   overflow-y: auto;
+}
+
+.ballot-voting-category-options__empty {
+  margin-bottom: var(--space-4);
 }
 </style>

@@ -3,7 +3,7 @@ import { RegistrationResponse } from '@/models/api'
 import { Api, env } from 'netlify/utilities'
 import { client } from 'netlify/utilities/mongodbClient'
 
-export const handler: Handler = Api('GET', 'registrations-get-list/:eventId/:votingCategoryId', ([eventId, votingCategoryId]) => async () => {
+export const handler: Handler = Api('GET', 'registrations-get-list-by-category/:eventId/:votingCategoryId', ([eventId, votingCategoryId]) => async () => {
   try {
     await client.connect()
 

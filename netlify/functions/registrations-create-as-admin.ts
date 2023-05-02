@@ -18,8 +18,8 @@ export const handler: Handler = Api<NewUserRegistrationRequest>('POST', 'registr
     const collection = db.collection<Omit<RegistrationResponse, 'user' | 'vehicle'>>('registration')
 
     const { registrationId, user, vehicle, ...rest } = body
-    const { userId, ...userValues } = user
-    const { vehicleId, image, ...vehicleValues } = vehicle
+    const { userId, image: userImage, ...userValues } = user
+    const { vehicleId, image: vehicleImage, ...vehicleValues } = vehicle
 
     const newUser = await users.insertOne({
       ...userValues,

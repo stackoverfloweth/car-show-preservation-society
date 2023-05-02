@@ -1,4 +1,6 @@
 import { mapAdvertisementResponseToAdvertisement } from '@/maps/advertisement'
+import { mapBallotResponseToBallot } from '@/maps/ballot'
+import { mapBallotVotingCategoryResponseToBallotVotingCategory } from '@/maps/ballotVotingCategory'
 import { mapClubResponseToClub } from '@/maps/club'
 import { mapDateToString, mapStringToDate } from '@/maps/date'
 import { mapEventResponseToEvent, mapEventToEventRequest } from '@/maps/event'
@@ -11,6 +13,8 @@ import { mapVotingCategoryResponseToVotingCategory } from '@/maps/votingCategory
 
 export const maps = {
   AdvertisementResponse: { Advertisement: mapAdvertisementResponseToAdvertisement },
+  BallotResponse: { Ballot: mapBallotResponseToBallot },
+  BallotVotingCategoryResponse: { BallotVotingCategory: mapBallotVotingCategoryResponseToBallotVotingCategory },
   ClubResponse: { Club: mapClubResponseToClub },
   Date: { String: mapDateToString },
   Event: { EventRequest: mapEventToEventRequest },

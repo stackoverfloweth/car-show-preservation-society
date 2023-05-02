@@ -115,7 +115,7 @@
   const { showModal: showApplicationModal, open: openApplicationModal, close: closeApplicationModal } = useShowModal()
   const { showModal: showInviteMemberModal, open: openInviteMemberModal, close: closeInviteMemberModal } = useShowModal()
 
-  const userIsMemberSubscription = useSubscription(api.users.isMemberOfClub, [currentUser.userId, clubId])
+  const userIsMemberSubscription = useSubscription(api.clubMembership.isMemberOfClub, [currentUser.userId, clubId])
   const currentUserIsMember = computed(() => userIsMemberSubscription.response ?? false)
 
   const memberCountSubscription = useSubscription(api.clubMembership.getActiveMemberCount, [clubId])

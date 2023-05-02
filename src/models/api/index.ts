@@ -1,5 +1,7 @@
 export * from './advertisementRequest'
 export * from './advertisementResponse'
+export * from './ballotResponse'
+export * from './ballotVotingCategoryResponse'
 export * from './clubRequest'
 export * from './clubResponse'
 export * from './clubsFilter'

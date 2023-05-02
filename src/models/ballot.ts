@@ -1,12 +1,32 @@
 import { BallotVotingCategory } from '@/models/ballotVotingCategory'
+import { currentUser } from '@/services'
 
-export type Ballot = {
+export interface IBallot {
   ballotId: string,
-  name: string,
+  index: number,
   registrationId?: string,
   clubMembershipId?: string,
-  // this should have each category, initially all with null carId
   votes: BallotVotingCategory[],
+}
+
+export class Ballot {
+  public readonly ballotId: string
+  public index: number
+  public registrationId?: string
+  public clubMembershipId?: string
+  public votes: BallotVotingCategory[]
+
+  public constructor(ballot: IBallot) {
+    this.ballotId = ballot.ballotId
+    this.index = ballot.index
+    this.registrationId = ballot.registrationId
+    this.clubMembershipId = ballot.clubMembershipId
+    this.votes = ballot.votes
+  }
+
+  public get name(): string {
+    return `${currentUser.displayName.slice(0, 2) }${String(this.index + 1).padStart(4, '0')}`
+  }
 }
 
 export type MemberBallot = Ballot & {

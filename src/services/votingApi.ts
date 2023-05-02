@@ -3,28 +3,26 @@ import { VoteRequest } from '@/models/api'
 import { Api, mocker } from '@/services'
 
 export class VotingApi extends Api {
-  protected override routePrefix = '/ballot-voting'
-
-  public async setVotes(requests: VoteRequest[]): Promise<void> {
-    await Promise.resolve({ requests })
+  public setVotes(requests: VoteRequest[]): Promise<void> {
+    return Promise.resolve()
   }
 
-  public async getVotingResults(eventId: string): Promise<VotingResultsByCategory[]> {
-    return await Promise.resolve([
+  public getVotingResults(eventId: string): Promise<VotingResultsByCategory[]> {
+    return Promise.resolve([
       ...mocker.createMany('votingCategory', mocker.create('number', [1, 3]), [{ featured: true }]).map(votingCategory => mocker.create('votingResultsByCategory', [{ votingCategory }])),
       ...mocker.createMany('votingResultsByCategory', mocker.create('number', [3, 10])),
     ])
   }
 
-  public async getRecentPlacements(userId: string, vehicleId?: string): Promise<VotingResultsByEventAndCategory[]> {
+  public getRecentPlacements(userId: string, vehicleId?: string): Promise<VotingResultsByEventAndCategory[]> {
     if (mocker.create('boolean')) {
-      return []
+      return Promise.resolve([])
     }
 
-    return await Promise.resolve(mocker.createMany('votingResultsByEventAndCategory', mocker.create('number', [0, 4])))
+    return Promise.resolve(mocker.createMany('votingResultsByEventAndCategory', mocker.create('number', [0, 4])))
   }
 
-  public async getBestPlacementsCounts(userId: string): Promise<VotingResultsCount[]> {
+  public getBestPlacementsCounts(userId: string): Promise<VotingResultsCount[]> {
     const value: VotingResultsCount[] = []
     if (mocker.create('boolean')) {
       value.push(mocker.create('votingResultsCount', [{ placeNumber: 1 }]))
@@ -38,6 +36,6 @@ export class VotingApi extends Api {
       value.push(mocker.create('votingResultsCount', [{ placeNumber: 3 }]))
     }
 
-    return await Promise.resolve(value)
+    return Promise.resolve(value)
   }
 }

@@ -2,8 +2,6 @@ import { User } from '@/models'
 import { Api, mocker } from '@/services'
 
 export class ClubMembershipApi extends Api {
-  protected override routePrefix = '/club-membership'
-
   public async getActiveMemberCount(clubId: string): Promise<number> {
     return await Promise.resolve(mocker.create('number', [1, 500]))
   }

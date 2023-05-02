@@ -1,23 +1,16 @@
+import { BallotResponse } from '@/models/api'
 import { Ballot } from '@/models/ballot'
 import { Api } from '@/services/api'
-import { mocker } from '@/services/mocker'
+import { mapper } from '@/services/mapper'
 
 export class BallotsApi extends Api {
-  protected override routePrefix = '/ballots'
-
-  public async getBallot(ballotId: string): Promise<Ballot | undefined> {
-    return await Promise.resolve(mocker.create('ballot', [1, { ballotId }]))
+  public getBallot(eventId: string, ballotId: string): Promise<Ballot | undefined> {
+    return this.get<BallotResponse | undefined>(`ballots-get-by-id/${eventId}/${ballotId}`)
+      .then(({ data }) => mapper.map('BallotResponse', data, 'Ballot'))
   }
 
-  public async findBallots(eventId: string, userId: string): Promise<Ballot[]> {
-    // this function will return theoretical ballots alongside existing ballots.
-    // remember that as a club member I might have ballots for membersOnly like drivers have driversOnly
-    const ballots: Ballot[] = []
-
-    for (let index = 0; index < mocker.create('number', [1, 3]); index++) {
-      ballots.push(mocker.create('ballot', [index + 1]))
-    }
-
-    return await Promise.resolve(ballots)
+  public findBallots(eventId: string, userId: string): Promise<Ballot[]> {
+    return this.get<BallotResponse[]>(`ballots-get-by-event-and-user/${eventId}/${userId}`)
+      .then(({ data }) => mapper.map('BallotResponse', data, 'Ballot'))
   }
 }

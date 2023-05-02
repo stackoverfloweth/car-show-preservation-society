@@ -78,10 +78,10 @@
 
       <p-label label="Ballots per Registration" :message="ballotCountError" :state="ballotCountState">
         <template #description>
-          Optional, number of ballots per registration.
+          Optional, number of ballots per registration. Default is 1 ballot.
         </template>
         <template #default="{ id }">
-          <p-number-input :id="id" v-model="ballotCount" :state="ballotCountState" />
+          <p-number-input :id="id" v-model="ballotCount" :state="ballotCountState" placeholder="1" />
         </template>
       </p-label>
     </div>

@@ -83,7 +83,7 @@
   const eventSubscription = useSubscription(api.events.getEvent, [eventId])
   const event = computed(() => eventSubscription.response)
 
-  const ballotSubscription = useSubscription(api.ballots.getBallot, [ballotId])
+  const ballotSubscription = useSubscription(api.ballots.getBallot, [eventId, ballotId])
   const ballot = computed(() => ballotSubscription.response)
 
   watch(ballot, ballot => {
