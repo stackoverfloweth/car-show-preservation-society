@@ -5,7 +5,7 @@ import { mapEventResponseToEvent, mapEventToEventRequest } from '@/maps/event'
 import { mapImageResponseToImage } from '@/maps/image'
 import { mapMapBoxFeatureResponseToLocation } from '@/maps/location'
 import { mapRegistrationResponseToRegistration, mapRegistrationToRegistrationRequest } from '@/maps/registration'
-import { mapUserResponseToUser } from '@/maps/user'
+import { mapUserResponseToUser, mapUserToUserRequest } from '@/maps/user'
 import { mapVehicleResponseToVehicle, mapVehicleToVehicleRequest } from '@/maps/vehicle'
 import { mapVotingCategoryResponseToVotingCategory } from '@/maps/votingCategory'
 
@@ -20,6 +20,7 @@ export const maps = {
   Registration: { RegistrationRequest: mapRegistrationToRegistrationRequest },
   RegistrationResponse: { Registration: mapRegistrationResponseToRegistration },
   String: { Date: mapStringToDate },
+  User: { UserRequest: mapUserToUserRequest },
   UserResponse: { User: mapUserResponseToUser },
   Vehicle: { VehicleRequest: mapVehicleToVehicleRequest },
   VehicleResponse: { Vehicle: mapVehicleResponseToVehicle },

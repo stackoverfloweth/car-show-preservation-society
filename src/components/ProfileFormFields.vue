@@ -18,7 +18,7 @@
           By default, other users will see your full name associated with your profile. If you'd prefer to have that information kept secret, or you want to go by another name, provide a display name here.
         </template>
         <template #default="{ id }">
-          <p-text-input :id="id" v-model="displayNameOverride" :placeholder="`${firstName} ${lastName}`" />
+          <p-text-input :id="id" v-model="displayNameOverride" :placeholder="`${firstName ?? ''} ${lastName ?? ''}`" />
         </template>
       </p-label>
     </div>
@@ -57,7 +57,7 @@
 
     <div class="profile-form-fields__column">
       <div class="profile-form-fields__location">
-        <p-label label="Event Location" :message="locationError" :state="locationState" />
+        <p-label label="Location" :message="locationError" :state="locationState" />
         <LocationInput v-model:location="location" :state="locationState" />
       </div>
 
@@ -83,14 +83,14 @@
   import { computed } from 'vue'
   import ImageUpload from '@/components/ImageUpload.vue'
   import LocationInput from '@/components/LocationInput.vue'
-  import { IUser } from '@/models'
+  import { UserRequest } from '@/models/api'
 
   const props = defineProps<{
-    values: IUser,
+    values: UserRequest,
   }>()
 
   const emit = defineEmits<{
-    (vehicle: 'update:values', value: IUser): void,
+    (vehicle: 'update:values', value: UserRequest): void,
   }>()
 
   const user = computed({

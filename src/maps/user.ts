@@ -1,5 +1,5 @@
 import { User } from '@/models'
-import { UserResponse } from '@/models/api'
+import { UserRequest, UserResponse } from '@/models/api'
 import { MapFunction } from '@/services/mapper'
 
 export const mapUserResponseToUser: MapFunction<UserResponse, User> = function(source) {
@@ -17,4 +17,21 @@ export const mapUserResponseToUser: MapFunction<UserResponse, User> = function(s
     hideLocation: source.hideLocation,
     displayNameOverride: source.displayNameOverride,
   })
+}
+
+export const mapUserToUserRequest: MapFunction<User, UserRequest> = function(source) {
+  return {
+    userId: source.userId,
+    emailAddress: source.emailAddress,
+    phoneNumber: source.phoneNumber,
+    firstName: source.firstName,
+    lastName: source.lastName,
+    location: source.location,
+    image: undefined,
+    stripeCustomerId: source.stripeCustomerId,
+    hideEmailAddress: source.hideEmailAddress,
+    hidePhoneNumber: source.hidePhoneNumber,
+    hideLocation: source.hideLocation,
+    displayNameOverride: source.displayNameOverride,
+  }
 }

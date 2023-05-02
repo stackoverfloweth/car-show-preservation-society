@@ -9,27 +9,24 @@
   import { showToast } from '@prefecthq/prefect-design'
   import { useSubscription, useValidationObserver } from '@prefecthq/vue-compositions'
   import { ref, watchEffect } from 'vue'
-  import { useRouter } from 'vue-router'
   import PageHeader from '@/components/PageHeader.vue'
   import ProfileFormFields from '@/components/ProfileFormFields.vue'
   import { useApi, useNavigation } from '@/compositions'
-  import { IUser } from '@/models'
+  import { UserRequest } from '@/models/api'
   import { routes } from '@/router/routes'
+  import { mapper } from '@/services'
   import { currentUser } from '@/services/auth'
 
   const api = useApi()
-  const router = useRouter()
   const { validate, pending } = useValidationObserver()
   const { set } = useNavigation()
 
   const userSubscription = useSubscription(api.users.getUser, [currentUser.userId])
-  userSubscription.promise().then(({ response }) => {
-    if (response) {
-      values.value = response
-    }
-  })
+  const values = ref<UserRequest>()
 
-  const values = ref<IUser>()
+  watchEffect(() => {
+    values.value = mapper.map('User', userSubscription.response, 'UserRequest')
+  })
 
   async function submit(): Promise<void> {
     const isValid = await validate()
@@ -41,7 +38,7 @@
     await api.users.updateUser(values.value)
 
     showToast('Saved!', 'success')
-    router.push(routes.profile())
+    userSubscription.refresh()
   }
 
   watchEffect(() => {
