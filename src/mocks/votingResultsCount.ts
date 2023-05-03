@@ -5,7 +5,6 @@ export const randomVotingResultsCount: MockFunction<VotingResultsCount, [Partial
   const placeNumber = this.create('number')
   return {
     placeNumber,
-    place: placeNumber.toString(),
     count: this.create('number', [1, 4]),
     ...override,
   }

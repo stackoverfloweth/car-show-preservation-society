@@ -1,6 +1,6 @@
 import { VotingResultsCount, VotingResultsByCategory, VotingResultByEventAndCategory } from '@/models'
 import { VotingResultByEventAndCategoryResponse, VotingResultsByCategoryResponse } from '@/models/api'
-import { Api, mapper, mocker } from '@/services'
+import { Api, mapper } from '@/services'
 
 export class VotingResultsApi extends Api {
   public getVotingResults(eventId: string): Promise<VotingResultsByCategory[]> {
@@ -14,19 +14,7 @@ export class VotingResultsApi extends Api {
   }
 
   public getBestPlacementsCounts(userId: string): Promise<VotingResultsCount[]> {
-    const value: VotingResultsCount[] = []
-    if (mocker.create('boolean')) {
-      value.push(mocker.create('votingResultsCount', [{ placeNumber: 1 }]))
-    }
-
-    if (mocker.create('boolean')) {
-      value.push(mocker.create('votingResultsCount', [{ placeNumber: 2 }]))
-    }
-
-    if (mocker.create('boolean')) {
-      value.push(mocker.create('votingResultsCount', [{ placeNumber: 3 }]))
-    }
-
-    return Promise.resolve(value)
+    return this.get<VotingResultsCount[]>(`voting-results-get-counts-by-place/${userId}`)
+      .then(({ data }) => data)
   }
 }

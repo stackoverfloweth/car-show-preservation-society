@@ -42,6 +42,7 @@ export const handler: Handler = Api('GET', 'voting-results-get-recent-events-by-
       },
       {
         $project: {
+          _id: 0,
           result: {
             _id: '$_id',
             eventId: '$eventId',
