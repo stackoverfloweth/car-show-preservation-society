@@ -13,8 +13,8 @@ import { RegistrationsApi } from '@/services/registrationApi'
 import { UsersApi } from '@/services/usersApi'
 import { VehicleImagesApi } from '@/services/vehicleImagesApi'
 import { VehiclesApi } from '@/services/vehiclesApi'
-import { VotingApi } from '@/services/votingApi'
 import { VotingCategoriesApi } from '@/services/votingCategoryApi'
+import { VotingResultsApi } from '@/services/votingResultsApi'
 
 // eslint-disable-next-line @typescript-eslint/explicit-function-return-type
 export function createApi(config: ApiConfig) {
@@ -31,7 +31,7 @@ export function createApi(config: ApiConfig) {
     users: createActions(new UsersApi(config)),
     vehicles: createActions(new VehiclesApi(config)),
     vehicleImages: createActions(new VehicleImagesApi(config)),
-    voting: createActions(new VotingApi(config)),
+    votingResults: createActions(new VotingResultsApi(config)),
     votingCategories: createActions(new VotingCategoriesApi(config)),
   }
 }

@@ -17,7 +17,7 @@
   const userSubscription = useSubscription(api.users.getUser, [userId])
   const user = computed(() => userSubscription.response)
 
-  const bestPlacementsSubscription = useSubscription(api.voting.getBestPlacementsCounts, [currentUser.userId])
+  const bestPlacementsSubscription = useSubscription(api.votingResults.getBestPlacementsCounts, [currentUser.userId])
   const bestPlacements = computed(() => bestPlacementsSubscription.response ?? [])
 </script>
 

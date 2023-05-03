@@ -1,11 +1,11 @@
 <template>
-  <div class="voting-results-by-event-and-category-item">
+  <div class="voting-result-by-event-and-category-item">
     <ResultPlace :place="result.placeNumber" />
-    <div class="voting-results-by-event-and-category-item__body">
-      <div class="voting-results-by-event-and-category-item__event">
+    <div class="voting-result-by-event-and-category-item__body">
+      <div class="voting-result-by-event-and-category-item__event">
         {{ event.name }}
       </div>
-      <div class="voting-results-by-event-and-category-item__category">
+      <div class="voting-result-by-event-and-category-item__category">
         {{ votingCategory.name }}
       </div>
     </div>
@@ -24,7 +24,7 @@
 </script>
 
 <style>
-.voting-results-by-event-and-category-item {
+.voting-result-by-event-and-category-item {
   background-color: var(--slate-800);
   padding: var(--space-4);
   border-radius: var(--rounded);

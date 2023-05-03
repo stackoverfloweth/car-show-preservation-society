@@ -107,14 +107,14 @@
   async function submit(): Promise<void> {
     const isValid = await validate()
 
-    if (!isValid) {
+    if (!isValid || !ballot.value?.ballotId) {
       return
     }
 
     const request = Object.entries(votes.value).reduce<VoteRequest[]>((requests, [ballotVotingCategoryId, carId]) => {
       return [...requests, { ballotVotingCategoryId, carId }]
     }, [])
-    await api.voting.setVotes(request)
+    await api.ballots.setVotes(ballot.value.ballotId, request)
 
     showToast('Ballot Saved!', 'success')
   }

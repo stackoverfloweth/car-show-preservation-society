@@ -8,7 +8,7 @@
     <template v-if="recentPlacements.length">
       <PageHeader heading="Recent Shows" />
       <template v-for="placement in recentPlacements" :key="placement.event.eventId">
-        <VotingResultsByEventAndCategoryItem v-bind="placement" />
+        <VotingResultByEventAndCategoryItem v-bind="placement" />
       </template>
     </template>
 
@@ -30,7 +30,7 @@
   import { computed } from 'vue'
   import EventsList from '@/components/EventsList.vue'
   import PageHeader from '@/components/PageHeader.vue'
-  import VotingResultsByEventAndCategoryItem from '@/components/VotingResultsByEventAndCategoryItem.vue'
+  import VotingResultByEventAndCategoryItem from '@/components/VotingResultByEventAndCategoryItem.vue'
   import { useApi, useNavigation } from '@/compositions'
   import { routes } from '@/router/routes'
   import { currentUser } from '@/services/auth'
@@ -41,7 +41,7 @@
   const eventsCurrentlyHappeningSubscriptions = useSubscription(api.events.getEventsHappeningNow, [])
   const eventsCurrentlyHappening = computed(() => eventsCurrentlyHappeningSubscriptions.response ?? [])
 
-  const recentPlacementsSubscriptions = useSubscription(api.voting.getRecentPlacements, [currentUser.userId])
+  const recentPlacementsSubscriptions = useSubscription(api.votingResults.getRecentPlacements, [currentUser.userId])
   const recentPlacements = computed(() => recentPlacementsSubscriptions.response ?? [])
 
   const upcomingEventsSubscriptions = useSubscription(api.events.getUpcomingEvents, [])

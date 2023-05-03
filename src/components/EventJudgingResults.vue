@@ -20,7 +20,7 @@
   const api = useApi()
   const eventId = computed(() => props.event.eventId)
 
-  const resultsSubscription = useSubscription(api.voting.getVotingResults, [eventId])
+  const resultsSubscription = useSubscription(api.votingResults.getVotingResults, [eventId])
   const results = computed(() => resultsSubscription.response ?? [])
 </script>
 

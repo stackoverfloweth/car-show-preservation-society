@@ -10,6 +10,9 @@ import { mapRegistrationResponseToRegistration, mapRegistrationToRegistrationReq
 import { mapUserResponseToUser, mapUserToUserRequest } from '@/maps/user'
 import { mapVehicleResponseToVehicle, mapVehicleToVehicleRequest } from '@/maps/vehicle'
 import { mapVotingCategoryResponseToVotingCategory } from '@/maps/votingCategory'
+import { mapVotingResultsResponseToVotingResult } from '@/maps/votingResult'
+import { mapVotingResultByEventAndCategoryResponseToVotingResultByEventAndCategory } from '@/maps/votingResultByEventAndCategory'
+import { mapVotingResultsByCategoryResponseToVotingResultsByCategory } from '@/maps/votingResultsByCategory'
 
 export const maps = {
   AdvertisementResponse: { Advertisement: mapAdvertisementResponseToAdvertisement },
@@ -29,4 +32,7 @@ export const maps = {
   Vehicle: { VehicleRequest: mapVehicleToVehicleRequest },
   VehicleResponse: { Vehicle: mapVehicleResponseToVehicle },
   VotingCategoryResponse: { VotingCategory: mapVotingCategoryResponseToVotingCategory },
+  VotingResultResponse: { VotingResult: mapVotingResultsResponseToVotingResult },
+  VotingResultsByCategoryResponse: { VotingResultsByCategory: mapVotingResultsByCategoryResponseToVotingResultsByCategory },
+  VotingResultByEventAndCategoryResponse: { VotingResultByEventAndCategory: mapVotingResultByEventAndCategoryResponseToVotingResultByEventAndCategory },
 }

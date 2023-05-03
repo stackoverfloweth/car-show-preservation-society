@@ -25,9 +25,9 @@ import { randomUserSearchSubscription } from '@/mocks/userSearchSubscription'
 import { randomVehicle } from '@/mocks/vehicle'
 import { randomVotingCategory } from '@/mocks/votingCategory'
 import { randomVotingResult } from '@/mocks/votingResult'
+import { randomVotingResultByEventAndCategory } from '@/mocks/votingResultByEventAndCategory'
 import { randomVotingResultsByCategory } from '@/mocks/votingResultsByCategory'
 import { randomVotingResultsByEvent } from '@/mocks/votingResultsByEvent'
-import { randomVotingResultsByEventAndCategory } from '@/mocks/votingResultsByEventAndCategory'
 import { randomVotingResultsCount } from '@/mocks/votingResultsCount'
 
 export const mocks = {
@@ -64,7 +64,7 @@ export const mocks = {
   votingResult: randomVotingResult,
   votingResultsByCategory: randomVotingResultsByCategory,
   votingResultsByEvent: randomVotingResultsByEvent,
-  votingResultsByEventAndCategory: randomVotingResultsByEventAndCategory,
+  votingResultByEventAndCategory: randomVotingResultByEventAndCategory,
   votingResultsCount: randomVotingResultsCount,
   ...stripeMocks,
 }
