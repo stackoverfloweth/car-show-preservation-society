@@ -1,7 +1,7 @@
 <template>
   <div class="club-members-list">
-    <template v-for="emailAddress in pending" :key="emailAddress">
-      <ClubMembersListItemPending :club="club" :email-address="emailAddress" class="club-members-list__club-member" />
+    <template v-for="invite in pending" :key="invite.clubInvitationId">
+      <ClubMembersListItemPending :club="club" :invitation="invite" class="club-members-list__club-member" />
     </template>
     <template v-for="member in admins" :key="member.memberId">
       <ClubMembersListItemAdmin :club="club" :member="member" class="club-members-list__club-member" is-admin />
@@ -16,11 +16,11 @@
   import ClubMembersListItemAdmin from '@/components/ClubMembersListItemAdmin.vue'
   import ClubMembersListItemMember from '@/components/ClubMembersListItemMember.vue'
   import ClubMembersListItemPending from '@/components/ClubMembersListItemPending.vue'
-  import { Club, User } from '@/models'
+  import { Club, ClubInvite, User } from '@/models'
 
   defineProps<{
     club: Club,
-    pending: string[],
+    pending: ClubInvite[],
     admins: User[],
     members: User[],
   }>()

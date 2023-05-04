@@ -4,6 +4,7 @@ import { NewUserRegistrationRequest, RegistrationResponse, UserResponse, Vehicle
 import { Api, env } from 'netlify/utilities'
 import { client } from 'netlify/utilities/mongodbClient'
 
+// todo: needs to send an email to have user complete setup
 export const handler: Handler = Api<NewUserRegistrationRequest>('POST', 'registrations-create-as-admin', (args, body) => async () => {
   if (!body) {
     return { statusCode: 400 }

@@ -130,7 +130,7 @@
   const membersSubscription = useSubscription(api.clubMembership.getClubMembers, [clubId])
   const members = computed(() => membersSubscription.response ?? [])
 
-  const pendingSubscription = useSubscription(api.clubMembership.getClubPendingMembers, [clubId])
+  const pendingSubscription = useSubscription(api.clubInvitations.getPendingInvitations, [clubId])
   const pending = computed(() => pendingSubscription.response ?? [])
 
   const currentUserIsOnlyAdmin = computed(() => admins.value.every(admin => admin.userId === currentUser.userId))

@@ -1,6 +1,6 @@
 <template>
   <ClubMembersListItem
-    :name="emailAddress"
+    :name="invitation.emailAddress"
     member-type="pending"
     class="club-members-list-item-pending"
   >
@@ -22,22 +22,22 @@
   import ClubMembersListItem from '@/components/ClubMembersListItem.vue'
   import MenuItemConfirm from '@/components/MenuItemConfirm.vue'
   import { useApi, useCanEditClub } from '@/compositions'
-  import { Club } from '@/models'
+  import { Club, ClubInvite } from '@/models'
 
   const props = defineProps<{
     club: Club,
-    emailAddress: string,
+    invitation: ClubInvite,
   }>()
 
   const api = useApi()
   const canEditClub = useCanEditClub()
 
   async function resendInvitation(): Promise<void> {
-    await api.clubInvitations.resendInvitation(props.club.clubId, props.emailAddress)
+    await api.clubInvitations.resendInvitation(props.club.clubId, props.invitation.emailAddress)
   }
 
   async function deleteMember(): Promise<void> {
-    await api.clubInvitations.deleteInvitation(props.club.clubId, props.emailAddress)
+    await api.clubInvitations.deleteInvitation(props.invitation.clubInviteId)
   }
 </script>
 

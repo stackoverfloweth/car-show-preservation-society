@@ -27,11 +27,6 @@ export class ClubMembershipApi extends Api {
     return await Promise.resolve(mocker.createMany('user', mocker.create('number', [0, 15])))
   }
 
-  public async getClubPendingMembers(clubId: string): Promise<string[]> {
-    // if user isn't admin, this should return []
-    return await Promise.resolve(mocker.createMany('email', mocker.create('number', [0, 2])))
-  }
-
   public async setUserRoleAdmin(clubId: string, userId: string): Promise<void> {
     // shouldn't work for non-admin
     await Promise.resolve({ clubId, userId })

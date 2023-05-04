@@ -1,20 +1,34 @@
-import { Api } from '@/services'
+import { ClubInvite } from '@/models'
+import { ClubInviteResponse } from '@/models/api'
+import { Api, mapper } from '@/services'
 
 export class ClubInvitationsApi extends Api {
-  public async inviteClubMember(clubId: string, emailAddress: string): Promise<void> {
-    await Promise.resolve({ clubId, emailAddress })
+  public inviteClubMember(clubId: string, emailAddress: string): Promise<void> {
+    return this.post(`club-invite-create/${clubId}`, { emailAddress })
   }
 
-  public async resendInvitation(clubId: string, emailAddress: string): Promise<void> {
-    await Promise.resolve({ clubId, emailAddress })
+  public resendInvitation(clubId: string, emailAddress: string): Promise<void> {
+    return this.inviteClubMember(clubId, emailAddress)
   }
 
-  public async requestInvitation(clubId: string, userId: string, message?: string): Promise<void> {
-    // shouldn't work for non-public
-    await Promise.resolve({ clubId, userId, message })
+  public deleteInvitation(clubInvitationId: string): Promise<void> {
+    return this.delete(`club-invite-delete/${clubInvitationId}`)
   }
 
-  public async deleteInvitation(clubId: string, emailAddress: string): Promise<void> {
-    await Promise.resolve({ clubId, emailAddress })
+  public getPendingInvitations(clubId: string): Promise<ClubInvite[]> {
+    return this.get<ClubInviteResponse[]>(`club-invite-get-list/${clubId}`)
+      .then(({ data }) => mapper.map('ClubInviteResponse', data, 'ClubInvite'))
+  }
+
+  public applyToClub(clubId: string, userId: string, message?: string): Promise<void> {
+    return this.post(`club-application-create/${clubId}`, { userId, message })
+  }
+
+  public acceptApplication(clubApplicationId: string): Promise<void> {
+    return this.post(`club-application-accept/${clubApplicationId}`)
+  }
+
+  public denyApplication(clubApplicationId: string): Promise<void> {
+    return this.post(`club-application-deny/${clubApplicationId}`)
   }
 }
