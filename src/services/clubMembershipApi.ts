@@ -1,49 +1,47 @@
-import { User } from '@/models'
-import { Api, mocker } from '@/services'
+import { ClubMembership, User } from '@/models'
+import { ClubMembershipResponse } from '@/models/api'
+import { Api, mapper } from '@/services'
 
 export class ClubMembershipApi extends Api {
-  public async getActiveMemberCount(clubId: string): Promise<number> {
-    return await Promise.resolve(mocker.create('number', [1, 500]))
+  public getActiveMemberCount(clubId: string): Promise<number> {
+    return this.get<number>(`club-member-get-active-count/${clubId}`)
+      .then(({ data }) => data)
   }
 
-  public isMemberOfClub(userId: string, clubId: string): Promise<boolean> {
-    throw 'not implemented'
+  public getMembership(userId: string, clubId: string): Promise<ClubMembership> {
+    return this.get<ClubMembershipResponse>(`club-member-get-by-user/${clubId}/${userId}`)
+      .then(({ data }) => mapper.map('ClubMembershipResponse', data, 'ClubMembership'))
   }
 
-  public async joinClub(clubId: string, userId: string): Promise<void> {
-    // shouldn't work for non-public or requires review
-    await Promise.resolve({ clubId, userId })
+  public joinClub(clubId: string, userId: string): Promise<void> {
+    return this.post(`club-member-join/${clubId}`, { userId })
   }
 
-  public async leaveClub(clubId: string, userId: string): Promise<void> {
-    await Promise.resolve({ clubId, userId })
+  public leaveClub(clubMemberId: string): Promise<void> {
+    return this.delete(`club-member-leave/${clubMemberId}`)
   }
 
-  public async getClubAdmins(clubId: string): Promise<User[]> {
-    return await Promise.resolve(mocker.createMany('user', mocker.create('number', [1, 5])))
+  public getClubAdmins(clubId: string): Promise<User[]> {
+    return this.post(`club-member-get-list-by-role/${clubId}`, { role: 'admin' })
   }
 
-  public async getClubMembers(clubId: string): Promise<User[]> {
-    return await Promise.resolve(mocker.createMany('user', mocker.create('number', [0, 15])))
+  public getClubMembers(clubId: string): Promise<User[]> {
+    return this.post(`club-member-get-list-by-role/${clubId}`, { role: 'member' })
   }
 
-  public async setUserRoleAdmin(clubId: string, userId: string): Promise<void> {
-    // shouldn't work for non-admin
-    await Promise.resolve({ clubId, userId })
+  public setUserRoleAdmin(clubMembershipId: string): Promise<void> {
+    return this.post('club-member-set-admin', { clubMembershipId })
   }
 
-  public async setUserRoleMember(clubId: string, userId: string): Promise<void> {
-    // shouldn't work for non-admin
-    await Promise.resolve({ clubId, userId })
+  public setUserRoleMember(clubMembershipId: string): Promise<void> {
+    return this.post('club-member-set-member', { clubMembershipId })
   }
 
-  public async setPrimaryMember(clubId: string, userId: string): Promise<void> {
-    // shouldn't work for non-admin
-    await Promise.resolve({ clubId, userId })
+  public setPrimaryMember(clubMembershipId: string): Promise<void> {
+    return this.post('club-member-set-primary', { clubMembershipId })
   }
 
-  public async deleteClubMember(clubId: string, member: User): Promise<void> {
-    // shouldn't work for non-admin
-    await Promise.resolve({ clubId, member })
+  public deleteClubMember(clubMembershipId: string): Promise<void> {
+    return this.delete(`club-member-delete/${clubMembershipId}`)
   }
 }

@@ -115,8 +115,9 @@
   const { showModal: showApplicationModal, open: openApplicationModal, close: closeApplicationModal } = useShowModal()
   const { showModal: showInviteMemberModal, open: openInviteMemberModal, close: closeInviteMemberModal } = useShowModal()
 
-  const userIsMemberSubscription = useSubscription(api.clubMembership.isMemberOfClub, [currentUser.userId, clubId])
-  const currentUserIsMember = computed(() => userIsMemberSubscription.response ?? false)
+  const userIsMemberSubscription = useSubscription(api.clubMembership.getMembership, [currentUser.userId, clubId])
+  const currentUserMembership = computed(() => userIsMemberSubscription.response ?? false)
+  const currentUserIsMember = computed(() => !!currentUserMembership.value)
 
   const memberCountSubscription = useSubscription(api.clubMembership.getActiveMemberCount, [clubId])
   const memberCount = computed(() => memberCountSubscription.response ?? 0)
@@ -147,11 +148,11 @@
   }
 
   async function leaveClub(): Promise<void> {
-    if (!currentUserIsMember.value) {
+    if (!currentUserMembership.value) {
       return
     }
 
-    await api.clubMembership.leaveClub(clubId.value, currentUser.userId)
+    await api.clubMembership.leaveClub(currentUserMembership.value.clubMembershipId)
 
     showToast('Left club', 'success')
   }
