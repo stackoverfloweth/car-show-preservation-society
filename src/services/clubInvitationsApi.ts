@@ -1,5 +1,5 @@
-import { ClubInvite } from '@/models'
-import { ClubInviteResponse } from '@/models/api'
+import { ClubApplication, ClubInvite } from '@/models'
+import { ClubApplicationResponse, ClubInviteResponse } from '@/models/api'
 import { Api, mapper } from '@/services'
 
 export class ClubInvitationsApi extends Api {
@@ -18,6 +18,11 @@ export class ClubInvitationsApi extends Api {
   public getPendingInvitations(clubId: string): Promise<ClubInvite[]> {
     return this.get<ClubInviteResponse[]>(`club-invite-get-list/${clubId}`)
       .then(({ data }) => mapper.map('ClubInviteResponse', data, 'ClubInvite'))
+  }
+
+  public getApplication(userId: string): Promise<ClubApplication | undefined> {
+    return this.get<ClubApplicationResponse | undefined>(`club-application-get-by-user/${userId}`)
+      .then(({ data }) => mapper.map('ClubApplicationResponse', data, 'ClubApplication'))
   }
 
   public applyToClub(clubId: string, userId: string, message?: string): Promise<void> {

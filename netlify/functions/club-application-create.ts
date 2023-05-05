@@ -5,7 +5,7 @@ import { Api, env } from 'netlify/utilities'
 import { client } from 'netlify/utilities/mongodbClient'
 
 // todo: needs to send an email
-export const handler: Handler = Api('POST', 'club-application-create', ([clubId], body) => async () => {
+export const handler: Handler = Api('POST', 'club-application-create/:clubId', ([clubId], body) => async () => {
   if (!isValidRequest(body)) {
     return { statusCode: 400 }
   }
@@ -15,6 +15,8 @@ export const handler: Handler = Api('POST', 'club-application-create', ([clubId]
 
     const db = client.db(env().mongodbName)
     const collection = db.collection<ClubApplicationResponse>('club-application')
+
+    // todo: make sure user isn't already member
 
     if (!await clubIsJoinableByApplication(db, clubId)) {
       return { statusCode: 400 }

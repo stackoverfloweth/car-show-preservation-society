@@ -7,7 +7,7 @@
         <p-button v-if="club.joinableByAnyone" @click="joinPublicClub">
           Join
         </p-button>
-        <p-button v-else-if="club.joinableByApplication" @click="openApplicationModal">
+        <p-button v-else-if="club.joinableByApplication && !currentUserHasApplication" @click="openApplicationModal">
           Join
         </p-button>
       </template>
@@ -51,7 +51,7 @@
         Members <p-tag>{{ memberCount.toLocaleString() }}</p-tag>
       </template>
       <template #members>
-        <ClubMembersList :club="club" :members="members" :admins="admins" :pending="pending" />
+        <ClubMembersList :club="club" :members="members" />
       </template>
       <template #photos-heading>
         Photos
@@ -61,10 +61,10 @@
       </template>
     </p-tabs>
     <p-modal v-model:show-modal="showApplicationModal" :title="`Join ${club.name}`" auto-close>
-      <ClubApplicationForm :club="club" @close="closeApplicationModal" />
+      <ClubApplicationForm :club="club" @close="closeApplicationModal" @complete="refreshAndCloseApplicationModal" />
     </p-modal>
     <p-modal v-model:show-modal="showInviteMemberModal" title="Invite Member" auto-close>
-      <ClubMemberInviteForm :club-id="clubId" @close="closeInviteMemberModal" />
+      <ClubMemberInviteForm :club-id="clubId" @close="closeInviteMemberModal" @complete="refreshAndCloseInviteMemberModal" />
     </p-modal>
   </div>
 </template>
@@ -82,7 +82,7 @@
   import MenuItemConfirm from '@/components/MenuItemConfirm.vue'
   import SizedImage from '@/components/SizedImage.vue'
   import { useApi, useCanEditClub, useShowModal } from '@/compositions'
-  import { Club, Event } from '@/models'
+  import { Club, ClubMembership, Event, isClubMembership } from '@/models'
   import { routes } from '@/router/routes'
   import { currentUser } from '@/services/auth'
   import { capitalize } from '@/utilities'
@@ -115,8 +115,12 @@
   const { showModal: showApplicationModal, open: openApplicationModal, close: closeApplicationModal } = useShowModal()
   const { showModal: showInviteMemberModal, open: openInviteMemberModal, close: closeInviteMemberModal } = useShowModal()
 
-  const userIsMemberSubscription = useSubscription(api.clubMembership.getMembership, [currentUser.userId, clubId])
-  const currentUserMembership = computed(() => userIsMemberSubscription.response ?? false)
+  const currentUserApplicationSubscription = useSubscription(api.clubInvitations.getApplication, [currentUser.userId])
+  const currentUserApplication = computed(() => currentUserApplicationSubscription.response)
+  const currentUserHasApplication = computed(() => !!currentUserApplication.value)
+
+  const currentUserMembershipSubscription = useSubscription(api.clubMembership.getMembership, [currentUser.userId, clubId])
+  const currentUserMembership = computed(() => currentUserMembershipSubscription.response)
   const currentUserIsMember = computed(() => !!currentUserMembership.value)
 
   const memberCountSubscription = useSubscription(api.clubMembership.getActiveMemberCount, [clubId])
@@ -125,14 +129,9 @@
   const upcomingEventsCountSubscription = useSubscription(api.events.getUpcomingEventsCount, [clubId])
   const upcomingEventsCount = computed(() => upcomingEventsCountSubscription.response ?? 0)
 
-  const adminsSubscription = useSubscription(api.clubMembership.getClubAdmins, [clubId])
-  const admins = computed(() => adminsSubscription.response ?? [])
-
-  const membersSubscription = useSubscription(api.clubMembership.getClubMembers, [clubId])
+  const membersSubscription = useSubscription(api.clubMembership.getAllClubMembers, [clubId])
   const members = computed(() => membersSubscription.response ?? [])
-
-  const pendingSubscription = useSubscription(api.clubInvitations.getPendingInvitations, [clubId])
-  const pending = computed(() => pendingSubscription.response ?? [])
+  const admins = computed(() => members.value.filter(member => isClubMembership(member) && member.clubPermissions.includes('admin')) as ClubMembership[])
 
   const currentUserIsOnlyAdmin = computed(() => admins.value.every(admin => admin.userId === currentUser.userId))
   const visibility = computed(() => `${capitalize(props.club.visibility)} Club`)
@@ -155,6 +154,16 @@
     await api.clubMembership.leaveClub(currentUserMembership.value.clubMembershipId)
 
     showToast('Left club', 'success')
+  }
+
+  function refreshAndCloseApplicationModal(): void {
+    membersSubscription.refresh()
+    closeApplicationModal()
+  }
+
+  function refreshAndCloseInviteMemberModal(): void {
+    membersSubscription.refresh()
+    closeInviteMemberModal()
   }
 </script>
 

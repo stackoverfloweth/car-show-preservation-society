@@ -1,6 +1,8 @@
-import { ClubMembership, User } from '@/models'
-import { ClubMembershipResponse } from '@/models/api'
+import { ClubApplication, ClubInvite, ClubMembership } from '@/models'
+import { ClubApplicationResponse, ClubInviteResponse, ClubMembershipResponse, isClubInviteResponse, isClubMembershipResponse } from '@/models/api'
 import { Api, mapper } from '@/services'
+
+type AnyClubAssociate = ClubMembershipResponse | ClubInviteResponse | ClubApplicationResponse
 
 export class ClubMembershipApi extends Api {
   public getActiveMemberCount(clubId: string): Promise<number> {
@@ -21,12 +23,31 @@ export class ClubMembershipApi extends Api {
     return this.delete(`club-member-leave/${clubMemberId}`)
   }
 
-  public getClubAdmins(clubId: string): Promise<User[]> {
-    return this.post(`club-member-get-list-by-role/${clubId}`, { role: 'admin' })
+  public getAllClubMembers(clubId: string): Promise<(ClubMembership | ClubInvite | ClubApplication)[]> {
+    return this.get<AnyClubAssociate[]>(`club-member-get-list/${clubId}`)
+      .then(({ data }) => {
+        return data.map(member => {
+          if (isClubMembershipResponse(member)) {
+            return mapper.map('ClubMembershipResponse', member, 'ClubMembership')
+          }
+
+          if (isClubInviteResponse(member)) {
+            return mapper.map('ClubInviteResponse', member, 'ClubInvite')
+          }
+
+          return mapper.map('ClubApplicationResponse', member, 'ClubApplication')
+        })
+      })
   }
 
-  public getClubMembers(clubId: string): Promise<User[]> {
-    return this.post(`club-member-get-list-by-role/${clubId}`, { role: 'member' })
+  public getClubAdmins(clubId: string): Promise<ClubMembership[]> {
+    return this.post<ClubMembershipResponse[]>(`club-member-get-list-by-role/${clubId}`, { role: 'admin' })
+      .then(({ data }) => mapper.map('ClubMembershipResponse', data, 'ClubMembership'))
+  }
+
+  public getClubMembers(clubId: string): Promise<ClubMembership[]> {
+    return this.post<ClubMembershipResponse[]>(`club-member-get-list-by-role/${clubId}`, { role: 'member' })
+      .then(({ data }) => mapper.map('ClubMembershipResponse', data, 'ClubMembership'))
   }
 
   public setUserRoleAdmin(clubMembershipId: string): Promise<void> {

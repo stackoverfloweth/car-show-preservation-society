@@ -28,8 +28,7 @@
 
 <script lang="ts" setup>
   import { showToast } from '@prefecthq/prefect-design'
-  import { useSubscription } from '@prefecthq/vue-compositions'
-  import { computed, ref } from 'vue'
+  import { ref } from 'vue'
   import { useApi } from '@/compositions'
   import { Club } from '@/models'
   import { currentUser } from '@/services/auth'
@@ -39,7 +38,7 @@
   }>()
 
   const emit = defineEmits<{
-    (event: 'close'): void,
+    (event: 'close' | 'submit'): void,
   }>()
 
   const api = useApi()
@@ -47,9 +46,6 @@
   const applied = ref(false)
   const agreed = ref(false)
   const clubApplicationMessage = ref<string>()
-
-  const userIsMemberSubscription = useSubscription(api.clubMembership.isMemberOfClub, [currentUser.userId, props.club.clubId])
-  const currentUserIsMember = computed(() => userIsMemberSubscription.response ?? false)
 
   function close(): void {
     emit('close')
@@ -60,14 +56,12 @@
       return
     }
 
-    if (!currentUserIsMember.value) {
-      await api.clubInvitations.applyToClub(props.club.clubId, currentUser.userId, clubApplicationMessage.value)
+    await api.clubInvitations.applyToClub(props.club.clubId, currentUser.userId, clubApplicationMessage.value)
 
-      applied.value = true
+    applied.value = true
 
-      showToast('Application Sent!', 'success')
-      close()
-    }
+    showToast('Application Sent!', 'success')
+    close()
   }
 </script>
 

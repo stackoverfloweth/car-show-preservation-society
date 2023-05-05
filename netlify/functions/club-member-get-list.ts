@@ -1,0 +1,30 @@
+import { Handler } from '@netlify/functions'
+import { ClubApplicationResponse, ClubInviteResponse, ClubMembershipResponse } from '@/models/api'
+import { Api, env } from 'netlify/utilities'
+import { client } from 'netlify/utilities/mongodbClient'
+
+export const handler: Handler = Api('GET', 'club-member-get-list/:clubId', ([clubId]) => async () => {
+  try {
+    await client.connect()
+
+    const db = client.db(env().mongodbName)
+    const membersCollection = db.collection<ClubMembershipResponse>('club-member')
+    const invitationsCollection = db.collection<ClubInviteResponse>('club-invite')
+    const applicationsCollections = db.collection<ClubApplicationResponse>('club-application')
+
+    const list = await Promise.all([
+      membersCollection.find({ clubId }).sort({ clubPermissions: 1 }).toArray(),
+      invitationsCollection.find({ clubId }).toArray(),
+      applicationsCollections.find({ clubId }).toArray(),
+    ])
+
+    type AnyClubAssociate = ClubMembershipResponse | ClubInviteResponse | ClubApplicationResponse
+
+    return {
+      statusCode: 200,
+      body: JSON.stringify(list.reduce<AnyClubAssociate[]>((all, collection) => all.concat(collection), [])),
+    }
+  } finally {
+    // await client.close()
+  }
+})

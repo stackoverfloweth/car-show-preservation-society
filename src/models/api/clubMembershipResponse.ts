@@ -6,3 +6,10 @@ export type ClubMembershipResponse = {
   userId: string,
   clubPermissions: string[],
 }
+
+export function isClubMembershipResponse(value: unknown): value is ClubMembershipResponse {
+  return !!value && typeof value === 'object'
+    && '_id' in value
+    && 'clubId' in value && typeof value.clubId === 'string'
+    && 'userId' in value && typeof value.userId === 'string'
+}

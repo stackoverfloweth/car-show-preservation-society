@@ -28,7 +28,7 @@
   }>()
 
   const emit = defineEmits<{
-    (event: 'close'): void,
+    (event: 'complete' | 'close'): void,
   }>()
 
   const api = useApi()

@@ -1,7 +1,7 @@
 <template>
   <ClubMembersListItem
-    :name="member.displayName"
-    :image="member.image"
+    :name="user?.displayName ?? ''"
+    :image="user?.image"
     :user-id="member.userId"
     member-type="Member"
     class="club-members-list-item-member"
@@ -28,29 +28,44 @@
 </template>
 
 <script lang="ts" setup>
+  import { useSubscription } from '@prefecthq/vue-compositions'
+  import { computed } from 'vue'
   import ClubMembersListItem from '@/components/ClubMembersListItem.vue'
   import MenuItemConfirm from '@/components/MenuItemConfirm.vue'
   import { useApi, useCanEditClub } from '@/compositions'
-  import { Club, User } from '@/models'
+  import { Club, ClubMembership } from '@/models'
   import { currentUser } from '@/services/auth'
 
   const props = defineProps<{
     club: Club,
-    member: User,
+    member: ClubMembership,
   }>()
 
   const api = useApi()
   const canEditClub = useCanEditClub()
+  const userId = computed(() => props.member.userId)
+  const clubId = computed(() => props.member.clubId)
+
+  const membersSubscription = useSubscription(api.clubMembership.getAllClubMembers, [clubId])
+
+  const userSubscription = useSubscription(api.users.getUser, [userId])
+  const user = computed(() => userSubscription.response)
 
   async function setUserRoleAdmin(): Promise<void> {
-    await api.clubMembership.setUserRoleAdmin(props.club.clubId, props.member.userId)
+    await api.clubMembership.setUserRoleAdmin(props.member.clubMembershipId)
+
+    membersSubscription.refresh()
   }
 
   async function setPrimaryMember(): Promise<void> {
-    await api.clubMembership.setPrimaryMember(props.club.clubId, props.member.userId)
+    await api.clubMembership.setPrimaryMember(props.member.clubMembershipId)
+
+    membersSubscription.refresh()
   }
 
   async function deleteMember(): Promise<void> {
-    await api.clubMembership.deleteClubMember(props.club.clubId, props.member)
+    await api.clubMembership.deleteClubMember(props.member.clubMembershipId)
+
+    membersSubscription.refresh()
   }
 </script>
