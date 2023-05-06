@@ -13,7 +13,7 @@
       </template>
     </div>
     <div class="event-editor-page__title" @click.stop="toggleMenu">
-      <p-icon class="event-editor-page__toggle-button" icon="MenuIcon" />
+      <p-icon class="event-editor-page__toggle-button" icon="Bars3Icon" />
       <PageHeader :heading="activeTitle?.title" />
     </div>
     <div class="event-editor-page__content" @click="hideMenu">

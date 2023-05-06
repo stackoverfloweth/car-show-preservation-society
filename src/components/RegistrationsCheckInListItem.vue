@@ -10,7 +10,7 @@
       </div>
       <div class="registrations-check-in-list-item__tags">
         <p-tag class="registrations-check-in-list-item__tag" :class="{ 'registrations-check-in-list-item__tag--active': registration.stripePaymentId }" icon="CurrencyDollarIcon" />
-        <p-tag class="registrations-check-in-list-item__tag" :class="{ 'registrations-check-in-list-item__tag--active': registration.isCheckedIn }" icon="ClipboardCheckIcon" />
+        <p-tag class="registrations-check-in-list-item__tag" :class="{ 'registrations-check-in-list-item__tag--active': registration.isCheckedIn }" icon="ClipboardDocumentCheckIcon" />
       </div>
     </div>
   </div>

@@ -12,7 +12,7 @@
           <p-button inset icon="ShareIcon" />
         </template>
         <template v-if="event?.votingOpen && ballot">
-          <p-button inset icon="QrcodeIcon" />
+          <p-button inset icon="QrCodeIcon" />
         </template>
       </div>
     </div>

@@ -19,9 +19,9 @@
           <p-tag class="judging-categories-input-list-item__info-badge" icon="CurrencyDollarIcon" label="2.00" />
         </template>
         <template v-if="category.automaticEntry">
-          <p-tag class="judging-categories-input-list-item__info-badge" icon="LightningBoltIcon" label="Automatic Entry" />
+          <p-tag class="judging-categories-input-list-item__info-badge" icon="BoltIcon" label="Automatic Entry" />
         </template>
-        <p-tag v-if="category.restricted" class="judging-categories-input-list-item__info-badge" icon="ClipboardCheckIcon">
+        <p-tag v-if="category.restricted" class="judging-categories-input-list-item__info-badge" icon="ClipboardDocumentCheckIcon">
           <template v-if="category.driversOnly">
             Drivers Only
           </template>

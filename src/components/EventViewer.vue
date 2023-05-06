@@ -11,7 +11,7 @@
           </template>
           <template v-else-if="existingRegistration && !event.isPast">
             <router-link :to="routes.eventRegistration(event.eventId, existingRegistration.registrationId)">
-              <p-button icon="QrcodeIcon" />
+              <p-button icon="QrCodeIcon" />
             </router-link>
           </template>
           <template v-if="isViewing">
@@ -35,7 +35,7 @@
             </template>
             <template v-if="existingRegistration && !event.isPast">
               <a href="#ballots">
-                <p-overflow-menu-item label="View Ballots" icon="ClipboardCheckIcon" />
+                <p-overflow-menu-item label="View Ballots" icon="ClipboardDocumentCheckIcon" />
               </a>
             </template>
             <template v-if="event.isPast">
