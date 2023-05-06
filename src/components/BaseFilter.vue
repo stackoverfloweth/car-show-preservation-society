@@ -1,10 +1,10 @@
 <template>
   <div class="base-filter" :class="classes">
     <template v-if="!isOpen">
-      <p-button class="base-filter__mobile" inset icon="FilterIcon" @click="open" />
+      <p-button class="base-filter__mobile" inset icon="FunnelIcon" @click="open" />
     </template>
     <template v-else>
-      <p-button class="base-filter__mobile" inset icon="XIcon" @click="close" />
+      <p-button class="base-filter__mobile" inset icon="XMarkIcon" @click="close" />
     </template>
 
     <div class="base-filter__filter">

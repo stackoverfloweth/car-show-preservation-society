@@ -9,7 +9,7 @@
       <p-icon icon="BellIcon" />
       <p-pop-over :placement="placement" auto-close>
         <template #target="{ toggle }">
-          <p-icon icon="MenuIcon" @click="toggle" />
+          <p-icon icon="Bars3Icon" @click="toggle" />
         </template>
         <template #default="{ close }">
           <p-overflow-menu class="menu-header__menu" @click="close">

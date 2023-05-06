@@ -18,10 +18,10 @@
         <p-tag class="judging-categories-list-item__info-badge judging-categories-list-item__info-badge--green" icon="CurrencyDollarIcon" label="+40" />
       </template>
       <template v-if="!category.hasCapacity">
-        <p-tag class="judging-categories-list-item__info-badge judging-categories-list-item__info-badge--red" icon="BanIcon" label="Full" />
+        <p-tag class="judging-categories-list-item__info-badge judging-categories-list-item__info-badge--red" icon="XCircleIcon" label="Full" />
       </template>
       <template v-else-if="category.openSlots < 5">
-        <p-tag class="judging-categories-list-item__info-badge judging-categories-list-item__info-badge--yellow" icon="ExclamationIcon" :label="`Only ${category.openSlots} ${toPluralString('spot', category.openSlots)} open`" />
+        <p-tag class="judging-categories-list-item__info-badge judging-categories-list-item__info-badge--yellow" icon="ExclamationCircleIcon" :label="`Only ${category.openSlots} ${toPluralString('spot', category.openSlots)} open`" />
       </template>
     </div>
   </p-list-item>

@@ -4,7 +4,7 @@
       <img :alt="caption" class="sized-image__img">
     </template>
     <template v-else>
-      <p-icon class="sized-image__icon" icon="PhotographIcon" size="large" />
+      <p-icon class="sized-image__icon" icon="PhotoIcon" size="large" />
     </template>
   </div>
 </template>

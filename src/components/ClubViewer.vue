@@ -16,7 +16,7 @@
         <p-icon-button-menu>
           <MenuItemConfirm v-if="!currentUserIsOnlyAdmin" @confirm="leaveClub">
             <template #default="{ open: openConfirmation }">
-              <p-overflow-menu-item label="Leave" icon="UserRemoveIcon" @click.stop="openConfirmation" />
+              <p-overflow-menu-item label="Leave" icon="UserMinusIcon" @click.stop="openConfirmation" />
             </template>
           </MenuItemConfirm>
           <p-overflow-menu-item label="Invite Member" icon="UserAddIcon" @click="openInviteMemberModal" />

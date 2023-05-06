@@ -10,7 +10,7 @@
 
         <MenuItemConfirm @confirm="deleteMember">
           <template #default="{ open: openConfirmation }">
-            <p-overflow-menu-item label="Remove" icon="UserRemoveIcon" @click.stop="openConfirmation" />
+            <p-overflow-menu-item label="Remove" icon="UserMinusIcon" @click.stop="openConfirmation" />
           </template>
         </MenuItemConfirm>
       </p-icon-button-menu>
@@ -19,6 +19,8 @@
 </template>
 
 <script lang="ts" setup>
+  import { useSubscription } from '@prefecthq/vue-compositions'
+  import { computed } from 'vue'
   import ClubMembersListItem from '@/components/ClubMembersListItem.vue'
   import MenuItemConfirm from '@/components/MenuItemConfirm.vue'
   import { useApi, useCanEditClub } from '@/compositions'
@@ -31,13 +33,20 @@
 
   const api = useApi()
   const canEditClub = useCanEditClub()
+  const clubId = computed(() => props.club.clubId)
+
+  const membersSubscription = useSubscription(api.clubMembership.getAllClubMembers, [clubId])
 
   async function resendInvitation(): Promise<void> {
     await api.clubInvitations.resendInvitation(props.club.clubId, props.invitation.emailAddress)
+
+    membersSubscription.refresh()
   }
 
   async function deleteMember(): Promise<void> {
     await api.clubInvitations.deleteInvitation(props.invitation.clubInviteId)
+
+    membersSubscription.refresh()
   }
 </script>
 

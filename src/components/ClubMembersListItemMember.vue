@@ -8,7 +8,7 @@
   >
     <template v-if="canEditClub && member.userId !== currentUser.userId" #actions>
       <p-tooltip text="Coming Soon!">
-        <p-button icon="MailIcon" disabled />
+        <p-button icon="EnvelopeIcon" disabled />
       </p-tooltip>
       <p-icon-button-menu>
         <p-overflow-menu-item label="Promote to Administrator" icon="ChevronDoubleUpIcon" @click="setUserRoleAdmin" />
@@ -19,7 +19,7 @@
 
         <MenuItemConfirm @confirm="deleteMember">
           <template #default="{ open: openConfirmation }">
-            <p-overflow-menu-item label="Remove" icon="UserRemoveIcon" @click.stop="openConfirmation" />
+            <p-overflow-menu-item label="Remove" icon="UserMinusIcon" @click.stop="openConfirmation" />
           </template>
         </MenuItemConfirm>
       </p-icon-button-menu>
@@ -43,7 +43,7 @@
 
   const api = useApi()
   const canEditClub = useCanEditClub()
-  const clubId = computed(() => props.member.clubId)
+  const clubId = computed(() => props.club.clubId)
 
   const membersSubscription = useSubscription(api.clubMembership.getAllClubMembers, [clubId])
 
