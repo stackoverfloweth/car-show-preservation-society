@@ -13,16 +13,39 @@ export const handler: Handler = Api('GET', 'club-member-get-list/:clubId', ([clu
     const applicationsCollections = db.collection<ClubApplicationResponse>('club-application')
 
     const list = await Promise.all([
-      membersCollection.find({ clubId }).sort({ clubPermissions: 1 }).toArray(),
+      membersCollection.aggregate([
+        {
+          $match: { clubId },
+        },
+        {
+          $addFields: {
+            userIdObjectId: { $toObjectId: '$userId' },
+          },
+        },
+        {
+          $lookup: {
+            from: 'user',
+            localField: 'userIdObjectId',
+            foreignField: '_id',
+            as: 'user',
+          },
+        },
+        {
+          $project: {
+            clubId: 1,
+            clubPermissions: 1,
+            userId: 1,
+            user: { $first: '$user' },
+          },
+        },
+      ]).toArray(),
       invitationsCollection.find({ clubId }).toArray(),
       applicationsCollections.find({ clubId }).toArray(),
     ])
 
-    type AnyClubAssociate = ClubMembershipResponse | ClubInviteResponse | ClubApplicationResponse
-
     return {
       statusCode: 200,
-      body: JSON.stringify(list.reduce<AnyClubAssociate[]>((all, collection) => all.concat(collection), [])),
+      body: JSON.stringify(list.reduce<unknown[]>((all, collection) => all.concat(collection), [])),
     }
   } finally {
     // await client.close()

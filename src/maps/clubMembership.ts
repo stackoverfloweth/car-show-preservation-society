@@ -8,5 +8,6 @@ export const mapClubMembershipResponseToClubMembership: MapFunction<ClubMembersh
     clubId: source.clubId,
     userId: source.userId,
     clubPermissions: source.clubPermissions,
+    user: this.map('UserResponse', source.user, 'User'),
   }
 }

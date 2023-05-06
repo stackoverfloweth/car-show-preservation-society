@@ -5,7 +5,7 @@ import { Api, env } from 'netlify/utilities'
 import { client } from 'netlify/utilities/mongodbClient'
 
 // todo: needs to send an email
-export const handler: Handler = Api('POST', 'club-application-accept', ([clubRequestId], body) => async () => {
+export const handler: Handler = Api('POST', 'club-application-accept/:clubApplicationId', ([clubApplicationId]) => async () => {
   try {
     await client.connect()
 
@@ -13,7 +13,7 @@ export const handler: Handler = Api('POST', 'club-application-accept', ([clubReq
     const applications = db.collection<ClubApplicationResponse>('club-application')
     const members = db.collection<ClubMembershipResponse>('club-member')
 
-    const application = await applications.findOneAndDelete({ _id: new ObjectId(clubRequestId) })
+    const application = await applications.findOneAndDelete({ _id: new ObjectId(clubApplicationId) })
 
     if (!application.value) {
       // todo: application.userId must be current user

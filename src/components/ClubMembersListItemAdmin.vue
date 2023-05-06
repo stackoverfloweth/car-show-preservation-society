@@ -3,15 +3,15 @@
     :name="member.user?.displayName ?? ''"
     :image="member.user?.image"
     :user-id="member.userId"
-    member-type="Member"
-    class="club-members-list-item-member"
+    member-type="administrator"
+    class="club-members-list-item-admin"
   >
     <template v-if="canEditClub && member.userId !== currentUser.userId" #actions>
       <p-tooltip text="Coming Soon!">
         <p-button icon="MailIcon" disabled />
       </p-tooltip>
       <p-icon-button-menu>
-        <p-overflow-menu-item label="Promote to Administrator" icon="ChevronDoubleUpIcon" @click="setUserRoleAdmin" />
+        <p-overflow-menu-item label="Demote to Member" icon="ChevronDoubleDownIcon" @click="setUserRoleMember" />
 
         <template v-if="member.userId !== club.contactUserId">
           <p-overflow-menu-item label="Set as Primary Contact" icon="StarIcon" @click="setPrimaryMember" />
@@ -47,8 +47,8 @@
 
   const membersSubscription = useSubscription(api.clubMembership.getAllClubMembers, [clubId])
 
-  async function setUserRoleAdmin(): Promise<void> {
-    await api.clubMembership.setUserRoleAdmin(props.member.clubMembershipId)
+  async function setUserRoleMember(): Promise<void> {
+    await api.clubMembership.setUserRoleMember(props.member.clubMembershipId)
 
     membersSubscription.refresh()
   }
@@ -65,3 +65,9 @@
     membersSubscription.refresh()
   }
 </script>
+
+<style>
+.club-members-list-item__member-type--administrator {
+  background-color: var(--blue-900) !important;
+}
+</style>

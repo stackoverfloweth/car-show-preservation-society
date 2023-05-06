@@ -1,8 +1,11 @@
+import { User } from '@/models/user'
+
 export type ClubMembership = {
   clubMembershipId: string,
   clubId: string,
   userId: string,
   clubPermissions: string[],
+  user?: User,
 }
 
 export function isClubMembership(value: unknown): value is ClubMembership {
