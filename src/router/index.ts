@@ -167,7 +167,7 @@ router.beforeEach(async (to, from) => {
 
 router.afterEach((to, from) => {
   if (to.fullPath !== from.fullPath) {
-    document.title = 'Car Show Manager'
+    document.title = 'Car Show Preservation Society'
   }
 
   return RouteGuardExecutioner.after(to, from)
