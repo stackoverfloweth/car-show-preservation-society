@@ -1,11 +1,13 @@
 <template>
   <div class="event-sponsors">
-    <PageHeader heading="Event Sponsors" />
-    <div class="event-sponsors__content">
-      <template v-for="advertisement in advertisements" :key="advertisement.advertisementId">
-        <SponsorCard :advertisement="advertisement" />
-      </template>
-    </div>
+    <template v-if="advertisements.length">
+      <PageHeader heading="Event Sponsors" />
+      <div class="event-sponsors__content">
+        <template v-for="advertisement in advertisements" :key="advertisement.advertisementId">
+          <SponsorCard :advertisement="advertisement" />
+        </template>
+      </div>
+    </template>
   </div>
 </template>
 

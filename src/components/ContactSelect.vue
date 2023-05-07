@@ -2,7 +2,7 @@
   <p-combobox v-model="userId" class="user-select" :options="options">
     <template #combobox-options-empty>
       <template v-if="clubId">
-        <template v-if="userSubscription.loading">
+        <template v-if="membersSubscription.loading">
           Loading club members
         </template>
         <template v-else>
@@ -44,12 +44,12 @@
 
   const api = useApi()
 
-  const userSubscriptionArgs = computed<Parameters<typeof api.users.getUsersFromClub> | null>(() => clubId.value ? [clubId.value] : null)
-  const userSubscription = useSubscriptionWithDependencies(api.users.getUsersFromClub, userSubscriptionArgs)
-  const users = computed(() => userSubscription.response ?? [])
+  const membersSubscriptionArgs = computed<Parameters<typeof api.users.getUsersFromClub> | null>(() => clubId.value ? [clubId.value] : null)
+  const membersSubscription = useSubscriptionWithDependencies(api.users.getUsersFromClub, membersSubscriptionArgs)
+  const members = computed(() => membersSubscription.response ?? [])
 
-  const options = computed<SelectOption[]>(() => users.value.map(user => ({
-    value: user.userId,
-    label: user.displayName,
+  const options = computed<SelectOption[]>(() => members.value.map(({ user }) => ({
+    value: user!.userId,
+    label: user!.displayName,
   })))
 </script>

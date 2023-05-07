@@ -30,8 +30,9 @@ export class EventsApi extends Api {
       .then(({ data }) => mapper.map('EventResponse', data, 'Event'))
   }
 
-  public async getRelatedEvents(eventId: string): Promise<Event[]> {
-    return await Promise.resolve(mocker.createMany('event', 5))
+  public getRelatedEvents(eventId: string): Promise<Event[]> {
+    return this.get<EventResponse[]>(`events-get-list-related/${eventId}`)
+      .then(({ data }) => mapper.map('EventResponse', data, 'Event'))
   }
 
   public getEventsByClubId(clubId: string): Promise<Event[]> {

@@ -1,27 +1,32 @@
 <template>
-  <div class="related-events">
-    <template v-for="event in events" :key="event.eventId">
-      <p-button inset class="related-events__event" @click="emit('open', event)">
-        <div class="related-events__event-content">
-          <SizedImage v-if="event.image" class="related-events__event-logo" :image="event.image" />
-          <p class="related-events__event-name">
-            {{ event.name }}
-          </p>
-          <div class="related-event__event-details">
-            <p>{{ formatRelative(event.start, new Date()) }}</p>
-            <p>{{ mocker.create('number', [1, 100]) }} miles away</p>
+  <div v-if="events.length" class="related-events">
+    <PageHeader heading="Similar Events" />
+    <div class="related-events__events">
+      <template v-for="event in events" :key="event.eventId">
+        <p-button inset class="related-events__event" @click="emit('open', event)">
+          <div class="related-events__event-content">
+            <SizedImage v-if="event.image" class="related-events__event-logo" :image="event.image" />
+            <p class="related-events__event-name">
+              {{ event.name }}
+            </p>
+            <div class="related-event__event-details">
+              <p>{{ formatRelative(event.start, new Date()) }}</p>
+              <p>{{ mocker.create('number', [1, 100]) }} miles away</p>
+            </div>
           </div>
-        </div>
-      </p-button>
-    </template>
-    <p-button inset class="related-events__event">
+        </p-button>
+      </template>
+    </div>
+    <!--
+      <p-button inset class="related-events__event">
       <div class="related-events__event-content">
-        <p class="related-events__event-name">
-          Load More
-          <p-icon icon="ChevronRightIcon" />
-        </p>
+      <p class="related-events__event-name">
+      Load More
+      <p-icon icon="ChevronRightIcon" />
+      </p>
       </div>
-    </p-button>
+      </p-button>
+    -->
   </div>
 </template>
 
@@ -29,6 +34,7 @@
   import { useSubscription } from '@prefecthq/vue-compositions'
   import { formatRelative } from 'date-fns'
   import { toRefs, computed } from 'vue'
+  import PageHeader from '@/components/PageHeader.vue'
   import SizedImage from '@/components/SizedImage.vue'
   import { useApi } from '@/compositions'
   import { Event } from '@/models'
@@ -50,7 +56,7 @@
 </script>
 
 <style>
-.related-events {
+.related-events__events {
   display: flex;
   border-radius: var(--rounded);
   gap: var(--space-4);

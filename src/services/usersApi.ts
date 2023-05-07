@@ -1,4 +1,5 @@
-import { UserRequest, UserResponse } from '@/models/api'
+import { ClubMembership } from '@/models'
+import { ClubMembershipResponse, UserRequest, UserResponse } from '@/models/api'
 import { User } from '@/models/user'
 import { Api } from '@/services/api'
 import { mapper } from '@/services/mapper'
@@ -14,9 +15,9 @@ export class UsersApi extends Api {
       .then(({ data }) => mapper.map('UserResponse', data, 'User'))
   }
 
-  public getUsersFromClub(clubId: string): Promise<User[]> {
-    return this.get<UserResponse[]>(`users-get-list-by-club/${clubId}`)
-      .then(({ data }) => mapper.map('UserResponse', data, 'User'))
+  public getUsersFromClub(clubId: string): Promise<ClubMembership[]> {
+    return this.get<ClubMembershipResponse[]>(`users-get-list-by-club/${clubId}`)
+      .then(({ data }) => mapper.map('ClubMembershipResponse', data, 'ClubMembership'))
   }
 
   public createUser(request: UserRequest): Promise<string> {

@@ -9,7 +9,14 @@
 
       <p-label label="End" :message="endError" :state="endState">
         <template #default="{ id }">
-          <p-date-input :id="id" v-model="end" :state="endState" show-time clearable />
+          <p-date-input
+            :id="id"
+            v-model="end"
+            :state="endState"
+            :min="start"
+            show-time
+            clearable
+          />
         </template>
       </p-label>
 

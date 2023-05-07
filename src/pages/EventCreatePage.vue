@@ -30,7 +30,7 @@
     const eventId = await api.events.createEvent(values.value as EventRequest)
 
     showToast('Event Created!', 'success')
-    router.push(routes.eventEditor(eventId))
+    router.push(routes.event(eventId))
   }
 
   watchEffect(() => {
