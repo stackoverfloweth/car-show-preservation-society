@@ -2,7 +2,7 @@
   <div class="menu-header">
     <div class="menu-header__logo">
       <router-link :to="routes.home()">
-        <img class="menu-header__logo-image" width="100" src="/csps-logo.svg">
+        <img class="menu-header__logo-image" width="100" src="/csps.svg">
       </router-link>
     </div>
     <div class="menu-header__links">
