@@ -14,4 +14,5 @@ export function isClubMembershipResponse(value: unknown): value is ClubMembershi
     && '_id' in value
     && 'clubId' in value && typeof value.clubId === 'string'
     && 'userId' in value && typeof value.userId === 'string'
+    && 'clubPermissions' in value && Array.isArray(value.clubPermissions)
 }

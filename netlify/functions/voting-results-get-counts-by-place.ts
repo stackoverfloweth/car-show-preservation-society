@@ -1,5 +1,4 @@
 import { Handler } from '@netlify/functions'
-import { addWeeks } from 'date-fns'
 import { VotingResultResponse } from '@/models/api'
 import { Api, env } from 'netlify/utilities'
 import { client } from 'netlify/utilities/mongodbClient'

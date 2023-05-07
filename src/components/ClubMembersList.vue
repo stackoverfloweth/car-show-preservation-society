@@ -2,19 +2,20 @@
   <div class="club-members-list">
     <template v-for="member in members" :key="member.memberId">
       <template v-if="isClubMembership(member)">
-        <ClubMembersListItemMember :club="club" :member="member" class="club-members-list__club-member" />
+        <ClubMembersListItemMember :club="club" :member="member" />
       </template>
-      <template v-if="isClubInvite(member)">
-        <ClubMembersListItemPending :club="club" :invitation="member" class="club-members-list__club-member" />
+      <template v-else-if="isClubInvite(member)">
+        <ClubMembersListItemPending :club="club" :invitation="member" />
       </template>
       <template v-else>
-        <!-- <ClubMembersListItemAdmin :club="club" :member="member" class="club-members-list__club-member" is-admin /> -->
+        <ClubMembersListItemApplication :club="club" :application="member" />
       </template>
     </template>
   </div>
 </template>
 
 <script lang="ts" setup>
+  import ClubMembersListItemApplication from '@/components/ClubMembersListItemApplication.vue'
   import ClubMembersListItemMember from '@/components/ClubMembersListItemMember.vue'
   import ClubMembersListItemPending from '@/components/ClubMembersListItemPending.vue'
   import { Club, ClubApplication, ClubInvite, ClubMembership, isClubMembership, isClubInvite } from '@/models'

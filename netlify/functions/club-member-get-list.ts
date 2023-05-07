@@ -40,7 +40,32 @@ export const handler: Handler = Api('GET', 'club-member-get-list/:clubId', ([clu
         },
       ]).toArray(),
       invitationsCollection.find({ clubId }).toArray(),
-      applicationsCollections.find({ clubId }).toArray(),
+      applicationsCollections.aggregate([
+        {
+          $match: { clubId },
+        },
+        {
+          $addFields: {
+            userIdObjectId: { $toObjectId: '$userId' },
+          },
+        },
+        {
+          $lookup: {
+            from: 'user',
+            localField: 'userIdObjectId',
+            foreignField: '_id',
+            as: 'user',
+          },
+        },
+        {
+          $project: {
+            clubId: 1,
+            clubPermissions: 1,
+            userId: 1,
+            user: { $first: '$user' },
+          },
+        },
+      ]).toArray(),
     ])
 
     return {
