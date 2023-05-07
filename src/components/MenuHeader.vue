@@ -1,7 +1,7 @@
 <template>
   <div class="menu-header">
     <div class="menu-header__logo">
-      <router-link :to="routes.home()">
+      <router-link v-if="!isAlreadyHome" :to="routes.home()">
         <img class="menu-header__logo-image" width="100" src="/csps.svg">
       </router-link>
     </div>
@@ -31,7 +31,11 @@
 
 <script lang="ts" setup>
   import { PositionMethod } from '@prefecthq/prefect-design'
-  import { routes } from '@/router/routes'
+  import { computed } from 'vue'
+  import { useRoute } from 'vue-router'
+  import { NamedRoute, routes } from '@/router/routes'
+
+  const route = useRoute()
 
   const placement: PositionMethod = (target, content, container) => {
     const top = target.top + target.height + 4
@@ -39,6 +43,8 @@
 
     return { top, left }
   }
+
+  const isAlreadyHome = computed(() => route.name as NamedRoute === 'home')
 </script>
 
 <style>
@@ -48,6 +54,7 @@
     align-items: center;
     background-color: var(--slate-700);
     padding: var(--space-4);
+    height: 65px;
 }
 
 .menu-header__links {

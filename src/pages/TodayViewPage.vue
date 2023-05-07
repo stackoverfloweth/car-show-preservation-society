@@ -1,5 +1,8 @@
 <template>
   <div class="today-view-page">
+    <div class="today-view-page__branding">
+      <img class="today-view-page__branding-logo" src="/csps-full.svg">
+    </div>
     <template v-if="eventsCurrentlyHappening.length">
       <PageHeader heading="Happening Now" />
       <EventsList :events="eventsCurrentlyHappening" />
@@ -54,5 +57,15 @@
   flex-direction: column;
   padding: var(--space-5) var(--space-4);
   gap: var(--space-4);
+}
+
+.today-view-page__branding {
+  display: flex;
+  justify-content: center;
+}
+
+.today-view-page__branding-logo {
+  width: 50%;
+  padding-bottom: var(--space-5);
 }
 </style>
