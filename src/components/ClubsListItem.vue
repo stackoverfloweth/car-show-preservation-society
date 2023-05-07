@@ -1,8 +1,6 @@
 <template>
   <p-card class="clubs-list-item">
-    <template v-if="club.image">
-      <SizedImage class="clubs-list-item__logo" :image="club.image" />
-    </template>
+    <SizedImage class="clubs-list-item__logo" :image="club.image" />
     <div class="clubs-list-item__name">
       {{ club.name }}
     </div>
@@ -60,6 +58,7 @@
 .clubs-list-item__logo {
   padding-top: 50%;
   width: 100%;
+  border: 1px solid var(--slate-600);
 }
 
 .clubs-list-item__name {
