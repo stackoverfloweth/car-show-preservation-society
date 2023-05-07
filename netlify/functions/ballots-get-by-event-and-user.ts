@@ -46,6 +46,7 @@ export const handler: Handler = Api('GET', 'ballots-get-by-event-and-user/:event
         const ballot = {
           _id: ballotId,
           index: existingBallots.length,
+          eventId,
           registrationId: registration._id.toString(),
           votes: [],
         }

@@ -1,7 +1,15 @@
 <template>
   <div class="event-judging-results">
-    <template v-for="result in results" :key="result.votingCategory.votingCategoryId">
-      <VotingResultsByCategoryItem v-bind="result" />
+    <template v-if="results.length">
+      <template v-for="result in results" :key="result.votingCategoryId">
+        <VotingResultsByCategoryItem v-bind="result" />
+      </template>
+    </template>
+    <template v-else>
+      <p-message info>
+        <strong>Event results are not yet available!</strong>
+        <p>Check back at a later time</p>
+      </p-message>
     </template>
   </div>
 </template>

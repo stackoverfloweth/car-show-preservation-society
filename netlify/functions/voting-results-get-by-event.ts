@@ -27,6 +27,13 @@ export const handler: Handler = Api('GET', 'voting-results-get-by-event/:eventId
           as: 'results',
         },
       },
+      {
+        $project: {
+          _id: 0,
+          votingCategory: '$$ROOT',
+          results: '$results',
+        },
+      },
     ]).toArray()
 
     return {

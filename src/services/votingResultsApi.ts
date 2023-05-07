@@ -3,6 +3,10 @@ import { VotingResultByEventAndCategoryResponse, VotingResultsByCategoryResponse
 import { Api, mapper } from '@/services'
 
 export class VotingResultsApi extends Api {
+  public setVotingResults(eventId: string): Promise<void> {
+    return this.post(`voting-results-set/${eventId}`)
+  }
+
   public getVotingResults(eventId: string): Promise<VotingResultsByCategory[]> {
     return this.get<VotingResultsByCategoryResponse[]>(`voting-results-get-by-event/${eventId}`)
       .then(({ data }) => mapper.map('VotingResultsByCategoryResponse', data, 'VotingResultsByCategory'))

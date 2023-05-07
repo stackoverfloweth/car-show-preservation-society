@@ -40,15 +40,23 @@
 
     <template v-if="event.votingOpen">
       <p-card class="event-manager__ballots">
-        <PageHeader heading="View Ballots" />
+        <PageHeader heading="Ballots" />
         here are state of all ballots, not results
       </p-card>
     </template>
 
     <template v-else-if="event.isPast">
       <p-card class="event-manager__results">
-        <PageHeader heading="View Judging Results" />
-        here are the results from all ballots, winners in each category, can disqualify ballots (like if winner wasn't present to win)
+        <PageHeader heading="Judging Results" />
+        <template v-if="votingResults.length">
+          {{ votingResults }}
+        </template>
+        <template v-else>
+          <p>Results not yet evaluated</p>
+          <p-button @click="calculateResults">
+            Calculate Results
+          </p-button>
+        </template>
       </p-card>
     </template>
 
@@ -122,6 +130,8 @@
   const searchValue = ref<string>()
   const searchDebounced = useDebouncedRef(searchValue, 750)
 
+  const eventSubscription = useSubscription(api.events.getEvent, [props.event.eventId])
+
   const searchResultsSubscriptionArgs = computed<Parameters<typeof api.registration.searchRegistrations> | null>(() => searchDebounced.value ? [searchDebounced.value] : null)
   const searchResultsSubscription = useSubscriptionWithDependencies(api.registration.searchRegistrations, searchResultsSubscriptionArgs)
   const searchResults = computed(() => searchResultsSubscription.response ?? [])
@@ -132,18 +142,29 @@
   const checkedInSubscription = useSubscription(api.registration.getRegistrationsCheckedInCount, [eventId])
   const checkedInCount = computed(() => checkedInSubscription.response ?? 0)
 
+  const votingResultsSubscription = useSubscription(api.votingResults.getVotingResults, [eventId])
+  const votingResults = computed(() => votingResultsSubscription.response ?? [])
+
   function openRelatedClub(clubId: string): void {
     emit('open:club', clubId)
   }
 
   function startVotingNow(): void {
     votingOpen.value = true
-    useSubscription(api.events.getEvent, [props.event.eventId]).refresh()
+
+    eventSubscription.refresh()
   }
 
   function endVotingNow(): void {
     isEnded.value = true
-    useSubscription(api.events.getEvent, [props.event.eventId]).refresh()
+
+    eventSubscription.refresh()
+  }
+
+  async function calculateResults(): Promise<void> {
+    await api.votingResults.setVotingResults(props.event.eventId)
+
+    votingResultsSubscription.refresh()
   }
 </script>
 
