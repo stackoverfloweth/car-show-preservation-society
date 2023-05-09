@@ -115,7 +115,7 @@
   const location = usePatchRef(event, 'location')
 
   const { error: clubError, state: clubState } = useValidation(clubId, 'Club', [stringHasValue])
-  const { error: contactUserIdError, state: contactUserIdState } = useValidation(contactUserId, 'Primary Contact', [stringHasValue])
+  const { error: contactUserIdError, state: contactUserIdState } = useValidation(contactUserId, 'Primary Contact', [])
   const { error: nameError, state: nameState } = useValidation(name, 'Name', [stringHasValue])
   const { error: descriptionError, state: descriptionState } = useValidation(description, 'Description', [])
   const { error: startError, state: startState } = useValidation(start, 'Start', [])
