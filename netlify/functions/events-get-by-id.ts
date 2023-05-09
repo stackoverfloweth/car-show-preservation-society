@@ -1,6 +1,6 @@
 import { Handler } from '@netlify/functions'
 import { ObjectId } from 'mongodb'
-import { EventResponse } from '@/models/api'
+import { ClubResponse, EventResponse } from '@/models/api'
 import { Api, env } from 'netlify/utilities'
 import { getClient } from 'netlify/utilities/mongodbClient'
 
@@ -18,6 +18,13 @@ export const handler: Handler = Api('GET', 'events-get-by-id/:id', ([eventId]) =
 
     if (!event) {
       return { statusCode: 404 }
+    }
+
+    if (!event.contactUserId) {
+      const clubCollection = db.collection<ClubResponse>('club')
+      const club = await clubCollection.findOne({ _id: new ObjectId(event.clubId) })
+
+      event.contactUserId = club?.contactUserId
     }
 
     return {
