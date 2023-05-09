@@ -1,6 +1,6 @@
 import { VotingCategoryRequest, VotingCategoryResponse } from '@/models/api'
 import { VotingCategory } from '@/models/votingCategory'
-import { Api, mapper, mocker } from '@/services'
+import { Api, mapper } from '@/services'
 
 export class VotingCategoriesApi extends Api {
   public getVotingCategory(votingCategoryId: string): Promise<VotingCategory | undefined> {
@@ -13,11 +13,9 @@ export class VotingCategoriesApi extends Api {
       .then(({ data }) => mapper.map('VotingCategoryResponse', data, 'VotingCategory'))
   }
 
-  public async getVotingCategoriesByRegistration(registrationId: string): Promise<VotingCategory[]> {
-    return await Promise.resolve([
-      mocker.create('votingCategory', [{ featured: true, automaticEntry: true }]),
-      ...mocker.createMany('votingCategory', 50),
-    ])
+  public getVotingCategoriesByRegistration(registrationId: string): Promise<VotingCategory[]> {
+    return this.get<VotingCategoryResponse[]>(`voting-category-get-list-by-registration/${registrationId}`)
+      .then(({ data }) => mapper.map('VotingCategoryResponse', data, 'VotingCategory'))
   }
 
   public suggestVotingCategories(eventId: string): Promise<string[]> {
