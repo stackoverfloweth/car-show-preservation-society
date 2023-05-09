@@ -3,7 +3,8 @@ import { ObjectId } from 'mongodb'
 import { EventResponse } from '@/models/api'
 import { Api, env } from 'netlify/utilities'
 import { isValidImageRequest, uploadMedia } from 'netlify/utilities/images'
-import { client } from 'netlify/utilities/mongodbClient'
+import { getClient } from 'netlify/utilities/mongodbClient'
+
 
 export const handler: Handler = Api('POST', 'events-images-create/:id', ([eventId], body) => async () => {
   if (!isValidImageRequest(body)) {
@@ -12,9 +13,9 @@ export const handler: Handler = Api('POST', 'events-images-create/:id', ([eventI
     }
   }
 
-  try {
-    await client.connect()
+  const client = await getClient()
 
+  try {
     const db = client.db(env().mongodbName)
     const collection = db.collection<EventResponse>('event')
 
@@ -38,6 +39,6 @@ export const handler: Handler = Api('POST', 'events-images-create/:id', ([eventI
       body: JSON.stringify(insertedId),
     }
   } finally {
-    // await client.close()
+    await client.close()
   }
 })

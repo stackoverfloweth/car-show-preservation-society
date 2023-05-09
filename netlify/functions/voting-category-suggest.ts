@@ -2,12 +2,13 @@ import { Handler } from '@netlify/functions'
 import { ObjectId } from 'mongodb'
 import { VotingCategoryRequest, VotingCategoryResponse } from '@/models/api'
 import { Api, env } from 'netlify/utilities'
-import { client } from 'netlify/utilities/mongodbClient'
+import { getClient } from 'netlify/utilities/mongodbClient'
+
 
 export const handler: Handler = Api<VotingCategoryRequest>('POST', 'voting-category-suggest/:eventId', ([eventId]) => async () => {
-  try {
-    await client.connect()
+  const client = await getClient()
 
+  try {
     const db = client.db(env().mongodbName)
     const collection = db.collection<VotingCategoryResponse>('voting-category')
 
@@ -43,6 +44,6 @@ export const handler: Handler = Api<VotingCategoryRequest>('POST', 'voting-categ
       body: JSON.stringify(result.insertedIds),
     }
   } finally {
-    // await client.close()
+    await client.close()
   }
 })

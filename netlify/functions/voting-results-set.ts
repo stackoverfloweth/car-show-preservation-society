@@ -2,7 +2,8 @@ import { Handler } from '@netlify/functions'
 import { ObjectId } from 'mongodb'
 import { BallotResponse, BallotVotingCategoryResponse, RegistrationResponse, VotingResultResponse } from '@/models/api'
 import { Api, env } from 'netlify/utilities'
-import { client } from 'netlify/utilities/mongodbClient'
+import { getClient } from 'netlify/utilities/mongodbClient'
+
 
 // todo: this should be an async background task?
 
@@ -15,9 +16,9 @@ type RegistrationsByCategoryWithCount = {
 }
 
 export const handler: Handler = Api('POST', 'voting-results-set/:eventId', ([eventId]) => async () => {
-  try {
-    await client.connect()
+  const client = await getClient()
 
+  try {
     const db = client.db(env().mongodbName)
     const ballotsCollection = db.collection<BallotResponse>('ballot')
     const resultsCollection = db.collection<VotingResultResponse>('voting-result')
@@ -92,7 +93,7 @@ export const handler: Handler = Api('POST', 'voting-results-set/:eventId', ([eve
       body: JSON.stringify(results),
     }
   } finally {
-    // await client.close()
+    await client.close()
   }
 })
 

@@ -2,7 +2,8 @@ import { Handler } from '@netlify/functions'
 import { Db, ObjectId } from 'mongodb'
 import { ClubMembershipResponse, ClubResponse } from '@/models/api'
 import { Api, env } from 'netlify/utilities'
-import { client } from 'netlify/utilities/mongodbClient'
+import { getClient } from 'netlify/utilities/mongodbClient'
+
 
 // todo: needs to send an email
 export const handler: Handler = Api('POST', 'club-member-join/:clubId', ([clubId], body) => async () => {
@@ -10,9 +11,9 @@ export const handler: Handler = Api('POST', 'club-member-join/:clubId', ([clubId
     return { statusCode: 400 }
   }
 
-  try {
-    await client.connect()
+  const client = await getClient()
 
+  try {
     const db = client.db(env().mongodbName)
     const collection = db.collection<ClubMembershipResponse>('club-member')
 
@@ -34,7 +35,7 @@ export const handler: Handler = Api('POST', 'club-member-join/:clubId', ([clubId
       body: JSON.stringify(result.insertedId),
     }
   } finally {
-    // await client.close()
+    await client.close()
   }
 })
 

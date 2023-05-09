@@ -2,16 +2,17 @@ import { Handler } from '@netlify/functions'
 import { ObjectId } from 'mongodb'
 import { ClubMembershipResponse, ClubResponse } from '@/models/api'
 import { Api, env } from 'netlify/utilities'
-import { client } from 'netlify/utilities/mongodbClient'
+import { getClient } from 'netlify/utilities/mongodbClient'
+
 
 export const handler: Handler = Api('POST', 'club-member-set-admin', (args, body) => async () => {
   if (!isValidRequest(body)) {
     return { statusCode: 400 }
   }
 
-  try {
-    await client.connect()
+  const client = await getClient()
 
+  try {
     const db = client.db(env().mongodbName)
     const members = db.collection<ClubMembershipResponse>('club-member')
     const clubs = db.collection<ClubResponse>('club')
@@ -31,7 +32,7 @@ export const handler: Handler = Api('POST', 'club-member-set-admin', (args, body
 
     return { statusCode: result.acknowledged ? 202 : 400 }
   } finally {
-    // await client.close()
+    await client.close()
   }
 })
 

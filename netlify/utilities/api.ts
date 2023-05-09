@@ -1,5 +1,5 @@
-import { Handler, HandlerResponse } from '@netlify/functions'
-import { JsonOutput, Pattern } from 'netlify/types'
+import { Handler } from '@netlify/functions'
+import { Pattern } from 'netlify/types'
 
 export const headers = {
   'Access-Control-Allow-Origin': '*',

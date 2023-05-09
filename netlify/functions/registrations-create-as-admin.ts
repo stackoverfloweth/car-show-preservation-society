@@ -2,7 +2,8 @@ import { Handler } from '@netlify/functions'
 import { ObjectId } from 'mongodb'
 import { NewUserRegistrationRequest, RegistrationResponse, UserResponse, VehicleResponse } from '@/models/api'
 import { Api, env } from 'netlify/utilities'
-import { client } from 'netlify/utilities/mongodbClient'
+import { getClient } from 'netlify/utilities/mongodbClient'
+
 
 // todo: needs to send an email to have user complete setup
 export const handler: Handler = Api<NewUserRegistrationRequest>('POST', 'registrations-create-as-admin', (args, body) => async () => {
@@ -10,9 +11,9 @@ export const handler: Handler = Api<NewUserRegistrationRequest>('POST', 'registr
     return { statusCode: 400 }
   }
 
-  try {
-    await client.connect()
+  const client = await getClient()
 
+  try {
     const db = client.db(env().mongodbName)
     const users = db.collection<UserResponse>('user')
     const vehicles = db.collection<VehicleResponse>('vehicle')
@@ -47,6 +48,6 @@ export const handler: Handler = Api<NewUserRegistrationRequest>('POST', 'registr
       body: JSON.stringify(result.insertedId),
     }
   } finally {
-    // await client.close()
+    await client.close()
   }
 })

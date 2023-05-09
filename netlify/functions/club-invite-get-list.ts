@@ -1,13 +1,14 @@
 import { Handler } from '@netlify/functions'
 import { ClubInviteResponse } from '@/models/api'
 import { Api, env } from 'netlify/utilities'
-import { client } from 'netlify/utilities/mongodbClient'
+import { getClient } from 'netlify/utilities/mongodbClient'
+
 
 // todo: needs to send an email
 export const handler: Handler = Api('GET', 'club-invite-get-list/:clubId', ([clubId]) => async () => {
-  try {
-    await client.connect()
+  const client = await getClient()
 
+  try {
     const db = client.db(env().mongodbName)
     const collection = db.collection<ClubInviteResponse>('club-invite')
 
@@ -20,6 +21,6 @@ export const handler: Handler = Api('GET', 'club-invite-get-list/:clubId', ([clu
       body: JSON.stringify(invitations),
     }
   } finally {
-    // await client.close()
+    await client.close()
   }
 })

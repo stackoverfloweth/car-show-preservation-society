@@ -2,12 +2,13 @@ import { Handler } from '@netlify/functions'
 import { ObjectId } from 'mongodb'
 import { BallotResponse, BallotVotingCategoryResponse, VotingCategoryResponse } from '@/models/api'
 import { Api, env } from 'netlify/utilities'
-import { client } from 'netlify/utilities/mongodbClient'
+import { getClient } from 'netlify/utilities/mongodbClient'
+
 
 export const handler: Handler = Api('GET', 'ballots-get-by-id/:eventId/:ballotId', ([eventId, ballotId]) => async () => {
-  try {
-    await client.connect()
+  const client = await getClient()
 
+  try {
     const db = client.db(env().mongodbName)
     const ballots = db.collection<BallotResponse>('ballot')
     const categories = db.collection<VotingCategoryResponse>('voting-category')
@@ -38,6 +39,6 @@ export const handler: Handler = Api('GET', 'ballots-get-by-id/:eventId/:ballotId
       body: JSON.stringify(ballot),
     }
   } finally {
-    // await client.close()
+    await client.close()
   }
 })

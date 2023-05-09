@@ -1,12 +1,13 @@
 import { Handler } from '@netlify/functions'
 import { EventResponse } from '@/models/api'
 import { Api, env } from 'netlify/utilities'
-import { client } from 'netlify/utilities/mongodbClient'
+import { getClient } from 'netlify/utilities/mongodbClient'
+
 
 export const handler: Handler = Api('GET', 'events-get-list', () => async () => {
-  try {
-    await client.connect()
+  const client = await getClient()
 
+  try {
     const db = client.db(env().mongodbName)
     const collection = db.collection<EventResponse>('event')
 
@@ -20,6 +21,6 @@ export const handler: Handler = Api('GET', 'events-get-list', () => async () => 
       body: JSON.stringify(events),
     }
   } finally {
-    // await client.close()
+    await client.close()
   }
 })

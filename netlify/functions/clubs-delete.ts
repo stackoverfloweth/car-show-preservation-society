@@ -2,12 +2,13 @@ import { Handler } from '@netlify/functions'
 import { ObjectId } from 'mongodb'
 import { ClubResponse } from '@/models/api'
 import { Api, env } from 'netlify/utilities'
-import { client } from 'netlify/utilities/mongodbClient'
+import { getClient } from 'netlify/utilities/mongodbClient'
+
 
 export const handler: Handler = Api('DELETE', 'clubs-delete/:id', ([clubId]) => async () => {
-  try {
-    await client.connect()
+  const client = await getClient()
 
+  try {
     const db = client.db(env().mongodbName)
     const collection = db.collection<ClubResponse>('club')
 
@@ -15,6 +16,6 @@ export const handler: Handler = Api('DELETE', 'clubs-delete/:id', ([clubId]) => 
 
     return { statusCode: result.deletedCount === 1 ? 202 : 400 }
   } finally {
-    // await client.close()
+    await client.close()
   }
 })

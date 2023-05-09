@@ -1,12 +1,13 @@
 import { Handler } from '@netlify/functions'
 import { VotingCategoryResponse } from '@/models/api'
 import { Api, env } from 'netlify/utilities'
-import { client } from 'netlify/utilities/mongodbClient'
+import { getClient } from 'netlify/utilities/mongodbClient'
+
 
 export const handler: Handler = Api('GET', 'voting-category-get-list/:eventId', ([eventId]) => async () => {
-  try {
-    await client.connect()
+  const client = await getClient()
 
+  try {
     const db = client.db(env().mongodbName)
     const collection = db.collection<VotingCategoryResponse>('voting-category')
 
@@ -23,6 +24,6 @@ export const handler: Handler = Api('GET', 'voting-category-get-list/:eventId', 
       body: JSON.stringify(votingCategories),
     }
   } finally {
-    // await client.close()
+    await client.close()
   }
 })
