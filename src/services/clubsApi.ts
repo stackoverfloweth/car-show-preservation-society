@@ -30,4 +30,9 @@ export class ClubsApi extends Api {
   public deleteClub(clubId: string): Promise<void> {
     return this.delete(`clubs-delete/${clubId}`)
   }
+
+  public getClubNameUnique(name: string): Promise<boolean> {
+    return this.post<boolean>('clubs-name-unique', { name })
+      .then(({ data }) => data)
+  }
 }

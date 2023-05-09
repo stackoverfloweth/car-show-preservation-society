@@ -45,9 +45,10 @@
 </template>
 
 <script lang="ts" setup>
-  import { usePatchRef, useValidation } from '@prefecthq/vue-compositions'
+  import { ValidationRule, useDebouncedRef, usePatchRef, useValidation } from '@prefecthq/vue-compositions'
   import { computed } from 'vue'
   import ImageUpload from '@/components/ImageUpload.vue'
+  import { useApi } from '@/compositions'
   import { ClubRequest } from '@/models/api'
   import { stringHasValue } from '@/services'
 
@@ -70,7 +71,7 @@
 
   const openToPublic = computed({
     get() {
-      return values.value.joinableByAnyone || values.value.joinableByApplication
+      return (values.value.joinableByAnyone ?? false) || values.value.joinableByApplication
     },
     set(value) {
       if (value) {
@@ -91,7 +92,24 @@
   const joinableByApplication = usePatchRef(values, 'joinableByApplication')
   const image = usePatchRef(values, 'image')
 
-  const { error: nameError, state: nameState } = useValidation(name, 'Name', [stringHasValue])
+  const nameDebounced = useDebouncedRef(name, 750)
+  const api = useApi()
+
+  const nameIsUnique: ValidationRule<string | undefined> = async (value) => {
+    if (!value) {
+      return false
+    }
+
+    const valid = await api.clubs.getClubNameUnique(value)
+
+    if (!valid) {
+      return 'Club name must be unique'
+    }
+
+    return valid
+  }
+
+  const { error: nameError, state: nameState } = useValidation(nameDebounced, 'Name', [stringHasValue, nameIsUnique])
   const { error: descriptionError, state: descriptionState } = useValidation(description, 'Description', [])
   const { error: imageError, state: imageState } = useValidation(image, 'Club Logo', [])
 </script>
