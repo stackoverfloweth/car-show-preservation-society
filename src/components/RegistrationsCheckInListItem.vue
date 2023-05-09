@@ -1,12 +1,12 @@
 <template>
   <div class="registrations-check-in-list-item" role="button">
-    <SizedImage :image="registration.vehicle.image" class="registrations-check-in-list-item__image" rounded />
+    <SizedImage :image="registration.vehicle?.image ?? registration.user?.image" class="registrations-check-in-list-item__image" rounded />
     <div class="registrations-check-in-list-item__body">
       <div class="registrations-check-in-list-item__user">
-        {{ registration.user.displayName }}
+        {{ registration.user?.displayName }}
       </div>
       <div class="registrations-check-in-list-item__vehicle">
-        {{ registration.vehicle.year }} {{ registration.vehicle.make }} {{ registration.vehicle.model }}
+        {{ registration.vehicle?.year }} {{ registration.vehicle?.make }} {{ registration.vehicle?.model }}
       </div>
       <div class="registrations-check-in-list-item__tags">
         <p-tag class="registrations-check-in-list-item__tag" :class="{ 'registrations-check-in-list-item__tag--active': registration.stripePaymentId }" icon="CurrencyDollarIcon" />

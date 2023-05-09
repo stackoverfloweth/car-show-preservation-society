@@ -41,13 +41,13 @@
 
     <p-key-value label="Driver">
       <template #value>
-        {{ registration.user.displayName }}
+        {{ user?.displayName }}
       </template>
     </p-key-value>
 
     <p-key-value label="Registered Vehicle">
       <template #value>
-        {{ registration.vehicle.year }} {{ registration.vehicle.make }} {{ registration.vehicle.model }}
+        {{ vehicle?.year }} {{ vehicle?.make }} {{ vehicle?.model }}
       </template>
     </p-key-value>
 
@@ -73,7 +73,7 @@
 </template>
 
 <script lang="ts" setup>
-  import { useSubscription } from '@prefecthq/vue-compositions'
+  import { useSubscription, useSubscriptionWithDependencies } from '@prefecthq/vue-compositions'
   import { format } from 'date-fns'
   import { computed } from 'vue'
   import { useApi } from '@/compositions'
@@ -92,6 +92,7 @@
   }>()
 
   const registrationId = computed(() => props.registration.registrationId)
+
   const api = useApi()
 
   const showModal = computed({
@@ -105,6 +106,26 @@
 
   const votingCategoriesSubscription = useSubscription(api.votingCategories.getVotingCategoriesByRegistration, [registrationId])
   const votingCategories = computed(() => votingCategoriesSubscription.response ?? [])
+
+  const userSubscriptionArgs = computed<Parameters<typeof api.users.getUser> | null>(() => {
+    if (!props.registration.user) {
+      return [props.registration.userId]
+    }
+
+    return null
+  })
+  const userSubscription = useSubscriptionWithDependencies(api.users.getUser, userSubscriptionArgs)
+  const user = computed(() => props.registration.user ?? userSubscription.response)
+
+  const vehicleSubscriptionArgs = computed<Parameters<typeof api.vehicles.getVehicle> | null>(() => {
+    if (!props.registration.vehicle && !!props.registration.vehicleId) {
+      return [props.registration.vehicleId]
+    }
+
+    return null
+  })
+  const vehicleSubscription = useSubscriptionWithDependencies(api.vehicles.getVehicle, vehicleSubscriptionArgs)
+  const vehicle = computed(() => props.registration.vehicle ?? vehicleSubscription.response)
 
   function markAsPaid(): void {
     emit('mark-paid')

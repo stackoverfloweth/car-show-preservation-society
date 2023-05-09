@@ -13,19 +13,19 @@
           {{ registration.carId }}
         </p>
         <p class="ballot-voting-category-option__value ballot-voting-category-option__value--year">
-          {{ registration.vehicle.year }}
+          {{ registration.vehicle?.year }}
         </p>
         <p class="ballot-voting-category-option__value ballot-voting-category-option__value--make">
-          {{ registration.vehicle.make }}
+          {{ registration.vehicle?.make }}
         </p>
         <p class="ballot-voting-category-option__value ballot-voting-category-option__value--model">
-          {{ registration.vehicle.model }}
+          {{ registration.vehicle?.model }}
         </p>
         <p class="ballot-voting-category-option__value ballot-voting-category-option__value--exteriorColor">
-          {{ registration.vehicle.color }}
+          {{ registration.vehicle?.color }}
         </p>
         <p class="ballot-voting-category-option__value ballot-voting-category-option__value--owner">
-          {{ registration.user.displayName }}
+          {{ registration.user?.displayName }}
         </p>
       </div>
     </template>
@@ -105,6 +105,7 @@
 
 .ballot-voting-category-option__option {
   padding: var(--space-2);
+  border-radius: var(--rounded);
 }
 
 .ballot-voting-category-option__option:nth-child(even):not(.ballot-voting-category-option__option--selected) {

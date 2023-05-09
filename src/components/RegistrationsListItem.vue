@@ -1,12 +1,12 @@
 <template>
   <div class="registrations-list-item">
-    <SizedImage :image="registration.vehicle.image" class="registrations-list-item__image" rounded />
+    <SizedImage :image="registration.vehicle?.image ?? registration.user?.image" class="registrations-list-item__image" rounded />
     <div class="registrations-list-item__body">
       <div class="registrations-list-item__user">
-        {{ registration.user.displayName }}
+        {{ registration.user?.displayName }}
       </div>
       <div class="registrations-list-item__vehicle">
-        {{ registration.vehicle.year }} {{ registration.vehicle.make }} {{ registration.vehicle.model }}
+        {{ registration.vehicle?.year }} {{ registration.vehicle?.make }} {{ registration.vehicle?.model }}
       </div>
     </div>
   </div>

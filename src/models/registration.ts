@@ -10,9 +10,9 @@ export interface IRegistration {
   carId?: string,
   stripePaymentId?: string,
   userId: string,
-  user: User,
+  user?: User,
   vehicleId?: string,
-  vehicle: Vehicle,
+  vehicle?: Vehicle,
   votingCategoryIds: string[],
 }
 
@@ -25,9 +25,9 @@ export class Registration implements IRegistration {
   public carId?: string
   public stripePaymentId?: string
   public userId: string
-  public user: User
+  public user?: User
   public vehicleId?: string
-  public vehicle: Vehicle
+  public vehicle?: Vehicle
   public votingCategoryIds: string[]
 
   public constructor(registration: IRegistration) {
