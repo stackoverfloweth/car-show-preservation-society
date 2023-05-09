@@ -78,7 +78,10 @@
           <p-text-input v-model="searchValue" type="search" placeholder="Search" />
         </p-label>
 
-        <template v-if="searchResults.length">
+        <template v-if="searchResultsSubscription.loading">
+          <p-loading-icon />
+        </template>
+        <template v-else-if="searchResults.length">
           <RegistrationsCheckInList :event="event" :registrations="searchResults" @changed="searchResultsSubscription.refresh" />
         </template>
         <template v-else-if="searchDebounced">
