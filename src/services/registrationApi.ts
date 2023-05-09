@@ -35,7 +35,7 @@ export class RegistrationsApi extends Api {
   }
 
   public searchRegistrations(needle: string): Promise<Registration[]> {
-    return this.get<RegistrationResponse[]>(`registrations-search-list/${needle}`)
+    return this.post<RegistrationResponse[]>('registrations-search-list', { needle })
       .then(({ data }) => mapper.map('RegistrationResponse', data, 'Registration'))
   }
 
