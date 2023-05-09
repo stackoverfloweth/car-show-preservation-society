@@ -1,21 +1,13 @@
 import { Handler } from '@netlify/functions'
-import { VotingCategoryResponse } from '@/models/api'
-import { env, headers } from 'netlify/utilities'
+import { RegistrationsSearchRequest, VotingCategoryResponse } from '@/models/api'
+import { Api, env } from 'netlify/utilities'
 import { getClient } from 'netlify/utilities/mongodbClient'
 
-export const handler: Handler = async (event) => {
-  if (event.httpMethod === 'OPTIONS') {
-    return {
-      statusCode: 200,
-      headers,
-    }
-  }
 
-  if (event.httpMethod !== 'GET' || !event.path.startsWith('/.netlify/functions/registrations-search-list/')) {
-    return { statusCode: 404 }
+export const handler: Handler = Api<RegistrationsSearchRequest>('POST', 'registrations-search-list', (args, body) => async () => {
+  if (!isValidRequest(body)) {
+    return { statusCode: 400 }
   }
-
-  const needle = event.path.replace('/.netlify/functions/registrations-search-list/', '')
 
   const client = await getClient()
 
@@ -76,7 +68,7 @@ export const handler: Handler = async (event) => {
       },
       {
         $match: {
-          searchValues: { $regex: needle, $options: 'i' },
+          searchValues: { $regex: body.needle, $options: 'i' },
           $or: [{ isDeleted: false }, { isDeleted: { $exists: false } }],
         },
       },
@@ -88,11 +80,14 @@ export const handler: Handler = async (event) => {
       .toArray()
 
     return {
-      headers,
       statusCode: 200,
       body: JSON.stringify(votingCategories),
     }
   } finally {
     await client.close()
   }
+})
+
+function isValidRequest(value: unknown): value is RegistrationsSearchRequest {
+  return !!value && typeof value === 'object' && 'needle' in value && typeof value.needle === 'string'
 }
