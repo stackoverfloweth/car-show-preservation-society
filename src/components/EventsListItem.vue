@@ -32,6 +32,7 @@
   grid-area: image;
   width: 100%;
   padding-top: 50%;
+  border: 1px solid var(--slate-600);
 }
 
 .events-list-item__header {

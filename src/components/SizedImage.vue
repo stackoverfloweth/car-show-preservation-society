@@ -39,15 +39,12 @@
   border-radius: var(--rounded);
   background-size: v-bind(size);
   background-repeat: no-repeat;
+  background-color: var(--slate-700);
   background-position: v-bind(position);
 }
 
 .sized-image--rounded {
   border-radius: 100%;
-}
-
-.sized-image--empty {
-  background-color: var(--slate-700);
 }
 
 .sized-image__img {
