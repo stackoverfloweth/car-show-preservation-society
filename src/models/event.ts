@@ -1,8 +1,7 @@
-import { isFuture, isPast as dateInPast, isSameDay, isWithinInterval, addHours, endOfDay, startOfDay } from 'date-fns'
+import { isFuture, isPast as dateInPast, isSameDay, isWithinInterval } from 'date-fns'
 import { ref } from 'vue'
 import { IImage, Image } from '@/models/image'
 import { Location } from '@/models/location'
-import { mocker } from '@/services'
 
 export const isToday = ref(false)
 export const isHappening = ref(false)
@@ -87,24 +86,6 @@ export class Event implements IEvent {
     this.stripeCrossProductIds = event.stripeCrossProductIds
     this.images = (event.images ?? []).map(image => new Image(image))
     this.isDraft = event.isDraft
-
-    if (isToday.value) {
-      this.start = mocker.create('date', [new Date(), endOfDay(new Date())])
-      this.end = endOfDay(this.start)
-    }
-
-    if (isHappening.value) {
-      this.start = startOfDay(this.start)
-      this.votingStart = addHours(new Date(), 3)
-    }
-
-    if (votingOpen.value) {
-      this.votingStart = addHours(new Date(), -1)
-    }
-
-    if (isEnded.value) {
-      this.end = addHours(new Date(), -1)
-    }
   }
 
   public get isUpcoming(): boolean {

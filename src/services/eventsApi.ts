@@ -2,7 +2,6 @@ import { Event } from '@/models'
 import { EventRequest, EventResponse, EventsFilter, EventsSort } from '@/models/api'
 import { Api } from '@/services/api'
 import { mapper } from '@/services/mapper'
-import { mocker } from '@/services/mocker'
 
 export class EventsApi extends Api {
   public getEvent(eventId: string): Promise<Event | undefined> {
