@@ -2,7 +2,7 @@ export type Env = {
   baseApiUrl: string,
   cloudinaryName: string,
   mapBoxToken: string,
-  password: string,
+  netlifyIdentityUrl: string,
   prod: boolean,
 }
 
@@ -11,7 +11,7 @@ export function env(): Env {
     baseApiUrl: import.meta.env.VITE_BASE_API_URL,
     cloudinaryName: import.meta.env.VITE_CLOUDINARY_NAME,
     mapBoxToken: import.meta.env.VITE_MAPBOX_TOKEN,
-    password: import.meta.env.VITE_PASSWORD,
+    netlifyIdentityUrl: import.meta.env.VITE_NETLIFY_IDENTITY_URL,
     prod: import.meta.env.PROD,
   }
 }

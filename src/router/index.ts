@@ -1,14 +1,8 @@
 import { createRouter, createWebHistory, RouteRecordRaw } from 'vue-router'
-import { saintPeter } from '@/router/guards/saintPeter'
 import { AppRouteRecord } from '@/router/routes'
 import { RouteGuardExecutioner } from '@/services/routeGuardExecutioner'
 
 const routeRecords: AppRouteRecord[] = [
-  {
-    path: '/purgatory',
-    name: 'purgatory',
-    component: () => import('@/pages/PurgatoryPage.vue'),
-  },
   {
     path: '/',
     name: 'home',
@@ -158,8 +152,6 @@ const router = createRouter({
   history: createWebHistory(),
   routes: routeRecords as RouteRecordRaw[],
 })
-
-RouteGuardExecutioner.register(saintPeter)
 
 router.beforeEach(async (to, from) => {
   return await RouteGuardExecutioner.before(to, from)
