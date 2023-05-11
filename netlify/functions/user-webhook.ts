@@ -1,6 +1,6 @@
 import { Handler } from '@netlify/functions'
-import { JwtRsaVerifier } from 'aws-jwt-verify'
 import { Api, env } from 'netlify/utilities'
+import { getParsedJwt } from 'netlify/utilities/jwt'
 import { getClient } from 'netlify/utilities/mongodbClient'
 
 export const handler: Handler = Api('POST', 'user-webhook', (args, body) => async (event) => {
@@ -18,8 +18,7 @@ export const handler: Handler = Api('POST', 'user-webhook', (args, body) => asyn
       token,
     })
 
-    const decoder = JwtRsaVerifier.create({ issuer: 'netlify' })
-    const decoded = await decoder.verify(token, { audience: '' })
+    const decoded = getParsedJwt(token)
 
     await collection.insertOne({
       decoded,
