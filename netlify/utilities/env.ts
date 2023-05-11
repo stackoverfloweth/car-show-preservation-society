@@ -4,6 +4,7 @@ export type Env = {
   cloudinaryUrl: string,
   cloudinaryPreset: string,
   cloudinarySecret: string,
+  netlifyWebhookSecret: string,
 }
 
 export function env(): Env {
@@ -13,5 +14,6 @@ export function env(): Env {
     cloudinaryUrl: process.env.CLOUDINARY_URL ?? '',
     cloudinaryPreset: process.env.CLOUDINARY_PRESET ?? '',
     cloudinarySecret: process.env.CLOUDINARY_SECRET ?? '',
+    netlifyWebhookSecret: process.env.NETLIFY_WEBHOOK_SECRET ?? '',
   }
 }
