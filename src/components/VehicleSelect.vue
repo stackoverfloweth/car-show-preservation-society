@@ -83,7 +83,7 @@
   --num-cols: 3;
   display: grid;
   grid-template-columns: repeat(var(--num-cols), 1fr);
-  gap: var(--space-4);
+  gap: var(--space-md);
 }
 
 .vehicle-select__vehicle--selected {
@@ -102,7 +102,7 @@
 
 .vehicle-select__new-vehicle-actions {
   display: flex;
-  gap: var(--space-3);
+  gap: var(--space-sm);
   justify-content: space-between;
 }
 

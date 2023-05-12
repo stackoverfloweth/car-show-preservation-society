@@ -57,7 +57,7 @@
 .sponsor-card {
   position: relative;
   display: block;
-  color: var(--slate-900);
+  color: var(--gray-900);
   background-color: white;
   border-radius: var(--rounded);
   height: v-bind(height);
@@ -94,7 +94,7 @@
   justify-content: center;
   align-items: center;
   text-align: center;
-  padding: var(--space-2) var(--space-3);
+  padding: var(--space-sm) var(--space-sm);
   background-color: rgba(255, 255, 255, 0.5);
 }
 

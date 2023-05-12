@@ -23,11 +23,11 @@
   display: grid;
   grid-template-columns: repeat(3, minmax(0, 1fr));
   align-items: start;
-  gap: var(--space-4);
+  gap: var(--space-md);
 }
 
 .clubs-list__item:hover {
-  background-color: var(--slate-700);
+  background-color: var(--gray-700);
 }
 
 @media(max-width: 768px){

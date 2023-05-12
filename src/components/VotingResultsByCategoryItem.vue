@@ -83,10 +83,10 @@
 .voting-results-by-category-item {
   display: flex;
   flex-direction: column;
-  gap: var(--space-2);
-  padding: var(--space-3) var(--space-4);
+  gap: var(--space-sm);
+  padding: var(--space-sm) var(--space-md);
   border-radius: var(--rounded);
-  background-color: var(--slate-800);
+  background-color: var(--gray-800);
 }
 
 .voting-results-by-category-item__star-icon {
@@ -97,7 +97,7 @@
   display: flex;
   align-items: center;
   font-weight: bold;
-  gap: var(--space-2);
+  gap: var(--space-sm);
 }
 
 .voting-results-by-category-item__name {
@@ -106,7 +106,7 @@
 
 .voting-results-by-category-item__description {
   cursor: pointer;
-  color: var(--slate-400);
+  color: var(--gray-400);
   transition: height 1s;
 }
 
@@ -119,7 +119,7 @@
 .voting-results-by-category-item__results {
   display: flex;
   flex-direction: column;
-  gap: var(--space-2);
+  gap: var(--space-sm);
 }
 
 .voting-results-by-category-item__actions {

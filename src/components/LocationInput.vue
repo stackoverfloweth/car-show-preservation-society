@@ -161,8 +161,8 @@
 <style>
 .location-input__modal-button {
   width: 100%;
-  color: var(--slate-400);
-  border: 1px solid var(--slate-500);
+  color: var(--gray-400);
+  border: 1px solid var(--gray-500);
   white-space: pre-line;
   text-align: left;
 }
@@ -172,13 +172,13 @@
 }
 
 .location-input__post-options {
-  padding: var(--space-2) var(--space-3);
+  padding: var(--space-sm) var(--space-sm);
 }
 
 .location-input__mobile-actions {
   display: flex;
   justify-content: space-between;
-  gap: var(--space-3);
+  gap: var(--space-sm);
 }
 
 @media(max-width: 768px){

@@ -96,7 +96,7 @@
     'TwoFiftyByTwoFifty OneByThree'
     'TwoFiftyByTwoFifty FiftyByThree';
   grid-template-columns: repeat(2, minmax(0, 1fr));
-  row-gap: var(--space-5);
+  row-gap: var(--space-lg);
   max-width: 600px;
 }
 
@@ -153,10 +153,10 @@
 
 .sponsor-size-select__button {
   border-radius: var(--rounded);
-  border: 1px solid var(--slate-500);
-  outline-offset: var(--space-1);
-  background-color: var(--slate-800);
-  color: var(--slate-500);
+  border: 1px solid var(--gray-500);
+  outline-offset: var(--space-xxxs);
+  background-color: var(--gray-800);
+  color: var(--gray-500);
   overflow: hidden;
   width: 100%;
   position: relative;

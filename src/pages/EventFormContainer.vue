@@ -119,6 +119,6 @@
 <style>
 .event-form-container__confirm-unsaved-options {
   display: flex;
-  gap: var(--space-2);
+  gap: var(--space-sm);
 }
 </style>

@@ -22,7 +22,7 @@
 <style>
 .ballot-list {
   display: flex;
-  gap: var(--space-4);
+  gap: var(--space-sm);
   overflow-x: auto;
 }
 </style>

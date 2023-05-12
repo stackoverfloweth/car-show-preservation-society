@@ -151,8 +151,8 @@
   grid-template-areas:
   'left right right';
   grid-template-columns: repeat(3, minmax(0, 1fr));
-  column-gap: var(--space-5);
-  row-gap: var(--space-4);
+  column-gap: var(--space-lg);
+  row-gap: var(--space-md);
 }
 
 .event-editor-judging-form-fields__left {
@@ -160,8 +160,8 @@
   display: flex;
   flex-direction: column;
   justify-content: start;
-  column-gap: var(--space-5);
-  row-gap: var(--space-4);
+  column-gap: var(--space-lg);
+  row-gap: var(--space-md);
 }
 
 .event-editor-judging-form-fields__right {
@@ -169,8 +169,8 @@
   display: flex;
   flex-direction: column;
   justify-content: start;
-  column-gap: var(--space-5);
-  row-gap: var(--space-4);
+  column-gap: var(--space-lg);
+  row-gap: var(--space-md);
 }
 
 @media(max-width: 768px){

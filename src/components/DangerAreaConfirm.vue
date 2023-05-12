@@ -98,12 +98,12 @@
 .danger-area-confirm__body {
   display: flex;
   flex-direction: column;
-  font-size: 1rem;
-  gap: var(--space-3);
+  font-size: var(--text-base-size);
+  gap: var(--space-sm);
 }
 
 .danger-area-confirm__actions {
   display: flex;
-  gap: var(--space-3);
+  gap: var(--space-sm);
 }
 </style>

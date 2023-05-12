@@ -62,12 +62,12 @@
     'name info-badges'
     'description description';
   grid-template-columns: minmax(0, 1fr) min-content;
-  column-gap: var(--space-4);
-  row-gap: var(--space-3);
+  column-gap: var(--space-md);
+  row-gap: var(--space-sm);
 }
 
 .judging-categories-list-item--selected {
-  background-color: var(--slate-600);
+  background-color: var(--gray-600);
 }
 
 .judging-categories-list-item__name {
@@ -75,13 +75,13 @@
   font-weight: bold;
   display: flex;
   align-items: center;
-  gap: var(--space-4);
+  gap: var(--space-md);
 }
 
 .judging-categories-list-item__description {
   grid-area: description;
-  color: var(--slate-400);
-  font-size: .75rem;
+  color: var(--gray-400);
+  font-size: var(--text-xs);
   line-height: 0.95rem;
 }
 
@@ -89,7 +89,7 @@
   display: flex;
   align-items: center;
   grid-area: info-badges;
-  gap: var(--space-2);
+  gap: var(--space-sm);
 }
 
 .judging-categories-list-item__info-badge {

@@ -25,8 +25,8 @@
 .registrations-list-item {
   display: flex;
   align-items: center;
-  padding: var(--space-2);
-  column-gap: var(--space-4);
+  padding: var(--space-sm);
+  column-gap: var(--space-md);
   border-radius: var(--rounded);
 }
 

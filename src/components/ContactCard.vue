@@ -79,7 +79,7 @@
 <style>
 .contact-card__content {
   display: flex;
-  gap: var(--space-3);
+  gap: var(--space-sm);
   align-items: center;
 }
 

@@ -33,11 +33,11 @@
 <style>
 .event-sponsors__content {
   display: flex;
-  gap: var(--space-4);
+  gap: var(--space-md);
   justify-content: space-around;
   flex-wrap: wrap;
   overflow-y: auto;
   border-radius: var(--rounded);
-  padding: var(--space-4);
+  padding: var(--space-md);
 }
 </style>

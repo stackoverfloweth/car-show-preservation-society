@@ -39,7 +39,7 @@
   border-radius: var(--rounded);
   background-size: v-bind(size);
   background-repeat: no-repeat;
-  background-color: var(--slate-700);
+  background-color: var(--gray-700);
   background-position: v-bind(position);
 }
 

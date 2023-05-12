@@ -29,18 +29,18 @@
 .registrations-check-in-list-item {
   display: flex;
   align-items: center;
-  column-gap: var(--space-4);
-  padding: var(--space-2);
+  column-gap: var(--space-md);
+  padding: var(--space-sm);
   border-radius: var(--rounded);
 }
 
 .registrations-check-in-list-item:hover {
   cursor: pointer;
-  background-color: var(--slate-700);
+  background-color: var(--gray-700);
 }
 
 .registrations-check-in-list-item__image {
-  border: 1px solid var(--slate-500);
+  border: 1px solid var(--gray-500);
   flex-shrink: 0;
   height: 50px;
   width: 50px;
@@ -53,13 +53,13 @@
 
 .registrations-check-in-list-item__tags {
   display: flex;
-  gap: var(--space-2);
+  gap: var(--space-sm);
 }
 
 .registrations-check-in-list-item__tag {
   white-space: nowrap;
-  padding: var(--space-2);
-  border: 1px solid var(--slate-500);
+  padding: var(--space-sm);
+  border: 1px solid var(--gray-500);
 }
 
 .registrations-check-in-list-item__tag--active {

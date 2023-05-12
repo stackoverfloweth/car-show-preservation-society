@@ -118,14 +118,14 @@
 .club-form-fields {
   display: grid;
   grid-template-columns: minmax(0, 33.33%) minmax(0, 1fr);
-  column-gap: var(--space-5);
-  row-gap: var(--space-4);
+  column-gap: var(--space-lg);
+  row-gap: var(--space-md);
 }
 
 .club-form-fields__column {
   display: flex;
   flex-direction: column;
-  gap: var(--space-4);
+  gap: var(--space-md);
 }
 
 .club-form-fields__image-upload {
@@ -137,6 +137,6 @@
 
 .club-form-fields__visibility {
   display: flex;
-  gap: var(--space-4);
+  gap: var(--space-md);
 }
 </style>

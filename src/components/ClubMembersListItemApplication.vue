@@ -47,7 +47,7 @@
 
 <style>
 .club-members-list-item__member-type--application {
-  color: var(--slate-800);
+  color: var(--gray-800);
   background-color: var(--green-300) !important;
 }
 </style>

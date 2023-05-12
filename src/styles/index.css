@@ -1,0 +1,53 @@
+@import url(./colors.css);
+@import url(./spacing.css);
+@import url(./text.css);
+@import url(./prefect-design.css);
+
+:root, [data-theme="default"] {
+  --color-background:       var(--brand-white);
+  --color-contrast-100:     var(--gray-100);
+  --color-contrast-200:     var(--gray-200);
+  --color-contrast-300:     var(--gray-300);
+  --color-contrast-400:     var(--gray-400);
+  --color-contrast-500:     var(--gray-500);
+  --color-contrast-600:     var(--gray-600);
+  --color-contrast-700:     var(--gray-700);
+  --color-contrast-800:     var(--gray-800);
+  --color-contrast-900:     var(--gray-900);
+  --color-foreground:       var(--brand-black);
+}
+
+[data-theme="dark"] {
+  --color-background:       var(--brand-black);
+  --color-contrast-100:     var(--gray-900);
+  --color-contrast-200:     var(--gray-800);
+  --color-contrast-300:     var(--gray-700);
+  --color-contrast-400:     var(--gray-600);
+  --color-contrast-500:     var(--gray-500);
+  --color-contrast-600:     var(--gray-400);
+  --color-contrast-700:     var(--gray-300);
+  --color-contrast-800:     var(--gray-200);
+  --color-contrast-900:     var(--gray-100);
+  --color-foreground:       var(--brand-white);
+}
+
+:root {
+    --screen-sm: 640px;
+    --screen-md: 768px;
+    --screen-lg: 1024px;
+    --screen-xl: 1280px;
+    --screen-2xl: 1536px;
+
+    --rounded: .5rem;
+    --virtual-scroller-item-gap: 0.25rem;
+
+    --z-root: 0;
+    --z-front: 1;
+    --z-overlay: 2;
+    --z-modal: 50;
+    --z-popup: 100;
+}
+
+p {
+  white-space: pre-line;
+}

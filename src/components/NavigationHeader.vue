@@ -37,8 +37,8 @@
     display: grid;
     align-items: center;
     grid-template-columns: repeat(3, minmax(0, 1fr));
-    background-color: var(--slate-800);
-    padding: var(--space-2) var(--space-3);
+    background-color: var(--gray-800);
+    padding: var(--space-sm) var(--space-sm);
 }
 
 .navigation-header__left {

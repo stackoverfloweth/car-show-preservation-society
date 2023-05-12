@@ -50,11 +50,11 @@
   max-height: 380px;
   display: grid;
   flex-direction: column;
-  gap: var(--space-2);
+  gap: var(--space-xxs);
   overflow-y: auto;
 }
 
 .ballot-voting-category-options__empty {
-  margin-bottom: var(--space-4);
+  margin-bottom: var(--space-md);
 }
 </style>

@@ -52,7 +52,7 @@
 
 <style>
 .club-members-list-item__member-type--pending {
-  color: var(--slate-800);
+  color: var(--gray-800);
   background-color: var(--blue-300) !important;
 }
 </style>

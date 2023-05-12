@@ -44,7 +44,7 @@
 <style>
 .event-create-page {
   display: flex;
-  padding: var(--space-4);
-  gap: var(--space-4);
+  padding: var(--space-md);
+  gap: var(--space-md);
 }
 </style>

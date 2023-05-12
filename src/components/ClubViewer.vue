@@ -171,23 +171,23 @@
 .club-viewer {
   display: flex;
   flex-direction: column;
-  gap: var(--space-4);
+  gap: var(--space-md);
 }
 
 .club-viewer__header {
   display: flex;
   justify-content: end;
-  gap: var(--space-3);
+  gap: var(--space-sm);
 }
 
 .club-viewer__heading {
-  font-size: 1.25rem;
+  font-size: var(--text-md);
   font-weight: bold;
 }
 
 .club-viewer__body {
   display: flex;
-  gap: var(--space-4);
+  gap: var(--space-md);
 }
 
 .club-viewer__logo-container {
@@ -205,7 +205,7 @@
   flex-grow: 1;
   display: flex;
   flex-direction: column;
-  gap: var(--space-2);
+  gap: var(--space-sm);
   align-items: start;
 }
 

@@ -32,7 +32,7 @@
 .club-card {
   display: flex;
   flex-direction: column;
-  gap: var(--space-4);
+  gap: var(--space-md);
 }
 
 .club-card__logo {
@@ -40,6 +40,6 @@
 }
 
 .club-card__name {
-  font-size: 1.25rem;
+  font-size: var(--text-md);
 }
 </style>

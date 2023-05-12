@@ -54,6 +54,6 @@
 .registration-form-fields {
   display: flex;
   flex-direction: column;
-  gap: var(--space-4);
+  gap: var(--space-md);
 }
 </style>

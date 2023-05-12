@@ -22,10 +22,10 @@
 .events-list {
   display: flex;
   flex-direction: column;
-  gap: var(--space-4);
+  gap: var(--space-md);
 }
 
 .events-list__item:hover {
-  background-color: var(--slate-700);
+  background-color: var(--gray-700);
 }
 </style>

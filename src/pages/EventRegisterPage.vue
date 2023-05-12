@@ -114,16 +114,16 @@
   --num-cols: 2;
   display: grid;
   grid-template-columns: repeat(var(--num-cols), minmax(0, 1fr));
-  column-gap: var(--space-5);
-  row-gap: var(--space-4);
+  column-gap: var(--space-lg);
+  row-gap: var(--space-md);
   flex-grow: 1;
-  padding: var(--space-4);
+  padding: var(--space-md);
 }
 
 .event-register-page__column {
   display: flex;
   flex-direction: column;
-  gap: var(--space-4);
+  gap: var(--space-md);
 }
 
 @media(max-width: 768px){

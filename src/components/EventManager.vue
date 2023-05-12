@@ -175,9 +175,9 @@
 .event-manager {
   display: flex;
   flex-direction: column;
-  padding: var(--space-4);
+  padding: var(--space-md);
   padding-top: 0;
-  gap: var(--space-4);
+  gap: var(--space-md);
 }
 
 .event-manager__header {
@@ -186,13 +186,13 @@
   top: 0;
   margin-bottom: -10px;
   z-index: var(--z-front);
-  padding: var(--space-4) 0;
-  background-color: var(--slate-900);
+  padding: var(--space-md) 0;
+  background-color: var(--gray-900);
 }
 
 .event-manager__voting {
   display: flex;
-  gap: var(--space-4);
+  gap: var(--space-md);
   overflow-x: auto;
 }
 
@@ -203,17 +203,17 @@
 
 .event-manager__voting-times {
   flex-grow: 1;
-  font-size: 2rem;
+  font-size: var(--text-lg);
   white-space: nowrap;
 }
 
 .event-manager__registrations {
   display: flex;
   flex-direction: column;
-  gap: var(--space-3);
+  gap: var(--space-sm);
 }
 
 .event-manager__registrations-count {
-  font-size: 2rem;
+  font-size: var(--text-lg);
 }
 </style>

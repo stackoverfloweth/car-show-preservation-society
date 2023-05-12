@@ -51,14 +51,14 @@
 .clubs-list-item {
   display: flex;
   flex-direction: column;
-  gap: var(--space-2);
+  gap: var(--space-sm);
   align-items: center;
 }
 
 .clubs-list-item__logo {
   padding-top: 50%;
   width: 100%;
-  border: 1px solid var(--slate-600);
+  border: 1px solid var(--gray-600);
 }
 
 .clubs-list-item__name {
@@ -68,10 +68,10 @@
 .clubs-list-item__tags {
   display: flex;
   flex-wrap: wrap;
-  gap: var(--space-2);
+  gap: var(--space-sm);
 }
 
 .clubs-list-item__tag {
-  border: 1px solid var(--slate-600);
+  border: 1px solid var(--gray-600);
 }
 </style>

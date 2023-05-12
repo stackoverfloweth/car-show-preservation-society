@@ -52,8 +52,8 @@
 
 <style>
 .menu-item-confirm__message {
-  color: var(--slate-400);
-  padding: var(--space-4);
+  color: var(--gray-400);
+  padding: var(--space-md);
 }
 
 .menu-item-confirm__yes {

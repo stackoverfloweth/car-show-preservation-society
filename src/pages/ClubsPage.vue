@@ -36,7 +36,7 @@
 .clubs-page {
   display: flex;
   flex-direction: column;
-  gap: var(--space-4);
-  padding: var(--space-4);
+  gap: var(--space-md);
+  padding: var(--space-md);
 }
 </style>

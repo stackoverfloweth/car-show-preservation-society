@@ -60,7 +60,7 @@
 
 <style>
 .club-select__loading {
-  padding: var(--space-4);
+  padding: var(--space-md);
   display: flex;
   justify-content: center;
 }

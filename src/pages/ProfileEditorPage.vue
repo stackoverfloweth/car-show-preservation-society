@@ -51,6 +51,6 @@
 
 <style>
 .profile-editor-page {
-  padding: var(--space-4);
+  padding: var(--space-md);
 }
 </style>

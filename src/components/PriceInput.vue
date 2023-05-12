@@ -35,8 +35,8 @@
 <style>
 .price-input__append {
   border-radius: var(--rounded);
-  padding: var(--space-2) var(--space-3);
-  margin-right: var(--space-2);
+  padding: var(--space-xxs) var(--space-xs);
+  margin-right: var(--space-sm);
   background-color: var(--green-700);
 }
 </style>

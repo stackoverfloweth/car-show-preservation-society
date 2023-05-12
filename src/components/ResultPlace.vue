@@ -29,7 +29,7 @@
   display: flex;
   justify-content: center;
   width: 60px;
-  padding: var(--space-2);
+  padding: var(--space-sm);
   text-align: center;
 }
 
@@ -62,11 +62,11 @@
 }
 
 .result-place__number {
-  font-size: 2rem;
+  font-size: var(--text-lg);
 }
 
 .result-place__ordinal {
-  font-size: 0.7rem;
+  font-size: var(--text-xs);
   vertical-align: .7em;
 }
 </style>

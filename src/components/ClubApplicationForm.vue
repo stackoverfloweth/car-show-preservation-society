@@ -69,7 +69,7 @@
 .club-application-form__actions {
   display: flex;
   justify-content: space-between;
-  gap: var(--space-3);
+  gap: var(--space-sm);
 }
 
 @media(max-width: 768px){

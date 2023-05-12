@@ -70,30 +70,30 @@
 <style>
 .judging-categories-input-list-item__category:hover {
   cursor: pointer;
-  background-color: var(--slate-700);
+  background-color: var(--gray-700);
 }
 
 .judging-categories-input-list-item__category {
-  padding: var(--space-4);
+  padding: var(--space-md);
   display: flex;
   flex-direction: column;
-  gap: var(--space-2);
+  gap: var(--space-sm);
 }
 
 .judging-categories-input-list-item__description {
-  color: var(--slate-400);
-  font-size: .75rem;
+  color: var(--gray-400);
+  font-size: var(--text-xs);
   line-height: 0.95rem;
 }
 
 .judging-categories-input-list-item__info-badges {
   display: flex;
   flex-wrap: wrap;
-  gap: var(--space-2);
+  gap: var(--space-sm);
 }
 
 .judging-categories-input-list-item__info-badge {
-  border: 1px solid var(--slate-500)
+  border: 1px solid var(--gray-500)
 }
 
 .judging-categories-input-list-item__info-badge--featured {

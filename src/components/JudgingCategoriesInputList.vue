@@ -72,8 +72,8 @@
 
 .judging-categories-input-list__description {
   grid-area: description;
-  color: var(--slate-400);
-  font-size: .75rem;
+  color: var(--gray-400);
+  font-size: var(--text-xs);
   line-height: 0.95rem;
 }
 
@@ -81,13 +81,13 @@
   display: flex;
   align-items: center;
   grid-area: info-badges;
-  gap: var(--space-2);
+  gap: var(--space-sm);
 }
 
 .judging-categories-input-list__info-badge {
   white-space: nowrap;
   border-radius: var(--rounded);
-  padding: var(--space-2) var(--space-3);
-  background-color: var(--slate-600);
+  padding: var(--space-sm) var(--space-sm);
+  background-color: var(--gray-600);
 }
 </style>

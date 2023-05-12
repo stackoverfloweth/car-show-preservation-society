@@ -78,12 +78,12 @@
   justify-content: space-between;
   display: flex;
   flex-direction: column;
-  gap: var(--space-4);
+  gap: var(--space-md);
 }
 
 .checkout-summary__actions {
   display: flex;
-  gap: var(--space-3);
+  gap: var(--space-sm);
 }
 
 @media(max-width: 768px){

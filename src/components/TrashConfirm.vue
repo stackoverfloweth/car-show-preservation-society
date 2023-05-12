@@ -32,8 +32,8 @@
 
 <style>
 .trash-confirm__message {
-  color: var(--slate-400);
-  padding: var(--space-4);
+  color: var(--gray-400);
+  padding: var(--space-md);
 }
 
 .trash-confirm__yes {

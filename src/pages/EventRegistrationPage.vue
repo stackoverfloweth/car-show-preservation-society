@@ -123,15 +123,15 @@
 .event-registration-page {
   display: flex;
   flex-direction: column;
-  padding: var(--space-4);
-  gap: var(--space-5);
+  padding: var(--space-md);
+  gap: var(--space-lg);
 }
 
 .event-registration-page__columns {
   --num-cols: 2;
   display: grid;
   grid-template-columns: repeat(var(--num-cols), minmax(0, 1fr));
-  gap: var(--space-4);
+  gap: var(--space-md);
 }
 
 .event-registration-page__column {
@@ -139,12 +139,12 @@
   flex-grow: 1;
   display: flex;
   flex-direction: column;
-  gap: var(--space-4)
+  gap: var(--space-md)
 }
 
 .event-registration-page__voting-times {
   flex-grow: 1;
-  font-size: 2rem;
+  font-size: var(--text-lg);
   white-space: nowrap;
 }
 

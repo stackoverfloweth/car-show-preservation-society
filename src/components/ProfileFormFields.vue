@@ -125,14 +125,14 @@
 .profile-form-fields {
   display: grid;
   grid-template-columns: repeat(3, minmax(0, 1fr));
-  column-gap: var(--space-5);
-  row-gap: var(--space-4);
+  column-gap: var(--space-lg);
+  row-gap: var(--space-md);
 }
 
 .profile-form-fields__column {
   display: flex;
   flex-direction: column;
-  gap: var(--space-4);
+  gap: var(--space-md);
 }
 
 .profile-form-fields__image-upload {

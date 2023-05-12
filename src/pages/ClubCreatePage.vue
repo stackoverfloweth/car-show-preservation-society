@@ -53,7 +53,7 @@
 .club-create-page {
   display: flex;
   flex-direction: column;
-  padding: var(--space-4);
-  gap: var(--space-2);
+  padding: var(--space-md);
+  gap: var(--space-sm);
 }
 </style>

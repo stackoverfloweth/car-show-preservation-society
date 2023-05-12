@@ -137,29 +137,29 @@
 .vehicle-form-fields {
   display: grid;
   grid-template-columns: 33% minmax(0, 1fr);
-  column-gap: var(--space-5);
-  row-gap: var(--space-4);
+  column-gap: var(--space-lg);
+  row-gap: var(--space-md);
 }
 
 .vehicle-form-fields__column {
   display: flex;
   flex-direction: column;
-  gap: var(--space-4);
+  gap: var(--space-md);
 }
 
 .vehicle-form-fields__modifications {
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
   grid-template-rows: min-content 1fr;
-  column-gap: var(--space-5);
-  row-gap: var(--space-4);
+  column-gap: var(--space-lg);
+  row-gap: var(--space-md);
 }
 
 .vehicle-form-fields__visibly-stock .p-label__body {
   height: 100%;
   display: flex;
   align-items: end;
-  padding-bottom: var(--space-3);
+  padding-bottom: var(--space-sm);
 }
 
 .vehicle-form-fields__image-upload {

@@ -40,7 +40,7 @@
 <style>
 .club-members-list-item {
   display: flex;
-  gap: var(--space-4);
+  gap: var(--space-md);
 }
 
 .club-members-list-item__body {
@@ -48,13 +48,13 @@
   flex-direction: column;
   justify-content: center;
   flex-grow: 1;
-  gap: var(--space-2);
+  gap: var(--space-sm);
 }
 
 .club-members-list-item__actions {
   display: flex;
   align-items: start;
-  gap: var(--space-3);
+  gap: var(--space-sm);
 }
 
 .club-members-list-item__image {
@@ -65,7 +65,7 @@
 
 .club-members-list-item__details {
   display: flex;
-  gap: var(--space-2);
+  gap: var(--space-sm);
 }
 
 .club-members-list-item__primary-contact {

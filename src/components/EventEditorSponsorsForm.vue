@@ -142,8 +142,8 @@
   grid-template-areas:
   'left center right';
   grid-template-columns: repeat(var(--form-cols), minmax(0, 1fr));
-  column-gap: var(--space-5);
-  row-gap: var(--space-5);
+  column-gap: var(--space-lg);
+  row-gap: var(--space-lg);
 }
 
 .event-editor-sponsors-form-fields__left {
@@ -151,8 +151,8 @@
   display: flex;
   flex-direction: column;
   justify-content: start;
-  column-gap: var(--space-5);
-  row-gap: var(--space-4);
+  column-gap: var(--space-lg);
+  row-gap: var(--space-md);
 }
 
 .event-editor-sponsors-form-fields__center {
@@ -160,8 +160,8 @@
   display: flex;
   flex-direction: column;
   justify-content: start;
-  column-gap: var(--space-5);
-  row-gap: var(--space-5);
+  column-gap: var(--space-lg);
+  row-gap: var(--space-lg);
 }
 
 .event-editor-sponsors-form-fields__right {
@@ -170,8 +170,8 @@
   flex-direction: column;
   justify-content: start;
   align-items: center;
-  column-gap: var(--space-5);
-  row-gap: var(--space-4);
+  column-gap: var(--space-lg);
+  row-gap: var(--space-md);
 }
 
 .event-editor-sponsors-form-fields__sponsor-card {
@@ -181,7 +181,7 @@
 .event-editor-sponsors-form-fields__sponsor-card-preview::after {
   content: "preview";
   border-radius: var(--rounded);
-  margin: var(--space-3);
+  margin: var(--space-sm);
   text-align: center;
   display: block;
   color: var(--blue-800);
@@ -201,7 +201,7 @@
 .event-editor-sponsors-form-fields__actions {
   display: flex;
   justify-content: center;
-  gap: var(--space-3);
+  gap: var(--space-sm);
 }
 
 .event-editor-sponsors-form-fields__image-upload {

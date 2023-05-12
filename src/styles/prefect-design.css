@@ -1,0 +1,70 @@
+.p-card,
+.p-empty-state,
+.p-table tbody,
+.p-table tr {
+    border-color: var(--gray-700);
+}
+
+.p-table thead {
+    background-color: var(--gray-600);
+}
+
+.p-card .p-button--inset,
+.p-table .p-button--inset,
+.p-list-item .p-button--inset,
+.p-empty-state .p-button--inset {
+    background-color: var(--gray-600);
+}
+
+.p-card .p-base-input,
+.p-table .p-base-input,
+.p-list-item .p-base-input,
+.p-empty-state .p-base-input {
+    background-color: var(--gray-700);
+}
+
+.p-modal__card .p-button--flat {
+    background-color: var(--gray-900);
+}
+
+.p-modal__card {
+    background-color: var(--gray-900);
+}
+
+.p-label__description {
+  color: var(--gray-400);
+}
+
+.p-button--inset:hover {
+    background-color: var(--gray-700) !important;
+}
+
+.p-tab {
+    gap: var(--space-sm);
+}
+
+.p-tag__icon {
+    height: unset !important;
+    width: unset !important;
+}
+
+@media(max-width: 768px) {
+    .p-modal__container {
+        padding: 0;
+        padding-top: var(--space-xl);
+        align-items: stretch;
+    }
+
+    .p-modal__card {
+        max-width: 100%;
+        width: 100%;
+    }
+
+    .p-empty-state__actions {
+        flex-direction: column;
+    }
+}
+
+.p-modal__footer {
+    display: none;
+}

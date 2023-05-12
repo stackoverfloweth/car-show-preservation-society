@@ -66,7 +66,7 @@
 <style>
 .ballot-voting-category-option {
   display: grid;
-  column-gap: var(--space-2);
+  column-gap: var(--space-sm);
   grid-template-areas: 'carId year make model exteriorColor owner';
   grid-template-columns: 60px 60px minmax(0, 1fr) minmax(0, 1fr) 60px minmax(0, 1fr);
   cursor: pointer;
@@ -74,7 +74,7 @@
 
 .ballot-voting-category-option__value--carId {
   grid-area: carId;
-  color: var(--slate-400);
+  color: var(--gray-400);
 }
 
 .ballot-voting-category-option__value--year {
@@ -104,12 +104,12 @@
 }
 
 .ballot-voting-category-option__option {
-  padding: var(--space-2);
+  padding: var(--space-sm);
   border-radius: var(--rounded);
 }
 
 .ballot-voting-category-option__option:nth-child(even):not(.ballot-voting-category-option__option--selected) {
-  background-color: var(--slate-700);
+  background-color: var(--gray-700);
 }
 
 .ballot-voting-category-option__option--selected {

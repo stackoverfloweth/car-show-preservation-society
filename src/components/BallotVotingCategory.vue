@@ -90,24 +90,24 @@
 .ballot-voting-category {
   display: flex;
   flex-direction: column;
-  background-color: var(--slate-800);
-  border: 1px solid var(--slate-600);
-  gap: var(--space-2);
+  background-color: var(--gray-800);
+  border: 1px solid var(--gray-600);
+  gap: var(--space-sm);
 }
 
 .ballot-voting-category__voting-category {
   display: flex;
   align-items: center;
-  font-size: 1.1rem;
-  padding: var(--space-4);
-  gap: var(--space-4);
+  font-size: var(--text-md);
+  padding: var(--space-md);
+  gap: var(--space-md);
 }
 
 .ballot-voting-category__title {
   flex-grow: 1;
   display: flex;
   align-items: center;
-  gap: var(--space-2);
+  gap: var(--space-sm);
 }
 
 .ballot-voting-category__voted-icon {
@@ -130,8 +130,8 @@
 .ballot-voting-category__contents {
   display: flex;
   flex-direction: column;
-  gap: var(--space-4);
-  padding: var(--space-2) var(--space-4);
+  gap: var(--space-md);
+  padding: var(--space-sm) var(--space-md);
 }
 
 .ballot-voting-category__description {

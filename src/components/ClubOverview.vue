@@ -22,7 +22,7 @@
 .club-overview {
   display: flex;
   flex-direction: column;
-  gap: var(--space-5);
+  gap: var(--space-lg);
 }
 
 .club-overview__logo {

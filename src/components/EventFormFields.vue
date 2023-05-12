@@ -130,8 +130,8 @@
   grid-template-areas:
     'left right right';
   grid-template-columns: repeat(3, minmax(0, 1fr));
-  column-gap: var(--space-5);
-  row-gap: var(--space-4);
+  column-gap: var(--space-lg);
+  row-gap: var(--space-md);
 }
 
 .event-form-fields__right {
@@ -139,8 +139,8 @@
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
   grid-template-rows: min-content 1fr;
-  column-gap: var(--space-5);
-  row-gap: var(--space-4);
+  column-gap: var(--space-lg);
+  row-gap: var(--space-md);
 }
 
 .event-form-fields__left {
@@ -148,8 +148,8 @@
   display: flex;
   flex-direction: column;
   justify-content: start;
-  column-gap: var(--space-5);
-  row-gap: var(--space-4);
+  column-gap: var(--space-lg);
+  row-gap: var(--space-md);
 }
 
 .event-form-fields__image-upload {

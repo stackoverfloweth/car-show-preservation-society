@@ -37,18 +37,18 @@
 .vehicle-viewer {
   display: flex;
   flex-direction: column;
-  gap: var(--space-5);
+  gap: var(--space-lg);
 }
 
 .vehicle-viewer__header {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  gap: var(--space-4);
+  gap: var(--space-md);
 }
 
 .vehicle-viewer__hero {
   padding-top: 50%;
-  margin: var(--space-3) var(--space-5);
+  margin: var(--space-sm) var(--space-lg);
 }
 </style>

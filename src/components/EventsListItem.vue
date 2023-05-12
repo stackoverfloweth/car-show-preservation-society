@@ -24,7 +24,7 @@
   grid-template-areas:
     'image header'
     'image location';
-  gap: var(--space-4);
+  gap: var(--space-md);
   grid-template-columns: 200px 1fr;
 }
 
@@ -32,7 +32,7 @@
   grid-area: image;
   width: 100%;
   padding-top: 50%;
-  border: 1px solid var(--slate-600);
+  border: 1px solid var(--gray-600);
 }
 
 .events-list-item__header {

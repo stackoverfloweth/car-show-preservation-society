@@ -25,11 +25,11 @@
 
 <style>
 .voting-result-by-event-and-category-item {
-  background-color: var(--slate-800);
-  padding: var(--space-4);
+  background-color: var(--gray-800);
+  padding: var(--space-md);
   border-radius: var(--rounded);
   display: flex;
   align-items: center;
-  gap: var(--space-4);
+  gap: var(--space-md);
 }
 </style>

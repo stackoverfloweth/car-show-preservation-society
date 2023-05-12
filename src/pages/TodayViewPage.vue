@@ -55,8 +55,8 @@
 .today-view-page {
   display: flex;
   flex-direction: column;
-  padding: var(--space-5) var(--space-4);
-  gap: var(--space-4);
+  padding: var(--space-lg) var(--space-md);
+  gap: var(--space-md);
 }
 
 .today-view-page__branding {
@@ -66,6 +66,6 @@
 
 .today-view-page__branding-logo {
   width: 50%;
-  padding-bottom: var(--space-5);
+  padding-bottom: var(--space-lg);
 }
 </style>

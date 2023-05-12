@@ -52,14 +52,14 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
-    background-color: var(--slate-700);
-    padding: var(--space-4);
+    background-color: var(--gray-700);
+    padding: var(--space-md);
     height: 65px;
 }
 
 .menu-header__links {
     display: flex;
-    gap: var(--space-4);
+    gap: var(--space-md);
 }
 
 .menu-header__menu {

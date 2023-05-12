@@ -202,7 +202,7 @@
 
 .judging-categories-input-form__actions {
   display: flex;
-  gap: var(--space-3);
+  gap: var(--space-sm);
 }
 
 .judging-categories-input-form__add-menu-icon {
@@ -212,7 +212,7 @@
 .judging-category-input__modal-actions {
   display: flex;
   justify-content: space-between;
-  gap: var(--space-3);
+  gap: var(--space-sm);
 }
 
 .judging-category-input__modal-delete-link {

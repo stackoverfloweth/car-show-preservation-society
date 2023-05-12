@@ -144,25 +144,25 @@
 .check-in-modal__registration-status {
   display: flex;
   flex-direction: column;
-  gap: var(--space-4);
+  gap: var(--space-md);
 }
 
 .check-in-modal__paid-label {
-  font-size: 1rem;
+  font-size: var(--text-base-size);
   font-weight: normal;
   color: var(--green-600);
   font-weight: bold;
 }
 
 .check-in-modal__unpaid-label {
-  font-size: 1rem;
+  font-size: var(--text-base-size);
   font-weight: normal;
   color: var(--red-600);
   font-weight: bold;
 }
 
 .check-in-modal__registration-status-details {
-  font-size: 2rem;
+  font-size: var(--text-lg);
   white-space: nowrap;
 }
 
@@ -170,7 +170,7 @@
 .check-in-modal__actions {
   display: flex;
   justify-content: space-between;
-  gap: var(--space-3);
+  gap: var(--space-sm);
 }
 
 @media(max-width:768px){

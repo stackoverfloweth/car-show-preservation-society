@@ -66,7 +66,7 @@
     display: flex;
     align-items: center;
     color: var(--blue-500);
-    gap: var(--space-1);
+    gap: var(--space-xs);
 }
 
 .navigation-header-item__action:hover {

@@ -30,7 +30,7 @@
   html, body {
     min-height: 100%;
     scroll-behavior: smooth;
-    background-color: var(--slate-900);
+    background-color: var(--gray-900);
   }
 
   #app {

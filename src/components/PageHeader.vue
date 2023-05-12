@@ -20,18 +20,18 @@
   width: 100%;
   display: flex;
   flex-wrap: wrap;
-  column-gap: var(--space-4);
+  column-gap: var(--space-md);
   align-items: center;
 }
 
 .page-heading__heading {
-  font-size: 1.25rem;
+  font-size: var(--text-md);
   font-weight: bold;
   flex-grow: 1;
 }
 
 .page-heading__actions {
   display: flex;
-  gap: var(--space-3);
+  gap: var(--space-sm);
 }
 </style>

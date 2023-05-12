@@ -30,13 +30,13 @@
 }
 
 .vehicle-label__make {
-  font-size: 1.25rem;
+  font-size: var(--text-md);
   overflow: hidden;
   text-overflow: ellipsis;
 }
 
 .vehicle-label__year {
-  font-size: .75rem;
+  font-size: var(--text-xs);
   overflow: hidden;
   text-overflow: ellipsis;
 }

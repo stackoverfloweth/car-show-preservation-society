@@ -47,12 +47,12 @@
   justify-content: space-between;
   align-items: center;
   flex-wrap: wrap;
-  gap: var(--space-3);
+  gap: var(--space-sm);
 }
 
 .base-filter__mobile {
   display: none;
-  font-size: .9rem;
+  font-size: var(--text-sm);
   justify-content: space-around;
   align-items: center;
 }
@@ -78,7 +78,7 @@
 .base-filter__filter,
 .base-filter__sort {
   display: flex;
-  gap: var(--space-3);
+  gap: var(--space-sm);
 }
 
 @media(max-width: 768px){

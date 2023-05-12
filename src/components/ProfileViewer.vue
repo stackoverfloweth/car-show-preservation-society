@@ -76,11 +76,11 @@
   display: flex;
   justify-content: center;
   align-items: start;
-  gap: var(--space-4);
+  gap: var(--space-md);
 }
 
 .profile-viewer__name {
-  font-size: 1.25rem;
+  font-size: var(--text-md);
   font-weight: bold;
 }
 
@@ -98,7 +98,7 @@
 }
 
 .profile-viewer__location {
-  margin-top: var(--space-4);
+  margin-top: var(--space-md);
   white-space: pre-line;
 }
 
@@ -111,17 +111,17 @@
 .profile-viewer__best-placements {
   display: flex;
   flex-direction: column;
-  gap: var(--space-4);
+  gap: var(--space-md);
 }
 
 .profile-viewer__best-placement {
   display: flex;
-  gap: var(--space-3);
+  gap: var(--space-sm);
   align-items: center;
 }
 
 .profile-viewer__best-placement-count {
-  font-size: 1.25rem;
+  font-size: var(--text-md);
 }
 
 @media(max-width: 768px){

@@ -82,22 +82,22 @@
   grid-template-areas:
     'left right right';
   grid-template-columns: repeat(3, minmax(0, 1fr));
-  column-gap: var(--space-5);
-  row-gap: var(--space-4);
+  column-gap: var(--space-lg);
+  row-gap: var(--space-md);
 }
 
 .club-gallery-form__left {
   grid-area: left;
   display: flex;
   flex-direction: column;
-  gap: var(--space-4);
+  gap: var(--space-md);
 }
 
 .club-gallery-form__right {
   grid-area: right;
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: var(--space-4);
+  gap: var(--space-md);
 }
 
 .club-gallery-form__image-upload {
@@ -131,7 +131,7 @@
   display: flex;
   justify-content: center;
   grid-column: 1/-1;
-  gap: var(--space-3);
+  gap: var(--space-sm);
 }
 
 @media(max-width: 768px){

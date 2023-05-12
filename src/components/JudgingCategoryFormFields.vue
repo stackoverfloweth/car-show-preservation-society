@@ -127,12 +127,12 @@
 .judging-category-form-fields {
   display: flex;
   flex-direction: column;
-  gap: var(--space-4);
+  gap: var(--space-md);
 }
 
 .judging-category-form-fields__judging-options {
   display: flex;
   flex-direction: column;
-  gap: var(--space-3);
+  gap: var(--space-sm);
 }
 </style>

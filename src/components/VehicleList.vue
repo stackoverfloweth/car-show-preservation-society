@@ -22,8 +22,8 @@
 .vehicle-list {
   display: grid;
   grid-template-columns: repeat(3, minmax(0, 1fr));
-  padding: var(--space-4);
-  gap: var(--space-5);
+  padding: var(--space-md);
+  gap: var(--space-lg);
 }
 
 @media(max-width: 768px){

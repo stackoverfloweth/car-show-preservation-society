@@ -47,7 +47,7 @@
 .voting-result-item {
   display: grid;
   grid-template-columns: 30px 1fr;
-  gap: var(--space-3);
+  gap: var(--space-sm);
 }
 
 .voting-result-item__place {

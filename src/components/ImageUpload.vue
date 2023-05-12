@@ -104,9 +104,9 @@
 }
 
 .image-upload__dropzone {
-  color: var(--slate-500);
+  color: var(--gray-500);
   display: flex;
-  padding: var(--space-2) var(--space-4);
+  padding: var(--space-sm) var(--space-md);
   justify-content: center;
   align-items: center;
   flex-grow: 1;
@@ -125,7 +125,7 @@
 .image-upload__modal-actions {
   display: flex;
   justify-content: space-between;
-  gap: var(--space-3);
+  gap: var(--space-sm);
 }
 
 @media(max-width: 768px){

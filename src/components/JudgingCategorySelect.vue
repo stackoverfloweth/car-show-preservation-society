@@ -79,7 +79,7 @@
 
 .judging-category-select__actions {
   display: flex;
-  gap: var(--space-3);
+  gap: var(--space-sm);
   justify-content: space-between;
 }
 

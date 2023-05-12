@@ -59,7 +59,7 @@
 .related-events__events {
   display: flex;
   border-radius: var(--rounded);
-  gap: var(--space-4);
+  gap: var(--space-md);
   overflow-y: auto;
 }
 
@@ -72,7 +72,7 @@
   flex-direction: column;
   align-items: center;
   text-align: center;
-  gap: var(--space-2);
+  gap: var(--space-sm);
   width: 240px;
 }
 
@@ -92,8 +92,8 @@
 }
 
 .related-event__event-details {
-  color: var(--slate-400);
-  font-size: .75rem;
+  color: var(--gray-400);
+  font-size: var(--text-xs);
   line-height: 0.95rem;
   text-decoration: none !important;
 }

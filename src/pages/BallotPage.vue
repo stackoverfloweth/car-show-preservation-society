@@ -153,15 +153,15 @@
   --seal-width: 100px;
   display: flex;
   flex-direction: column;
-  gap: var(--space-4);
-  padding: var(--space-4);
+  gap: var(--space-md);
+  padding: var(--space-md);
 }
 
 .ballot-page__header {
   display: grid;
   grid-template-areas: 'header seal actions';
   grid-template-columns: minmax(0, 1fr) var(--seal-width) minmax(0, 1fr);
-  gap: var(--space-3);
+  gap: var(--space-sm);
 }
 
 .ballot-page__seal {
@@ -179,13 +179,13 @@
   display: flex;
   justify-content: end;
   align-items: start;
-  gap: var(--space-3);
+  gap: var(--space-sm);
 }
 
 .ballot-page__ballot {
   display: flex;
   flex-direction: column;
-  gap: var(--space-2);
+  gap: var(--space-sm);
 }
 
 .ballot-page__ballot-name {

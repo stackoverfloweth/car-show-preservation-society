@@ -73,18 +73,18 @@
   display: flex;
   justify-content: space-between;
   align-items: start;
-  column-gap: var(--space-4);
+  column-gap: var(--space-md);
 }
 
 .event-header__timing {
   display: flex;
   align-items: start;
-  gap: var(--space-3);
+  gap: var(--space-sm);
 }
 
 .event-header__actions {
   display: flex;
-  gap: var(--space-4);
+  gap: var(--space-md);
   align-items: center;
 }
 
@@ -95,7 +95,7 @@
 
 .event-header__actions {
   display: flex;
-  gap: var(--space-3);
+  gap: var(--space-sm);
 }
 
 @media(max-width: 768px){

@@ -36,7 +36,7 @@
 .event-card {
   display: flex;
   flex-direction: column;
-  gap: var(--space-4);
+  gap: var(--space-md);
 }
 
 .event-card__image {
@@ -44,8 +44,8 @@
 }
 
 .event-card__details {
-  color: var(--slate-400);
-  font-size: .75rem;
+  color: var(--gray-400);
+  font-size: var(--text-xs);
   line-height: 0.95rem;
 }
 </style>

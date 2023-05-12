@@ -51,7 +51,7 @@
 .photo-gallery {
   --gallery-columns: 5;
   display: grid;
-  gap: var(--space-4);
+  gap: var(--space-md);
   grid-template-columns: repeat(var(--gallery-columns), minmax(0, 1fr));
 }
 
@@ -75,7 +75,7 @@
 }
 
 .photo-gallery__full-screen-modal .p-modal__body {
-  padding: var(--space-2);
+  padding: var(--space-sm);
 }
 
 .photo-gallery__full-screen-image {
