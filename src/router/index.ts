@@ -9,6 +9,16 @@ const routeRecords: AppRouteRecord[] = [
     component: () => import('@/pages/TodayViewPage.vue'),
   },
   {
+    name: 'auth.login',
+    path: '/login',
+    component: () => import('@/pages/LoginPage.vue'),
+  },
+  {
+    name: 'auth.signup',
+    path: '/signup',
+    component: () => import('@/pages/SignupPage.vue'),
+  },
+  {
     path: '/clubs',
     children: [
       {
