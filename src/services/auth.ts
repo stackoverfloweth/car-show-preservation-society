@@ -7,6 +7,10 @@ export const auth = new GoTrue({
   setCookie: true,
 })
 
+export function isLoggedIn(): boolean {
+  return !!auth.currentUser()
+}
+
 export function currentUser(): User {
   const value = auth.currentUser()
 
@@ -15,4 +19,11 @@ export function currentUser(): User {
   }
 
   return value
+}
+
+export type AuthError = {
+  error_description: string,
+}
+export function isAuthError(value: unknown): value is AuthError {
+  return !!value && typeof value === 'object' && 'error_description' in value
 }

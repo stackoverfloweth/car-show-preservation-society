@@ -29,14 +29,14 @@
 </template>
 
 <script lang="ts" setup>
-  import { useSubscription } from '@prefecthq/vue-compositions'
+  import { useSubscription, useSubscriptionWithDependencies } from '@prefecthq/vue-compositions'
   import { computed } from 'vue'
   import EventsList from '@/components/EventsList.vue'
   import PageHeader from '@/components/PageHeader.vue'
   import VotingResultByEventAndCategoryItem from '@/components/VotingResultByEventAndCategoryItem.vue'
   import { useApi, useNavigation } from '@/compositions'
   import { routes } from '@/router/routes'
-  import { currentUser } from '@/services'
+  import { currentUser, isLoggedIn } from '@/services'
 
   const api = useApi()
   useNavigation({})
@@ -44,7 +44,8 @@
   const eventsCurrentlyHappeningSubscriptions = useSubscription(api.events.getEventsHappeningNow, [])
   const eventsCurrentlyHappening = computed(() => eventsCurrentlyHappeningSubscriptions.response ?? [])
 
-  const recentPlacementsSubscriptions = useSubscription(api.votingResults.getRecentPlacements, [currentUser().id])
+  const recentPlacementsSubscriptionsArgs = computed<Parameters<typeof api.votingResults.getRecentPlacements> | null>(() => isLoggedIn() ? [currentUser().id] : null)
+  const recentPlacementsSubscriptions = useSubscriptionWithDependencies(api.votingResults.getRecentPlacements, recentPlacementsSubscriptionsArgs)
   const recentPlacements = computed(() => recentPlacementsSubscriptions.response ?? [])
 
   const upcomingEventsSubscriptions = useSubscription(api.events.getUpcomingEvents, [])
