@@ -71,7 +71,7 @@
   import { useApi, useNavigation, useShowModal } from '@/compositions'
   import { RegistrationRequest } from '@/models/api'
   import { routes } from '@/router/routes'
-  import { mapper, auth } from '@/services'
+  import { mapper, currentUser } from '@/services'
 
   const api = useApi()
   const eventId = useRouteParam('eventId')

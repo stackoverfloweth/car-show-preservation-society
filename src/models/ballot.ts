@@ -25,7 +25,7 @@ export class Ballot {
   }
 
   public get name(): string {
-    return `${currentUser.displayName.slice(0, 2) }${String(this.index + 1).padStart(4, '0')}`
+    return `${currentUser().email.slice(0, 2) }${String(this.index + 1).padStart(4, '0')}`
   }
 }
 
