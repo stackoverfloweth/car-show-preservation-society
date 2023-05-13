@@ -20,7 +20,7 @@ const routeRecords: AppRouteRecord[] = [
   },
   {
     name: 'auth.accept',
-    path: '/accept-invite',
+    path: '/accept-invite/:token',
     component: () => import('@/pages/AcceptInvitePage.vue'),
   },
   {

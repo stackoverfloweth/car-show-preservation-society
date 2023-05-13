@@ -1,4 +1,6 @@
+import { PButton, showToast } from '@prefecthq/prefect-design'
 import GoTrue, { User } from 'gotrue-js'
+import { h } from 'vue'
 import { env } from '@/utilities'
 
 export const auth = new GoTrue({
@@ -21,9 +23,47 @@ export function currentUser(): User {
   return value
 }
 
+export type AuthErrorType = 'invalid_grant' | 'unknown'
 export type AuthError = {
+  error: AuthErrorType,
   error_description: string,
 }
 export function isAuthError(value: unknown): value is AuthError {
-  return !!value && typeof value === 'object' && 'error_description' in value
+  return !!value && typeof value === 'object'
+    && 'error_description' in value && typeof value.error_description === 'string'
+    && 'error' in value && typeof value.error === 'string'
+}
+
+export function handleAuthError(exception: unknown, emailAddress?: string): void {
+  if (!isAuthError(exception)) {
+    return
+  }
+
+  switch (exception.error) {
+    case 'invalid_grant':
+      return handleInvalidGrant(emailAddress)
+    default:
+      showToast(exception.error_description, 'error')
+  }
+}
+
+function handleInvalidGrant(emailAddress?: string): void {
+  const { dismiss } = showToast(h(
+    'div',
+    { class: 'auth-error-message' },
+    [
+      h('p', { innerText: 'Email Address not verified!' }),
+      emailAddress && h('div', { class: 'auth-error-message__actions' }, [
+        h(PButton, {
+          size: 'sm',
+          flat: true,
+          innerText: 'Resend Email',
+          onClick: () => {
+            auth.requestPasswordRecovery(emailAddress)
+            dismiss()
+          },
+        }),
+      ]),
+    ],
+  ), 'error', { timeout: false })
 }

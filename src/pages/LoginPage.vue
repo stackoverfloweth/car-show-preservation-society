@@ -21,7 +21,6 @@
 </template>
 
 <script lang="ts" setup>
-  import { showToast } from '@prefecthq/prefect-design'
   import { useValidationObserver } from '@prefecthq/vue-compositions'
   import { User } from 'gotrue-js'
   import { ref } from 'vue'
@@ -29,7 +28,7 @@
   import PageHeader from '@/components/PageHeader.vue'
   import { LoginRequest } from '@/models/api'
   import { routes } from '@/router/routes'
-  import { auth, isAuthError } from '@/services'
+  import { auth, handleAuthError } from '@/services'
 
   const values = ref<Partial<LoginRequest>>({})
 
@@ -46,10 +45,8 @@
 
     try {
       return auth.login(emailAddress, password, remember)
-    } catch (error) {
-      if (isAuthError(error)) {
-        showToast(error.error_description, 'error')
-      }
+    } catch (exception) {
+      handleAuthError(exception, emailAddress)
     }
   }
 </script>

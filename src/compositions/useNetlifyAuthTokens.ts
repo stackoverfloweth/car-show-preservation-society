@@ -1,23 +1,23 @@
 import { showToast } from '@prefecthq/prefect-design'
-import { useRouteQueryParam } from '@prefecthq/vue-compositions'
 import { useRouter } from 'vue-router'
+import { useRouteHash } from '@/compositions/useRouteHash'
 import { routes } from '@/router/routes'
 import { auth } from '@/services'
 
 export function useNetlifyAuthTokens(): void {
   const router = useRouter()
 
-  const confirmToken = useRouteQueryParam('confirmation_token')
+  const confirmToken = useRouteHash('confirmation_token')
   if (confirmToken.value) {
     showToast('Verifying...')
 
-    auth.verify('signup', confirmToken.value).then(() => {
+    auth.confirm(confirmToken.value).then(() => {
       showToast('Email Address confirmed!', 'success')
       router.push(routes.login())
     })
   }
 
-  const inviteToken = useRouteQueryParam('invite_token')
+  const inviteToken = useRouteHash('invite_token')
   if (inviteToken.value) {
     router.push(routes.accept(inviteToken.value))
   }
