@@ -19,6 +19,11 @@ const routeRecords: AppRouteRecord[] = [
     component: () => import('@/pages/SignupPage.vue'),
   },
   {
+    name: 'auth.accept',
+    path: '/accept-invite',
+    component: () => import('@/pages/AcceptInvitePage.vue'),
+  },
+  {
     path: '/clubs',
     children: [
       {

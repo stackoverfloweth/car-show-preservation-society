@@ -10,18 +10,25 @@
   import { useColorTheme } from '@prefecthq/prefect-design'
   import { useRouteQueryParam } from '@prefecthq/vue-compositions'
   import { provide } from 'vue'
+  import { useRouter } from 'vue-router'
   import MenuHeader from '@/components/MenuHeader.vue'
   import NavigationHeader from '@/components/NavigationHeader.vue'
   import { useNavigation } from '@/compositions'
-  import { ApiConfig, identifyApi } from '@/services'
+  import { routes } from '@/router/routes'
+  import { ApiConfig, auth } from '@/services'
   import { apiKey, createApi } from '@/services/createApi'
   import { env } from '@/utilities'
 
+  const router = useRouter()
   const { setTheme } = useColorTheme()
   setTheme('dark')
 
   const inviteToken = useRouteQueryParam('invite_token')
-  const user = identifyApi.currentUser()
+  if (inviteToken.value) {
+    router.push(routes.accept(inviteToken.value))
+  }
+
+  const user = auth.currentUser()
 
   const { left, center, right } = useNavigation()
 
