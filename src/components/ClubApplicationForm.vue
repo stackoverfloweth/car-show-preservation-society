@@ -31,7 +31,7 @@
   import { ref } from 'vue'
   import { useApi } from '@/compositions'
   import { Club } from '@/models'
-  import { currentUser } from '@/services/auth'
+  import { currentUser } from '@/services'
 
   const props = defineProps<{
     club: Club,
@@ -56,7 +56,7 @@
       return
     }
 
-    await api.clubInvitations.applyToClub(props.club.clubId, currentUser.userId, clubApplicationMessage.value)
+    await api.clubInvitations.applyToClub(props.club.clubId, currentUser().id, clubApplicationMessage.value)
 
     applied.value = true
 

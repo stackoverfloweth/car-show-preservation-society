@@ -1,9 +1,8 @@
 import { useRouteParam } from '@prefecthq/vue-compositions'
-import { currentUser } from '@/services/auth'
+import { auth } from '@/services'
 
 export function useCanEditVehicle(): boolean {
-  const { userId } = currentUser
   const vehicleId = useRouteParam('vehicleId')
 
-  return !!userId && !!vehicleId
+  return !!auth.currentUser() && !!vehicleId
 }

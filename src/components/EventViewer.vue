@@ -93,7 +93,7 @@
   import { useApi } from '@/compositions'
   import { Event } from '@/models'
   import { routes } from '@/router/routes'
-  import { currentUser } from '@/services/auth'
+  import { currentUser } from '@/services'
 
   const props = defineProps<{
     event: Event,
@@ -108,7 +108,7 @@
 
   const isViewing = useRouteQueryParam('is-viewing', BooleanRouteParam, false)
   const eventId = computed(() => props.event.eventId)
-  const registrationSubscription = useSubscription(api.registration.findRegistration, [eventId, currentUser.userId])
+  const registrationSubscription = useSubscription(api.registration.findRegistration, [eventId, currentUser().id])
   const existingRegistration = computed(() => registrationSubscription.response)
 
   // also needs to check max-capacity

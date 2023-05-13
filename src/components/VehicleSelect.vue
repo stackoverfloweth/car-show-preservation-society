@@ -59,10 +59,10 @@
     },
   })
 
-  const vehiclesSubscription = useSubscription(api.vehicles.getVehicles, [currentUser.userId])
+  const vehiclesSubscription = useSubscription(api.vehicles.getVehicles, [currentUser().id])
   const vehicles = computed(() => vehiclesSubscription.response ?? [])
 
-  const newVehicle = ref<VehicleRequest>({ userId: currentUser.userId })
+  const newVehicle = ref<VehicleRequest>({ userId: currentUser().id })
 
   async function submit(): Promise<void> {
     const isValid = await validate()

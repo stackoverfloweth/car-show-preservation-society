@@ -20,7 +20,7 @@
 
   const api = useApi()
 
-  const vehiclesSubscription = useSubscription(api.vehicles.getVehicles, [currentUser.userId])
+  const vehiclesSubscription = useSubscription(api.vehicles.getVehicles, [currentUser().id])
   const vehicles = computed(() => vehiclesSubscription.response ?? [])
 
   const onlyVehicle = computed(() => vehicles.value.length === 1 && !!vehicles.value.at(0) ? vehicles.value.at(0) : undefined)

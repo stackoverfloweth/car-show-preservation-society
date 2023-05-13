@@ -1,9 +1,8 @@
 import { useRouteParam } from '@prefecthq/vue-compositions'
-import { currentUser } from '@/services/auth'
+import { auth } from '@/services'
 
 export function useCanEditClub(): boolean {
-  const { userId } = currentUser
   const clubId = useRouteParam('clubId')
 
-  return !!userId && !!clubId
+  return !!auth.currentUser() && !!clubId
 }

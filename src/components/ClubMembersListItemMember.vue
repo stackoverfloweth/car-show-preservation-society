@@ -6,7 +6,7 @@
     member-type="Member"
     class="club-members-list-item-member"
   >
-    <template v-if="canEditClub && member.userId !== currentUser.userId" #actions>
+    <template v-if="canEditClub && member.userId !== currentUser().id" #actions>
       <p-tooltip text="Coming Soon!">
         <p-button icon="EnvelopeIcon" disabled />
       </p-tooltip>
@@ -34,7 +34,7 @@
   import MenuItemConfirm from '@/components/MenuItemConfirm.vue'
   import { useApi, useCanEditClub } from '@/compositions'
   import { Club, ClubMembership } from '@/models'
-  import { currentUser } from '@/services/auth'
+  import { currentUser } from '@/services'
 
   const props = defineProps<{
     club: Club,

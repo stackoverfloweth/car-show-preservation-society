@@ -54,7 +54,7 @@
   import SizedImage from '@/components/SizedImage.vue'
   import { User, VotingResultsCount } from '@/models'
   import { routes } from '@/router/routes'
-  import { currentUser } from '@/services/auth'
+  import { currentUser } from '@/services'
   import { formatPhoneNumber } from '@/utilities'
 
   const props = defineProps<{
@@ -62,7 +62,7 @@
     bestPlacements: VotingResultsCount[],
   }>()
 
-  const canEditProfile = computed(() => props.user.userId === currentUser.userId)
+  const canEditProfile = computed(() => props.user.userId === currentUser().id)
 </script>
 
 <style>

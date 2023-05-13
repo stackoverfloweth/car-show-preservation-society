@@ -2,7 +2,7 @@
   <div class="signup-page">
     <PageHeader heading="Sign Up" />
     <p-form class="signup-page__form" @submit="signup">
-      <SignupFormFields v-model:values="values" />
+      <AuthSignupFormFields v-model:values="values" />
 
       <p-link :to="routes.login()">
         Login
@@ -24,11 +24,11 @@
   import { useValidationObserver } from '@prefecthq/vue-compositions'
   import { User } from 'gotrue-js'
   import { ref } from 'vue'
+  import AuthSignupFormFields from '@/components/AuthSignupFormFields.vue'
   import PageHeader from '@/components/PageHeader.vue'
-  import SignupFormFields from '@/components/SignupFormFields.vue'
   import { SignupRequest } from '@/models/api'
   import { routes } from '@/router/routes'
-  import { identifyApi } from '@/services'
+  import { auth } from '@/services'
 
   const values = ref<Partial<SignupRequest>>({})
 
@@ -43,7 +43,7 @@
 
     const { emailAddress, password } = values.value as SignupRequest
 
-    return identifyApi.signUp(emailAddress, password)
+    return auth.signup(emailAddress, password)
   }
 </script>
 

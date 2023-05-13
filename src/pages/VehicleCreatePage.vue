@@ -25,7 +25,7 @@
   const { validate, pending } = useValidationObserver()
   const { set } = useNavigation()
 
-  const values = ref<VehicleRequest>({ userId: currentUser.userId })
+  const values = ref<VehicleRequest>({ userId: currentUser().id })
 
   async function submit(): Promise<void> {
     const isValid = await validate()

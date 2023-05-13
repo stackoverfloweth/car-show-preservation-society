@@ -35,7 +35,7 @@
 <script lang="ts" setup>
   import { computed } from 'vue'
   import { Event, Registration } from '@/models'
-  import { currentUser } from '@/services/auth'
+  import { currentUser } from '@/services'
 
   const props = defineProps<{
     carId: string | null | undefined,
@@ -56,7 +56,7 @@
     },
   })
 
-  const isInvalidSelfVote = computed(() => !props.event.canVoteForSelf && props.registration.userId === currentUser.userId)
+  const isInvalidSelfVote = computed(() => !props.event.canVoteForSelf && props.registration.userId === currentUser().id)
 
   const classes = computed(() => ({
     'ballot-voting-category-option__option--selected': carId.value === props.registration.carId,

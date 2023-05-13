@@ -1,5 +1,5 @@
 <template>
-  <div class="signup-form-fields">
+  <div class="auth-signup-form-fields">
     <p-label label="Email Address" :message="emailAddressError" :state="emailAddressState">
       <template #default="{ id }">
         <p-text-input :id="id" v-model="emailAddress" :state="emailAddressState" />
@@ -45,7 +45,7 @@
 </script>
 
 <style>
-.signup-form-fields {
+.auth-signup-form-fields {
   display: flex;
   flex-direction: column;
   gap: var(--space-sm);

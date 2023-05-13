@@ -7,17 +7,17 @@
   import { computed } from 'vue'
   import ProfileViewer from '@/components/ProfileViewer.vue'
   import { useApi, useNavigation } from '@/compositions'
-  import { currentUser } from '@/services/auth'
+  import { currentUser } from '@/services'
 
   const api = useApi()
   useNavigation({})
 
-  const userId = useRouteQueryParam('userId', currentUser.userId)
+  const userId = useRouteQueryParam('userId', currentUser().id)
 
   const userSubscription = useSubscription(api.users.getUser, [userId])
   const user = computed(() => userSubscription.response)
 
-  const bestPlacementsSubscription = useSubscription(api.votingResults.getBestPlacementsCounts, [currentUser.userId])
+  const bestPlacementsSubscription = useSubscription(api.votingResults.getBestPlacementsCounts, [currentUser().id])
   const bestPlacements = computed(() => bestPlacementsSubscription.response ?? [])
 </script>
 

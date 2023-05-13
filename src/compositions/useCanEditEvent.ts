@@ -1,9 +1,8 @@
 import { useRouteParam } from '@prefecthq/vue-compositions'
-import { currentUser } from '@/services/auth'
+import { auth } from '@/services'
 
 export function useCanEditEvent(): boolean {
-  const { userId } = currentUser
   const eventId = useRouteParam('eventId')
 
-  return !!userId && !!eventId && false
+  return !!auth.currentUser() && !!eventId && false
 }

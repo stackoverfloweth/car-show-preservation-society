@@ -84,7 +84,7 @@
   import { useApi, useCanEditClub, useShowModal } from '@/compositions'
   import { Club, ClubMembership, Event, isClubMembership } from '@/models'
   import { routes } from '@/router/routes'
-  import { currentUser } from '@/services/auth'
+  import { currentUser } from '@/services'
   import { capitalize } from '@/utilities'
 
   const props = defineProps<{
@@ -115,11 +115,11 @@
   const { showModal: showApplicationModal, open: openApplicationModal, close: closeApplicationModal } = useShowModal()
   const { showModal: showInviteMemberModal, open: openInviteMemberModal, close: closeInviteMemberModal } = useShowModal()
 
-  const currentUserApplicationSubscription = useSubscription(api.clubInvitations.getApplication, [currentUser.userId])
+  const currentUserApplicationSubscription = useSubscription(api.clubInvitations.getApplication, [currentUser().id])
   const currentUserApplication = computed(() => currentUserApplicationSubscription.response)
   const currentUserHasApplication = computed(() => !!currentUserApplication.value)
 
-  const currentUserMembershipSubscription = useSubscription(api.clubMembership.getMembership, [currentUser.userId, clubId])
+  const currentUserMembershipSubscription = useSubscription(api.clubMembership.getMembership, [currentUser().id, clubId])
   const currentUserMembership = computed(() => currentUserMembershipSubscription.response)
   const currentUserIsMember = computed(() => !!currentUserMembership.value)
 
@@ -133,7 +133,7 @@
   const members = computed(() => membersSubscription.response ?? [])
   const admins = computed(() => members.value.filter(member => isClubMembership(member) && member.clubPermissions.includes('admin')) as ClubMembership[])
 
-  const currentUserIsOnlyAdmin = computed(() => admins.value.every(admin => admin.userId === currentUser.userId))
+  const currentUserIsOnlyAdmin = computed(() => admins.value.every(admin => admin.userId === currentUser().id))
   const visibility = computed(() => `${capitalize(props.club.visibility)} Club`)
 
   async function joinPublicClub(): Promise<void> {
@@ -141,7 +141,7 @@
       return
     }
 
-    await api.clubMembership.joinClub(clubId.value, currentUser.userId)
+    await api.clubMembership.joinClub(clubId.value, currentUser().id)
 
     showToast('Joined!', 'success')
   }
