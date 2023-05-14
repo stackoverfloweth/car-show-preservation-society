@@ -26,15 +26,17 @@
 
 <script lang="ts" setup>
   import { showToast } from '@prefecthq/prefect-design'
-  import { useValidationObserver } from '@prefecthq/vue-compositions'
+  import { useLocalStorage, useValidationObserver } from '@prefecthq/vue-compositions'
   import { User } from 'gotrue-js'
   import { ref } from 'vue'
+  import { useRouter } from 'vue-router'
   import AuthSignupFormFields from '@/components/AuthSignupFormFields.vue'
   import PageHeader from '@/components/PageHeader.vue'
   import { SignupRequest } from '@/models/api'
   import { routes } from '@/router/routes'
   import { auth, handleAuthError } from '@/services'
 
+  const router = useRouter()
   const values = ref<Partial<SignupRequest>>({})
 
   const { validate, pending } = useValidationObserver()
@@ -50,7 +52,8 @@
 
     try {
       const token = await auth.signup(emailAddress, password)
-      console.log({ token })
+      const { value } = useLocalStorage('auth-redirect', routes.home())
+      router.push(value.value)
       showToast('Success! Please confirm your email address', 'success')
     } catch (exception) {
       handleAuthError(exception)

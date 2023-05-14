@@ -25,15 +25,17 @@
 </template>
 
 <script lang="ts" setup>
-  import { useValidationObserver } from '@prefecthq/vue-compositions'
+  import { useLocalStorage, useValidationObserver } from '@prefecthq/vue-compositions'
   import { User } from 'gotrue-js'
   import { ref } from 'vue'
+  import { useRouter } from 'vue-router'
   import AuthLoginFormFields from '@/components/AuthLoginFormFields.vue'
   import PageHeader from '@/components/PageHeader.vue'
   import { LoginRequest } from '@/models/api'
   import { routes } from '@/router/routes'
   import { auth, handleAuthError } from '@/services'
 
+  const router = useRouter()
   const values = ref<Partial<LoginRequest>>({})
 
   const { validate, pending } = useValidationObserver()
@@ -49,7 +51,8 @@
 
     try {
       const token = await auth.login(emailAddress, password, remember)
-      console.log({ token })
+      const { value } = useLocalStorage('auth-redirect', routes.home())
+      router.push(value.value)
     } catch (exception) {
       handleAuthError(exception, emailAddress)
     }
