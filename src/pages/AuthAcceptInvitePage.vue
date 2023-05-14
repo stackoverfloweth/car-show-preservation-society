@@ -19,6 +19,7 @@
 </template>
 
 <script lang="ts" setup>
+  import { showToast } from '@prefecthq/prefect-design'
   import { useRouteParam, useValidationObserver } from '@prefecthq/vue-compositions'
   import { User } from 'gotrue-js'
   import { ref } from 'vue'
@@ -26,7 +27,7 @@
   import PageHeader from '@/components/PageHeader.vue'
   import { AcceptInvitationRequest } from '@/models/api'
   import { routes } from '@/router/routes'
-  import { auth } from '@/services'
+  import { auth, handleAuthError } from '@/services'
 
   const token = useRouteParam('token')
   const values = ref<Partial<AcceptInvitationRequest>>({})
@@ -42,7 +43,15 @@
 
     const { password, remember = false } = values.value as AcceptInvitationRequest
 
-    return auth.acceptInvite(token.value, password, remember)
+    try {
+      const user = await auth.acceptInvite(token.value, password, remember)
+      console.log({ user })
+      showToast('Account created!', 'success')
+    } catch (exception) {
+      handleAuthError(exception)
+    } finally {
+      values.value.password = ''
+    }
   }
 </script>
 

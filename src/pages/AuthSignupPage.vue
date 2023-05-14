@@ -25,6 +25,7 @@
 </template>
 
 <script lang="ts" setup>
+  import { showToast } from '@prefecthq/prefect-design'
   import { useValidationObserver } from '@prefecthq/vue-compositions'
   import { User } from 'gotrue-js'
   import { ref } from 'vue'
@@ -32,7 +33,7 @@
   import PageHeader from '@/components/PageHeader.vue'
   import { SignupRequest } from '@/models/api'
   import { routes } from '@/router/routes'
-  import { auth } from '@/services'
+  import { auth, handleAuthError } from '@/services'
 
   const values = ref<Partial<SignupRequest>>({})
 
@@ -47,7 +48,15 @@
 
     const { emailAddress, password } = values.value as SignupRequest
 
-    return auth.signup(emailAddress, password)
+    try {
+      const token = await auth.signup(emailAddress, password)
+      console.log({ token })
+      showToast('Success! Please confirm your email address', 'success')
+    } catch (exception) {
+      handleAuthError(exception)
+    } finally {
+      values.value.password = ''
+    }
   }
 </script>
 

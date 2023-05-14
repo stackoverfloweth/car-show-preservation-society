@@ -12,17 +12,17 @@ const routeRecords: AppRouteRecord[] = [
   {
     name: 'auth.login',
     path: '/login',
-    component: () => import('@/pages/LoginPage.vue'),
+    component: () => import('@/pages/AuthLoginPage.vue'),
   },
   {
     name: 'auth.signup',
     path: '/signup',
-    component: () => import('@/pages/SignupPage.vue'),
+    component: () => import('@/pages/AuthSignupPage.vue'),
   },
   {
     name: 'auth.accept',
     path: '/accept-invite/:token',
-    component: () => import('@/pages/AcceptInvitePage.vue'),
+    component: () => import('@/pages/AuthAcceptInvitePage.vue'),
   },
   {
     path: '/clubs',
