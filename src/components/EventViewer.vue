@@ -80,7 +80,7 @@
 
 <script lang="ts" setup>
   import { media } from '@prefecthq/prefect-design'
-  import { BooleanRouteParam, useRouteQueryParam, useSubscription } from '@prefecthq/vue-compositions'
+  import { BooleanRouteParam, useRouteQueryParam, useSubscriptionWithDependencies } from '@prefecthq/vue-compositions'
   import { computed } from 'vue'
   import ContactIdCard from '@/components/ContactIdCard.vue'
   import EventBallots from '@/components/EventBallots.vue'
@@ -93,7 +93,7 @@
   import { useApi } from '@/compositions'
   import { Event } from '@/models'
   import { routes } from '@/router/routes'
-  import { currentUser } from '@/services'
+  import { currentUser, isLoggedIn } from '@/services'
 
   const props = defineProps<{
     event: Event,
@@ -108,7 +108,8 @@
 
   const isViewing = useRouteQueryParam('is-viewing', BooleanRouteParam, false)
   const eventId = computed(() => props.event.eventId)
-  const registrationSubscription = useSubscription(api.registration.findRegistration, [eventId, currentUser().id])
+  const registrationSubscriptionArgs = computed<Parameters<typeof api.registration.findRegistration> | null>(() => isLoggedIn() ? [eventId.value, currentUser().id] : null)
+  const registrationSubscription = useSubscriptionWithDependencies(api.registration.findRegistration, registrationSubscriptionArgs)
   const existingRegistration = computed(() => registrationSubscription.response)
 
   // also needs to check max-capacity
