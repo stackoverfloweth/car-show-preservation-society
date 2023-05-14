@@ -1,22 +1,26 @@
 <template>
   <div class="signup-page">
-    <PageHeader heading="Sign Up" />
-    <p-form class="signup-page__form" @submit="signup">
-      <AuthSignupFormFields v-model:values="values" />
+    <p-card class="signup-page__form-container">
+      <PageHeader heading="Sign Up">
+        <template #actions>
+          <p-link :to="routes.login()">
+            Login
+          </p-link>
+        </template>
+      </PageHeader>
+      <p-form class="signup-page__form" @submit="signup">
+        <AuthSignupFormFields v-model:values="values" />
 
-      <p-link :to="routes.login()">
-        Login
-      </p-link>
-
-      <div class="signup-page__actions">
-        <p-button :to="routes.home()" inset>
-          Cancel
-        </p-button>
-        <p-button type="submit" :loading="pending">
-          Signup
-        </p-button>
-      </div>
-    </p-form>
+        <div class="signup-page__actions">
+          <p-button :to="routes.home()" inset>
+            Cancel
+          </p-button>
+          <p-button type="submit" :loading="pending">
+            Signup
+          </p-button>
+        </div>
+      </p-form>
+    </p-card>
   </div>
 </template>
 
@@ -49,7 +53,14 @@
 
 <style>
 .signup-page {
+  display: flex;
+  justify-content: center;
   padding: var(--space-md);
+}
+
+.signup-page__form-container {
+  max-width: 640px;
+  flex-grow: 1;
 }
 
 .signup-page__actions {

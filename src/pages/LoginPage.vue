@@ -1,22 +1,26 @@
 <template>
   <div class="login-page">
-    <PageHeader heading="Login" />
-    <p-form class="login-page__form" @submit="login">
-      <AuthLoginFormFields v-model:values="values" />
+    <p-card class="login-page__form-container">
+      <PageHeader heading="Login">
+        <template #actions>
+          <p-link :to="routes.signup()">
+            Sign Up
+          </p-link>
+        </template>
+      </PageHeader>
+      <p-form class="login-page__form" @submit="login">
+        <AuthLoginFormFields v-model:values="values" />
 
-      <p-link :to="routes.signup()">
-        Sign Up
-      </p-link>
-
-      <div class="login-page__actions">
-        <p-button :to="routes.home()" inset>
-          Cancel
-        </p-button>
-        <p-button type="submit" :loading="pending">
-          Login
-        </p-button>
-      </div>
-    </p-form>
+        <div class="login-page__actions">
+          <p-button :to="routes.home()" inset>
+            Cancel
+          </p-button>
+          <p-button type="submit" :loading="pending">
+            Login
+          </p-button>
+        </div>
+      </p-form>
+    </p-card>
   </div>
 </template>
 
@@ -44,7 +48,10 @@
     const { emailAddress, password, remember = false } = values.value as LoginRequest
 
     try {
-      return auth.login(emailAddress, password, remember)
+      const token = await auth.login(emailAddress, password, remember)
+      if (!token) {
+
+      }
     } catch (exception) {
       handleAuthError(exception, emailAddress)
     }
@@ -53,7 +60,14 @@
 
 <style>
 .login-page {
+  display: flex;
+  justify-content: center;
   padding: var(--space-md);
+}
+
+.login-page__form-container {
+  max-width: 640px;
+  flex-grow: 1;
 }
 
 .login-page__actions {

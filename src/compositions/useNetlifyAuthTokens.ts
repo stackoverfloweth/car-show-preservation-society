@@ -17,8 +17,8 @@ export function useNetlifyAuthTokens(): void {
 
       auth.confirm(confirmToken.value).then(() => {
         verifyToast.dismiss()
-        showToast('Email Address confirmed!', 'success')
         router.push(routes.login())
+        showToast('Email Address confirmed!', 'success')
       })
     }
 
