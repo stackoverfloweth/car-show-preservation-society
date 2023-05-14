@@ -2,6 +2,7 @@ import { Handler } from '@netlify/functions'
 import { Db, ObjectId } from 'mongodb'
 import { ClubApplicationResponse, ClubResponse } from '@/models/api'
 import { Api, env } from 'netlify/utilities'
+import { sendEmail } from 'netlify/utilities/email'
 import { getClient } from 'netlify/utilities/mongodbClient'
 
 
@@ -29,6 +30,8 @@ export const handler: Handler = Api('POST', 'club-application-create/:clubId', (
       userId: body.userId,
       message: body.message,
     })
+
+    await sendEmail('clubNewApplication', 'ev@nsuther.land', 'stackoverfloweth@gmail.com', 'New application received', {})
 
     return {
       statusCode: 201,

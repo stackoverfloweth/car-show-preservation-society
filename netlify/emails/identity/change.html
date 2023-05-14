@@ -1,0 +1,10 @@
+<div>
+  <h2>Confirm Change of Email</h2>
+
+  <p>
+    We received your request to change your email email from 
+    {{ .Email }} to {{ .NewEmail }}. If this was intentional, please follow the link below to confirm. If this was not intention, disregard this email.
+  </p>
+
+  <a href="{{ .SiteURL }}/confirm-change/{{ .Token }}">Confirm recent change</a>
+</div>

@@ -3,7 +3,7 @@
     <div class="club-viewer__header">
       <p-button inset icon="ShareIcon" />
 
-      <template v-if="!currentUserIsMember">
+      <template v-if="isLoggedIn() && !currentUserIsMember">
         <p-button v-if="club.joinableByAnyone" @click="joinPublicClub">
           Join
         </p-button>
@@ -71,7 +71,7 @@
 
 <script lang="ts" setup>
   import { kebabCase, showToast } from '@prefecthq/prefect-design'
-  import { useSubscription } from '@prefecthq/vue-compositions'
+  import { useSubscription, useSubscriptionWithDependencies } from '@prefecthq/vue-compositions'
   import { computed } from 'vue'
   import { useRoute, useRouter } from 'vue-router'
   import ClubApplicationForm from '@/components/ClubApplicationForm.vue'
@@ -84,7 +84,7 @@
   import { useApi, useCanEditClub, useShowModal } from '@/compositions'
   import { Club, ClubMembership, Event, isClubMembership } from '@/models'
   import { routes } from '@/router/routes'
-  import { currentUser } from '@/services'
+  import { currentUser, isLoggedIn } from '@/services'
   import { capitalize } from '@/utilities'
 
   const props = defineProps<{
@@ -115,11 +115,13 @@
   const { showModal: showApplicationModal, open: openApplicationModal, close: closeApplicationModal } = useShowModal()
   const { showModal: showInviteMemberModal, open: openInviteMemberModal, close: closeInviteMemberModal } = useShowModal()
 
-  const currentUserApplicationSubscription = useSubscription(api.clubInvitations.getApplication, [currentUser().id])
+  const currentUserApplicationSubscriptionArgs = computed<Parameters<typeof api.clubInvitations.getApplication> | null>(() => isLoggedIn() ? [currentUser().id] : null)
+  const currentUserApplicationSubscription = useSubscriptionWithDependencies(api.clubInvitations.getApplication, currentUserApplicationSubscriptionArgs)
   const currentUserApplication = computed(() => currentUserApplicationSubscription.response)
   const currentUserHasApplication = computed(() => !!currentUserApplication.value)
 
-  const currentUserMembershipSubscription = useSubscription(api.clubMembership.getMembership, [currentUser().id, clubId])
+  const currentUserMembershipSubscriptionArgs = computed<Parameters<typeof api.clubMembership.getMembership> | null>(() => isLoggedIn() ? [currentUser().id, clubId.value] : null)
+  const currentUserMembershipSubscription = useSubscriptionWithDependencies(api.clubMembership.getMembership, currentUserMembershipSubscriptionArgs)
   const currentUserMembership = computed(() => currentUserMembershipSubscription.response)
   const currentUserIsMember = computed(() => !!currentUserMembership.value)
 
@@ -133,7 +135,7 @@
   const members = computed(() => membersSubscription.response ?? [])
   const admins = computed(() => members.value.filter(member => isClubMembership(member) && member.clubPermissions.includes('admin')) as ClubMembership[])
 
-  const currentUserIsOnlyAdmin = computed(() => admins.value.every(admin => admin.userId === currentUser().id))
+  const currentUserIsOnlyAdmin = computed(() => isLoggedIn() && admins.value.every(admin => admin.userId === currentUser().id))
   const visibility = computed(() => `${capitalize(props.club.visibility)} Club`)
 
   async function joinPublicClub(): Promise<void> {

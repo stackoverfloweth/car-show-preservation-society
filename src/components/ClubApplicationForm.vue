@@ -4,9 +4,6 @@
       <template #description>
         Your application including public profile information, your email address, and optional message below will be sent to the Club admins for review.
       </template>
-      <template #default="{ id }">
-        <p-toggle :id="id" v-model="agreed" />
-      </template>
     </p-label>
 
     <p-label label="Message to Admin (optional)">
@@ -19,8 +16,8 @@
       <p-button inset @click="close">
         Cancel
       </p-button>
-      <p-button type="submit" :disabled="!agreed">
-        Send
+      <p-button type="submit">
+        I'm sure, send it!
       </p-button>
     </div>
   </p-form>
@@ -44,7 +41,6 @@
   const api = useApi()
 
   const applied = ref(false)
-  const agreed = ref(false)
   const clubApplicationMessage = ref<string>()
 
   function close(): void {
@@ -52,10 +48,6 @@
   }
 
   async function joinPrivateClub(): Promise<void> {
-    if (!agreed.value) {
-      return
-    }
-
     await api.clubInvitations.applyToClub(props.club.clubId, currentUser().id, clubApplicationMessage.value)
 
     applied.value = true
