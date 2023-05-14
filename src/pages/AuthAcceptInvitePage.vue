@@ -1,18 +1,20 @@
 <template>
   <div class="accept-invite-page">
-    <PageHeader heading="Accept-invite" />
-    <p-form class="accept-invite-page__form" @submit="accept">
-      <AuthAcceptInviteFormFields v-model:values="values" />
+    <p-card class="accept-invite-page__form-container">
+      <PageHeader heading="Accept-invite" />
+      <p-form class="accept-invite-page__form" @submit="accept">
+        <AuthAcceptInviteFormFields v-model:values="values" />
 
-      <div class="accept-invite-page__actions">
-        <p-button :to="routes.home()" inset>
-          Cancel
-        </p-button>
-        <p-button type="submit" :loading="pending">
-          Accept-invite
-        </p-button>
-      </div>
-    </p-form>
+        <div class="accept-invite-page__actions">
+          <p-button :to="routes.home()" inset>
+            Cancel
+          </p-button>
+          <p-button type="submit" :loading="pending">
+            Accept-invite
+          </p-button>
+        </div>
+      </p-form>
+    </p-card>
   </div>
 </template>
 
@@ -46,7 +48,14 @@
 
 <style>
 .accept-invite-page {
+  display: flex;
+  justify-content: center;
   padding: var(--space-md);
+}
+
+.accept-invite-page__form-container {
+  max-width: 640px;
+  flex-grow: 1;
 }
 
 .accept-invite-page__actions {

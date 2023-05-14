@@ -2,7 +2,7 @@
   <div class="auth-accept-invite-form-fields">
     <p-label label="Password" :message="passwordError" :state="passwordState">
       <template #default="{ id }">
-        <p-text-input :id="id" v-model="password" :state="passwordState" />
+        <PasswordInput :id="id" v-model="password" :state="passwordState" />
       </template>
     </p-label>
 
@@ -17,6 +17,7 @@
 <script lang="ts" setup>
   import { usePatchRef, useValidation } from '@prefecthq/vue-compositions'
   import { computed } from 'vue'
+  import PasswordInput from '@/components/PasswordInput.vue'
   import { AcceptInvitationRequest } from '@/models/api'
   import { stringHasValue } from '@/services'
 
