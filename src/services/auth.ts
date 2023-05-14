@@ -28,14 +28,23 @@ export type AuthError = {
   error: AuthErrorType,
   error_description: string,
 }
+
+function isAuthFetchError(value: unknown): value is { json: string } {
+  return !!value && typeof value === 'object'
+    && 'json' in value
+}
+
 export function isAuthError(value: unknown): value is AuthError {
-  console.log(JSON.stringify(value))
   return !!value && typeof value === 'object'
     && 'error_description' in value && typeof value.error_description === 'string'
     && 'error' in value && typeof value.error === 'string'
 }
 
 export function handleAuthError(exception: unknown, emailAddress?: string): void {
+  if (isAuthFetchError(exception)) {
+    return handleAuthError(JSON.parse(exception.json), emailAddress)
+  }
+
   if (!isAuthError(exception)) {
     showToast('Something went wrong', 'error')
     return
