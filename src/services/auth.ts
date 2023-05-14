@@ -41,6 +41,7 @@ export function isAuthError(value: unknown): value is AuthError {
 }
 
 export function handleAuthError(exception: unknown, emailAddress?: string): void {
+  console.log(JSON.stringify(exception))
   if (isAuthFetchError(exception)) {
     return handleAuthError(JSON.parse(exception.json), emailAddress)
   }
