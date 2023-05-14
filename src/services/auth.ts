@@ -29,6 +29,7 @@ export type AuthError = {
   error_description: string,
 }
 export function isAuthError(value: unknown): value is AuthError {
+  console.log(JSON.stringify(value))
   return !!value && typeof value === 'object'
     && 'error_description' in value && typeof value.error_description === 'string'
     && 'error' in value && typeof value.error === 'string'
@@ -36,6 +37,7 @@ export function isAuthError(value: unknown): value is AuthError {
 
 export function handleAuthError(exception: unknown, emailAddress?: string): void {
   if (!isAuthError(exception)) {
+    showToast('Something went wrong', 'error')
     return
   }
 

@@ -54,8 +54,6 @@
       showToast('Success! Please confirm your email address', 'success')
     } catch (exception) {
       handleAuthError(exception)
-    } finally {
-      values.value.password = ''
     }
   }
 </script>

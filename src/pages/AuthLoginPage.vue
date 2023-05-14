@@ -25,7 +25,6 @@
 </template>
 
 <script lang="ts" setup>
-  import { showToast } from '@prefecthq/prefect-design'
   import { useValidationObserver } from '@prefecthq/vue-compositions'
   import { User } from 'gotrue-js'
   import { ref } from 'vue'
@@ -53,8 +52,6 @@
       console.log({ token })
     } catch (exception) {
       handleAuthError(exception, emailAddress)
-    } finally {
-      values.value.password = ''
     }
   }
 </script>

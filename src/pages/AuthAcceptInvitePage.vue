@@ -49,8 +49,6 @@
       showToast('Account created!', 'success')
     } catch (exception) {
       handleAuthError(exception)
-    } finally {
-      values.value.password = ''
     }
   }
 </script>

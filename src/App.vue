@@ -1,7 +1,6 @@
 <template>
   <MenuHeader />
   <NavigationHeader v-bind="{ left, center, right }" />
-  <div>user: {{ user }}</div>
   <router-view :key="$route.fullPath" />
 </template>
 
@@ -11,7 +10,7 @@
   import MenuHeader from '@/components/MenuHeader.vue'
   import NavigationHeader from '@/components/NavigationHeader.vue'
   import { useNavigation, useNetlifyAuthTokens } from '@/compositions'
-  import { ApiConfig, auth } from '@/services'
+  import { ApiConfig } from '@/services'
   import { apiKey, createApi } from '@/services/createApi'
   import { env } from '@/utilities'
 
@@ -19,8 +18,6 @@
   setTheme('dark')
 
   useNetlifyAuthTokens()
-
-  const user = auth.currentUser()
 
   const { left, center, right } = useNavigation()
 
