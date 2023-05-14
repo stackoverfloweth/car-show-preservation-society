@@ -41,7 +41,7 @@
       return
     }
 
-    const { password, remember = false } = values.value as AcceptInvitationRequest
+    const { password, remember } = values.value as AcceptInvitationRequest
 
     try {
       const user = await auth.acceptInvite(token.value, password, remember)

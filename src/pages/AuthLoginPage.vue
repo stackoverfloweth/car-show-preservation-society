@@ -47,7 +47,7 @@
       return
     }
 
-    const { emailAddress, password, remember = false } = values.value as LoginRequest
+    const { emailAddress, password, remember } = values.value as LoginRequest
 
     try {
       const token = await auth.login(emailAddress, password, remember)
