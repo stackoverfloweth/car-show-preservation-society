@@ -1,4 +1,5 @@
 import { showToast } from '@prefecthq/prefect-design'
+import { watchEffect } from 'vue'
 import { useRouter } from 'vue-router'
 import { useRouteHash } from '@/compositions/useRouteHash'
 import { routes } from '@/router/routes'
@@ -8,17 +9,21 @@ export function useNetlifyAuthTokens(): void {
   const router = useRouter()
 
   const confirmToken = useRouteHash('confirmation_token')
-  if (confirmToken.value) {
-    showToast('Verifying...')
-
-    auth.confirm(confirmToken.value).then(() => {
-      showToast('Email Address confirmed!', 'success')
-      router.push(routes.login())
-    })
-  }
-
   const inviteToken = useRouteHash('invite_token')
-  if (inviteToken.value) {
-    router.push(routes.accept(inviteToken.value))
-  }
+
+  watchEffect(() => {
+    if (confirmToken.value) {
+      const verifyToast = showToast('Verifying...', 'default', { dismissible: false })
+
+      auth.confirm(confirmToken.value).then(() => {
+        verifyToast.dismiss()
+        showToast('Email Address confirmed!', 'success')
+        router.push(routes.login())
+      })
+    }
+
+    if (inviteToken.value) {
+      router.push(routes.accept(inviteToken.value))
+    }
+  })
 }
