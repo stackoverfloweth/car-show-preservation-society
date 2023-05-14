@@ -42,7 +42,6 @@ export class RouteGuardExecutioner {
     return [...this.global, ...guards]
   }
 
-  // test this
   private static isRouteLocation(result: RouteGuardReturn): result is RouteLocationRaw {
     return typeof result === 'string' || typeof result == 'object'
   }

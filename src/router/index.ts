@@ -1,4 +1,5 @@
 import { createRouter, createWebHistory, RouteRecordRaw } from 'vue-router'
+import { protectedRoute } from '@/router/guards'
 import { AppRouteRecord } from '@/router/routes'
 import { RouteGuardExecutioner } from '@/services/routeGuardExecutioner'
 
@@ -40,11 +41,17 @@ const routeRecords: AppRouteRecord[] = [
         name: 'clubs.create',
         path: 'new',
         component: () => import('@/pages/ClubCreatePage.vue'),
+        meta: {
+          guards: [protectedRoute],
+        },
       },
       {
         name: 'clubs.editor',
         path: ':clubId/editor',
         component: () => import('@/pages/ClubEditorPage.vue'),
+        meta: {
+          guards: [protectedRoute],
+        },
       },
     ],
   },
@@ -65,12 +72,18 @@ const routeRecords: AppRouteRecord[] = [
         name: 'events.create',
         path: 'new',
         component: () => import('@/pages/EventCreatePage.vue'),
+        meta: {
+          guards: [protectedRoute],
+        },
       },
       {
         name: 'events.editor',
         path: ':eventId/editor',
         component: () => import('@/pages/EventEditorPage.vue'),
         redirect: { name: 'events.editor.general' },
+        meta: {
+          guards: [protectedRoute],
+        },
         children: [
           {
             name: 'events.editor.general',
@@ -103,21 +116,33 @@ const routeRecords: AppRouteRecord[] = [
         name: 'events.register',
         path: ':eventId/register',
         component: () => import('@/pages/EventRegisterPage.vue'),
+        meta: {
+          guards: [protectedRoute],
+        },
       },
       {
         name: 'events.registrations',
         path: ':eventId/registrations',
         component: () => import('@/pages/EventRegistrationsPage.vue'),
+        meta: {
+          guards: [protectedRoute],
+        },
       },
       {
         name: 'events.registration',
         path: ':eventId/registrations/:registrationId',
         component: () => import('@/pages/EventRegistrationPage.vue'),
+        meta: {
+          guards: [protectedRoute],
+        },
       },
       {
         name: 'events.ballot',
         path: ':eventId/ballots/:ballotId',
         component: () => import('@/pages/BallotPage.vue'),
+        meta: {
+          guards: [protectedRoute],
+        },
       },
     ],
   },
@@ -128,6 +153,9 @@ const routeRecords: AppRouteRecord[] = [
         name: 'vehicles.list',
         path: '',
         component: () => import('@/pages/VehiclesPage.vue'),
+        meta: {
+          guards: [protectedRoute],
+        },
       },
       {
         name: 'vehicles.view',
@@ -138,11 +166,17 @@ const routeRecords: AppRouteRecord[] = [
         name: 'vehicles.create',
         path: 'new',
         component: () => import('@/pages/VehicleCreatePage.vue'),
+        meta: {
+          guards: [protectedRoute],
+        },
       },
       {
         name: 'vehicles.editor',
         path: ':vehicleId/editor',
         component: () => import('@/pages/VehicleEditorPage.vue'),
+        meta: {
+          guards: [protectedRoute],
+        },
       },
     ],
   },
@@ -153,11 +187,17 @@ const routeRecords: AppRouteRecord[] = [
         name: 'profile.view',
         path: '',
         component: () => import('@/pages/ProfilePage.vue'),
+        meta: {
+          guards: [protectedRoute],
+        },
       },
       {
         name: 'profile.editor',
         path: 'editor',
         component: () => import('@/pages/ProfileEditorPage.vue'),
+        meta: {
+          guards: [protectedRoute],
+        },
       },
     ],
   },
@@ -173,9 +213,9 @@ router.beforeEach(async (to, from) => {
 })
 
 router.afterEach((to, from) => {
-  if (to.fullPath !== from.fullPath) {
-    document.title = 'Car Show Preservation Society'
-  }
+  // if (to.fullPath !== from.fullPath) {
+  //   document.title = 'Car Show Preservation Society'
+  // }
 
   return RouteGuardExecutioner.after(to, from)
 })

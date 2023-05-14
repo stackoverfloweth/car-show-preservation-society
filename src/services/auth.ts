@@ -39,15 +39,15 @@ export function handleAuthError(exception: unknown, emailAddress?: string): void
     return
   }
 
-  switch (exception.error) {
-    case 'invalid_grant':
-      return handleInvalidGrant(emailAddress)
+  switch (exception.error_description) {
+    case 'Email not confirmed':
+      return handleUnconfirmed(emailAddress)
     default:
       showToast(exception.error_description, 'error')
   }
 }
 
-function handleInvalidGrant(emailAddress?: string): void {
+function handleUnconfirmed(emailAddress?: string): void {
   const { dismiss } = showToast(h(
     'div',
     { class: 'auth-error-message' },
