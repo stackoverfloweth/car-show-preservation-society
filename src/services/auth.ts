@@ -29,9 +29,9 @@ export type AuthError = {
   error_description: string,
 }
 
-function isAuthFetchError(value: unknown): value is { json: string } {
+function isAuthFetchError(value: unknown): value is { json: AuthError } {
   return !!value && typeof value === 'object'
-    && 'json' in value
+    && 'json' in value && typeof value.json === 'object'
 }
 
 export function isAuthError(value: unknown): value is AuthError {
@@ -41,9 +41,8 @@ export function isAuthError(value: unknown): value is AuthError {
 }
 
 export function handleAuthError(exception: unknown, emailAddress?: string): void {
-  console.log(JSON.stringify(exception))
   if (isAuthFetchError(exception)) {
-    return handleAuthError(JSON.parse(exception.json), emailAddress)
+    return handleAuthError(exception.json, emailAddress)
   }
 
   if (!isAuthError(exception)) {
