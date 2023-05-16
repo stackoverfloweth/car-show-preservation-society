@@ -46,6 +46,11 @@ export const handler: Handler = Api('GET', 'club-member-get-list/:clubId', ([clu
       statusCode: 200,
       body: JSON.stringify(users),
     }
+  } catch (exception) {
+    return {
+      statusCode: 500,
+      body: JSON.stringify(exception),
+    }
   } finally {
     await client.close()
   }
