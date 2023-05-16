@@ -39,12 +39,19 @@ export function Api<T>(method: ApiMethod, path: string, apiHandler: ApiHandler<T
     if (pattern.matches([event, context])) {
       const [, ...args] = pattern.regexp.exec(event.path) ?? []
       const body = tryParseBody<T>(event, context)
-      const result = await apiHandler(args, body)(event, context)
+      try {
+        const result = await apiHandler(args, body)(event, context)
 
-      if (result) {
+        if (result) {
+          return {
+            headers,
+            ...result,
+          }
+        }
+      } catch (exception) {
         return {
-          headers,
-          ...result,
+          statusCode: 500,
+          body: JSON.stringify(exception),
         }
       }
     }
