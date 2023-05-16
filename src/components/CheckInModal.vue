@@ -41,7 +41,7 @@
 
     <p-key-value label="Driver">
       <template #value>
-        {{ user?.displayName }}
+        <!-- {{ user?.displayName }} -->
       </template>
     </p-key-value>
 
@@ -107,15 +107,17 @@
   const votingCategoriesSubscription = useSubscription(api.votingCategories.getVotingCategoriesByRegistration, [registrationId])
   const votingCategories = computed(() => votingCategoriesSubscription.response ?? [])
 
-  const userSubscriptionArgs = computed<Parameters<typeof api.users.getUser> | null>(() => {
-    if (!props.registration.user) {
-      return [props.registration.userId]
-    }
+  // todo: rework now that user comes from netlify
 
-    return null
-  })
-  const userSubscription = useSubscriptionWithDependencies(api.users.getUser, userSubscriptionArgs)
-  const user = computed(() => props.registration.user ?? userSubscription.response)
+  // const userSubscriptionArgs = computed<Parameters<typeof api.users.getUser> | null>(() => {
+  //   if (!props.registration.user) {
+  //     return [props.registration.userId]
+  //   }
+
+  //   return null
+  // })
+  // const userSubscription = useSubscriptionWithDependencies(api.users.getUser, userSubscriptionArgs)
+  // const user = computed(() => props.registration.user ?? userSubscription.response)
 
   const vehicleSubscriptionArgs = computed<Parameters<typeof api.vehicles.getVehicle> | null>(() => {
     if (!props.registration.vehicle && !!props.registration.vehicleId) {

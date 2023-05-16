@@ -2,12 +2,14 @@
   <p-combobox v-model="userId" class="user-select" :options="options">
     <template #combobox-options-empty>
       <template v-if="clubId">
-        <template v-if="membersSubscription.loading">
+        <!--
+          <template v-if="membersSubscription.loading">
           Loading club members
-        </template>
-        <template v-else>
+          </template>
+          <template v-else>
           Club has no members
-        </template>
+          </template>
+        -->
       </template>
       <template v-else>
         No club selected!
@@ -19,8 +21,9 @@
 <script lang="ts" setup>
   import { SelectOption } from '@prefecthq/prefect-design'
   import { useSubscriptionWithDependencies } from '@prefecthq/vue-compositions'
-  import { computed, toRefs } from 'vue'
+  import { computed, ref, toRefs } from 'vue'
   import { useApi } from '@/compositions'
+  import { User } from '@/models'
 
   const props = defineProps<{
     userId: string | null | undefined,
@@ -44,9 +47,11 @@
 
   const api = useApi()
 
-  const membersSubscriptionArgs = computed<Parameters<typeof api.users.getUsersFromClub> | null>(() => clubId.value ? [clubId.value] : null)
-  const membersSubscription = useSubscriptionWithDependencies(api.users.getUsersFromClub, membersSubscriptionArgs)
-  const members = computed(() => membersSubscription.response ?? [])
+  // todo: rework now that users come from netlify
+  const members = ref<{ user: User }[]>([])
+  // const membersSubscriptionArgs = computed<Parameters<typeof api.users.getUsersFromClub> | null>(() => clubId.value ? [clubId.value] : null)
+  // const membersSubscription = useSubscriptionWithDependencies(api.users.getUsersFromClub, membersSubscriptionArgs)
+  // const members = computed(() => membersSubscription.response ?? [])
 
   const options = computed<SelectOption[]>(() => members.value.map(({ user }) => ({
     value: user!.userId,

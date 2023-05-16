@@ -74,7 +74,7 @@
   })
 
   const registrationValues = ref<RegistrationRequest>({ eventId: eventId.value, userId: currentUser().userId, votingCategoryIds: [] })
-  const registrationNewUserValues = ref<NewUserRegistrationRequest>({ ...registrationValues.value, user: {}, vehicle: { userId: currentUser().userId } })
+  const registrationNewUserValues = ref<NewUserRegistrationRequest>({ ...registrationValues.value, vehicle: { userId: currentUser().userId } })
 
   function submit(): Promise<void> {
     return canEditEvent ? submitNewUserRegistration() : submitRegistration()

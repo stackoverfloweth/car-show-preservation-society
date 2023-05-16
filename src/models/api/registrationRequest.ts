@@ -1,4 +1,3 @@
-import { UserRequest } from '@/models/api/userRequest'
 import { VehicleRequest } from '@/models/api/vehicleRequest'
 
 export type RegistrationRequest = {
@@ -11,6 +10,6 @@ export type RegistrationRequest = {
 }
 
 export type NewUserRegistrationRequest = RegistrationRequest & {
-  user: UserRequest,
+  emailAddress?: string,
   vehicle: VehicleRequest,
 }

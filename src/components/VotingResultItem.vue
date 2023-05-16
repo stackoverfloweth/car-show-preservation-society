@@ -4,7 +4,7 @@
       <p>{{ result.place }}</p>
     </div>
     <div class="voting-result-item__registration">
-      <p>{{ user?.displayName }}</p>
+      <!-- <p>{{ user?.displayName }}</p> -->
       <p>{{ vehicle?.year }} {{ vehicle?.make }} {{ vehicle?.model }}</p>
     </div>
   </div>
@@ -22,15 +22,16 @@
 
   const api = useApi()
 
-  const userSubscriptionArgs = computed<Parameters<typeof api.users.getUser> | null>(() => {
-    if (!props.result.registration.user) {
-      return [props.result.registration.userId]
-    }
+  // todo: rework now that user comes from netlify
+  // const userSubscriptionArgs = computed<Parameters<typeof api.users.getUser> | null>(() => {
+  //   if (!props.result.registration.user) {
+  //     return [props.result.registration.userId]
+  //   }
 
-    return null
-  })
-  const userSubscription = useSubscriptionWithDependencies(api.users.getUser, userSubscriptionArgs)
-  const user = computed(() => props.result.registration.user ?? userSubscription.response)
+  //   return null
+  // })
+  // const userSubscription = useSubscriptionWithDependencies(api.users.getUser, userSubscriptionArgs)
+  // const user = computed(() => props.result.registration.user ?? userSubscription.response)
 
   const vehicleSubscriptionArgs = computed<Parameters<typeof api.vehicles.getVehicle> | null>(() => {
     if (!props.result.registration.vehicle && !!props.result.registration.vehicleId) {

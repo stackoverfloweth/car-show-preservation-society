@@ -9,7 +9,6 @@ export const randomRegistration: MockFunction<Registration, [Partial<Registratio
     registrationId: this.create('id'),
     registrationCode: this.create('string'),
     userId: this.create('id'),
-    user: this.create('user'),
     eventId,
     registrationDate: this.create('date'),
     vehicleId: this.create('id'),

@@ -6,11 +6,13 @@
       </template>
     </p-label>
 
-    <p-label label="Phone Number" :message="phoneNumberError" :state="phoneNumberState">
+    <!--
+      <p-label label="Phone Number" :message="phoneNumberError" :state="phoneNumberState">
       <template #default="{ id }">
-        <p-text-input :id="id" v-model="phoneNumber" :state="phoneNumberState" />
+      <p-text-input :id="id" v-model="phoneNumber" :state="phoneNumberState" />
       </template>
-    </p-label>
+      </p-label>
+    -->
 
     <template v-if="existingUser">
       <ContactCard :user="existingUser" show-details />
@@ -65,7 +67,7 @@
   import JudgingCategorySelect from '@/components/JudgingCategorySelect.vue'
   import VehicleSelect from '@/components/VehicleSelect.vue'
   import { useApi } from '@/compositions'
-  import { Event } from '@/models'
+  import { Event, User } from '@/models'
   import { NewUserRegistrationRequest } from '@/models/api'
 
   const props = defineProps<{
@@ -87,44 +89,44 @@
   })
 
   const api = useApi()
-  const user = usePatchRef(values, 'user')
+  const emailAddress = usePatchRef(values, 'emailAddress')
   const vehicleId = usePatchRef(values, 'vehicleId')
   const vehicle = usePatchRef(values, 'vehicle')
   const votingCategoryIds = usePatchRef(values, 'votingCategoryIds')
 
-  const emailAddress = usePatchRef(user, 'emailAddress')
-  const phoneNumber = usePatchRef(user, 'phoneNumber')
   const make = usePatchRef(vehicle, 'make')
   const model = usePatchRef(vehicle, 'model')
   const year = usePatchRef(vehicle, 'year')
   const color = usePatchRef(vehicle, 'color')
 
   const { error: emailAddressError, state: emailAddressState } = useValidation(emailAddress, 'Email Address', [])
-  const { error: phoneNumberError, state: phoneNumberState } = useValidation(phoneNumber, 'Phone Number', [])
   const { error: makeError, state: makeState } = useValidation(make, 'Make', [])
   const { error: modelError, state: modelState } = useValidation(model, 'Model', [])
   const { error: yearError, state: yearState } = useValidation(year, 'Year', [])
   const { error: colorError, state: colorState } = useValidation(color, 'Color', [])
   const { error: selectedVotingCategoriesError, state: selectedVotingCategoriesState } = useValidation(votingCategoryIds, 'Category', [])
 
-  const existingUserSubscriptionArgs = ref<Parameters<typeof api.users.findUser> | null>(null)
-  const existingUserSubscription = useSubscriptionWithDependencies(api.users.findUser, existingUserSubscriptionArgs)
-  const existingUser = computed(() => existingUserSubscription.response)
+  // todo: rework after user comes from netlify
+  const existingUser = ref<User>()
 
-  const emailAddressDebounced = useDebouncedRef(emailAddress, 750)
-  const phoneNumberDebounced = useDebouncedRef(phoneNumber, 750)
+  // const existingUserSubscriptionArgs = ref<Parameters<typeof api.users.findUser> | null>(null)
+  // const existingUserSubscription = useSubscriptionWithDependencies(api.users.findUser, existingUserSubscriptionArgs)
+  // const existingUser = computed(() => existingUserSubscription.response)
 
-  watch([emailAddressDebounced, phoneNumberDebounced], ([emailAddress, phoneNumber]) => {
-    if (!emailAddress && !phoneNumber) {
-      return existingUserSubscriptionArgs.value = null
-    }
+  // const emailAddressDebounced = useDebouncedRef(emailAddress, 750)
+  // const phoneNumberDebounced = useDebouncedRef(phoneNumber, 750)
 
-    if (existingUser.value) {
-      return
-    }
+  // watch([emailAddressDebounced, phoneNumberDebounced], ([emailAddress, phoneNumber]) => {
+  //   if (!emailAddress && !phoneNumber) {
+  //     return existingUserSubscriptionArgs.value = null
+  //   }
 
-    existingUserSubscriptionArgs.value = [{ emailAddress, phoneNumber }]
-  })
+  //   if (existingUser.value) {
+  //     return
+  //   }
+
+  //   existingUserSubscriptionArgs.value = [{ emailAddress, phoneNumber }]
+  // })
 </script>
 
 <style>

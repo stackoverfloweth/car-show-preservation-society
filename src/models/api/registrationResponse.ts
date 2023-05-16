@@ -1,5 +1,5 @@
+import { User } from 'gotrue-js'
 import { ObjectId } from 'mongodb'
-import { UserResponse } from '@/models/api/userResponse'
 import { VehicleResponse } from '@/models/api/vehicleResponse'
 
 export type RegistrationResponse = {
@@ -11,7 +11,7 @@ export type RegistrationResponse = {
   carId?: string,
   stripePaymentId?: string,
   userId: string,
-  user: UserResponse,
+  user: User,
   vehicleId?: string,
   vehicle: VehicleResponse,
   votingCategoryIds: string[],
