@@ -34,7 +34,7 @@
   import PageHeader from '@/components/PageHeader.vue'
   import { SignupRequest } from '@/models/api'
   import { routes } from '@/router/routes'
-  import { auth, handleAuthError } from '@/services'
+  import { auth, handleAuthError } from '@/services/auth'
 
   const router = useRouter()
   const values = ref<Partial<SignupRequest>>({})

@@ -20,7 +20,6 @@ import { randomRegistration } from '@/mocks/registration'
 import { randomChar, randomNoun, randomString, randomSentence, randomParagraph, randomAdjective } from '@/mocks/string'
 import { mocks as stripeMocks } from '@/mocks/stripe'
 import { randomUrl } from '@/mocks/url'
-import { randomUser } from '@/mocks/user'
 import { randomUserSearchSubscription } from '@/mocks/userSearchSubscription'
 import { randomVehicle } from '@/mocks/vehicle'
 import { randomVotingCategory } from '@/mocks/votingCategory'
@@ -57,7 +56,6 @@ export const mocks = {
   sentence: randomSentence,
   string: randomString,
   url: randomUrl,
-  user: randomUser,
   userSearchSubscription: randomUserSearchSubscription,
   vehicle: randomVehicle,
   votingCategory: randomVotingCategory,

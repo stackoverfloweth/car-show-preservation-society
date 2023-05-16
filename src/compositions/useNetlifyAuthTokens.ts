@@ -3,7 +3,7 @@ import { watchEffect } from 'vue'
 import { useRouter } from 'vue-router'
 import { useRouteHash } from '@/compositions/useRouteHash'
 import { routes } from '@/router/routes'
-import { auth } from '@/services'
+import { auth } from '@/services/auth'
 
 export function useNetlifyAuthTokens(): void {
   const router = useRouter()

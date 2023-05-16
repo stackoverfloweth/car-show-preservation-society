@@ -93,7 +93,7 @@
   import { useApi } from '@/compositions'
   import { Event } from '@/models'
   import { routes } from '@/router/routes'
-  import { currentUser, isLoggedIn } from '@/services'
+  import { currentUser, isLoggedIn } from '@/services/auth'
 
   const props = defineProps<{
     event: Event,
@@ -108,7 +108,7 @@
 
   const isViewing = useRouteQueryParam('is-viewing', BooleanRouteParam, false)
   const eventId = computed(() => props.event.eventId)
-  const registrationSubscriptionArgs = computed<Parameters<typeof api.registration.findRegistration> | null>(() => isLoggedIn() ? [eventId.value, currentUser().id] : null)
+  const registrationSubscriptionArgs = computed<Parameters<typeof api.registration.findRegistration> | null>(() => isLoggedIn() ? [eventId.value, currentUser().userId] : null)
   const registrationSubscription = useSubscriptionWithDependencies(api.registration.findRegistration, registrationSubscriptionArgs)
   const existingRegistration = computed(() => registrationSubscription.response)
 

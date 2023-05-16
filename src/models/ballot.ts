@@ -1,5 +1,5 @@
 import { BallotVotingCategory } from '@/models/ballotVotingCategory'
-import { currentUser } from '@/services'
+import { currentUser } from '@/services/auth'
 
 export interface IBallot {
   ballotId: string,

@@ -24,9 +24,9 @@
     </div>
 
     <div class="profile-form-fields__column">
-      <p-label label="Email Address" :message="emailAddressError" :state="emailAddressState">
+      <p-label label="Email Address">
         <template #default="{ id }">
-          <p-text-input :id="id" v-model="emailAddress" :state="emailAddressState" />
+          <p-text-input :id="id" disabled :model-value="currentUser().emailAddress" />
         </template>
       </p-label>
 
@@ -69,11 +69,6 @@
           <p-toggle :id="id" v-model="hideLocation" />
         </template>
       </p-label>
-
-      <div class="profile-form-fields__image-upload">
-        <p-label label="Add Photo" :message="imageError" :state="imageState" />
-        <ImageUpload v-model:image="image" />
-      </div>
     </div>
   </div>
 </template>
@@ -81,16 +76,16 @@
 <script lang="ts" setup>
   import { usePatchRef, useValidation } from '@prefecthq/vue-compositions'
   import { computed } from 'vue'
-  import ImageUpload from '@/components/ImageUpload.vue'
   import LocationInput from '@/components/LocationInput.vue'
-  import { UserRequest } from '@/models/api'
+  import { UserAttributes } from '@/models/api'
+  import { currentUser } from '@/services/auth'
 
   const props = defineProps<{
-    values: UserRequest,
+    values: UserAttributes,
   }>()
 
   const emit = defineEmits<{
-    (vehicle: 'update:values', value: UserRequest): void,
+    (vehicle: 'update:values', value: UserAttributes): void,
   }>()
 
   const user = computed({
@@ -104,10 +99,8 @@
 
   const firstName = usePatchRef(user, 'firstName')
   const lastName = usePatchRef(user, 'lastName')
-  const emailAddress = usePatchRef(user, 'emailAddress')
   const phoneNumber = usePatchRef(user, 'phoneNumber')
   const location = usePatchRef(user, 'location')
-  const image = usePatchRef(user, 'image')
   const displayNameOverride = usePatchRef(user, 'displayNameOverride')
   const hideEmailAddress = usePatchRef(user, 'hideEmailAddress')
   const hidePhoneNumber = usePatchRef(user, 'hidePhoneNumber')
@@ -115,10 +108,8 @@
 
   const { error: firstNameError, state: firstNameState } = useValidation(firstName, 'First Name', [])
   const { error: lastNameError, state: lastNameState } = useValidation(lastName, 'Last Name', [])
-  const { error: emailAddressError, state: emailAddressState } = useValidation(emailAddress, 'Email Address', [])
   const { error: phoneNumberError, state: phoneNumberState } = useValidation(phoneNumber, 'Phone Number', [])
   const { error: locationError, state: locationState } = useValidation(location, 'Location', [])
-  const { error: imageError, state: imageState } = useValidation(image, 'Profile Image', [])
 </script>
 
 <style>
@@ -133,12 +124,5 @@
   display: flex;
   flex-direction: column;
   gap: var(--space-md);
-}
-
-.profile-form-fields__image-upload {
-  display: flex;
-  flex-direction: column;
-  flex-grow: 1;
-  max-height: 150px;
 }
 </style>

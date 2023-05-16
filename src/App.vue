@@ -10,7 +10,7 @@
   import MenuHeader from '@/components/MenuHeader.vue'
   import NavigationHeader from '@/components/NavigationHeader.vue'
   import { useNavigation, useNetlifyAuthTokens } from '@/compositions'
-  import { ApiConfig } from '@/services'
+  import { ApiConfig } from '@/services/api'
   import { apiKey, createApi } from '@/services/createApi'
   import { env } from '@/utilities'
 

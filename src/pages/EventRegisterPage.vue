@@ -47,7 +47,7 @@
   import { Registration } from '@/models'
   import { RegistrationRequest, NewUserRegistrationRequest } from '@/models/api'
   import { routes } from '@/router/routes'
-  import { currentUser } from '@/services'
+  import { currentUser } from '@/services/auth'
 
   const api = useApi()
   const eventId = useRouteParam('eventId')
@@ -68,13 +68,13 @@
   const club = computed(() => clubSubscription.response)
 
   const existingRegistration = ref<Registration>()
-  const registrationSubscription = useSubscription(api.registration.findRegistration, [eventId, currentUser().id])
+  const registrationSubscription = useSubscription(api.registration.findRegistration, [eventId, currentUser().userId])
   watchEffect(() => {
     existingRegistration.value = registrationSubscription.response
   })
 
-  const registrationValues = ref<RegistrationRequest>({ eventId: eventId.value, userId: currentUser().id, votingCategoryIds: [] })
-  const registrationNewUserValues = ref<NewUserRegistrationRequest>({ ...registrationValues.value, user: {}, vehicle: { userId: currentUser().id } })
+  const registrationValues = ref<RegistrationRequest>({ eventId: eventId.value, userId: currentUser().userId, votingCategoryIds: [] })
+  const registrationNewUserValues = ref<NewUserRegistrationRequest>({ ...registrationValues.value, user: {}, vehicle: { userId: currentUser().userId } })
 
   function submit(): Promise<void> {
     return canEditEvent ? submitNewUserRegistration() : submitRegistration()

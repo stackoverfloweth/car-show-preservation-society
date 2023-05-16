@@ -27,7 +27,7 @@
   import PageHeader from '@/components/PageHeader.vue'
   import { AcceptInvitationRequest } from '@/models/api'
   import { routes } from '@/router/routes'
-  import { auth, handleAuthError } from '@/services'
+  import { auth, handleAuthError } from '@/services/auth'
 
   const token = useRouteParam('token')
   const values = ref<Partial<AcceptInvitationRequest>>({})

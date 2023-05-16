@@ -1,14 +1,10 @@
 import { Location } from '@/models'
-import { ImageRequest } from '@/models/api/imageRequest'
 
-export type UserRequest = {
-  userId?: string,
-  emailAddress?: string,
+export type UserAttributes = {
   phoneNumber?: string,
   firstName?: string,
   lastName?: string,
   location?: Location,
-  image?: ImageRequest,
   stripeCustomerId?: string,
   hideEmailAddress?: boolean,
   hidePhoneNumber?: boolean,

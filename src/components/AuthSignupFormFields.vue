@@ -19,7 +19,7 @@
   import { computed } from 'vue'
   import PasswordInput from '@/components/PasswordInput.vue'
   import { SignupRequest } from '@/models/api'
-  import { stringHasValue } from '@/services'
+  import { stringHasValue } from '@/services/validation'
 
   const props = defineProps<{
     values: Partial<SignupRequest>,

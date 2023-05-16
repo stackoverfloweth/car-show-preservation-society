@@ -50,7 +50,7 @@
   import ImageUpload from '@/components/ImageUpload.vue'
   import { useApi } from '@/compositions'
   import { ClubRequest } from '@/models/api'
-  import { stringHasValue } from '@/services'
+  import { stringHasValue } from '@/services/validation'
 
   const props = defineProps<{
     values: Partial<ClubRequest>,

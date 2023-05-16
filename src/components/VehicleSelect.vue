@@ -36,7 +36,7 @@
   import VehicleFormFields from '@/components/VehicleFormFields.vue'
   import { useApi, useShowModal } from '@/compositions'
   import { VehicleRequest } from '@/models/api'
-  import { currentUser } from '@/services'
+  import { currentUser } from '@/services/auth'
 
   const props = defineProps<{
     vehicleId: string | null | undefined,
@@ -59,10 +59,10 @@
     },
   })
 
-  const vehiclesSubscription = useSubscription(api.vehicles.getVehicles, [currentUser().id])
+  const vehiclesSubscription = useSubscription(api.vehicles.getVehicles, [currentUser().userId])
   const vehicles = computed(() => vehiclesSubscription.response ?? [])
 
-  const newVehicle = ref<VehicleRequest>({ userId: currentUser().id })
+  const newVehicle = ref<VehicleRequest>({ userId: currentUser().userId })
 
   async function submit(): Promise<void> {
     const isValid = await validate()

@@ -18,14 +18,14 @@
   import { useApi, useNavigation } from '@/compositions'
   import { VehicleRequest } from '@/models/api'
   import { routes } from '@/router/routes'
-  import { currentUser } from '@/services'
+  import { currentUser } from '@/services/auth'
 
   const api = useApi()
   const router = useRouter()
   const { validate, pending } = useValidationObserver()
   const { set } = useNavigation()
 
-  const values = ref<VehicleRequest>({ userId: currentUser().id })
+  const values = ref<VehicleRequest>({ userId: currentUser().userId })
 
   async function submit(): Promise<void> {
     const isValid = await validate()

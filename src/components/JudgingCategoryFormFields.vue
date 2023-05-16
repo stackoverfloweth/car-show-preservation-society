@@ -75,7 +75,7 @@
   import { computed, ref, watch } from 'vue'
   import PriceInput from '@/components/PriceInput.vue'
   import { VotingCategoryRequest } from '@/models/api'
-  import { stringHasValue } from '@/services'
+  import { stringHasValue } from '@/services/validation'
 
   const props = defineProps<{
     values: Partial<VotingCategoryRequest>,

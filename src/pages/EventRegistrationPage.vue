@@ -71,7 +71,8 @@
   import { useApi, useNavigation, useShowModal } from '@/compositions'
   import { RegistrationRequest } from '@/models/api'
   import { routes } from '@/router/routes'
-  import { mapper, currentUser } from '@/services'
+  import { currentUser } from '@/services/auth'
+  import { mapper } from '@/services/mapper'
 
   const api = useApi()
   const eventId = useRouteParam('eventId')
@@ -80,7 +81,7 @@
   const { validate, pending } = useValidationObserver()
   const { showModal: showClubModal, open: openRelatedClub } = useShowModal()
 
-  const registrationValues = ref<RegistrationRequest>({ eventId: eventId.value, userId: currentUser().id, votingCategoryIds: [] })
+  const registrationValues = ref<RegistrationRequest>({ eventId: eventId.value, userId: currentUser().userId, votingCategoryIds: [] })
 
   const eventSubscription = useSubscription(api.events.getEvent, [eventId])
   const event = computed(() => eventSubscription.response)
