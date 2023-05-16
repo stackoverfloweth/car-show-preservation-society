@@ -4,6 +4,7 @@
       <div class="profile-viewer__header">
         <p-icon-button-menu>
           <p-overflow-menu-item label="Edit Profile" icon="PencilIcon" :to="routes.profileEditor()" />
+          <p-overflow-menu-item label="Log Out" icon="ArrowRightOnRectangleIcon" @click="logout" />
         </p-icon-button-menu>
       </div>
     </template>
@@ -50,6 +51,7 @@
 
 <script lang="ts" setup>
   import { computed } from 'vue'
+  import { useRouter } from 'vue-router'
   import ResultPlace from '@/components/ResultPlace.vue'
   import SizedImage from '@/components/SizedImage.vue'
   import { User, VotingResultsCount } from '@/models'
@@ -62,7 +64,15 @@
     bestPlacements: VotingResultsCount[],
   }>()
 
+  const router = useRouter()
+
   const canEditProfile = computed(() => props.user.userId === currentUser().id)
+
+  async function logout(): Promise<void> {
+    await currentUser().logout()
+
+    router.push(routes.home())
+  }
 </script>
 
 <style>

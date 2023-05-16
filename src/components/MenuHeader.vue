@@ -13,8 +13,12 @@
         </template>
         <template #default="{ close }">
           <p-overflow-menu class="menu-header__menu" @click="close">
-            <p-overflow-menu-item label="Login" :to="routes.login()" />
-            <p-overflow-menu-item label="Profile" :to="routes.profile()" />
+            <template v-if="isLoggedIn()">
+              <p-overflow-menu-item label="Profile" :to="routes.profile()" />
+            </template>
+            <template v-else>
+              <p-overflow-menu-item label="Login" :to="routes.login()" />
+            </template>
             <p-overflow-menu-item label="Garage" :to="routes.vehicles()" />
             <p-overflow-menu-item label="Clubs" :to="routes.clubs()" />
             <p-overflow-menu-item label="Events" :to="routes.events()" />
@@ -35,6 +39,7 @@
   import { computed } from 'vue'
   import { useRoute } from 'vue-router'
   import { NamedRoute, routes } from '@/router/routes'
+  import { isLoggedIn } from '@/services/auth'
 
   const route = useRoute()
 
