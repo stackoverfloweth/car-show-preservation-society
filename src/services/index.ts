@@ -1,6 +1,7 @@
 export * from './advertisementsApi'
 export * from './api'
 export * from './auth'
+export * from './authApi'
 export * from './ballotsApi'
 export * from './clubImagesApi'
 export * from './clubInvitationsApi'

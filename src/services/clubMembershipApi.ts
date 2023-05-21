@@ -1,10 +1,10 @@
 import { ClubApplication, ClubInvite, ClubMembership } from '@/models'
 import { ClubApplicationResponse, ClubInviteResponse, ClubMembershipResponse, isClubInviteResponse, isClubMembershipResponse } from '@/models/api'
-import { Api, mapper } from '@/services'
+import { AuthApi, mapper } from '@/services'
 
 type AnyClubAssociate = ClubMembershipResponse | ClubInviteResponse | ClubApplicationResponse
 
-export class ClubMembershipApi extends Api {
+export class ClubMembershipApi extends AuthApi {
   public getActiveMemberCount(clubId: string): Promise<number> {
     return this.get<number>(`club-member-get-active-count/${clubId}`)
       .then(({ data }) => data)
