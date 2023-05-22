@@ -1,8 +1,8 @@
-import type { Handler } from '@netlify/functions'
+import type { BackgroundHandler } from '@netlify/functions'
 import { env } from 'netlify/utilities'
 import { getClient } from 'netlify/utilities/mongodbClient'
 
-export const handler: Handler = async function(event) {
+export const handler: BackgroundHandler = async function(event) {
   const client = await getClient()
 
   try {
@@ -10,10 +10,6 @@ export const handler: Handler = async function(event) {
     const collection = db.collection('user')
 
     await collection.insertOne({ 'event': 'validate', 'body': event.body, query: event.queryStringParameters })
-
-    return {
-      statusCode: 200,
-    }
   } finally {
     await client.close()
   }

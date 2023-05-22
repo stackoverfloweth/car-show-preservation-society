@@ -9,7 +9,7 @@ export const handler: BackgroundHandler = async function(event) {
     const db = client.db(env().mongodbName)
     const collection = db.collection('user')
 
-    await collection.insertOne({ 'event': 'login', 'body': event.body, query: event.queryStringParameters })
+    await collection.insertOne({ 'event': 'webhook', 'body': event.body, query: event.queryStringParameters })
   } finally {
     await client.close()
   }
