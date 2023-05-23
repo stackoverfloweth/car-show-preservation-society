@@ -69,9 +69,7 @@
   const canEditProfile = computed(() => props.user.userId === currentIdentity())
 
   async function logout(): Promise<void> {
-    await auth.currentUser()?.update({ email: 'evanmsutherland@gmail.com' })
-
-    // await auth.currentUser()?.logout()
+    await auth.currentUser()?.logout()
 
     router.push(routes.home())
   }

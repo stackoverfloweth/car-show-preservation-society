@@ -9,15 +9,13 @@
   import { provide } from 'vue'
   import MenuHeader from '@/components/MenuHeader.vue'
   import NavigationHeader from '@/components/NavigationHeader.vue'
-  import { useNavigation, useNetlifyAuthTokens } from '@/compositions'
+  import { useNavigation } from '@/compositions'
   import { ApiConfig } from '@/services/api'
   import { apiKey, createApi } from '@/services/createApi'
   import { env } from '@/utilities'
 
   const { setTheme } = useColorTheme()
   setTheme('dark')
-
-  useNetlifyAuthTokens()
 
   const { left, center, right } = useNavigation()
 

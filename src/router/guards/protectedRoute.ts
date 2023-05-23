@@ -9,7 +9,7 @@ export const protectedRoute: RouteGuard = {
       const { set } = useLocalStorage('auth-redirect')
       set(to)
       showToast('Please login to access')
-      return routes.login()
+      return routes.authLogin()
     }
   },
 }

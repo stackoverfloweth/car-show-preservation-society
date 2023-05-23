@@ -3,7 +3,7 @@
     <p-card class="signup-page__form-container">
       <PageHeader heading="Sign Up">
         <template #actions>
-          <p-link :to="routes.login()">
+          <p-link :to="routes.authLogin()">
             Login
           </p-link>
         </template>

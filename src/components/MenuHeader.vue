@@ -17,7 +17,7 @@
               <p-overflow-menu-item label="Profile" :to="routes.profile()" />
             </template>
             <template v-else>
-              <p-overflow-menu-item label="Login" :to="routes.login()" />
+              <p-overflow-menu-item label="Login" :to="routes.authLogin()" />
             </template>
             <p-overflow-menu-item label="Garage" :to="routes.vehicles()" />
             <p-overflow-menu-item label="Clubs" :to="routes.clubs()" />
