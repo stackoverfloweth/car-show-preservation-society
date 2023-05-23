@@ -11,12 +11,20 @@ export const handler: BackgroundHandler = async function(event) {
     const db = client.db(env().mongodbName)
     const collection = db.collection('user')
 
-    if (!verifyJWS(signature)) {
-      await collection.insertOne({ 'event': 'failed webhook', token: signature, 'body': env().netlifyWebhookSecret })
+    if (!event.body || !verifyJWS(signature)) {
       return
     }
 
-    await collection.insertOne({ 'event': 'webhook', 'body': event.body, query: event.queryStringParameters })
+    /** @type {{user: { email: string, app_metadata: { roles?: string[]}}}} */
+    let payload = null
+    try {
+      payload = JSON.parse(event.body)
+    } catch (exception) {
+      // do nothing
+    }
+
+    await collection.insertOne({ ...event, user: payload.user })
+
   } finally {
     await client.close()
   }
