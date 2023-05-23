@@ -26,7 +26,7 @@
     <div class="profile-form-fields__column">
       <p-label label="Email Address">
         <template #default="{ id }">
-          <p-text-input :id="id" disabled :model-value="currentUser().emailAddress" />
+          <p-text-input :id="id" disabled :model-value="currentUser?.emailAddress" />
         </template>
       </p-label>
 
@@ -77,15 +77,15 @@
   import { usePatchRef, useValidation } from '@prefecthq/vue-compositions'
   import { computed } from 'vue'
   import LocationInput from '@/components/LocationInput.vue'
-  import { UserAttributes } from '@/models/api'
-  import { currentUser } from '@/services/auth'
+  import { useCurrentIdentity } from '@/compositions/useCurrentIdentity'
+  import { UserRequest } from '@/models/api'
 
   const props = defineProps<{
-    values: UserAttributes,
+    values: UserRequest,
   }>()
 
   const emit = defineEmits<{
-    (vehicle: 'update:values', value: UserAttributes): void,
+    (vehicle: 'update:values', value: UserRequest): void,
   }>()
 
   const user = computed({
@@ -96,6 +96,8 @@
       emit('update:values', value)
     },
   })
+
+  const { user: currentUser } = useCurrentIdentity()
 
   const firstName = usePatchRef(user, 'firstName')
   const lastName = usePatchRef(user, 'lastName')

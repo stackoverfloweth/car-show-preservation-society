@@ -3,6 +3,7 @@ import { Location } from '@/models/location'
 
 export interface IUser {
   userId: string,
+  identityId: string,
   emailAddress?: string,
   phoneNumber?: string,
   firstName?: string,
@@ -18,6 +19,7 @@ export interface IUser {
 
 export class User implements IUser {
   public readonly userId: string
+  public readonly identityId: string
   public emailAddress?: string
   public phoneNumber?: string
   public firstName?: string
@@ -32,6 +34,7 @@ export class User implements IUser {
 
   public constructor(user: IUser) {
     this.userId = user.userId
+    this.identityId = user.identityId
     this.emailAddress = user.emailAddress
     this.phoneNumber = user.phoneNumber
     this.firstName = user.firstName

@@ -56,7 +56,7 @@
   import SizedImage from '@/components/SizedImage.vue'
   import { User, VotingResultsCount } from '@/models'
   import { routes } from '@/router/routes'
-  import { auth, currentUser } from '@/services/auth'
+  import { auth, currentIdentity } from '@/services/auth'
   import { formatPhoneNumber } from '@/utilities'
 
   const props = defineProps<{
@@ -66,7 +66,7 @@
 
   const router = useRouter()
 
-  const canEditProfile = computed(() => props.user.userId === currentUser().userId)
+  const canEditProfile = computed(() => props.user.userId === currentIdentity())
 
   async function logout(): Promise<void> {
     await auth.currentUser()?.update({ email: 'evanmsutherland@gmail.com' })

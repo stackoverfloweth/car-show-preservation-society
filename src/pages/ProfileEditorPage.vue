@@ -7,20 +7,25 @@
 
 <script lang="ts" setup>
   import { showToast } from '@prefecthq/prefect-design'
-  import { useValidationObserver } from '@prefecthq/vue-compositions'
+  import { useSubscription, useValidationObserver } from '@prefecthq/vue-compositions'
   import { ref, watchEffect } from 'vue'
   import PageHeader from '@/components/PageHeader.vue'
   import ProfileFormFields from '@/components/ProfileFormFields.vue'
-  import { useNavigation } from '@/compositions'
-  import { UserAttributes } from '@/models/api'
+  import { useApi, useNavigation } from '@/compositions'
+  import { UserRequest } from '@/models/api'
   import { routes } from '@/router/routes'
-  import { currentUser, auth } from '@/services/auth'
-  import { mapper } from '@/services/mapper'
+  import { mapper, currentIdentity } from '@/services'
 
+  const api = useApi()
   const { validate, pending } = useValidationObserver()
   const { set } = useNavigation()
 
-  const values = ref<UserAttributes>(mapper.map('User', currentUser(), 'UserAttributes'))
+  const userSubscription = useSubscription(api.users.getUser, [currentIdentity()])
+  const values = ref<UserRequest>()
+
+  watchEffect(() => {
+    values.value = mapper.map('User', userSubscription.response, 'UserRequest')
+  })
 
   async function submit(): Promise<void> {
     const isValid = await validate()
@@ -29,9 +34,9 @@
       return
     }
 
-    await auth.currentUser()?.update(values.value)
-
+    await api.users.updateUser(values.value)
     showToast('Saved!', 'success')
+    userSubscription.refresh()
   }
 
   watchEffect(() => {

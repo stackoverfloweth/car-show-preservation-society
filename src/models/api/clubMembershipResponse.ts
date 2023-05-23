@@ -1,12 +1,12 @@
-import { User } from 'gotrue-js'
 import { ObjectId } from 'mongodb'
+import { UserResponse } from '@/models/api/userResponse'
 
 export type ClubMembershipResponse = {
   _id: ObjectId,
   clubId: string,
   userId: string,
   clubPermissions: string[],
-  user?: User,
+  user?: UserResponse,
 }
 
 export function isClubMembershipResponse(value: unknown): value is ClubMembershipResponse {

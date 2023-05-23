@@ -10,6 +10,7 @@ import { ClubsApi } from '@/services/clubsApi'
 import { EventImagesApi } from '@/services/eventImagesApi'
 import { EventsApi } from '@/services/eventsApi'
 import { RegistrationsApi } from '@/services/registrationApi'
+import { UsersApi } from '@/services/usersApi'
 import { VehicleImagesApi } from '@/services/vehicleImagesApi'
 import { VehiclesApi } from '@/services/vehiclesApi'
 import { VotingCategoriesApi } from '@/services/votingCategoryApi'
@@ -27,10 +28,11 @@ export function createApi(config: ApiConfig) {
     events: createActions(new EventsApi(config)),
     eventImages: createActions(new EventImagesApi(config)),
     registration: createActions(new RegistrationsApi(config)),
+    users: createActions(new UsersApi(config)),
     vehicles: createActions(new VehiclesApi(config)),
     vehicleImages: createActions(new VehicleImagesApi(config)),
-    votingResults: createActions(new VotingResultsApi(config)),
     votingCategories: createActions(new VotingCategoriesApi(config)),
+    votingResults: createActions(new VotingResultsApi(config)),
   }
 }
 

@@ -1,6 +1,7 @@
 import { Location } from '@/models'
 
-export type UserAttributes = {
+export type UserRequest = {
+  userId?: string,
   phoneNumber?: string,
   firstName?: string,
   lastName?: string,

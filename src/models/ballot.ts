@@ -1,5 +1,5 @@
 import { BallotVotingCategory } from '@/models/ballotVotingCategory'
-import { currentUser } from '@/services/auth'
+import { currentIdentity } from '@/services/auth'
 
 export interface IBallot {
   ballotId: string,
@@ -25,7 +25,7 @@ export class Ballot {
   }
 
   public get name(): string {
-    const id = currentUser().emailAddress ?? currentUser().userId
+    const id = currentIdentity()
     return `${id.slice(0, 2) }${String(this.index + 1).padStart(4, '0')}`
   }
 }

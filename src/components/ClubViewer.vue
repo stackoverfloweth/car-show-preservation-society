@@ -84,7 +84,7 @@
   import { useApi, useCanEditClub, useShowModal } from '@/compositions'
   import { Club, ClubMembership, Event, isClubMembership } from '@/models'
   import { routes } from '@/router/routes'
-  import { currentUser, isLoggedIn } from '@/services/auth'
+  import { currentIdentity, isLoggedIn } from '@/services/auth'
   import { capitalize } from '@/utilities'
 
   const props = defineProps<{
@@ -115,12 +115,12 @@
   const { showModal: showApplicationModal, open: openApplicationModal, close: closeApplicationModal } = useShowModal()
   const { showModal: showInviteMemberModal, open: openInviteMemberModal, close: closeInviteMemberModal } = useShowModal()
 
-  const currentUserApplicationSubscriptionArgs = computed<Parameters<typeof api.clubInvitations.getApplication> | null>(() => isLoggedIn() ? [currentUser().userId] : null)
+  const currentUserApplicationSubscriptionArgs = computed<Parameters<typeof api.clubInvitations.getApplication> | null>(() => isLoggedIn() ? [currentIdentity()] : null)
   const currentUserApplicationSubscription = useSubscriptionWithDependencies(api.clubInvitations.getApplication, currentUserApplicationSubscriptionArgs)
   const currentUserApplication = computed(() => currentUserApplicationSubscription.response)
   const currentUserHasApplication = computed(() => !!currentUserApplication.value)
 
-  const currentUserMembershipSubscriptionArgs = computed<Parameters<typeof api.clubMembership.getMembership> | null>(() => isLoggedIn() ? [currentUser().userId, clubId.value] : null)
+  const currentUserMembershipSubscriptionArgs = computed<Parameters<typeof api.clubMembership.getMembership> | null>(() => isLoggedIn() ? [currentIdentity(), clubId.value] : null)
   const currentUserMembershipSubscription = useSubscriptionWithDependencies(api.clubMembership.getMembership, currentUserMembershipSubscriptionArgs)
   const currentUserMembership = computed(() => currentUserMembershipSubscription.response)
   const currentUserIsMember = computed(() => !!currentUserMembership.value)
@@ -135,7 +135,7 @@
   const members = computed(() => membersSubscription.response ?? [])
   const admins = computed(() => members.value.filter(member => isClubMembership(member) && member.clubPermissions.includes('admin')) as ClubMembership[])
 
-  const currentUserIsOnlyAdmin = computed(() => isLoggedIn() && admins.value.every(admin => admin.userId === currentUser().userId))
+  const currentUserIsOnlyAdmin = computed(() => isLoggedIn() && admins.value.every(admin => admin.userId === currentIdentity()))
   const visibility = computed(() => `${capitalize(props.club.visibility)} Club`)
 
   async function joinPublicClub(): Promise<void> {
@@ -143,7 +143,7 @@
       return
     }
 
-    await api.clubMembership.joinClub(clubId.value, currentUser().userId)
+    await api.clubMembership.joinClub(clubId.value, currentIdentity())
 
     showToast('Joined!', 'success')
   }

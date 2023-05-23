@@ -28,7 +28,7 @@
   import { ref } from 'vue'
   import { useApi } from '@/compositions'
   import { Club } from '@/models'
-  import { currentUser } from '@/services/auth'
+  import { currentIdentity } from '@/services/auth'
 
   const props = defineProps<{
     club: Club,
@@ -48,7 +48,7 @@
   }
 
   async function joinPrivateClub(): Promise<void> {
-    await api.clubInvitations.applyToClub(props.club.clubId, currentUser().userId, clubApplicationMessage.value)
+    await api.clubInvitations.applyToClub(props.club.clubId, currentIdentity(), clubApplicationMessage.value)
 
     applied.value = true
 

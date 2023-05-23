@@ -1,8 +1,6 @@
 import { PButton, showToast } from '@prefecthq/prefect-design'
 import GoTrue from 'gotrue-js'
 import { h } from 'vue'
-import { User } from '@/models'
-import { mapper } from '@/services/mapper'
 import { env } from '@/utilities'
 
 export const auth = new GoTrue({
@@ -15,14 +13,14 @@ export function isLoggedIn(): boolean {
   return !!auth.currentUser()
 }
 
-export function currentUser(): User {
-  const value = auth.currentUser()
+export function currentIdentity(): string {
+  const currentUser = auth.currentUser()
 
-  if (!value) {
+  if (!currentUser) {
     throw 'No user currently authenticated!'
   }
 
-  return mapper.map('GoTrueUser', value, 'User')
+  return currentUser.id
 }
 
 export type AuthErrorType = 'invalid_grant' | 'unknown'

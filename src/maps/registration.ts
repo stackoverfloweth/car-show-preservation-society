@@ -12,7 +12,7 @@ export const mapRegistrationResponseToRegistration: MapFunction<RegistrationResp
     carId: source.carId,
     stripePaymentId: source.stripePaymentId,
     userId: source.userId,
-    user: this.map('GoTrueUser', source.user, 'User'),
+    user: this.map('UserResponse', source.user, 'User'),
     vehicleId: source.vehicleId,
     vehicle: this.map('VehicleResponse', source.vehicle, 'Vehicle'),
     votingCategoryIds: source.votingCategoryIds,
