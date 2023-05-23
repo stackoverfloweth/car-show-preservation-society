@@ -1,4 +1,5 @@
 import type { BackgroundHandler } from '@netlify/functions'
+import { User } from 'gotrue-js'
 import { env } from 'netlify/utilities'
 import { getClient } from 'netlify/utilities/mongodbClient'
 import { verifyJWS } from 'netlify/utilities/security'
@@ -15,17 +16,28 @@ export const handler: BackgroundHandler = async function(event) {
       return
     }
 
-    /** @type {{user: { email: string, app_metadata: { roles?: string[]}}}} */
-    let payload = null
-    try {
-      payload = JSON.parse(event.body)
-    } catch (exception) {
-      // do nothing
+    const user = getUser(event.body)
+
+    if (!user) {
+      return
     }
 
-    await collection.insertOne({ ...event, user: payload.user })
+    await collection.insertOne({
+      identityId: user.id,
+      email: user.email,
+    })
 
   } finally {
     await client.close()
+  }
+}
+
+function getUser(body: string): User | undefined {
+  try {
+    const { user } = JSON.parse(body)
+
+    return user
+  } catch (exception) {
+    return undefined
   }
 }
