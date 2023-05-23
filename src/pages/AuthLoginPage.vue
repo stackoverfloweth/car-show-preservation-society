@@ -1,6 +1,6 @@
 <template>
-  <div class="login-page">
-    <p-card class="login-page__form-container">
+  <div class="auth-login-page">
+    <p-card class="auth-login-page__form-container">
       <PageHeader heading="Login">
         <template #actions>
           <p-link :to="routes.authSignup()">
@@ -8,13 +8,19 @@
           </p-link>
         </template>
       </PageHeader>
-      <p-form class="login-page__form" @submit="login">
+      <p-form class="auth-login-page__form" @submit="login">
         <AuthLoginFormFields v-model:values="values" />
 
-        <div class="login-page__actions">
+        <p-link class="auth-login-page__forgot-mobile" :to="routes.authRequestRecovery()">
+          Forgot Password
+        </p-link>
+        <div class="auth-login-page__actions">
           <p-button :to="routes.home()" inset>
             Cancel
           </p-button>
+          <p-link class="auth-login-page__forgot-desktop" :to="routes.authRequestRecovery()">
+            Forgot Password
+          </p-link>
           <p-button type="submit" :loading="pending">
             Login
           </p-button>
@@ -60,26 +66,40 @@
 </script>
 
 <style>
-.login-page {
+.auth-login-page {
   display: flex;
   justify-content: center;
   padding: var(--space-md);
 }
 
-.login-page__form-container {
+.auth-login-page__form-container {
   max-width: 640px;
   flex-grow: 1;
 }
 
-.login-page__actions {
+.auth-login-page__actions {
   display: flex;
   justify-content: space-between;
+  align-items: end;
   gap: var(--space-sm);
 }
 
+.auth-login-page__forgot-mobile {
+  display: none;
+}
+
 @media(max-width: 768px){
-  .login-page__actions {
+  .auth-login-page__actions {
     flex-direction: column;
+    align-items: stretch;
+  }
+
+  .auth-login-page__forgot-desktop {
+    display: none;
+  }
+
+  .auth-login-page__forgot-mobile {
+    display: flex;
   }
 }
 </style>

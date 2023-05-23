@@ -1,5 +1,5 @@
 <template>
-  <div class="auth-accept-invite-form-fields">
+  <div class="auth-set-password-form-fields">
     <p-label label="Password" :message="passwordError" :state="passwordState">
       <template #default="{ id }">
         <PasswordInput :id="id" v-model="password" :state="passwordState" />
@@ -18,15 +18,15 @@
   import { usePatchRef, useValidation } from '@prefecthq/vue-compositions'
   import { computed } from 'vue'
   import PasswordInput from '@/components/PasswordInput.vue'
-  import { AcceptInvitationRequest } from '@/models/api'
+  import { SetPasswordRequest } from '@/models/api'
   import { stringHasValue } from '@/services/validation'
 
   const props = defineProps<{
-    values: Partial<AcceptInvitationRequest>,
+    values: Partial<SetPasswordRequest>,
   }>()
 
   const emit = defineEmits<{
-    (event: 'update:values', value: Partial<AcceptInvitationRequest>): void,
+    (event: 'update:values', value: Partial<SetPasswordRequest>): void,
   }>()
 
   const values = computed({
@@ -45,7 +45,7 @@
 </script>
 
 <style>
-.auth-accept-invite-form-fields {
+.auth-set-password-form-fields {
   display: flex;
   flex-direction: column;
   gap: var(--space-sm);

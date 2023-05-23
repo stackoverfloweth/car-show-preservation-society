@@ -1,12 +1,12 @@
 <template>
-  <div class="auth-confirm-change">
-    <p-message v-if="token && !errored" class="auth-confirm-change__body">
+  <div class="auth-confirm-page">
+    <p-message v-if="token && !errored" class="auth-confirm-page__body">
       <LoadingEllipsis>
         Verifying
       </LoadingEllipsis>
     </p-message>
-    <p-message v-else error class="auth-confirm-change__body">
-      <div class="auth-confirm-change__error">
+    <p-message v-else error class="auth-confirm-page__body">
+      <div class="auth-confirm-page__error">
         <p>Invalid Token</p>
         <p-button danger :to="routes.authLogin()">
           Return to Login
@@ -33,7 +33,7 @@
     auth.confirm(token.value)
       .then(() => {
         router.push(routes.authLogin())
-        showToast('Change confirmed!', 'success')
+        showToast('Email Address confirmed!', 'success')
       })
       .catch(() => {
         errored.value = true
@@ -42,18 +42,18 @@
 </script>
 
 <style>
-.auth-confirm-change {
+.auth-confirm-page {
   display: flex;
   justify-content: center;
   padding: var(--space-md);
 }
 
-.auth-confirm-change__body {
+.auth-confirm-page__body {
   text-align: center;
   font-size: var(--text-md);
 }
 
-.auth-confirm-change__error {
+.auth-confirm-page__error {
   display: flex;
   flex-direction: column;
   gap: var(--space-xs);

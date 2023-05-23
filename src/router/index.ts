@@ -27,17 +27,22 @@ const routeRecords: AppRouteRecord[] = [
   {
     name: 'auth.confirm',
     path: '/confirm/:token',
-    component: () => import('@/pages/AuthConfirm.vue'),
+    component: () => import('@/pages/AuthConfirmPage.vue'),
   },
   {
     name: 'auth.change',
     path: '/confirm-change/:token',
-    component: () => import('@/pages/AuthConfirmChange.vue'),
+    component: () => import('@/pages/AuthConfirmChangePage.vue'),
+  },
+  {
+    name: 'auth.recover',
+    path: '/recovery',
+    component: () => import('@/pages/AuthRequestRecoveryPage.vue'),
   },
   {
     name: 'auth.recovery',
     path: '/recovery/:token',
-    component: () => import('@/pages/AuthRecovery.vue'),
+    component: () => import('@/pages/AuthRecoveryPage.vue'),
   },
   {
     path: '/clubs',

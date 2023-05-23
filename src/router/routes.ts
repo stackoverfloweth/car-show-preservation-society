@@ -11,6 +11,7 @@ export const routes = {
   authAccept: (token: string) => ({ name: 'auth.accept', params: { token } }) as const,
   authConfirm: () => ({ name: 'auth.confirm' }) as const,
   authChange: () => ({ name: 'auth.change' }) as const,
+  authRequestRecovery: () => ({ name: 'auth.recover' }) as const,
   authRecovery: () => ({ name: 'auth.recovery' }) as const,
   events: () => ({ name: 'events.list' }) as const,
   eventCreate: () => ({ name: 'events.create' }) as const,

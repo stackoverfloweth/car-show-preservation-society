@@ -1,78 +1,87 @@
 <template>
-  <div class="auth-accept-invite-page">
-    <p-card class="auth-accept-invite-page__form-container">
-      <PageHeader heading="Accept Invitation" />
-      <p-form class="auth-accept-invite-page__form" @submit="accept">
+  <div class="auth-recovery-page">
+    <p-card class="auth-recovery-page__form-container">
+      <PageHeader heading="Recovery Account" />
+      <p-form @submit="submit">
         <AuthSetPasswordFormFields v-model:values="values" />
 
-        <div class="auth-accept-invite-page__actions">
+        <div class="auth-recovery-page__actions">
           <p-button :to="routes.home()" inset>
             Cancel
           </p-button>
           <p-button type="submit" :loading="pending">
-            Accept-invite
+            Set Password
           </p-button>
         </div>
       </p-form>
     </p-card>
+    <p-message v-if="!token || errored" error class="auth-recovery-page__body">
+      <div class="auth-recovery-page__error">
+        <p>Invalid Token</p>
+        <p-button danger :to="routes.authLogin()">
+          Return to Login
+        </p-button>
+      </div>
+    </p-message>
   </div>
 </template>
 
 <script lang="ts" setup>
   import { showToast } from '@prefecthq/prefect-design'
   import { useRouteParam, useValidationObserver } from '@prefecthq/vue-compositions'
-  import { User } from 'gotrue-js'
   import { ref } from 'vue'
+  import { useRouter } from 'vue-router'
   import AuthSetPasswordFormFields from '@/components/AuthSetPasswordFormFields.vue'
   import PageHeader from '@/components/PageHeader.vue'
   import { SetPasswordRequest } from '@/models/api'
   import { routes } from '@/router/routes'
-  import { auth, handleAuthError } from '@/services/auth'
+  import { auth } from '@/services/auth'
 
+  const router = useRouter()
   const token = useRouteParam('token')
   const values = ref<Partial<SetPasswordRequest>>({})
+  const errored = ref(false)
 
   const { validate, pending } = useValidationObserver()
 
-  async function accept(): Promise<User | undefined> {
+  async function submit(): Promise<void> {
     const isValid = await validate()
 
-    if (!isValid) {
-      return
-    }
+    if (!token.value || !isValid) {
+      try {
+        await auth.recover(token.value)
 
-    const { password, remember } = values.value as SetPasswordRequest
+        await auth.currentUser()?.update({ password: values.value.password })
 
-    try {
-      const user = await auth.acceptInvite(token.value, password, remember)
-      console.log({ user })
-      showToast('Account created!', 'success')
-    } catch (exception) {
-      handleAuthError(exception)
+        showToast('Password set!', 'success')
+        router.push(routes.authLogin())
+      } catch {
+        errored.value = true
+      }
     }
   }
 </script>
 
 <style>
-.auth-accept-invite-page {
+.auth-recovery-page {
   display: flex;
   justify-content: center;
   padding: var(--space-md);
 }
 
-.auth-accept-invite-page__form-container {
+.auth-recovery-page__form-container {
   max-width: 640px;
   flex-grow: 1;
 }
 
-.auth-accept-invite-page__actions {
+.auth-recovery-page__actions {
   display: flex;
   justify-content: space-between;
   gap: var(--space-sm);
 }
 
 @media(max-width: 768px){
-  .auth-accept-invite-page__actions {
+  .auth-recovery-page__actions {
     flex-direction: column;
   }
 }

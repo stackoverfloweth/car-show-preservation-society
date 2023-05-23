@@ -1,4 +1,4 @@
-export type AcceptInvitationRequest = {
+export type SetPasswordRequest = {
   password: string,
   remember?: boolean,
 }
