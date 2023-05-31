@@ -1,7 +1,7 @@
 <template>
   <div class="auth-recovery-page">
     <p-card class="auth-recovery-page__form-container">
-      <PageHeader heading="Recovery Account" />
+      <PageHeader heading="Account Recovery" />
       <p-form @submit="submit">
         <AuthSetPasswordFormFields v-model:values="values" />
 

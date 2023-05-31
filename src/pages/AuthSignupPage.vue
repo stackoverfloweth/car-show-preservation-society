@@ -52,8 +52,9 @@
 
     try {
       const token = await auth.signup(emailAddress, password)
-      const { value } = useLocalStorage('auth-redirect', routes.home())
+      const { value, remove } = useLocalStorage('auth-redirect', routes.home())
       router.push(value.value)
+      remove()
       showToast('Success! Please confirm your email address', 'success')
     } catch (exception) {
       handleAuthError(exception)

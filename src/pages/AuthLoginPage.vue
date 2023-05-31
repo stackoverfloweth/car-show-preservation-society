@@ -57,8 +57,9 @@
 
     try {
       const token = await auth.login(emailAddress, password, remember)
-      const { value } = useLocalStorage('auth-redirect', routes.home())
+      const { value, remove } = useLocalStorage('auth-redirect', routes.home())
       router.push(value.value)
+      remove()
     } catch (exception) {
       handleAuthError(exception, emailAddress)
     }
