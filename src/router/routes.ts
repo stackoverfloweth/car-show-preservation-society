@@ -1,5 +1,9 @@
 import { RouteLocationRaw, RouteRecordRaw } from 'vue-router'
 
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+type RouteFunction = (...args: any[]) => RouteLocationRaw
+type RouteFunctionRecord = Record<string, RouteFunction>
+
 export const routes = {
   home: () => ({ name: 'home' }) as const,
   clubs: () => ({ name: 'clubs.list' }) as const,
@@ -32,7 +36,7 @@ export const routes = {
   vehicleEditor: (vehicleId: string) => ({ name: 'vehicles.editor', params: { vehicleId } }) as const,
   profile: (userId?: string) => ({ name: 'profile.view', query: { userId } }) as const,
   profileEditor: () => ({ name: 'profile.editor' }) as const,
-}
+} satisfies RouteFunctionRecord
 
 export type NamedRoute = ReturnType<typeof routes[keyof typeof routes]>['name']
 export type AppRouteLocation = Omit<RouteLocationRaw, 'name'> & { name: NamedRoute }
