@@ -1,5 +1,5 @@
 <template>
-  <!-- <ContactCard v-if="user" :user="user" /> -->
+  <ContactCard v-if="user" :user="user" />
 </template>
 
 <script lang="ts" setup>
@@ -15,8 +15,7 @@
   const { userId } = toRefs(props)
   const api = useApi()
 
-  // todo: rework now that user comes from netlify
-  // const userSubscriptionArgs = computed<Parameters<typeof api.users.getUser> | null>(() => userId.value ? [userId.value] : null)
-  // const userSubscription = useSubscriptionWithDependencies(api.users.getUser, userSubscriptionArgs)
-  // const user = computed(() => userSubscription.response)
+  const userSubscriptionArgs = computed<Parameters<typeof api.users.getUser> | null>(() => userId.value ? [userId.value] : null)
+  const userSubscription = useSubscriptionWithDependencies(api.users.getUser, userSubscriptionArgs)
+  const user = computed(() => userSubscription.response)
 </script>

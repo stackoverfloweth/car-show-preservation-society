@@ -6,14 +6,6 @@
       </template>
     </p-label>
 
-    <!--
-      <p-label label="Phone Number" :message="phoneNumberError" :state="phoneNumberState">
-      <template #default="{ id }">
-      <p-text-input :id="id" v-model="phoneNumber" :state="phoneNumberState" />
-      </template>
-      </p-label>
-    -->
-
     <template v-if="existingUser">
       <ContactCard :user="existingUser" show-details />
       <VehicleSelect v-model:vehicleId="vehicleId" />
@@ -67,7 +59,7 @@
   import JudgingCategorySelect from '@/components/JudgingCategorySelect.vue'
   import VehicleSelect from '@/components/VehicleSelect.vue'
   import { useApi } from '@/compositions'
-  import { Event, User } from '@/models'
+  import { Event } from '@/models'
   import { NewUserRegistrationRequest } from '@/models/api'
 
   const props = defineProps<{
@@ -106,27 +98,23 @@
   const { error: colorError, state: colorState } = useValidation(color, 'Color', [])
   const { error: selectedVotingCategoriesError, state: selectedVotingCategoriesState } = useValidation(votingCategoryIds, 'Category', [])
 
-  // todo: rework after user comes from netlify
-  const existingUser = ref<User>()
+  const existingUserSubscriptionArgs = ref<Parameters<typeof api.users.findUser> | null>(null)
+  const existingUserSubscription = useSubscriptionWithDependencies(api.users.findUser, existingUserSubscriptionArgs)
+  const existingUser = computed(() => existingUserSubscription.response)
 
-  // const existingUserSubscriptionArgs = ref<Parameters<typeof api.users.findUser> | null>(null)
-  // const existingUserSubscription = useSubscriptionWithDependencies(api.users.findUser, existingUserSubscriptionArgs)
-  // const existingUser = computed(() => existingUserSubscription.response)
+  const emailAddressDebounced = useDebouncedRef(emailAddress, 750)
 
-  // const emailAddressDebounced = useDebouncedRef(emailAddress, 750)
-  // const phoneNumberDebounced = useDebouncedRef(phoneNumber, 750)
+  watch([emailAddressDebounced], ([emailAddress]) => {
+    if (!emailAddress) {
+      return existingUserSubscriptionArgs.value = null
+    }
 
-  // watch([emailAddressDebounced, phoneNumberDebounced], ([emailAddress, phoneNumber]) => {
-  //   if (!emailAddress && !phoneNumber) {
-  //     return existingUserSubscriptionArgs.value = null
-  //   }
+    if (existingUser.value) {
+      return
+    }
 
-  //   if (existingUser.value) {
-  //     return
-  //   }
-
-  //   existingUserSubscriptionArgs.value = [{ emailAddress, phoneNumber }]
-  // })
+    existingUserSubscriptionArgs.value = [{ emailAddress }]
+  })
 </script>
 
 <style>

@@ -14,7 +14,7 @@
 
   const userId = useRouteQueryParam('userId', currentIdentity())
 
-  const userSubscription = useSubscription(api.users.getUser, [userId])
+  const userSubscription = useSubscription(api.users.getUserByIdentity, [userId])
   const user = computed(() => userSubscription.response)
 
   const bestPlacementsSubscription = useSubscription(api.votingResults.getBestPlacementsCounts, [userId])
