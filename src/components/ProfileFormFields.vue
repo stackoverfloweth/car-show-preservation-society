@@ -38,21 +38,6 @@
           <p-toggle :id="id" v-model="hideEmailAddress" />
         </template>
       </p-label>
-
-      <p-label label="Phone Number" :message="phoneNumberError" :state="phoneNumberState">
-        <template #default="{ id }">
-          <p-text-input :id="id" v-model="phoneNumber" :state="phoneNumberState" />
-        </template>
-      </p-label>
-
-      <p-label label="Hide Phone Number">
-        <template #description>
-          Opt out of having your phone number be displayed on your public profile.
-        </template>
-        <template #default="{ id }">
-          <p-toggle :id="id" v-model="hidePhoneNumber" />
-        </template>
-      </p-label>
     </div>
 
     <div class="profile-form-fields__column">
@@ -101,16 +86,13 @@
 
   const firstName = usePatchRef(user, 'firstName')
   const lastName = usePatchRef(user, 'lastName')
-  const phoneNumber = usePatchRef(user, 'phoneNumber')
   const location = usePatchRef(user, 'location')
   const displayNameOverride = usePatchRef(user, 'displayNameOverride')
   const hideEmailAddress = usePatchRef(user, 'hideEmailAddress')
-  const hidePhoneNumber = usePatchRef(user, 'hidePhoneNumber')
   const hideLocation = usePatchRef(user, 'hidePhoneNumber')
 
   const { error: firstNameError, state: firstNameState } = useValidation(firstName, 'First Name', [])
   const { error: lastNameError, state: lastNameState } = useValidation(lastName, 'Last Name', [])
-  const { error: phoneNumberError, state: phoneNumberState } = useValidation(phoneNumber, 'Phone Number', [])
   const { error: locationError, state: locationState } = useValidation(location, 'Location', [])
 </script>
 
