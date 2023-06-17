@@ -1,12 +1,19 @@
 import { Handler } from '@netlify/functions'
 import { addWeeks } from 'date-fns'
 import { VotingResultResponse } from '@/models/api'
-import { Api, env } from 'netlify/utilities'
+import { AuthenticatedApi, env, hasIdentity } from 'netlify/utilities'
 import { getClient } from 'netlify/utilities/mongodbClient'
 
 
-export const handler: Handler = Api('GET', 'voting-results-get-recent-events-by-user/:userId', ([userId]) => async () => {
+export const handler: Handler = AuthenticatedApi('GET', 'voting-results-get-recent-events', () => async (event, context) => {
   const client = await getClient()
+  if (!hasIdentity(context)) {
+    return {
+      statusCode: 401,
+    }
+  }
+
+  const { user } = context
 
   try {
     const db = client.db(env().mongodbName)
@@ -14,15 +21,24 @@ export const handler: Handler = Api('GET', 'voting-results-get-recent-events-by-
 
     const votingResults = await collection.aggregate([
       {
-        $match: {
-          'registration.userId': userId,
-          'registration.checkInDate': { $gt: addWeeks(new Date(), -2) },
+        $addFields: {
+          userIdObjectId: { $toObjectId: '$userId' },
+          eventIdObjectId: { $toObjectId: '$eventId' },
+          votingCategoryObjectId: { $toObjectId: '$votingCategoryId' },
         },
       },
       {
-        $addFields: {
-          eventIdObjectId: { $toObjectId: '$eventId' },
-          votingCategoryObjectId: { $toObjectId: '$votingCategoryId' },
+        $lookup: {
+          from: 'user',
+          localField: 'userIdObjectId',
+          foreignField: 'id',
+          as: 'user',
+        },
+      },
+      {
+        $match: {
+          'user.identityId': user.id,
+          'registration.checkInDate': { $gt: addWeeks(new Date(), -2) },
         },
       },
       {

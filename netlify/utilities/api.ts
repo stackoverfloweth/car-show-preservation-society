@@ -12,6 +12,7 @@ export const headers = {
 
 export type ApiMethod = 'GET'|'POST'|'PUT'|'DELETE'
 export type ApiHandler<T> = (args: string[], body: T | null) => Handler
+export type ApiContext = Parameters<Handler>[1]
 
 function tryParseBody<T>(...[event]: Parameters<Handler>): T | null {
   if (event.body === null) {

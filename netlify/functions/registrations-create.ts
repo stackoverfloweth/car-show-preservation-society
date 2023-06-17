@@ -16,6 +16,7 @@ export const handler: Handler = Api<RegistrationRequest>('POST', 'registrations-
     const db = client.db(env().mongodbName)
     const collection = db.collection<Omit<RegistrationResponse, 'user' | 'vehicle'>>('registration')
 
+    // eslint-disable-next-line no-unused-vars
     const { registrationId, ...rest } = body
 
     const result = await collection.insertOne({
