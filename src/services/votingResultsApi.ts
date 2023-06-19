@@ -1,6 +1,6 @@
 import { VotingResultsCount, VotingResultsByCategory, VotingResultByEventAndCategory } from '@/models'
 import { VotingResultByEventAndCategoryResponse, VotingResultsByCategoryResponse } from '@/models/api'
-import { Api, mapper } from '@/services'
+import { Api, composeAuthHeaders, mapper } from '@/services'
 
 export class VotingResultsApi extends Api {
   public setVotingResults(eventId: string): Promise<void> {
@@ -12,8 +12,8 @@ export class VotingResultsApi extends Api {
       .then(({ data }) => mapper.map('VotingResultsByCategoryResponse', data, 'VotingResultsByCategory'))
   }
 
-  public getRecentPlacements(userId: string): Promise<VotingResultByEventAndCategory[]> {
-    return this.get<VotingResultByEventAndCategoryResponse[]>(`voting-results-get-recent-events-by-user/${userId}`)
+  public getRecentPlacements(): Promise<VotingResultByEventAndCategory[]> {
+    return this.get<VotingResultByEventAndCategoryResponse[]>('voting-results-get-recent-events', { headers: composeAuthHeaders() })
       .then(({ data }) => mapper.map('VotingResultByEventAndCategoryResponse', data, 'VotingResultByEventAndCategory'))
   }
 

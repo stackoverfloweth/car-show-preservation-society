@@ -36,7 +36,7 @@
   import VotingResultByEventAndCategoryItem from '@/components/VotingResultByEventAndCategoryItem.vue'
   import { useApi, useNavigation } from '@/compositions'
   import { routes } from '@/router/routes'
-  import { currentIdentity, isLoggedIn } from '@/services/auth'
+  import { isLoggedIn } from '@/services/auth'
 
   const api = useApi()
   useNavigation({})
@@ -44,7 +44,7 @@
   const eventsCurrentlyHappeningSubscriptions = useSubscription(api.events.getEventsHappeningNow, [])
   const eventsCurrentlyHappening = computed(() => eventsCurrentlyHappeningSubscriptions.response ?? [])
 
-  const recentPlacementsSubscriptionsArgs = computed<Parameters<typeof api.votingResults.getRecentPlacements> | null>(() => isLoggedIn() ? [currentIdentity()] : null)
+  const recentPlacementsSubscriptionsArgs = computed<Parameters<typeof api.votingResults.getRecentPlacements> | null>(() => isLoggedIn() ? [] : null)
   const recentPlacementsSubscriptions = useSubscriptionWithDependencies(api.votingResults.getRecentPlacements, recentPlacementsSubscriptionsArgs)
   const recentPlacements = computed(() => recentPlacementsSubscriptions.response ?? [])
 
