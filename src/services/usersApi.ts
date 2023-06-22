@@ -2,11 +2,12 @@ import { ClubMembership } from '@/models'
 import { ClubMembershipResponse, UserRequest, UserResponse } from '@/models/api'
 import { User } from '@/models/user'
 import { Api } from '@/services/api'
+import { composeAuthHeaders } from '@/services/auth'
 import { mapper } from '@/services/mapper'
 
 export class UsersApi extends Api {
-  public getUserByIdentity(identityId: string): Promise<User | undefined> {
-    return this.get<UserResponse | undefined>(`users-get-by-identity/${identityId}`)
+  public getCurrentUser(): Promise<User | undefined> {
+    return this.get<UserResponse | undefined>('users-get-by-token', { headers: composeAuthHeaders() })
       .then(({ data }) => mapper.map('UserResponse', data, 'User'))
   }
 

@@ -107,14 +107,14 @@
   const votingCategoriesSubscription = useSubscription(api.votingCategories.getVotingCategoriesByRegistration, [registrationId])
   const votingCategories = computed(() => votingCategoriesSubscription.response ?? [])
 
-  const userSubscriptionArgs = computed<Parameters<typeof api.users.getUserByIdentity> | null>(() => {
+  const userSubscriptionArgs = computed<Parameters<typeof api.users.getCurrentUser> | null>(() => {
     if (!props.registration.user) {
-      return [props.registration.userId]
+      return []
     }
 
     return null
   })
-  const userSubscription = useSubscriptionWithDependencies(api.users.getUserByIdentity, userSubscriptionArgs)
+  const userSubscription = useSubscriptionWithDependencies(api.users.getCurrentUser, userSubscriptionArgs)
   const user = computed(() => props.registration.user ?? userSubscription.response)
 
   const vehicleSubscriptionArgs = computed<Parameters<typeof api.vehicles.getVehicle> | null>(() => {

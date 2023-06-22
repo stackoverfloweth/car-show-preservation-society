@@ -16,7 +16,7 @@ export function useCurrentIdentity(): UseCurrentIdentity {
   }
 
   const api = useApi()
-  const userSubscription = useSubscription(api.users.getUserByIdentity, [value.id])
+  const userSubscription = useSubscription(api.users.getCurrentUser, [])
   const user = computed(() => userSubscription.response)
 
   return {

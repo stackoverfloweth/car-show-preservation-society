@@ -10,6 +10,16 @@ export function hasIdentity(clientContext: ApiContext): clientContext is Authent
     && 'user' in clientContext && typeof clientContext.user === 'object'
 }
 
+export function getUser(clientContext: ApiContext): User {
+  if (!hasIdentity(clientContext)) {
+    throw 'Invalid Client Context'
+  }
+
+  const { user } = clientContext
+
+  return user
+}
+
 export function AuthenticatedApi<T>(method: ApiMethod, path: string, apiHandler: ApiHandler<T>): Handler {
   return async (event, context) => {
     if (!hasIdentity(context)) {

@@ -1,26 +1,32 @@
 import { Handler } from '@netlify/functions'
 import { UserResponse } from '@/models/api'
-import { Api, env } from 'netlify/utilities'
+import { Api, env, getUser } from 'netlify/utilities'
 import { getClient } from 'netlify/utilities/mongodbClient'
 
-export const handler: Handler = Api('GET', 'users-get-by-identity/:id', ([identityId]) => async () => {
+export const handler: Handler = Api('GET', 'users-get-by-token', () => async (event, context) => {
   const client = await getClient()
 
   try {
+    const user = getUser(context)
     const db = client.db(env().mongodbName)
     const collection = db.collection<UserResponse>('user')
-    const user = await collection.findOne(
-      { identityId },
+    const userData = await collection.findOne(
+      { identityId: user.id },
       { projection: { image: 0 } },
     )
 
-    if (!user) {
+    if (!userData) {
       return { statusCode: 404 }
     }
 
     return {
       statusCode: 200,
-      body: JSON.stringify(user),
+      body: JSON.stringify(userData),
+    }
+  } catch (exception) {
+    return {
+      statusCode: 401,
+      body: JSON.stringify(exception),
     }
   } finally {
     await client.close()
