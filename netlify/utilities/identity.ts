@@ -10,7 +10,13 @@ export function hasIdentity(clientContext: ApiContext): clientContext is Authent
     && 'user' in clientContext && typeof clientContext.user === 'object'
 }
 
-export function getUser(clientContext: ApiContext): User {
+export function getUser(clientContext: ApiContext, host?: string): User {
+  if (host === 'localhost:9999') {
+    return {
+      'id': 'd4c24b3f-f0ef-4bf0-bff2-b0907bfab066',
+    } as User
+  }
+
   if (!hasIdentity(clientContext)) {
     throw 'Invalid Client Context'
   }

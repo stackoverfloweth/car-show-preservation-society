@@ -1,4 +1,5 @@
 import { PButton, showToast } from '@prefecthq/prefect-design'
+import { AxiosHeaders, RawAxiosRequestHeaders } from 'axios'
 import GoTrue from 'gotrue-js'
 import { h } from 'vue'
 import { env } from '@/utilities'
@@ -77,4 +78,19 @@ function handleUnconfirmed(emailAddress?: string): void {
       ]),
     ],
   ), 'error', { timeout: false })
+}
+
+export function composeAuthHeaders(): RawAxiosRequestHeaders | AxiosHeaders {
+  if (env().isDevelopment) {
+    return {}
+  }
+
+  const user = auth.currentUser()
+  if (!user?.token.access_token) {
+    throw 'Cannot call protected route without authenticated user'
+  }
+
+  return {
+    Authorization: `bearer ${user.token.access_token}`,
+  }
 }
