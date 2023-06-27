@@ -7,7 +7,7 @@ export const handler: Handler = Api('GET', 'users-get-by-token', () => async (ev
   const client = await getClient()
 
   try {
-    const user = getUser(context)
+    const user = getUser(context, event.headers.host)
     const db = client.db(env().mongodbName)
     const collection = db.collection<UserResponse>('user')
     const userData = await collection.findOne(
