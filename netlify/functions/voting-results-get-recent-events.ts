@@ -1,21 +1,15 @@
 import { Handler } from '@netlify/functions'
 import { addWeeks } from 'date-fns'
 import { VotingResultResponse } from '@/models/api'
-import { AuthenticatedApi, env, hasIdentity } from 'netlify/utilities'
+import { AuthenticatedApi, env, getUser } from 'netlify/utilities'
 import { getClient } from 'netlify/utilities/mongodbClient'
 
 
 export const handler: Handler = AuthenticatedApi('GET', 'voting-results-get-recent-events', () => async (event, context) => {
   const client = await getClient()
-  if (!hasIdentity(context)) {
-    return {
-      statusCode: 401,
-    }
-  }
-
-  const { user } = context
 
   try {
+    const user = getUser(context, event.headers.host)
     const db = client.db(env().mongodbName)
     const collection = db.collection<VotingResultResponse>('voting-result')
 
@@ -77,6 +71,11 @@ export const handler: Handler = AuthenticatedApi('GET', 'voting-results-get-rece
     return {
       statusCode: 200,
       body: JSON.stringify(votingResults),
+    }
+  } catch (exception) {
+    return {
+      statusCode: 401,
+      body: JSON.stringify(exception),
     }
   } finally {
     await client.close()
