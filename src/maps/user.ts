@@ -22,6 +22,7 @@ export const mapUserResponseToUser: MapFunction<UserResponse, User> = function(s
 
 export const mapUserToUserRequest: MapFunction<User, UserRequest> = function(source) {
   return {
+    emailAddress: source.emailAddress,
     phoneNumber: source.phoneNumber,
     firstName: source.firstName,
     lastName: source.lastName,

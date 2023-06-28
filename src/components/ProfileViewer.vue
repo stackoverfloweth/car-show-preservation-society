@@ -66,7 +66,7 @@
 
   const router = useRouter()
 
-  const canEditProfile = computed(() => props.user.userId === currentIdentity())
+  const canEditProfile = computed(() => props.user.identityId === currentIdentity())
 
   async function logout(): Promise<void> {
     await auth.currentUser()?.logout()

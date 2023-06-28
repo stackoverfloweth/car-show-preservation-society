@@ -14,13 +14,13 @@
   import { useApi, useNavigation } from '@/compositions'
   import { UserRequest } from '@/models/api'
   import { routes } from '@/router/routes'
-  import { mapper, currentIdentity } from '@/services'
+  import { mapper } from '@/services'
 
   const api = useApi()
   const { validate, pending } = useValidationObserver()
   const { set } = useNavigation()
 
-  const userSubscription = useSubscription(api.users.getUser, [currentIdentity()])
+  const userSubscription = useSubscription(api.users.getCurrentUser, [])
   const values = ref<UserRequest>()
 
   watchEffect(() => {
