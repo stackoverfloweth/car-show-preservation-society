@@ -34,7 +34,7 @@
       return
     }
 
-    await api.users.updateUser(values.value)
+    await api.users.updateCurrentUser(values.value)
     showToast('Saved!', 'success')
     userSubscription.refresh()
   }

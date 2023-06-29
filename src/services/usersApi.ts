@@ -11,6 +11,10 @@ export class UsersApi extends Api {
       .then(({ data }) => mapper.map('UserResponse', data, 'User'))
   }
 
+  public updateCurrentUser(request: UserRequest): Promise<User> {
+    return this.put('users-update', request, { headers: composeAuthHeaders() })
+  }
+
   public getUser(userId: string): Promise<User | undefined> {
     return this.get<UserResponse | undefined>(`users-get-by-id/${userId}`)
       .then(({ data }) => mapper.map('UserResponse', data, 'User'))
@@ -29,9 +33,5 @@ export class UsersApi extends Api {
   public createUser(request: UserRequest): Promise<string> {
     return this.post<string>('users-create', request)
       .then(({ data }) => data)
-  }
-
-  public updateUser(request: UserRequest): Promise<User> {
-    return this.put(`users-update/${request.userId}`, request)
   }
 }
