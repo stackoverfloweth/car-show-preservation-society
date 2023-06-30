@@ -1,14 +1,15 @@
 import { Handler } from '@netlify/functions'
 import { ObjectId } from 'mongodb'
 import { BallotResponse, EventResponse, RegistrationResponse } from '@/models/api'
-import { Api, env } from 'netlify/utilities'
+import { Api, env, getUser } from 'netlify/utilities'
 import { getClient } from 'netlify/utilities/mongodbClient'
 
 
-export const handler: Handler = Api('GET', 'ballots-get-by-event-and-user/:eventId/:userId', ([eventId, userId]) => async () => {
+export const handler: Handler = Api('GET', 'ballots-get-by-token-and-event/:eventId', ([eventId]) => async (requestEvent, context) => {
   const client = await getClient()
 
   try {
+    const user = getUser(context, requestEvent.headers.host)
     const db = client.db(env().mongodbName)
     const events = db.collection<EventResponse>('event')
     const registrations = db.collection<RegistrationResponse>('registration')
@@ -16,7 +17,32 @@ export const handler: Handler = Api('GET', 'ballots-get-by-event-and-user/:event
 
     const [event, registration] = await Promise.all([
       events.findOne({ _id: new ObjectId(eventId) }),
-      registrations.findOne({ eventId, userId }),
+      registrations.aggregate<RegistrationResponse>([
+        {
+          $match: {
+            eventId,
+          },
+        },
+        {
+          $addFields: {
+            userIdObjectId: { $toObjectId: '$userId' },
+          },
+        },
+        {
+          $lookup: {
+            from: 'user',
+            localField: 'userIdObjectId',
+            foreignField: '_id',
+            as: 'user',
+          },
+        },
+        {
+          $match: {
+            'user.identityId': user.id,
+          },
+        },
+      ]).next(),
+      registrations.findOne({ eventId }),
     ])
 
     if (!event || !registration) {
@@ -34,7 +60,6 @@ export const handler: Handler = Api('GET', 'ballots-get-by-event-and-user/:event
     const existingBallots = await ballots.find(
       { registrationId: registration._id.toString() },
     ).toArray()
-
 
     if (existingBallots.length > ballotCount) {
       await ballots.deleteMany({ index: { $gte: ballotCount } })

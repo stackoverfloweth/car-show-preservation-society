@@ -1,9 +1,10 @@
 import { NewUserRegistrationRequest, RegistrationRequest, RegistrationResponse } from '@/models/api'
 import { Registration } from '@/models/registration'
-import { Api } from '@/services/api'
+import { composeAuthHeaders } from '@/services/auth'
+import { AuthApi } from '@/services/authApi'
 import { mapper } from '@/services/mapper'
 
-export class RegistrationsApi extends Api {
+export class RegistrationsApi extends AuthApi {
   public getRegistration(registrationId: string): Promise<Registration | undefined> {
     return this.get<RegistrationResponse | undefined>(`registrations-get-by-id/${registrationId}`)
       .then(({ data }) => mapper.map('RegistrationResponse', data, 'Registration'))
@@ -31,6 +32,11 @@ export class RegistrationsApi extends Api {
 
   public findRegistration(eventId: string, userId: string): Promise<Registration | undefined> {
     return this.get<RegistrationResponse | undefined>(`registrations-get-by-event-and-user/${eventId}/${userId}`)
+      .then(({ data }) => mapper.map('RegistrationResponse', data, 'Registration'))
+  }
+
+  public findCurrentUserRegistration(eventId: string): Promise<Registration | undefined> {
+    return this.get<RegistrationResponse | undefined>(`registrations-get-by-token-and-event/${eventId}`, { headers: composeAuthHeaders() })
       .then(({ data }) => mapper.map('RegistrationResponse', data, 'Registration'))
   }
 

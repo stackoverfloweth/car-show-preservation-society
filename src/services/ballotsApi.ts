@@ -1,6 +1,7 @@
 import { BallotResponse, VoteRequest } from '@/models/api'
 import { Ballot } from '@/models/ballot'
 import { Api } from '@/services/api'
+import { composeAuthHeaders } from '@/services/auth'
 import { mapper } from '@/services/mapper'
 
 export class BallotsApi extends Api {
@@ -13,8 +14,8 @@ export class BallotsApi extends Api {
       .then(({ data }) => mapper.map('BallotResponse', data, 'Ballot'))
   }
 
-  public findBallots(eventId: string, userId: string): Promise<Ballot[]> {
-    return this.get<BallotResponse[]>(`ballots-get-by-event-and-user/${eventId}/${userId}`)
+  public findCurrentUserBallots(eventId: string): Promise<Ballot[]> {
+    return this.get<BallotResponse[]>(`ballots-get-by-token-and-event/${eventId}`, { headers: composeAuthHeaders() })
       .then(({ data }) => mapper.map('BallotResponse', data, 'Ballot'))
   }
 }
