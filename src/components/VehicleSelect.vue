@@ -59,7 +59,7 @@
     },
   })
 
-  const vehiclesSubscription = useSubscription(api.vehicles.getVehicles, [currentIdentity()])
+  const vehiclesSubscription = useSubscription(api.vehicles.getVehiclesForCurrentUser, [])
   const vehicles = computed(() => vehiclesSubscription.response ?? [])
 
   const newVehicle = ref<VehicleRequest>({ userId: currentIdentity() })

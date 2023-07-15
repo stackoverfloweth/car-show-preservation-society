@@ -1,10 +1,10 @@
 import { Vehicle } from '@/models'
 import { VehicleRequest, VehicleResponse } from '@/models/api'
-import { Api, mapper } from '@/services'
+import { Api, mapper, composeAuthHeaders } from '@/services'
 
 export class VehiclesApi extends Api {
-  public getVehicles(userId: string): Promise<Vehicle[]> {
-    return this.get<VehicleResponse[]>(`vehicles-get-list/${userId}`)
+  public getVehiclesForCurrentUser(): Promise<Vehicle[]> {
+    return this.get<VehicleResponse[]>('vehicles-get-list-by-token', { headers: composeAuthHeaders() })
       .then(({ data }) => mapper.map('VehicleResponse', data, 'Vehicle'))
   }
 
