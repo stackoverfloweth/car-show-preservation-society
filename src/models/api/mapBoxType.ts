@@ -1,1 +1,0 @@
-export type MapBoxType = 'country' | 'region' | 'postcode' | 'district' | 'place' | 'locality' | 'neighborhood' | 'address' | 'poi'
