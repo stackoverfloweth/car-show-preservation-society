@@ -1,4 +1,4 @@
-export function App(): JSX.Element {
+export function App(): React.ReactElement {
   return (
     <main>
       <h1>Car Show Preservation Society</h1>
