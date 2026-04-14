@@ -1,0 +1,22 @@
+services:
+  postgres:
+    image: postgres:16
+    container_name: csps-postgres
+    restart: unless-stopped
+    environment:
+      # DEV-ONLY credentials. Do not reuse in any shared environment.
+      POSTGRES_USER: csps_dev
+      POSTGRES_PASSWORD: dev_password
+      POSTGRES_DB: csps_development
+    ports:
+      - '5432:5432'
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ['CMD-SHELL', 'pg_isready -U csps_dev -d csps_development']
+      interval: 5s
+      timeout: 5s
+      retries: 10
+
+volumes:
+  postgres_data:

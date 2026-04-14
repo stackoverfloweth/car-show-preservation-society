@@ -12,6 +12,7 @@
     "lint": "eslint src --ext .ts"
   },
   "dependencies": {
+    "@csps/db": "workspace:*",
     "@hono/node-server": "^1.11.0",
     "hono": "^4.4.0",
     "dotenv": "^16.4.5"

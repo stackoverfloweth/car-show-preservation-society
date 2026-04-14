@@ -10,7 +10,12 @@
     "type-check": "pnpm -r run type-check",
     "dev:api": "pnpm --filter @csps/api dev",
     "dev:web": "pnpm --filter @csps/web dev",
-    "build:web": "pnpm --filter @csps/web build"
+    "build:web": "pnpm --filter @csps/web build",
+    "db:generate": "pnpm --filter @csps/db db:generate",
+    "db:migrate": "pnpm --filter @csps/db db:migrate",
+    "db:push": "pnpm --filter @csps/db db:push",
+    "db:studio": "pnpm --filter @csps/db db:studio",
+    "db:seed": "pnpm --filter @csps/db db:seed"
   },
   "devDependencies": {
     "@types/node": "^20.11.0",

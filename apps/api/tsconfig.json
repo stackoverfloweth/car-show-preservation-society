@@ -6,7 +6,12 @@
     "module": "ESNext",
     "moduleResolution": "Bundler",
     "lib": ["ES2020"],
-    "types": ["node"]
+    "types": ["node"],
+    "baseUrl": ".",
+    "paths": {
+      "@csps/db": ["../../packages/db/src/index.ts"],
+      "@csps/db/*": ["../../packages/db/src/*"]
+    }
   },
   "include": ["src/**/*"],
   "exclude": ["node_modules", "dist"]
