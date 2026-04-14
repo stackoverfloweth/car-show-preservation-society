@@ -1,7 +1,33 @@
+import './env.js';
 import { Hono } from 'hono';
+import { cors } from 'hono/cors';
+import { logger } from 'hono/logger';
+import { errorHandler } from './middleware/error-handler.js';
+import { requestId } from './middleware/request-id.js';
+import health from './routes/health.js';
+import me from './routes/me.js';
+import { env } from './env.js';
 
 const app = new Hono();
 
-app.get('/', (c) => c.json({ message: 'Hello from Hono!' }));
+// Middleware (applied in order)
+app.use('*', logger());
+app.use('*', requestId);
+app.use(
+  '*',
+  cors({
+    origin: env.API_URL ?? '*',
+    allowMethods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
+    allowHeaders: ['Content-Type', 'Authorization'],
+    credentials: true,
+  }),
+);
+
+// Routes
+app.route('/', health);
+app.route('/', me);
+
+// Global error handler
+app.onError(errorHandler);
 
 export default app;
