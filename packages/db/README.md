@@ -18,14 +18,14 @@ From the repo root:
 docker compose up -d
 ```
 
-This boots PostgreSQL 16 on `localhost:5432` with credentials matching `.env.example`.
+This boots PostgreSQL 16 on `localhost:5433` (mapped from the container's 5432) with credentials matching `.env.example`.
 
 ### 2. Configure environment
 
 Copy `.env.example` to `.env` inside `packages/db/` (and wherever else you need it) and confirm `DATABASE_URL` points at the local instance:
 
 ```
-DATABASE_URL=postgresql://csps_dev:dev_password@localhost:5432/csps_development
+DATABASE_URL=postgresql://csps_dev:dev_password@localhost:5433/csps_development
 ```
 
 ### 3. Push the schema
@@ -69,7 +69,7 @@ During rapid iteration you can use `pnpm db:push` to skip migration generation e
 - **`ECONNREFUSED 127.0.0.1:5432`** — PostgreSQL isn't running. Start it with `docker compose up -d` from the repo root.
 - **`DATABASE_URL is not set`** — the db client throws on import when the env var is missing. Ensure `.env` is loaded (dotenv, shell, or your process manager).
 - **`relation "…" does not exist`** — you forgot to run `pnpm db:push` or `pnpm db:migrate` after adding a schema file.
-- **Port 5432 already in use** — stop any host-installed PostgreSQL (`brew services stop postgresql`) or change the port mapping in `docker-compose.yml`.
+- **Port 5433 already in use** — another container or host PostgreSQL is bound to the port. Either stop it (`docker ps --filter publish=5433`, `brew services stop postgresql`) or change the host-side port in `docker-compose.yml` and `DATABASE_URL`.
 - **Studio won't open** — Drizzle Studio requires a successful connection; fix the connection error it prints first.
 
 Stop the database with `docker compose down` (data persists in the `postgres_data` volume) or `docker compose down -v` to wipe it.
