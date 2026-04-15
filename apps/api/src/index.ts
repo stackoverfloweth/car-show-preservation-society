@@ -9,6 +9,8 @@ import me from './routes/me.js';
 import users from './routes/users.js';
 import clubs from './routes/clubs.js';
 import clubMemberships from './routes/club-memberships.js';
+import events from './routes/events.js';
+import vehicles from './routes/vehicles.js';
 import clerkWebhooks from './routes/clerk-webhooks.js';
 import { env } from './env.js';
 
@@ -33,6 +35,8 @@ app.route('/', me);
 app.route('/', users);
 app.route('/', clubs);
 app.route('/', clubMemberships);
+app.route('/', events);
+app.route('/', vehicles);
 app.route('/', clerkWebhooks);
 
 // Global error handler
