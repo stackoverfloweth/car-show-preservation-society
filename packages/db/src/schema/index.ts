@@ -13,4 +13,8 @@ export * from './club-applications';
 export * from './club-invitations';
 export * from './club-memberships';
 export * from './clubs';
+export * from './event-images';
+export * from './events';
 export * from './users';
+export * from './vehicle-images';
+export * from './vehicles';
