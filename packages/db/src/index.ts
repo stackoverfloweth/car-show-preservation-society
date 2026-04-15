@@ -35,6 +35,7 @@ const client = postgres(connectionString, {
 export const db = drizzle(client, { schema });
 
 export { schema };
+export * from './schema';
 export type Database = typeof db;
 
 export default db;

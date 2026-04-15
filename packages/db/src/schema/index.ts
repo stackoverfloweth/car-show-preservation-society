@@ -8,7 +8,5 @@
  *    are introduced.
  *  - Inferred types (e.g., `InferSelectModel<typeof users>`) should be
  *    exported from `packages/shared` for cross-package consumption.
- *
- * Tables will be added in later sessions; this file is intentionally empty.
  */
-export {};
+export * from './users';
