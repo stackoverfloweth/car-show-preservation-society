@@ -1,16 +1,17 @@
 {
   "extends": "../../tsconfig.base.json",
   "compilerOptions": {
-    "outDir": "dist",
-    "rootDir": "src",
     "module": "ESNext",
     "moduleResolution": "Bundler",
     "lib": ["ES2020"],
     "types": ["node"],
+    "noEmit": true,
     "baseUrl": ".",
     "paths": {
       "@csps/db": ["../../packages/db/src/index.ts"],
-      "@csps/db/*": ["../../packages/db/src/*"]
+      "@csps/db/*": ["../../packages/db/src/*"],
+      "@csps/shared": ["../../packages/shared/src/index.ts"],
+      "@csps/shared/*": ["../../packages/shared/src/*"]
     }
   },
   "include": ["src/**/*"],

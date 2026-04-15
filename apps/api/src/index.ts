@@ -6,6 +6,8 @@ import { errorHandler } from './middleware/error-handler.js';
 import { requestId } from './middleware/request-id.js';
 import health from './routes/health.js';
 import me from './routes/me.js';
+import users from './routes/users.js';
+import clerkWebhooks from './routes/clerk-webhooks.js';
 import { env } from './env.js';
 
 const app = new Hono();
@@ -26,6 +28,8 @@ app.use(
 // Routes
 app.route('/', health);
 app.route('/', me);
+app.route('/', users);
+app.route('/', clerkWebhooks);
 
 // Global error handler
 app.onError(errorHandler);
