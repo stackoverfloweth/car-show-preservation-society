@@ -4,9 +4,11 @@ import { zValidator } from '@hono/zod-validator';
 import { and, count, desc, eq, ilike, isNull, or } from 'drizzle-orm';
 import { nanoid } from 'nanoid';
 import { db } from '../lib/db.js';
-import { clubs, type Club } from '@csps/db';
+import { clubMemberships, clubs, type Club } from '@csps/db';
 import { requireAuth, optionalAuth } from '../middleware/auth.js';
 import {
+  ALL_CLUB_PERMISSIONS,
+  CLUB_PERMISSIONS,
   createClubSchema,
   updateClubSchema,
   listClubsQuerySchema,
@@ -35,10 +37,12 @@ clubsRoute.post('/api/clubs', requireAuth, zValidator('json', createClubSchema),
   const userId = c.get('userId') as string;
   const input = c.req.valid('json');
 
+  const clubId = nanoid();
+
   const [created] = await db
     .insert(clubs)
     .values({
-      id: nanoid(),
+      id: clubId,
       name: input.name,
       description: input.description ?? '',
       clubLogo: input.clubLogo ?? null,
@@ -51,6 +55,15 @@ clubsRoute.post('/api/clubs', requireAuth, zValidator('json', createClubSchema),
   if (!created) {
     throw new HTTPException(500, { message: 'Failed to create club' });
   }
+
+  // Auto-create a membership for the creator with all permissions and primary flag.
+  await db.insert(clubMemberships).values({
+    id: nanoid(),
+    clubId: created.id,
+    userId,
+    permissions: [...ALL_CLUB_PERMISSIONS],
+    isPrimary: true,
+  });
 
   return c.json({ data: toResponse(created) }, 201);
 });
@@ -121,7 +134,13 @@ clubsRoute.put(
       throw new HTTPException(404, { message: 'Club not found' });
     }
 
-    if (existing.contactUserId !== userId) {
+    const [membership] = await db
+      .select()
+      .from(clubMemberships)
+      .where(and(eq(clubMemberships.clubId, id), eq(clubMemberships.userId, userId)))
+      .limit(1);
+
+    if (!membership || !membership.permissions.includes(CLUB_PERMISSIONS.MANAGE_MEMBERS)) {
       throw new HTTPException(403, { message: 'Forbidden' });
     }
 
@@ -154,7 +173,13 @@ clubsRoute.delete('/api/clubs/:id', requireAuth, async (c) => {
     throw new HTTPException(404, { message: 'Club not found' });
   }
 
-  if (existing.contactUserId !== userId) {
+  const [membership] = await db
+    .select()
+    .from(clubMemberships)
+    .where(and(eq(clubMemberships.clubId, id), eq(clubMemberships.userId, userId)))
+    .limit(1);
+
+  if (!membership || !membership.permissions.includes(CLUB_PERMISSIONS.MANAGE_MEMBERS)) {
     throw new HTTPException(403, { message: 'Forbidden' });
   }
 

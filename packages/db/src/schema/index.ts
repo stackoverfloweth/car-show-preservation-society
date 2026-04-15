@@ -9,5 +9,8 @@
  *  - Inferred types (e.g., `InferSelectModel<typeof users>`) should be
  *    exported from `packages/shared` for cross-package consumption.
  */
+export * from './club-applications';
+export * from './club-invitations';
+export * from './club-memberships';
 export * from './clubs';
 export * from './users';
