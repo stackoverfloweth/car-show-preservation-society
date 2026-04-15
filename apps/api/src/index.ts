@@ -8,6 +8,7 @@ import health from './routes/health.js';
 import me from './routes/me.js';
 import users from './routes/users.js';
 import clubs from './routes/clubs.js';
+import clubMemberships from './routes/club-memberships.js';
 import clerkWebhooks from './routes/clerk-webhooks.js';
 import { env } from './env.js';
 
@@ -31,6 +32,7 @@ app.route('/', health);
 app.route('/', me);
 app.route('/', users);
 app.route('/', clubs);
+app.route('/', clubMemberships);
 app.route('/', clerkWebhooks);
 
 // Global error handler
