@@ -36,6 +36,13 @@
       "when": 1776263710186,
       "tag": "0004_puzzling_vertigo",
       "breakpoints": true
+    },
+    {
+      "idx": 5,
+      "version": "6",
+      "when": 1776297213923,
+      "tag": "0005_chemical_rattler",
+      "breakpoints": true
     }
   ]
 }
