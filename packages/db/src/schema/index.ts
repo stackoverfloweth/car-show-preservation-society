@@ -15,6 +15,7 @@ export * from './club-memberships';
 export * from './clubs';
 export * from './event-images';
 export * from './events';
+export * from './registrations';
 export * from './users';
 export * from './vehicle-images';
 export * from './vehicles';

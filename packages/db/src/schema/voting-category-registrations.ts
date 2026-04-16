@@ -1,13 +1,10 @@
 import { index, pgTable, text, timestamp, uniqueIndex } from 'drizzle-orm/pg-core';
 import { relations } from 'drizzle-orm';
 import { votingCategories } from './voting-categories';
+import { registrations } from './registrations';
 
 /**
  * Junction table mapping registrations to voting categories.
- *
- * NOTE: `registrationId` is intentionally a plain text column without a
- * foreign-key constraint. The `registrations` table is created in Session 11;
- * the FK constraint to `registrations.id` will be added then.
  */
 export const votingCategoryRegistrations = pgTable(
   'voting_category_registrations',
@@ -16,8 +13,9 @@ export const votingCategoryRegistrations = pgTable(
     votingCategoryId: text('voting_category_id')
       .notNull()
       .references(() => votingCategories.id, { onDelete: 'cascade' }),
-    // FK constraint to registrations.id will be added in Session 11.
-    registrationId: text('registration_id').notNull(),
+    registrationId: text('registration_id')
+      .notNull()
+      .references(() => registrations.id, { onDelete: 'cascade' }),
     createdAt: timestamp('created_at', { withTimezone: true }).notNull().defaultNow(),
   },
   (table) => ({
@@ -36,6 +34,10 @@ export const votingCategoryRegistrationsRelations = relations(
     votingCategory: one(votingCategories, {
       fields: [votingCategoryRegistrations.votingCategoryId],
       references: [votingCategories.id],
+    }),
+    registration: one(registrations, {
+      fields: [votingCategoryRegistrations.registrationId],
+      references: [registrations.id],
     }),
   }),
 );
