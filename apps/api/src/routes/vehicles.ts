@@ -1,10 +1,12 @@
 import { Hono } from 'hono';
 import { HTTPException } from 'hono/http-exception';
 import { zValidator } from '@hono/zod-validator';
-import { and, asc, desc, eq, isNull } from 'drizzle-orm';
+import { and, asc, desc, eq, gte, isNotNull, isNull, lte } from 'drizzle-orm';
 import { nanoid } from 'nanoid';
 import { db } from '../lib/db.js';
 import {
+  events,
+  registrations,
   users,
   vehicleImages,
   vehicles,
@@ -19,6 +21,8 @@ import {
   type VehicleImageResponse,
   type VehicleResponse,
 } from '@csps/shared';
+import { generateVehicleQR, generateQRPNG } from '../lib/qr.js';
+import { env } from '../env.js';
 
 const vehiclesRoute = new Hono<{ Variables: { userId: string | undefined } }>();
 
@@ -228,6 +232,74 @@ vehiclesRoute.delete('/api/vehicles/:id/images/:imageId', requireAuth, async (c)
 
   await db.delete(vehicleImages).where(eq(vehicleImages.id, imageId));
   return c.body(null, 204);
+});
+
+// GET /api/vehicles/:id/active-registration — find active registration for this vehicle (public).
+vehiclesRoute.get('/api/vehicles/:id/active-registration', async (c) => {
+  const vehicleId = c.req.param('id');
+  const vehicle = await loadVehicleOr404(vehicleId);
+
+  const now = new Date();
+  const rows = await db
+    .select({
+      registration: registrations,
+      event: events,
+    })
+    .from(registrations)
+    .innerJoin(events, eq(registrations.eventId, events.id))
+    .where(
+      and(
+        eq(registrations.vehicleId, vehicle.id),
+        isNotNull(registrations.carId),
+        lte(events.startDate, now),
+        gte(events.endDate, now),
+        isNull(events.deletedAt),
+      ),
+    )
+    .orderBy(desc(events.startDate))
+    .limit(1);
+
+  if (rows.length === 0) {
+    throw new HTTPException(404, { message: 'No active registration found for this vehicle' });
+  }
+
+  const { registration, event } = rows[0]!;
+  const images = await loadImages(vehicle.id);
+
+  return c.json({
+    data: {
+      registration: {
+        id: registration.id,
+        eventId: registration.eventId,
+        carId: registration.carId,
+        registrationCode: registration.registrationCode,
+        checkedInAt: registration.checkedInAt ? registration.checkedInAt.toISOString() : null,
+      },
+      event: {
+        id: event.id,
+        name: event.name,
+        startDate: event.startDate ? event.startDate.toISOString() : null,
+        endDate: event.endDate ? event.endDate.toISOString() : null,
+      },
+      vehicle: toResponse(vehicle, images),
+    },
+  });
+});
+
+// GET /api/vehicles/:id/qr — permanent vehicle QR code image (public).
+vehiclesRoute.get('/api/vehicles/:id/qr', async (c) => {
+  const vehicleId = c.req.param('id');
+  await loadVehicleOr404(vehicleId);
+
+  const url = `${env.FRONTEND_URL}/vote/${vehicleId}`;
+  const png = await generateQRPNG(url);
+
+  return new Response(png, {
+    headers: {
+      'Content-Type': 'image/png',
+      'Cache-Control': 'public, max-age=86400',
+    },
+  });
 });
 
 // GET /api/users/:userId/vehicles — public listing of a user's vehicles.
