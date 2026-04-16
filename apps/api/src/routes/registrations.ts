@@ -29,6 +29,8 @@ import {
   generateRegistrationCode,
   getNextCarId,
 } from '../lib/registration-helpers.js';
+import { generateRegistrationQR, generateQRPNG } from '../lib/qr.js';
+import { env } from '../env.js';
 
 const registrationsRoute = new Hono<{
   Variables: { userId: string | undefined };
@@ -335,7 +337,16 @@ registrationsRoute.get('/api/registrations/:id', requireAuth, async (c) => {
     );
   }
 
-  return c.json({ data: toResponse(reg) });
+  const qrCodeDataUrl = await generateRegistrationQR(reg.id, env.FRONTEND_URL);
+  const qrCodeUrl = `${env.API_URL ?? `http://localhost:${env.PORT}`}/api/registrations/${reg.id}/qr`;
+
+  return c.json({
+    data: {
+      ...toResponse(reg),
+      qrCodeDataUrl,
+      qrCodeUrl,
+    },
+  });
 });
 
 // PUT /api/registrations/:id — update registration (owner or event manager).
@@ -421,6 +432,70 @@ registrationsRoute.put('/api/registrations/:id/check-in', requireAuth, async (c)
   }
 
   return c.json({ data: toResponse(updated) });
+});
+
+// GET /api/registrations/:id/qr — public QR code image (PNG).
+registrationsRoute.get('/api/registrations/:id/qr', async (c) => {
+  const id = c.req.param('id');
+  const reg = await loadRegistrationOr404(id);
+
+  const url = `${env.FRONTEND_URL}/registrations/${reg.id}`;
+  const png = await generateQRPNG(url);
+
+  return new Response(png, {
+    headers: {
+      'Content-Type': 'image/png',
+      'Cache-Control': 'public, max-age=3600',
+    },
+  });
+});
+
+// GET /api/registrations/:id/print — print-friendly payload (owner or event manager).
+registrationsRoute.get('/api/registrations/:id/print', requireAuth, async (c) => {
+  const id = c.req.param('id');
+  const userId = c.get('userId') as string;
+
+  const reg = await loadRegistrationOr404(id);
+  const event = await loadEventOr404(reg.eventId);
+
+  // Owner or event manager.
+  if (reg.userId !== userId) {
+    await requirePermissionOnClub(
+      event.clubId,
+      userId,
+      CLUB_PERMISSIONS.BYPASS_REGISTRATION,
+    );
+  }
+
+  // Fetch driver info if registration has a userId.
+  let driverName: string | null = null;
+  let driverEmail: string | null = null;
+  if (reg.userId) {
+    const [user] = await db
+      .select({ firstName: users.firstName, lastName: users.lastName, emailAddress: users.emailAddress })
+      .from(users)
+      .where(eq(users.id, reg.userId))
+      .limit(1);
+    if (user) {
+      driverName = [user.firstName, user.lastName].filter(Boolean).join(' ') || null;
+      driverEmail = user.emailAddress;
+    }
+  }
+
+  const qrCodeDataUrl = await generateRegistrationQR(reg.id, env.FRONTEND_URL);
+
+  return c.json({
+    data: {
+      carId: reg.carId,
+      registrationCode: reg.registrationCode,
+      registrationId: reg.id,
+      eventName: event.name,
+      eventDate: event.startDate ? event.startDate.toISOString() : null,
+      driverName,
+      driverEmail,
+      qrCodeDataUrl,
+    },
+  });
 });
 
 // GET /api/registrations/by-code/:code — lookup by registration code (requires BYPASS_REGISTRATION).
