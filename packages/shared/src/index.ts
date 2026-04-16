@@ -5,3 +5,4 @@ export * from './schemas/club-membership';
 export * from './schemas/event';
 export * from './schemas/user';
 export * from './schemas/vehicle';
+export * from './schemas/voting-category';

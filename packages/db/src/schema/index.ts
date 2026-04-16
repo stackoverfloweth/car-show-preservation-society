@@ -18,3 +18,5 @@ export * from './events';
 export * from './users';
 export * from './vehicle-images';
 export * from './vehicles';
+export * from './voting-categories';
+export * from './voting-category-registrations';

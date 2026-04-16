@@ -11,6 +11,7 @@ import clubs from './routes/clubs.js';
 import clubMemberships from './routes/club-memberships.js';
 import events from './routes/events.js';
 import vehicles from './routes/vehicles.js';
+import votingCategories from './routes/voting-categories.js';
 import clerkWebhooks from './routes/clerk-webhooks.js';
 import { env } from './env.js';
 
@@ -37,6 +38,7 @@ app.route('/', clubs);
 app.route('/', clubMemberships);
 app.route('/', events);
 app.route('/', vehicles);
+app.route('/', votingCategories);
 app.route('/', clerkWebhooks);
 
 // Global error handler
